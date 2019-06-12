@@ -1,0 +1,24 @@
+{
+  "appDesc": {
+    "message": "Batch download full size images from modelpress and other supported websites.",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "downloadButtonMessage": {
+    "message": "Download $NUMBER$ Images",
+    "description": "The text on the button which user clicks to batch download all images",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "noImageMessage": {
+    "message": "No Image Detected",
+    "description": "The text on the button when there is no image found to download"
+  },
+  "supportedSitesTitle": {
+    "message": "Supported Websites:",
+    "description": "The title of a list of supported websites shown when the active tab is not supported"
+  }
+}
