@@ -1,0 +1,20 @@
+{
+  "appDesc": {
+    "message": "从modelpress等网页批量下载原始大小图片。"
+  },
+  "downloadButtonMessage": {
+    "message": "下载 $NUMBER$ 张图片",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "noImageMessage": {
+    "message": "未检测到图片"
+  },
+  "supportedSitesTitle": {
+    "message": "支持的网站："
+  }
+}
