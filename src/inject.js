@@ -441,7 +441,25 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             m.pushIfNew(o.images, getOriginalImg(img.src));
         }
     }
-} else {
+} else if (window.location.host === "www.facebook.com") {
+    let spotlights = document.querySelectorAll(":not(.hidden_elem) > .spotlight");
+    if (spotlights && spotlights.length) {
+        for (const spotlight of spotlights) {
+            if (spotlight.nodeName === "IMG" && spotlight.src) {
+                o.images.push(spotlight.src);
+            }
+        }
+    } else {
+        let divs = document.querySelectorAll(".uiScaledImageContainer");
+        if (divs && divs.length) {
+            for (const div of divs) {
+                if (div.parentElement.nodeName === "A" && div.parentElement.getAttribute("data-ploi")) {
+                    o.images.push(div.parentElement.getAttribute("data-ploi"));
+                }
+            }
+        }
+    }
+}  else {
     o.supported = false;
 }
 o;
