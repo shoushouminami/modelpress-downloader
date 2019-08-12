@@ -156,10 +156,16 @@ window.m = {
     pushArray: function (list, newList) {
         if (newList && newList.length) {
             for (const value of newList.values()) {
-                if (list.indexOf(value) === -1) {
-                    list.push(value);
-                }
+                this.pushIfNew(list, value);
             }
+        }
+    },
+    /**
+     * Helper method to push value into list if it is not yet in the list.
+     */
+    pushIfNew: function(list, value){
+        if (list.indexOf(value) === -1) {
+            list.push(value);
         }
     },
     /**
@@ -399,32 +405,40 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
 
     if (thumbnails.length) {
         for (const img of thumbnails) {
-            o.images.push(getLargeImg(img.src));
+            m.pushIfNew(o.images, getLargeImg(img.src));
         }
     }
 
     let galleries = document.querySelectorAll(".gallery-item img");
     if (galleries.length) {
         for (const img of galleries) {
-            o.images.push(getLargeImg(img.src));
+            m.pushIfNew(o.images, getLargeImg(img.src));
         }
     }
 } else if (window.location.host === "news.dwango.jp") {
-    let getLargeImg = function(url) {
+    let getOriginalImg = function(url) {
         var slash = url.lastIndexOf("/");
         if (slash > -1) {
             let smallFile = url.substring(slash + 1);
-            if (smallFile.startsWith("sm_")) {
-                return url.substring(0, slash + 1) + smallFile.replace("sm_", "");
+            if (smallFile.startsWith("sm_") || smallFile.startsWith("lg_")) {
+                return url.substring(0, slash + 1) + smallFile.replace(/sm_|lg_/, "");
             }
         }
 
         return url;
     };
+
+    let subImgs = document.querySelectorAll(".page-sub_img img.img_photo");
+    if (subImgs && subImgs.length) {
+        for (const img of subImgs) {
+            m.pushIfNew(o.images, getOriginalImg(img.src));
+        }
+    }
+    // NodeList(2) [img.img_photo, img.ico_15]
     let imgs = document.querySelectorAll(".photolist .sec-item img");
     if (imgs && imgs.length) {
         for (const img of imgs) {
-            o.images.push(getLargeImg(img.src));
+            m.pushIfNew(o.images, getOriginalImg(img.src));
         }
     }
 } else {
