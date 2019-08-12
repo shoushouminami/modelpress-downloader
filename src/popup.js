@@ -199,7 +199,8 @@ let supportedSites = [
     "http://blog.nogizaka46.com/",
     "https://twitter.com/",
     ["https://www.instagram.com/", "instagram.com"],
-    ["https://www.bilibili.com/read/home", "www.bilibili.com/read"]
+    ["https://www.bilibili.com/read/home", "www.bilibili.com/read"],
+    "https://news.dwango.jp",
 ];
 
 window.addEventListener("load", function(){
