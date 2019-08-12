@@ -409,6 +409,24 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             o.images.push(getLargeImg(img.src));
         }
     }
+} else if (window.location.host === "news.dwango.jp") {
+    let getLargeImg = function(url) {
+        var slash = url.lastIndexOf("/");
+        if (slash > -1) {
+            let smallFile = url.substring(slash + 1);
+            if (smallFile.startsWith("sm_")) {
+                return url.substring(0, slash + 1) + smallFile.replace("sm_", "");
+            }
+        }
+
+        return url;
+    };
+    let imgs = document.querySelectorAll(".photolist .sec-item img");
+    if (imgs && imgs.length) {
+        for (const img of imgs) {
+            o.images.push(getLargeImg(img.src));
+        }
+    }
 } else {
     o.supported = false;
 }
