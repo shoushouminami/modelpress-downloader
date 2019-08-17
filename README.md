@@ -2,6 +2,10 @@
 
 ### Release Notes
 
+###### 1.15 (2019/07/11)
+* Supports news.dwango.jp
+
+
 ###### 1.12 (2019/07/11)
 * Bug fix. Download only 1 image if gallery is shown on twitter.com
 
