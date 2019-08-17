@@ -192,7 +192,8 @@ window.m = {
 var o = {
     supported: true,
     images: [],
-    folder: window.location.host + window.location.pathname.replace(/\//g, "-") + "/"
+    ext: undefined,
+    folder: window.location.host + window.location.pathname.replace(/\//g, "-") + "/",
 };
 
 if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.jp")) {
@@ -360,12 +361,34 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     }
 } else if (window.location.host === "twitter.com") {
     let getLargeImg = function (src) {
-        if (src.indexOf(".twimg.com/") > -1 && (src.endsWith(".jpg") || src.endsWith(".png"))) {
-            return src + ":large";
+        if (src.indexOf(".twimg.com/") > -1) {
+            if (src.endsWith(".jpg") || src.endsWith(".png")){
+                return src + ":large";
+            }
+
+            try {
+                let url = new URL(src);
+                var search = url.search.split("&");
+                search[0] = search[0].substring(1); // remove '?'
+                for (var i = 0; i < search.length; i++) {
+                    if (search[i].startsWith("format=")) {
+                        search[i] = "format=jpg";
+                    }
+
+                    if (search[i].startsWith("name=")) {
+                        search[i] = "name=large";
+                    }
+                }
+
+                return url.protocol + "//" + url.host + url.pathname + "?" + search.join("&");
+            } catch (e) {
+            }
         }
 
         return src;
     };
+
+    // Old UI
     let galleries = document.querySelectorAll(".Gallery-media img");
     if (galleries.length) {
         for (const img of galleries) {
@@ -389,6 +412,38 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             }
         }
     }
+
+    // New UI with react.js
+    let isTimelineConversation = function () {
+        return document.querySelectorAll("div[aria-label='Timeline: Conversation']").length > 0;
+    };
+
+    let modals = document.querySelectorAll("div[aria-labelledby=modal-header] img");
+    if (modals.length) {
+        for (const img of modals) {
+            o.images.push(getLargeImg(img.src));
+        }
+        o.ext = "jpg";
+    } else {
+        let articles = document.querySelectorAll("article");
+        if (articles.length) {
+            o.ext = "jpg";
+            if (isTimelineConversation()) {
+                for (const img of articles[0].querySelectorAll("div[aria-label=Image] img")) {
+                    o.images.push(getLargeImg(img.src));
+                }
+            } else {
+                let images = document.querySelectorAll("div[aria-label=Image] img"); //Timeline: Conversation
+                if (images.length) {
+                    for (const img of images) {
+                        o.images.push(getLargeImg(img.src));
+                    }
+                }
+            }
+        }
+
+    }
+
 } else if (window.location.host === "tokyopopline.com") {
     let re = /http.*-[0-9]+x[0-9]+\.jpg$/;
     let getLargeImg = function (src) {

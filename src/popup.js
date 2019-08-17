@@ -4,22 +4,31 @@
 
 'use strict';
 
-let getFileName = function(url) {
+let getFileName = function(url, ext) {
     var filename = url.split("?")[0].split("/");
     filename = filename[filename.length - 1];
     if (filename.indexOf(":") > -1) {
         filename = filename.split(":")[0];
     }
 
+    if (ext) {
+        return filename + "." + ext;
+    }
+
     return filename;
 };
-let download = function (chrome, url, folder, resolve) {
+/**
+ * @param chrome
+ * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
+ * @param resolve
+ */
+let download = function (chrome, image, resolve) {
     chrome.downloads.download(
         {
-            url: url,
+            url: image.url,
             saveAs: false,
             method: "GET",
-            filename: folder + getFileName(url)
+            filename: image.folder + getFileName(image.url, image.ext)
         }, function () {
             if (resolve instanceof Function) {
                 resolve();
@@ -30,7 +39,7 @@ let download = function (chrome, url, folder, resolve) {
 let downloadWithOpenedTab = function (chrome, image, context, resolve, delay) {
     setTimeout(function () {
         console.debug("event=downloading_image totalCount=%d finishCount=%d ", context.totalCount , context.finishCount);
-        download(chrome, image.imageUrl, context.folder, resolve);
+        download(chrome, {url: image.imageUrl, folder: context.folder}, resolve);
         context.finishCount++;
         if (context.finishCount === context.totalCount) {
             context.p = context.p.then(function () {
@@ -104,7 +113,7 @@ let downloadWithIframe = function (chrome, image, context, tabId) {
                 console.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
                 displayInIframe(tabId, image.websiteUrl, function () {
                     console.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                    download(chrome, image.imageUrl, context.folder, resolve);
+                    download(chrome, {url: image.imageUrl, folder: context.folder} , resolve);
                 }, function (msg) {
                     console.error(msg);
                 });
@@ -119,7 +128,7 @@ let downloadWithButtonClick = function(chrome, image, context, tabId) {
             console.debug("event=clicking_button totalCount=%d finishCount=%d image=%s", context.totalCount, context.finishCount, image);
             chrome.tabs.sendMessage(tabId, image, function(response) {
                 if (response) {
-                    download(chrome, response, context.folder, resolve);
+                    download(chrome, {url: response, folder: context.folder} , resolve);
                 } else {
                     resolve();
                 }
@@ -144,7 +153,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                         let imagesNeedClick = [];
                         for (let image of message.images) {
                             if (typeof image === "string") {
-                                download(chrome, image, message.folder);
+                                download(chrome, {url: image, folder: message.folder, ext: message.ext});
                             } else if (typeof image === "object") {
                                 if (image.websiteUrl && image.imageUrl) {
                                     imagesNeedTab.push(image);
@@ -201,6 +210,7 @@ let supportedSites = [
     ["https://www.instagram.com/", "instagram.com"],
     ["https://www.bilibili.com/read/home", "www.bilibili.com/read"],
     "https://news.dwango.jp",
+    "https://www.facebook.com"
 ];
 
 window.addEventListener("load", function(){
