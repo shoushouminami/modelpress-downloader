@@ -210,7 +210,10 @@ let supportedSites = [
     ["https://www.instagram.com/", "instagram.com"],
     ["https://www.bilibili.com/read/home", "www.bilibili.com/read"],
     "https://news.dwango.jp",
-    "https://www.facebook.com"
+    "https://www.facebook.com",
+    "http://popwave.jp",
+    "https://mikan-incomplete.com",
+    //"https://www.asahi.com/and_M/"
 ];
 
 window.addEventListener("load", function(){

@@ -217,7 +217,9 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
                         websiteUrl: img.parentElement.href
                     });
                 } else {
-                    o.images.push(img.src);
+                    if (!img.src.endsWith(".gif")) {
+                        o.images.push(img.src);
+                    }
                 }
             } else {
                 o.images.push(img.src);
@@ -514,7 +516,64 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             }
         }
     }
-}  else {
+} else if (window.location.host === "popwave.jp") {
+    let re = /http.*-[0-9]+x[0-9]+\.jpg$/;
+    let getLargeImg = function (src) {
+        if (src.match(re)) {
+            var l = src.split("-");
+            l.pop();
+            return l.join("-") + ".jpg";
+        }
+
+        return src;
+    };
+
+    let imgs = document.querySelectorAll(".entry img");
+    if (imgs && imgs.length) {
+        for (const img of imgs) {
+            m.pushIfNew(o.images, getLargeImg(img.src));
+        }
+    }
+} else if (window.location.host === "mikan-incomplete.com") {
+    let re = /http.*-[0-9]+x[0-9]+\.jpg$/;
+    let getLargeImg = function (src) {
+        if (src.match(re)) {
+            var l = src.split("-");
+            l.pop();
+            return l.join("-") + ".jpg";
+        }
+
+        return src;
+    };
+
+    let imgs = document.querySelectorAll("article#entry img");
+    if (imgs && imgs.length) {
+        for (const img of imgs) {
+            m.pushIfNew(o.images, getLargeImg(img.src));
+        }
+    }
+} else if (window.location.host === "www.asahi.com" && window.location.pathname.startsWith("/and_M/")) {
+    let getLargeImg = function (src) {
+        if (src.indexOf("/resize/") > -1) {
+            return src.replace("/resize/", "/original/")
+        }
+
+        let re = /.*www.asahicom.jp\/and_M\/wp-content\/uploads\/[0-9]+\/[0-9]+\/.*-[0-9]\.jpg$/;
+        if (src.match(re)) {
+            var l = src.split("-");
+            l.pop();
+            return l.join("-") + ".jpg";
+        }
+
+        return src;
+    };
+    let imgs = document.querySelectorAll(".l-article__content img");
+    if (imgs && imgs.length) {
+        for (const img of imgs) {
+            m.pushIfNew(o.images, getLargeImg(img.src));
+        }
+    }
+} else {
     o.supported = false;
 }
 o;
