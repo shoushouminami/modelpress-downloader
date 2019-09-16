@@ -11,6 +11,10 @@ You can report bugs and issues by [posting in the google group](https://groups.g
 
 ### Release Notes
 
+###### 1.17 (2019/09/15)
+* Support popwave.jp and mikan-incomplete.com; 
+* Exclude .gif on blog.nogizaka46.com
+ 
 ###### 1.16 (2019/08/16)
 * Support www.facebook.com Home page
 * Support www.twitter.com new UI (react.js)
