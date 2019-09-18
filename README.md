@@ -11,6 +11,9 @@ You can report bugs and issues by [posting in the google group](https://groups.g
 
 ### Release Notes
 
+###### 1.18 (2019/09/17)
+* Bug fix for blog.nogizaka46.com; Exclude invalid urls
+
 ###### 1.17 (2019/09/15)
 * Support popwave.jp and mikan-incomplete.com; 
 * Exclude .gif on blog.nogizaka46.com
