@@ -209,19 +209,13 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     if (sheet) {
         var imgs = m.findAllImageDOMsFromRoot(sheet, {"ids": ["comments"]});
         for (const img of imgs) {
-            if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href) {
-                var url = m.getAwalkerImgUrl(img.parentElement.href);
-                if (url) {
-                    o.images.push({
-                        imageUrl: url,
-                        websiteUrl: img.parentElement.href
-                    });
-                } else {
-                    if (!img.src.endsWith(".gif")) {
-                        o.images.push(img.src);
-                    }
-                }
-            } else {
+            if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href &&
+                    m.getAwalkerImgUrl(img.parentElement.href)) {
+                o.images.push({
+                    imageUrl: url,
+                    websiteUrl: img.parentElement.href
+                });
+            } else if (!img.src.endsWith(".gif") && !img.src.endsWith(".php")) {
                 o.images.push(img.src);
             }
         }
