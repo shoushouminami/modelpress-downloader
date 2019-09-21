@@ -1,6 +1,6 @@
 {
   "name": "Modelpress Image Downloader",
-  "version": "1.18",
+  "version": "1.19",
   "description": "__MSG_appDesc__",
   "permissions": [
     "activeTab",
