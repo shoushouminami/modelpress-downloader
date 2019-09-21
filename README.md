@@ -11,6 +11,9 @@ You can report bugs and issues by [posting in the google group](https://groups.g
 
 ### Release Notes
 
+###### 1.19 (2019/09/21)
+* Support cancam.jp; bug fix on blog.nogizaka46.com; simplified codebase
+
 ###### 1.18 (2019/09/17)
 * Bug fix for blog.nogizaka46.com; Exclude invalid urls
 
