@@ -214,6 +214,7 @@ let supportedSites = [
     "http://popwave.jp",
     "https://mikan-incomplete.com",
     //"https://www.asahi.com/and_M/"
+    "https://cancam.jp"
 ];
 
 window.addEventListener("load", function(){

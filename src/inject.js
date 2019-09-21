@@ -6,33 +6,6 @@
 
 window.m = {
     /**
-     * Register the list for popup.js to get the list of images to download.
-     * The list is initialized after page load.
-     * If the page lazy loads images, use dataProvider(callback) instead.
-     */
-    data: function (list) {
-        this.dataProvider(function () {
-            return list;
-        })
-    },
-    /**
-     * Register a callback for popup.js to get the list of images to download.
-     * The callback is called when user clicks the extension icon.
-     */
-    dataProvider: function (f) {
-        chrome.runtime.onMessage.addListener(
-            function (request, sender, sendResponse) {
-                if (!sender.tab) {
-                    var list = f();
-                    console.debug(list);
-                    sendResponse({
-                        images: list,
-                        folder: window.location.host + window.location.pathname.replace(/\//g, "-") + "/"
-                    })
-                }
-            });
-    },
-    /**
      * First get a list of DOMs belonging to the given CSS class.
      * Then for each of the DOM element, find 1 image recursively.
      * @param clazz
@@ -186,6 +159,20 @@ window.m = {
         iframe.width = 1;
         iframe.style.cssText = 'visibility: hidden;';
         document.body.appendChild(iframe);
+    },
+
+    findImagesWithCssSelector: function(dom, cssSelector, filterFunc) {
+        var ret = [];
+        let imgs = dom.querySelectorAll(cssSelector);
+        if (imgs && imgs.length) {
+            for (const img of imgs) {
+                if (typeof filterFunc === "function") {
+                    m.pushIfNew(ret, filterFunc(img.src));
+                }
+            }
+        }
+
+        return ret;
     }
 };
 
@@ -212,7 +199,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href &&
                     m.getAwalkerImgUrl(img.parentElement.href)) {
                 o.images.push({
-                    imageUrl: url,
+                    imageUrl: m.getAwalkerImgUrl(img.parentElement.href),
                     websiteUrl: img.parentElement.href
                 });
             } else if (!img.src.endsWith(".gif") && !img.src.endsWith(".php")) {
@@ -312,12 +299,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             });
     } else {
         // single image
-        var imgs = document.querySelectorAll("article img[srcset]");
-        if (imgs.length) {
-            for (const img of imgs) {
-                o.images.push(img.src);
-            }
-        }
+        m.pushArray(o.images, m.findImagesWithCssSelector(document, "article img[srcset]"));
     }
 } else if (window.location.host === "www.bilibili.com" && window.location.pathname.startsWith("/read/")) {
     let imgs = document.querySelectorAll("figure.img-box img[data-src]");
@@ -393,19 +375,9 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     } else {
         let modals = document.querySelectorAll(".PermalinkOverlay-modal .permalink-tweet-container");
         if (modals.length) {
-            let imgs = modals[0].querySelectorAll(".AdaptiveMedia-container img");
-            if (imgs.length) {
-                for (const img of imgs) {
-                    o.images.push(getLargeImg(img.src));
-                }
-            }
+            m.pushArray(o.images, m.findImagesWithCssSelector(modals[0], ".AdaptiveMedia-container img", getLargeImg));
         } else {
-            let imgs = document.querySelectorAll(".content .AdaptiveMedia-container img");
-            if (imgs.length) {
-                for (const img of imgs) {
-                    o.images.push(getLargeImg(img.src));
-                }
-            }
+            m.pushArray(o.images, m.findImagesWithCssSelector(document, ".content .AdaptiveMedia-container img", getLargeImg));
         }
     }
 
@@ -425,19 +397,12 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
         if (articles.length) {
             o.ext = "jpg";
             if (isTimelineConversation()) {
-                for (const img of articles[0].querySelectorAll("div[aria-label=Image] img")) {
-                    o.images.push(getLargeImg(img.src));
-                }
+                m.pushArray(o.images, m.findImagesWithCssSelector(articles[0], "div[aria-label=Image] img", getLargeImg));
             } else {
-                let images = document.querySelectorAll("div[aria-label=Image] img"); //Timeline: Conversation
-                if (images.length) {
-                    for (const img of images) {
-                        o.images.push(getLargeImg(img.src));
-                    }
-                }
+                //Timeline: Conversation
+                m.pushArray(o.images, m.findImagesWithCssSelector(document, "div[aria-label=Image] img", getLargeImg));
             }
         }
-
     }
 
 } else if (window.location.host === "tokyopopline.com") {
@@ -452,20 +417,8 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
         return src;
     };
 
-    let thumbnails = document.querySelectorAll(".p-entry__thumbnail img");
-
-    if (thumbnails.length) {
-        for (const img of thumbnails) {
-            m.pushIfNew(o.images, getLargeImg(img.src));
-        }
-    }
-
-    let galleries = document.querySelectorAll(".gallery-item img");
-    if (galleries.length) {
-        for (const img of galleries) {
-            m.pushIfNew(o.images, getLargeImg(img.src));
-        }
-    }
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".p-entry__thumbnail img", getLargeImg));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".gallery-item img", getLargeImg));
 } else if (window.location.host === "news.dwango.jp") {
     let getOriginalImg = function(url) {
         var slash = url.lastIndexOf("/");
@@ -479,19 +432,9 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
         return url;
     };
 
-    let subImgs = document.querySelectorAll(".page-sub_img img.img_photo");
-    if (subImgs && subImgs.length) {
-        for (const img of subImgs) {
-            m.pushIfNew(o.images, getOriginalImg(img.src));
-        }
-    }
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".page-sub_img img.img_photo", getOriginalImg));
     // NodeList(2) [img.img_photo, img.ico_15]
-    let imgs = document.querySelectorAll(".photolist .sec-item img");
-    if (imgs && imgs.length) {
-        for (const img of imgs) {
-            m.pushIfNew(o.images, getOriginalImg(img.src));
-        }
-    }
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".photolist .sec-item img", getOriginalImg));
 } else if (window.location.host === "www.facebook.com") {
     let spotlights = document.querySelectorAll(":not(.hidden_elem) > .spotlight");
     if (spotlights && spotlights.length) {
@@ -501,6 +444,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             }
         }
     } else {
+
         let divs = document.querySelectorAll(".uiScaledImageContainer");
         if (divs && divs.length) {
             for (const div of divs) {
@@ -522,12 +466,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
         return src;
     };
 
-    let imgs = document.querySelectorAll(".entry img");
-    if (imgs && imgs.length) {
-        for (const img of imgs) {
-            m.pushIfNew(o.images, getLargeImg(img.src));
-        }
-    }
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".entry img", getLargeImg));
 } else if (window.location.host === "mikan-incomplete.com") {
     let re = /http.*-[0-9]+x[0-9]+\.jpg$/;
     let getLargeImg = function (src) {
@@ -539,13 +478,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
 
         return src;
     };
-
-    let imgs = document.querySelectorAll("article#entry img");
-    if (imgs && imgs.length) {
-        for (const img of imgs) {
-            m.pushIfNew(o.images, getLargeImg(img.src));
-        }
-    }
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "article#entry img", getLargeImg));
 } else if (window.location.host === "www.asahi.com" && window.location.pathname.startsWith("/and_M/")) {
     let getLargeImg = function (src) {
         if (src.indexOf("/resize/") > -1) {
@@ -561,12 +494,29 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
 
         return src;
     };
-    let imgs = document.querySelectorAll(".l-article__content img");
-    if (imgs && imgs.length) {
-        for (const img of imgs) {
-            m.pushIfNew(o.images, getLargeImg(img.src));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".l-article__content img", getLargeImg));
+} else if (window.location.host === "cancam.jp") {
+    let re = /^http.*cancam\.jp\/wp-content\/uploads\/.*-[0-9]+x[0-9]+\.jpg$/;
+    let getLargeImg = function (src) {
+        if (src.match(re)) {
+            var l = src.split("-");
+            l.pop();
+            return l.join("-") + ".jpg";
         }
+
+        return src;
+    };
+
+    if (window.location.pathname.match(/\/archives\/category\/(model|itgirl)\/.+/)) {
+        m.pushArray(o.images, m.findImagesWithCssSelector(document, ".profile-header img", getLargeImg));
+        m.pushArray(o.images, m.findImagesWithCssSelector(document, ".profile-content img", getLargeImg));
+        m.pushArray(o.images, m.findImagesWithCssSelector(document, ".profile-images img", getLargeImg));
+    } else if (window.location.pathname.match(/\/archives\/[0-9]+$/)
+        || window.location.pathname.match(/\/medias\/.+$/)
+        || window.location.pathname.match(/^\/[a-z0-9]+$/)) {
+        m.pushArray(o.images, m.findImagesWithCssSelector(document, "#main img", getLargeImg));
     }
+
 } else {
     o.supported = false;
 }
