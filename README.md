@@ -11,6 +11,9 @@ You can report bugs and issues by [posting in the google group](https://groups.g
 
 ### Release Notes
 
+###### 1.20 (2019/09/27)
+* Add traditional Chinese; remove instagram.com
+
 ###### 1.19 (2019/09/21)
 * Support cancam.jp; bug fix on blog.nogizaka46.com; simplified codebase
 
