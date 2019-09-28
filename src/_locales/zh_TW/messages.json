@@ -1,6 +1,6 @@
 {
   "appDesc": {
-    "message": "從modelpress等網頁批量下載原始大小圖片。"
+    "message": "從modelpress等網頁批次下載原始檔圖片。"
   },
   "downloadButtonMessage": {
     "message": "下載 $NUMBER$ 張圖片",
