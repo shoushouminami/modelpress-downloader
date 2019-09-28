@@ -207,7 +207,7 @@ let supportedSites = [
     "https://tokyopopline.com/",
     "http://blog.nogizaka46.com/",
     "https://twitter.com/",
-    ["https://www.instagram.com/", "instagram.com"],
+    // ["https://www.instagram.com/", "instagram.com"],
     ["https://www.bilibili.com/read/home", "www.bilibili.com/read"],
     "https://news.dwango.jp",
     "https://www.facebook.com",
