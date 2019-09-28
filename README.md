@@ -11,6 +11,10 @@ You can report bugs and issues by [posting in the google group](https://groups.g
 
 ### Release Notes
 
+
+###### 1.21 (2019/09/27)
+* Bug fix for instagram.com single image
+
 ###### 1.20 (2019/09/27)
 * Add traditional Chinese; remove instagram.com
 
