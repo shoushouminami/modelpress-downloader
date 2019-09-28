@@ -168,6 +168,8 @@ window.m = {
             for (const img of imgs) {
                 if (typeof filterFunc === "function") {
                     m.pushIfNew(ret, filterFunc(img.src));
+                } else {
+                    m.pushIfNew(ret, img.src);
                 }
             }
         }
