@@ -1,0 +1,27 @@
+{
+  "name": "modelpress-downloader",
+  "version": "1.0.0",
+  "description": "A Chrome Extension for batch downloading full size images from modelpress and other supported websites. https://chrome.google.com/webstore/detail/modelpress-image-download/nepeemhbchedjbebdekhpkhknljppmif",
+  "main": "index.js",
+  "scripts": {
+    "test": "../node_modules/.bin/jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nealxyc/modelpress-downloader.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nealxyc/modelpress-downloader/issues"
+  },
+  "homepage": "https://github.com/nealxyc/modelpress-downloader#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "^3.5.0",
+    "jest": "^24.9.0",
+    "mocha": "^6.2.0",
+    "node": "^12.11.0",
+    "puppeteer-core": "^1.20.0"
+  }
+}
