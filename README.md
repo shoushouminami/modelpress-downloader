@@ -4,7 +4,7 @@ A Chrome Extension for batch downloading full size images from modelpress and ot
 https://chrome.google.com/webstore/detail/modelpress-image-download/nepeemhbchedjbebdekhpkhknljppmif
 
 ### Add More Websites
-If you have additional websites that you want support in this extension, please [post in the issues page](https://groups.google.com/forum/#!forum/modelpress-image-downloader).
+If you have additional websites that you want support in this extension, please [post in the issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
 
 ### Report Issues
 You can report bugs and issues by [posting in issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
