@@ -194,8 +194,12 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     if (sheet) {
         var imgs = m.findAllImageDOMsFromRoot(sheet, {"ids": ["comments"]});
         for (const img of imgs) {
-            if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href &&
-                    m.getAwalkerImgUrl(img.parentElement.href)) {
+            if (img.parentElement instanceof HTMLAnchorElement &&
+                img.parentElement.href && img.parentElement.href.indexOf("//blog.nogizaka46.com/" > -1) &&
+                (img.parentElement.href.endsWith(".jpg") || img.parentElement.href.endsWith(".png"))) {
+                o.images.push(img.parentElement.href);
+            } else if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href &&
+                m.getAwalkerImgUrl(img.parentElement.href)) {
                 o.images.push({
                     imageUrl: m.getAwalkerImgUrl(img.parentElement.href),
                     websiteUrl: img.parentElement.href
