@@ -11,6 +11,8 @@ You can report bugs and issues by [posting in issues page](https://github.com/sh
 
 ### Release Notes
 
+###### 1.22 (2019/12/14)
+* Support new image store on blog.nogizaka46.com
 
 ###### 1.21 (2019/09/27)
 * Bug fix for instagram.com single image
