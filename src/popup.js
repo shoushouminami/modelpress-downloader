@@ -52,36 +52,6 @@ let downloadWithOpenedTab = function (chrome, image, context, resolve, delay) {
     }, delay);
 };
 
-let downloadWithTab = function (chrome, image, context) {
-    if (image.websiteUrl) {
-        context.p = context.p.then(function () {
-            if (context.tempTab == null) {
-                return new Promise(function (resolve) {
-                    console.debug("event=creating_new_tab totalCount=%d finishCount=%d ", context.totalCount , context.finishCount);
-                    chrome.tabs.create({
-                        active: false,
-                        url: image.websiteUrl
-                    }, function (tab) {
-                        console.debug("event=created_new_tab totalCount=%d finishCount=%d ", context.totalCount , context.finishCount);
-                        context.tempTab = tab;
-                        downloadWithOpenedTab(chrome, image, context, resolve, 1000);
-                    });
-                });
-            } else {
-                return new Promise(function (resolve) {
-                    console.debug("event=updating_tab totalCount=%d finishCount=%d ", context.totalCount , context.finishCount);
-                    chrome.tabs.update(context.tempTab.id, {
-                        url: image.websiteUrl
-                    }, function () {
-                        console.debug("event=updated_tab totalCount=%d finishCount=%d ", context.totalCount , context.finishCount);
-                        downloadWithOpenedTab(chrome, image, context, resolve, 1000);
-                    });
-                });
-            }
-        });
-    }
-};
-
 let displayInIframe = function(tabId, url, resolve, error) {
     chrome.tabs.sendMessage(tabId, {url: url}, function(response) {
         if (response) {
@@ -147,7 +117,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                     downloadButton.addEventListener("click", function () {
                         let imagesNeedTab = [];
                         let imagesNeedClick = [];
-                        for (let image of message.images) {
+                        for (const image of message.images) {
                             if (typeof image === "string") {
                                 download(chrome, {url: image, folder: message.folder, ext: message.ext});
                             } else if (typeof image === "object") {
@@ -210,7 +180,8 @@ let supportedSites = [
     "http://popwave.jp",
     "https://mikan-incomplete.com",
     //"https://www.asahi.com/and_M/"
-    "https://cancam.jp"
+    "https://cancam.jp",
+    "https://bltweb.jp"
 ];
 
 window.addEventListener("load", function(){

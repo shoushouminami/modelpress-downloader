@@ -171,6 +171,18 @@ window.m = {
         }
 
         return ret;
+    },
+
+    trailingResolutionPattern: /http.*-[0-9]+x[0-9]+(\.jpg|\.jpeg|\.png)$/,
+    filterTrailingResolutionNumbers: function (src) {
+        let result = src.match(m.trailingResolutionPattern);
+        if (result) {
+            let l = src.split("-");
+            l.pop();
+            return l.join("-") + result[1];
+        }
+
+        return src;
     }
 };
 
@@ -519,7 +531,22 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
         m.pushArray(o.images, m.findImagesWithCssSelector(document, "#main img", getLargeImg));
     }
 
-} else {
+} else if (window.location.host === "bltweb.jp") {
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .entry-content img", m.filterTrailingResolutionNumbers));
+} else if (window.location.host === "mantan-web.jp") {
+    let getLargeImg = function(url) {
+        if (url.endsWith("_thumb.jpg")) {
+            return url.replace("_thumb.jpg", "_size10.jpg");
+        } else if (url.endsWith("_thumb.jpeg")) {
+            return url.replace("_thumb.jpeg", "_size10.jpeg");
+        } else if (url.endsWith("_thumb.png")) {
+            return url.replace("_thumb.png", "_size10.png");
+        }
+
+        return url;
+    };
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
+}  else {
     o.supported = false;
 }
 window._mid = {o: o};
