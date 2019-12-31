@@ -225,7 +225,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     var iframe = null;
     chrome.runtime.onMessage.addListener(
         function (request, sender, sendResponse) {
-            if (request.url) {
+            if (request.what === "showIframe" && request.url) {
                 if (iframe == null) {
                     iframe = document.createElement('iframe');
                     iframe.width = "1px";
@@ -284,7 +284,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
 
         chrome.runtime.onMessage.addListener(
             function (request, sender, sendResponse) {
-                if (request.buttonId && request.liId) {
+                if (request.what === "buttonClick" && request.buttonId && request.liId) {
                     let li = document.getElementById(request.liId);
                     let btn = document.getElementById(request.buttonId);
                     if (li && btn) {

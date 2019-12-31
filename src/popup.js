@@ -32,28 +32,8 @@ let download = function (chrome, image, resolve) {
         });
 };
 
-let downloadWithOpenedTab = function (chrome, image, context, resolve, delay) {
-    setTimeout(function () {
-        console.debug("event=downloading_image totalCount=%d finishCount=%d ", context.totalCount , context.finishCount);
-        download(chrome, {url: image.imageUrl, folder: context.folder}, resolve);
-        context.finishCount++;
-        if (context.finishCount === context.totalCount) {
-            context.p = context.p.then(function () {
-                return new Promise(function (resolve) {
-                    if (context.tempTab) {
-                        console.debug("event=removing_tab totalCount=%d finishCount=%d ", context.totalCount , context.finishCount);
-                        chrome.tabs.remove(context.tempTab.id, function () {
-                            resolve();
-                        });
-                    }
-                });
-            });
-        }
-    }, delay);
-};
-
 let displayInIframe = function(tabId, url, resolve, error) {
-    chrome.tabs.sendMessage(tabId, {url: url}, function(response) {
+    chrome.tabs.sendMessage(tabId, {what: "showIframe", url: url}, function(response) {
         if (response) {
             if (response.status === "ok") {
                 if (resolve instanceof Function) {
@@ -92,6 +72,7 @@ let downloadWithButtonClick = function(chrome, image, context, tabId) {
     context.p = context.p.then(function () {
         return new Promise(function (resolve) {
             console.debug("event=clicking_button totalCount=%d finishCount=%d image=%s", context.totalCount, context.finishCount, image);
+            image.what = "buttonClick";
             chrome.tabs.sendMessage(tabId, image, function(response) {
                 if (response) {
                     download(chrome, {url: response, folder: context.folder} , resolve);
