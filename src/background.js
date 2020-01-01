@@ -2,7 +2,7 @@
 
 const downloadQueue = []; // Queue for regular downloads
 const inProgressMap = {};
-const CONCURRENT_LIMIT = 2;
+const CONCURRENT_LIMIT = 5;
 let inProgress = 0;
 let downloadPaused = false;
 
@@ -30,6 +30,7 @@ const addToDownloadQueue = function (chrome, image, resolve) {
  * @param chrome
  */
 const continueDownload = function (chrome) {
+    updateBadge(getJobCount());
     if (!downloadPaused && inProgress < CONCURRENT_LIMIT && downloadQueue.length > 0) {
         inProgress++;
         let nextItem = downloadQueue.shift(); // get from the head of queue
@@ -49,6 +50,7 @@ const continueDownload = function (chrome) {
                     continueDownload(chrome);
                 }
             });
+        updateBadge(getJobCount());
     }
 };
 
@@ -57,6 +59,10 @@ const continueDownload = function (chrome) {
  */
 const getJobCount = function () {
     return downloadQueue.length + inProgress;
+};
+
+const updateBadge = function (count){
+    chrome.browserAction.setBadgeText({text: count === 0 ? "" : ("" + count)});
 };
 
 chrome.downloads.onChanged.addListener(function (downloadDelta) {
@@ -77,7 +83,9 @@ chrome.downloads.onChanged.addListener(function (downloadDelta) {
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.what === "download") {
-        addToDownloadQueue(chrome, message.image);
+        addToDownloadQueue(chrome, message.image, function(){
+            sendResponse({what: "done", image: message.image});
+        });
         return true;
     }
 });

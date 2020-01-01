@@ -39,6 +39,9 @@ let download = function (chrome, image, resolve) {
  */
 let downloadInBackground = function (chrome, image, resolve) {
     chrome.runtime.sendMessage({what: "download", image: image}, function (response) {
+        if (response.what === "done") {
+            console.debug("Done: " + image.url);
+        }
     });
 };
 
