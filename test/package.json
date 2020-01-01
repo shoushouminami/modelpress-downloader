@@ -4,7 +4,7 @@
   "description": "A Chrome Extension for batch downloading full size images from modelpress and other supported websites. https://chrome.google.com/webstore/detail/modelpress-image-download/nepeemhbchedjbebdekhpkhknljppmif",
   "main": "index.js",
   "scripts": {
-    "test": "jest --testTimeout=10000 "
+    "test": "jest --testTimeout=20000 "
   },
   "jest": {
     "preset": "jest-puppeteer"

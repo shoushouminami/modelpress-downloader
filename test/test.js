@@ -70,6 +70,7 @@ test("Image url is in href of parent A node and hosted on awalker.jp", async () 
         }
     ]);
     expect(mid["o"]["folder"]).toBe("blog.nogizaka46.com-momoko.oozono-2019-09-052573.php/");
+    page.close();
 });
 
 test("Image url is in src of IMG node", async () => {
@@ -162,6 +163,8 @@ test("Twitter tweet with 1 image", async () => {
     } else {
         expect(mid["o"]["images"][0]).toContain("https://pbs.twimg.com/media/D_LEJgFU0AAHed4.jpg:large");
     }
+
+    page.close();
 });
 
 test("Twitter tweet with 2 images", async () => {
@@ -192,6 +195,8 @@ test("Twitter tweet with 2 images", async () => {
             expect(mid["o"]["images"]).toContain(image);
         }
     }
+
+    page.close();
 });
 
 // tokyopopline.com
@@ -318,7 +323,7 @@ test("Test cancam.jp itgirl home page", async () => {
         browser,
         "https://cancam.jp/archives/category/itgirl/marikokaji",
         "cancam.jp-archives-category-itgirl-marikokaji/",
-        ["https://cancam.jp/wp-content/uploads/2018/06/09bbcf427aea251256c96977ea45ac1b-20190403140433.jpg"]
+        ["https://cancam.jp/wp-content/uploads/2018/06/8573e8996cd2d1d57663c8b10ed9a8a2-20191219175830.png"]
     );
 });
 

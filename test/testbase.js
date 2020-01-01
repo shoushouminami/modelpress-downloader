@@ -26,7 +26,10 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
     // callback hook to customize action before going to the url. (Such as disable CSP enforcements)
     await runFuncIfDefined(ops && ops['prenavigate'], [page]);
 
-    await page.goto(url, {waitUntil: 'load'});
+    try {
+        await page.goto(url, {timeout: 10000, waitUtil: ["load", "domcontentloaded"]});
+    } catch (ignored) {}
+
 
     // callback hook to customize action after loading the page, such as scrolling
     await runFuncIfDefined(ops && ops['preinject'], [page]);
@@ -45,6 +48,8 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
     }
 
     expect(mid['o']['folder']).toBe(folder);
+
+    page.close();
     return mid;
 };
 
