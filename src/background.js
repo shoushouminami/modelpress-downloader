@@ -19,6 +19,7 @@ const getFileName = function(url, ext) {
 
     return filename;
 };
+
 const addToDownloadQueue = function (chrome, image, resolve) {
     downloadQueue.push({image: image, resolve: resolve});
     continueDownload(chrome);
@@ -51,10 +52,17 @@ const continueDownload = function (chrome) {
     }
 };
 
+/**
+ * Number of download jobs that are pending (downloading or in the queue)
+ */
+const getJobCount = function () {
+    return downloadQueue.length + inProgress;
+};
+
 chrome.downloads.onChanged.addListener(function (downloadDelta) {
     if (downloadDelta && downloadDelta.state && inProgressMap[downloadDelta.id]) {
         let item = inProgressMap[downloadDelta.id];
-        if (downloadDelta.state.previous === "previous" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
+        if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
             inProgress--;
             delete inProgressMap[downloadDelta.id];
             // Call resolve if any
@@ -70,5 +78,6 @@ chrome.downloads.onChanged.addListener(function (downloadDelta) {
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.what === "download") {
         addToDownloadQueue(chrome, message.image);
+        return true;
     }
 });

@@ -32,6 +32,16 @@ let download = function (chrome, image, resolve) {
         });
 };
 
+/**
+ * @param chrome
+ * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
+ * @param resolve
+ */
+let downloadInBackground = function (chrome, image, resolve) {
+    chrome.runtime.sendMessage({what: "download", image: image}, function (response) {
+    });
+};
+
 let displayInIframe = function(tabId, url, resolve, error) {
     chrome.tabs.sendMessage(tabId, {what: "showIframe", url: url}, function(response) {
         if (response) {
@@ -100,7 +110,8 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                         let imagesNeedClick = [];
                         for (const image of message.images) {
                             if (typeof image === "string") {
-                                download(chrome, {url: image, folder: message.folder, ext: message.ext});
+                                // download(chrome, {url: image, folder: message.folder, ext: message.ext});
+                                downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
                             } else if (typeof image === "object") {
                                 if (image.websiteUrl && image.imageUrl) {
                                     imagesNeedTab.push(image);
