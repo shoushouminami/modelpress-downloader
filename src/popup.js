@@ -81,71 +81,165 @@ let downloadWithIframe = function (chrome, image, context, tabId) {
     }
 };
 
-let downloadWithButtonClick = function(chrome, image, context, tabId) {
-    context.p = context.p.then(function () {
-        return new Promise(function (resolve) {
-            console.debug("event=clicking_button totalCount=%d finishCount=%d image=%s", context.totalCount, context.finishCount, image);
-            image.what = "buttonClick";
-            chrome.tabs.sendMessage(tabId, image, function(response) {
-                if (response) {
-                    download(chrome, {url: response, folder: context.folder} , resolve);
-                } else {
-                    resolve();
+/**
+ * get all images from mdpr mobile apis
+ */
+let fetchMdprMobileImages = function (articleId, callback){
+    //https://app2-mdpr.freetls.fastly.net/api/images/dialog/article?article_id=1926239&index=0
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://app2-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&article_id=" + articleId, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            console.debug("Retrieved remote images: " + xhr.responseText);
+            if (callback && (callback instanceof Function)) {
+                let resp = undefined;
+                let list = [];
+                try {
+                    resp = JSON.parse(xhr.responseText);
+                } catch (ignored) {
                 }
-            });
-        });
-    });
+                if (resp && resp.list && resp.list.length) {
+                    for (const item of resp.list) {
+                        list.push(item.url);
+                    }
+                }
+
+                callback(list);
+            }
+        }
+    };
+    xhr.send();
 };
 
-let downloadButton = document.getElementById('download');
-chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-    let action = function (results) {
-        console.debug(results);
-        if (results && results.length && results[0].supported) {
-            let message = results[0];
-            if (message.images && message.images.length) {
-                document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length])
-                downloadButton.addEventListener("click", function () {
-                    let imagesNeedTab = [];
-                    for (const image of message.images) {
-                        if (typeof image === "string") {
-                            downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
-                        } else if (typeof image === "object") {
-                            if (image.websiteUrl && image.imageUrl) {
-                                imagesNeedTab.push(image);
-                            } else {
-                                console.error("event=unknown_object image=" + image);
-                            }
-                        } else {
-                            console.error("event=unknown_type image=" + image);
-                        }
-                    }
+let message = {
+    supported: false,
+    retry: false,
+    images: [],
+    remoteImages: {}, // for example {"mdpr.jp": "1234567"}
+    ext: undefined,
+    folder: undefined,
+};
 
-                    if (imagesNeedTab.length) {
-                        let context = {
-                            p: Promise.resolve(),
-                            tempTab: null,
-                            tempIframe: null,
-                            folder: message.folder,
-                            finishCount: 0,
-                            totalCount: imagesNeedTab.length
-                        };
+let state = {
+    canDownloadMobile: false,
+    startedFetchMobile: false,
+    finishedFetchMobile: false
+};
 
-                        context.totalCount = imagesNeedTab.length;
-                        for (let image of imagesNeedTab) {
-                            downloadWithIframe(chrome, image, context, tabs[0].id);
-                        }
-                    }
-                });
-            } else {
-                downloadButton.disabled = "disabled";
-                downloadButton.innerText = chrome.i18n.getMessage("noImageMessage");
+let updatePopupUI = function () {
+    if (message.supported) {
+        if (message.images && message.images.length) {
+            document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length]);
+            if (Object.keys(message.remoteImages).length > 0) {
+                document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");
+                document.getElementById("downloadMobileCheck").checked = state.canDownloadMobile;
+                document.getElementById("downloadMobile").hidden = false;
             }
         } else {
-            downloadButton.hidden = "hidden";
-            document.getElementById("supported-sites-title").innerText = chrome.i18n.getMessage("supportedSitesTitle");
-            document.getElementById("supported-sites").hidden = false;
+            document.getElementById('download').disabled = "disabled";
+            document.getElementById('download').innerText = chrome.i18n.getMessage("noImageMessage");
         }
+    } else {
+        document.getElementById('download').hidden = "hidden";
+        document.getElementById("supported-sites-title").innerText = chrome.i18n.getMessage("supportedSitesTitle");
+        document.getElementById("supported-sites").hidden = false;
+    }
+};
+
+document.getElementById('download').addEventListener("click", function () {
+    let imagesNeedTab = [];
+    for (const image of message.images) {
+        if (typeof image === "string") {
+            downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
+        } else if (typeof image === "object") {
+            if (image.websiteUrl && image.imageUrl) {
+                imagesNeedTab.push(image);
+            } else {
+                console.error("event=unknown_object image=" + image);
+            }
+        } else {
+            console.error("event=unknown_type image=" + image);
+        }
+    }
+
+    if (imagesNeedTab.length) {
+        let context = {
+            p: Promise.resolve(),
+            tempTab: null,
+            tempIframe: null,
+            folder: message.folder,
+            finishCount: 0,
+            totalCount: imagesNeedTab.length
+        };
+
+        context.totalCount = imagesNeedTab.length;
+        for (let image of imagesNeedTab) {
+            downloadWithIframe(chrome, image, context, tabs[0].id);
+        }
+    }
+});
+
+document.getElementById("downloadMobileCheck").addEventListener("click", function (event) {
+    let checkBox = document.getElementById("downloadMobileCheck");
+    if (event.target.id === checkBox.id) {
+        if (checkBox.checked) {
+            chrome.permissions.request({
+                origins: ["https://app2-mdpr.freetls.fastly.net/"]
+            }, function(granted) {
+                state.canDownloadMobile = granted;
+                if (granted) {
+                    startFetchMdprMobileImages();
+                }
+            });
+        } else {
+            chrome.permissions.remove({
+                origins: ["https://app2-mdpr.freetls.fastly.net/"]
+            }, function(removed) {
+                state.canDownloadMobile = !removed;
+            });
+        }
+    }
+
+});
+
+let startFetchMdprMobileImages = function() {
+    fetchMdprMobileImages(message.remoteImages["mdpr.jp"], function (images) {
+        for (const image of images) {
+            if (message.images.indexOf(image) === -1) {
+                message.images.push(image);
+            }
+        }
+        state.finishedFetchMobile = true;
+        updatePopupUI();
+    });
+    state.startedFetchMobile = true;
+    updatePopupUI();
+};
+chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+    chrome.permissions.contains({
+        origins: ["https://app2-mdpr.freetls.fastly.net/"]
+    }, function (granted) {
+        state.canDownloadMobile = granted;
+    });
+
+    let action = function (results) {
+        console.debug(results);
+        if (results && results.length) {
+            message = results[0];
+            if (message.remoteImages) {
+                if (message.remoteImages["mdpr.jp"] && message.remoteImages["mdpr.jp"].match(/^\d+$/)) {
+                    chrome.permissions.contains({
+                        origins: ["https://app2-mdpr.freetls.fastly.net/"]
+                    }, function (granted) {
+                        if (granted) {
+                            state.canDownloadMobile = granted;
+                            startFetchMdprMobileImages();
+                        }
+                    });
+                }
+            }
+        }
+        updatePopupUI();
     };
 
     chrome.tabs.executeScript(

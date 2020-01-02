@@ -188,13 +188,36 @@ var m = {
         let script = document.createElement('script');
         script.src = filepath;
         document.body.appendChild(script);
+    },
+    /**
+     * finds the article id from page
+     */
+    findMdprArticleId: function () {
+        let l = document.querySelector("a[data-click=photo_back_article]");
+        if (l && l.href) {
+            let parts = l.href.split("/");
+            if (parts.length) {
+                if (parts[parts.length - 1].match(/^\d+$/)) {
+                    return parts[parts.length - 1];
+                }
+            }
+        }
+
+        l = document.querySelector("input[name=topic_id]");
+        if (l && l.value && l.value.match(/^\d+$/)) {
+            return l.value;
+        }
+
+        return null;
     }
 };
 
 var o = {
+    host: window.location.host,
     supported: true,
     retry: false,
     images: [],
+    remoteImages: {}, // for example {"mdpr.jp": "1234567"}
     ext: undefined,
     folder: window.location.host + window.location.pathname.replace(/\//g, "-") + "/",
 };
@@ -207,7 +230,14 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     m.pushArray(o.images, m.findImagesOfClass("headline-photo"));
     m.pushArray(o.images, m.findImagesOfContainerClass("no-moki"));
     m.pushArray(o.images, m.findImagesOfContainerClass("snap-content"));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".content-photo .m-appImageList img", m.removeQuery))
+    let mobileImages =  m.findImagesWithCssSelector(document, ".m-appImageList img", m.removeQuery);
+    if (mobileImages) {
+        m.pushArray(o.images, mobileImages);
+        let articleId = m.findMdprArticleId();
+        if (articleId) {
+            o.remoteImages["mdpr.jp"] = articleId;
+        }
+    }
 } else if (window.location.host === "blog.nogizaka46.com") {
     var sheet = document.getElementById("sheet");
     if (sheet) {

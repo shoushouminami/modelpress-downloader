@@ -2,7 +2,7 @@
 <html>
   <head>
     <style>
-      button {
+      button#download {
         height: 25px;
         width: 150px;
         outline: none;
@@ -10,7 +10,13 @@
     </style>
   </head>
   <body>
-    <button id="download"><span id="buttonText">Download <span id="count">?</span> Images</span></button>
+    <div>
+      <button id="download"><span id="buttonText">Download <span id="count">?</span> Images</span></button>
+    </div>
+    <div id="downloadMobile" hidden="hidden">
+      <input type="checkbox" id="downloadMobileCheck" name="downloadMobile"/>
+      <label id="downloadMobileLabel" for="downloadMobileCheck"></label>
+    </div>
     <div id="supported-sites" hidden="hidden" style="width: 150px">
       <div>
         <span id="supported-sites-title">Supported Websites:</span>

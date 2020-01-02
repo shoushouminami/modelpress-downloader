@@ -1,5 +1,5 @@
 
-build:	src/*
+build:	src/* src/**/*
 	./package.sh
 
 .PHONY: test

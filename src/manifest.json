@@ -6,8 +6,14 @@
     "activeTab",
     "downloads"
   ],
+  "optional_permissions": [
+    "tabs",
+    "https://app2-mdpr.freetls.fastly.net/"
+  ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": false
   },
   "browser_action": {

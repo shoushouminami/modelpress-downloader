@@ -20,5 +20,9 @@
   "supportedSitesTitle": {
     "message": "Supported Websites:",
     "description": "The title of a list of supported websites shown when the active tab is not supported"
+  },
+  "downloadMobileLabel": {
+    "message": "Change me",
+    "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
   }
 }
