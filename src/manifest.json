@@ -26,7 +26,8 @@
     "128": "images/icon2.png"
   },
   "web_accessible_resources": [
-    "images/*"
+    "images/*",
+    "helper/*"
   ],
   "incognito": "split",
   "default_locale": "en",

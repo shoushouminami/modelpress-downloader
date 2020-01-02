@@ -99,66 +99,69 @@ let downloadWithButtonClick = function(chrome, image, context, tabId) {
 
 let downloadButton = document.getElementById('download');
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+    let action = function (results) {
+        console.debug(results);
+        if (results && results.length && results[0].supported) {
+            let message = results[0];
+            if (message.images && message.images.length) {
+                document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length])
+                downloadButton.addEventListener("click", function () {
+                    let imagesNeedTab = [];
+                    for (const image of message.images) {
+                        if (typeof image === "string") {
+                            downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
+                        } else if (typeof image === "object") {
+                            if (image.websiteUrl && image.imageUrl) {
+                                imagesNeedTab.push(image);
+                            } else {
+                                console.error("event=unknown_object image=" + image);
+                            }
+                        } else {
+                            console.error("event=unknown_type image=" + image);
+                        }
+                    }
+
+                    if (imagesNeedTab.length) {
+                        let context = {
+                            p: Promise.resolve(),
+                            tempTab: null,
+                            tempIframe: null,
+                            folder: message.folder,
+                            finishCount: 0,
+                            totalCount: imagesNeedTab.length
+                        };
+
+                        context.totalCount = imagesNeedTab.length;
+                        for (let image of imagesNeedTab) {
+                            downloadWithIframe(chrome, image, context, tabs[0].id);
+                        }
+                    }
+                });
+            } else {
+                downloadButton.disabled = "disabled";
+                downloadButton.innerText = chrome.i18n.getMessage("noImageMessage");
+            }
+        } else {
+            downloadButton.hidden = "hidden";
+            document.getElementById("supported-sites-title").innerText = chrome.i18n.getMessage("supportedSitesTitle");
+            document.getElementById("supported-sites").hidden = false;
+        }
+    };
+
     chrome.tabs.executeScript(
         tabs[0].id,
         {file: "inject.js", matchAboutBlank: true},
         function (results) {
-            console.debug(results);
-            if (results && results.length && results[0].supported) {
-                let message = results[0];
-                if (message.images && message.images.length) {
-                    document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length])
-                    downloadButton.addEventListener("click", function () {
-                        let imagesNeedTab = [];
-                        let imagesNeedClick = [];
-                        for (const image of message.images) {
-                            if (typeof image === "string") {
-                                // download(chrome, {url: image, folder: message.folder, ext: message.ext});
-                                downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
-                            } else if (typeof image === "object") {
-                                if (image.websiteUrl && image.imageUrl) {
-                                    imagesNeedTab.push(image);
-                                } else if (image.liId && image.buttonId) {
-                                    imagesNeedClick.push(image);
-                                } else {
-                                    console.error("event=unknown_object image=" + image);
-                                }
-                            } else {
-                                console.error("event=unknown_type image=" + image);
-                            }
-                        }
-
-                        if (imagesNeedTab.length || imagesNeedClick.length) {
-                            let context = {
-                                p: Promise.resolve(),
-                                tempTab: null,
-                                tempIframe: null,
-                                folder: message.folder,
-                                finishCount: 0,
-                                totalCount: imagesNeedTab.length
-                            };
-
-                            if (imagesNeedTab.length) {
-                                context.totalCount = imagesNeedTab.length;
-                                for (let image of imagesNeedTab) {
-                                    downloadWithIframe(chrome, image, context, tabs[0].id);
-                                }
-                            } else {
-                                context.totalCount = imagesNeedClick.length;
-                                for (let image of imagesNeedClick) {
-                                    downloadWithButtonClick(chrome, image, context, tabs[0].id);
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    downloadButton.disabled = "disabled";
-                    downloadButton.innerText = chrome.i18n.getMessage("noImageMessage");
-                }
+            if (results && results.length && results[0].retry) {
+                // retry in 100ms
+                setTimeout(function () {
+                    chrome.tabs.executeScript(
+                        tabs[0].id,
+                        {file: "inject.js", matchAboutBlank: true},
+                        action);
+                }, 100);
             } else {
-                downloadButton.hidden = "hidden";
-                document.getElementById("supported-sites-title").innerText = chrome.i18n.getMessage("supportedSitesTitle");
-                document.getElementById("supported-sites").hidden = false;
+                action(results);
             }
         });
 });

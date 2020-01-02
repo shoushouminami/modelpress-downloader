@@ -1,6 +1,6 @@
 'use strict';
 
-window.m = {
+var m = {
     /**
      * First get a list of DOMs belonging to the given CSS class.
      * Then for each of the DOM element, find 1 image recursively.
@@ -183,11 +183,17 @@ window.m = {
         }
 
         return src;
+    },
+    injectScriptDOM: function (filepath) {
+        let script = document.createElement('script');
+        script.src = filepath;
+        document.body.appendChild(script);
     }
 };
 
 var o = {
     supported: true,
+    retry: false,
     images: [],
     ext: undefined,
     folder: window.location.host + window.location.pathname.replace(/\//g, "-") + "/",
@@ -201,6 +207,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     m.pushArray(o.images, m.findImagesOfClass("headline-photo"));
     m.pushArray(o.images, m.findImagesOfContainerClass("no-moki"));
     m.pushArray(o.images, m.findImagesOfContainerClass("snap-content"));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".content-photo .m-appImageList img", m.removeQuery))
 } else if (window.location.host === "blog.nogizaka46.com") {
     var sheet = document.getElementById("sheet");
     if (sheet) {
@@ -249,71 +256,26 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             }
         });
 } else if (window.location.host === "www.instagram.com") {
-    var lis = document.querySelectorAll("article ul[style] li");
-    if (lis.length) {
-        // multiple images
-        let btn;
-        for (const li of lis) {
-            var img = m.findImageDOMFromRoot(li);
-            if (img && img.srcset && img.src) {
-                o.images.push(img.src);
+    let imgs = m.findImagesWithCssSelector(document, "article img[srcset]");
+    if (imgs.length > 0) {
+        let div = document.getElementById("_mid-images_");
+        if (div) {
+            // helper script injected
+            if (div.dataset.images) {
+                m.pushArray(o.images,
+                    div.dataset.images.split(";")
+                        .filter(s => s.length > 0)
+                        .map(s => decodeURIComponent(s)));
+                document.body.removeChild(div);
             } else {
-                if (!btn) {
-                    var buttons = document.querySelectorAll("button[tabindex]");
-                    var count = 0;
-                    while (buttons.length === 2 && count++ < 100) {
-                        buttons[0].click();
-                        buttons = document.querySelectorAll("button[tabindex]");
-                    }
-
-                    if (buttons.length === 1) {
-                        btn = buttons[0];
-                        btn.id = "btn" + Math.floor(Math.random() * 1e9);
-                    }
-                }
-
-                if (btn) {
-                    li.id = "li" + Math.floor(Math.random() * 1e9);
-                    o.images.push({
-                        buttonId: btn.id,
-                        liId: li.id
-                    });
-                }
+                // give up and take the first image
+                m.pushIfNew(o.images, imgs[0]);
             }
+        } else {
+            // inject helper script and wait
+            m.injectScriptDOM(chrome.runtime.getURL("helper/instagram-react.js"));
+            o.retry = true;
         }
-
-        chrome.runtime.onMessage.addListener(
-            function (request, sender, sendResponse) {
-                if (request.what === "buttonClick" && request.buttonId && request.liId) {
-                    let li = document.getElementById(request.liId);
-                    let btn = document.getElementById(request.buttonId);
-                    if (li && btn) {
-                        var img = m.findImageDOMFromRoot(li);
-                        if (img && img.srcset && img.src) {
-                            sendResponse(img.src);
-                        } else {
-                            var count = 0;
-                            let clickAndWait = function() {
-                                count++;
-                                let img = m.findImageDOMFromRoot(li);
-                                if (img && img.srcset && img.src) {
-                                    sendResponse(img.src);
-                                } else if (count > 20) {
-                                    sendResponse();
-                                } else {
-                                    btn.click();
-                                    setTimeout(clickAndWait, 100);
-                                }
-                            };
-                            setTimeout(clickAndWait, 100);
-                            return true;
-                        }
-                    }
-                }
-            });
-    } else {
-        // single image
-        m.pushArray(o.images, m.findImagesWithCssSelector(document, "article img[srcset]"));
     }
 } else if (window.location.host === "www.bilibili.com" && window.location.pathname.startsWith("/read/")) {
     let imgs = document.querySelectorAll("figure.img-box img[data-src]");
