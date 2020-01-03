@@ -110,7 +110,8 @@ test("Test https://mdpr.jp/news/detail/1844622", async () => {
             "https://img-mdpr.freetls.fastly.net/article/QZD7/wm/QZD7dhbnlwCDvX1PEOiZej8mAZZhZ9LHy0I9rzdFVRE.jpg",
             "https://img-mdpr.freetls.fastly.net/article/zIM_/wm/zIM_-fR9nAoFFqTa6sY-qPO36tg8URuHhMr5eJ6A5nw.jpg",
             "https://img-mdpr.freetls.fastly.net/article/mP08/wm/mP083mIIbfNJKuaF7g68RIPQlQAh9CGGX4E91BrtC-c.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg"
+            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg",
+            "https://img-mdpr.freetls.fastly.net/article/a2dA/wm/a2dADq2nRw44R-VCTCAy5bZGZzviIvhDjUyC5e6GDek.jpg"
         ]);
 });
 
@@ -123,7 +124,8 @@ test("Test https://mdpr.jp/photo/detail/6942679", async () => {
             "https://img-mdpr.freetls.fastly.net/article/QZD7/wm/QZD7dhbnlwCDvX1PEOiZej8mAZZhZ9LHy0I9rzdFVRE.jpg",
             "https://img-mdpr.freetls.fastly.net/article/zIM_/wm/zIM_-fR9nAoFFqTa6sY-qPO36tg8URuHhMr5eJ6A5nw.jpg",
             "https://img-mdpr.freetls.fastly.net/article/mP08/wm/mP083mIIbfNJKuaF7g68RIPQlQAh9CGGX4E91BrtC-c.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg"
+            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg",
+            "https://img-mdpr.freetls.fastly.net/article/a2dA/wm/a2dADq2nRw44R-VCTCAy5bZGZzviIvhDjUyC5e6GDek.jpg"
         ]);
 });
 
@@ -351,5 +353,27 @@ test("Test cancam.jp media collection page", async () => {
         "https://cancam.jp/medias/%e3%80%90%e7%94%bb%e5%83%8f%e4%b8%80%e8%a6%a7%e3%80%91%e6%9d%be%e6%9d%91%e6%b2%99%e5%8f%8b%e7%90%86",
         "cancam.jp-medias-%e3%80%90%e7%94%bb%e5%83%8f%e4%b8%80%e8%a6%a7%e3%80%91%e6%9d%be%e6%9d%91%e6%b2%99%e5%8f%8b%e7%90%86/",
         ["https://cancam.jp/wp-content/uploads/2017/12/CanCam201802_cover-20171220165822.jpg","https://cancam.jp/wp-content/uploads/2017/12/ACCU_1P-20171211185335.jpg","https://cancam.jp/wp-content/uploads/2017/11/2285f0d5676d0576d15a0226aba3f613-20171108130452-20171108132029.jpg","https://cancam.jp/wp-content/uploads/2017/09/IMG_9561-20170928135633.jpg","https://cancam.jp/wp-content/uploads/2017/09/MG_8563-20170928135627.jpg","https://cancam.jp/wp-content/uploads/2017/09/MG_8519-20170928135621.jpg","https://cancam.jp/wp-content/uploads/2017/09/MG_8468-20170928135616.jpg","https://cancam.jp/wp-content/uploads/2017/10/12aeb9453f9519d2a2e60374dedcf54f-20171001202913.jpg","https://cancam.jp/wp-content/uploads/2017/10/bf90e36116ba7423ba35fd4abff303fa-20171001202908.jpg","https://cancam.jp/wp-content/uploads/2017/10/dadd0a1bb09b0eefb6035608b7296431-20171001202902.jpg","https://cancam.jp/wp-content/uploads/2017/10/8402-20171005165624.jpg","https://cancam.jp/wp-content/uploads/2017/10/MG_8389-20171005165458.jpg","https://cancam.jp/wp-content/uploads/2017/10/MG_8405-20171005165431.jpg","https://cancam.jp/wp-content/uploads/2017/10/MG_8397-20171005165348.jpg","https://cancam.jp/wp-content/uploads/2017/11/IMG_2287-20171123203840.jpg","https://cancam.jp/wp-content/uploads/2017/10/MG_8396-20171005165311.jpg","https://cancam.jp/wp-content/uploads/2017/10/MG_8386-20171005165251.jpg","https://cancam.jp/wp-content/uploads/2017/10/MG_8377-20171005165233.jpg","https://cancam.jp/wp-content/uploads/2017/10/MG_8369-20171005165217.jpg","https://cancam.jp/wp-content/uploads/2017/09/asahinagu_11-20170922215716.jpg"]
+    );
+});
+
+test("Test bltweb.jp page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://bltweb.jp/2019/12/10/blt2020newyear_n46_3-4_store/",
+        "bltweb.jp-2019-12-10-blt2020newyear_n46_3-4_store-/",
+        ["https://bltweb.jp/wp/wp-content/uploads/2019/12/20191215_BLT2020-02_NEWYEAR_H1_STORE.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/d65a7000af282857e9caa178de0ea148.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/8751914e48f26781804ae4ea5569ec3f.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/BLT2020-02_3rd-4th_SPECIAL-BOOK-1.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/4L-N46_kubo.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/4L-N46_yoda.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/4L-N46_endo.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/4L-N46_kaki.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/4L-hayasi.jpg", "https://bltweb.jp/wp/wp-content/uploads/2019/12/4L-ishida.jpg"]
+    );
+});
+
+// the websit is blocked in some countries
+test("Test mantan-web.jp page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://mantan-web.jp/article/20191228dog00m200028000c.html",
+        "mantan-web.jp-article-20191228dog00m200028000c.html/",
+        ["https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size10.jpg"
+            , "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size10.jpg"
+            , "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size10.jpg"
+            , "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size10.jpg"]
     );
 });

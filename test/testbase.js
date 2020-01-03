@@ -27,7 +27,7 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
     await runFuncIfDefined(ops && ops['prenavigate'], [page]);
 
     try {
-        await page.goto(url, {timeout: 10000, waitUtil: ["load", "domcontentloaded"]});
+        await page.goto(url, {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
     } catch (ignored) {}
 
 

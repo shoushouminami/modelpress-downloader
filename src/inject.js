@@ -538,7 +538,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
         return url;
     };
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
-}  else {
+} else {
     o.supported = false;
 }
 window._mid = {o: o};
