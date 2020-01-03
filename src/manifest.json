@@ -7,8 +7,8 @@
     "downloads"
   ],
   "optional_permissions": [
-    "tabs",
-    "https://app2-mdpr.freetls.fastly.net/"
+    "http://*/",
+    "https://*/"
   ],
   "background": {
     "scripts": [

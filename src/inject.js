@@ -231,7 +231,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     m.pushArray(o.images, m.findImagesOfContainerClass("no-moki"));
     m.pushArray(o.images, m.findImagesOfContainerClass("snap-content"));
     let mobileImages =  m.findImagesWithCssSelector(document, ".m-appImageList img", m.removeQuery);
-    if (mobileImages) {
+    if (mobileImages.length > 0) {
         m.pushArray(o.images, mobileImages);
         let articleId = m.findMdprArticleId();
         if (articleId) {

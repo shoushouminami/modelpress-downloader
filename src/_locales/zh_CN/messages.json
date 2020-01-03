@@ -15,6 +15,36 @@
     "message": "未检测到图片"
   },
   "supportedSitesTitle": {
-    "message": "支持的网站："
+    "message": "支持的网页："
+  },
+  "downloadMobileLabel": {
+    "message": "下载App专有图片？",
+    "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
+  },
+  "downloadMobileStatusTextInProgress": {
+    "message": "⌛ App专有图片：检测中",
+    "description": "The text for in progress fetching extra images"
+  },
+  "downloadMobileStatusTextSuccess": {
+    "message": "✔️ App专有图片：$NUMBER$",
+    "description": "The text for successfully fetching extra images",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "downloadMobileStatusTextNotFound": {
+    "message": "\uD83E\uDD37 App专有图片：无",
+    "description": "The text for no extra images found (404)"
+  },
+  "downloadMobileStatusTextFailed": {
+    "message": "❌ App专有图片：检测失败",
+    "description": "The text for failed fetching extra images with any failure other than 404"
+  },
+  "downloadMobileStatusFailedHelp": {
+    "message": "help/help_zh_CN.html",
+    "description": "The link of help page"
   }
 }

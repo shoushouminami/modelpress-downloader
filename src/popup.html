@@ -1,21 +1,48 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset='UTF-8'/>
     <style>
       button#download {
-        height: 25px;
-        width: 150px;
+        height: 30px;
+        min-width: 150px;
+        width: 100%;
         outline: none;
+        margin: auto;
       }
+
+      #downloadMobileStatus,#downloadMobilePermission {
+        height: 20px;
+        width: 195px;
+        outline: none;
+        position: relative;
+        left: 2px;
+        top: 5px;
+        line-height: 1.3;
+      }
+
+      #downloadMobileStatusText {
+        /*width: 158px;*/
+      }
+
+      /*#downloadMobileStatusIcon {*/
+      /*  display: inline-block;*/
+      /*  width: 8px;*/
+      /*}*/
+
+
     </style>
   </head>
   <body>
     <div>
       <button id="download"><span id="buttonText">Download <span id="count">?</span> Images</span></button>
     </div>
-    <div id="downloadMobile" hidden="hidden">
-      <input type="checkbox" id="downloadMobileCheck" name="downloadMobile"/>
+    <div id="downloadMobilePermission" hidden="hidden">
       <label id="downloadMobileLabel" for="downloadMobileCheck"></label>
+      <input type="checkbox" id="downloadMobileCheck" name="downloadMobile"/>
+    </div>
+    <div id="downloadMobileStatus" hidden="hidden">
+      <span id="downloadMobileStatusText"></span> <a id="downloadMobileStatusHelpLink" href="help/help_en.html" hidden="hidden">?</a>
     </div>
     <div id="supported-sites" hidden="hidden" style="width: 150px">
       <div>

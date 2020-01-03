@@ -85,19 +85,37 @@ let downloadWithIframe = function (chrome, image, context, tabId) {
  * get all images from mdpr mobile apis
  */
 let fetchMdprMobileImages = function (articleId, callback){
-    //https://app2-mdpr.freetls.fastly.net/api/images/dialog/article?article_id=1926239&index=0
+    if (!articleId || !articleId.match(/^\d+$/) || !callback || !(callback instanceof Function)) {
+        console.error("Invalid article id: " + articleId + " or callback " + callback);
+        return null;
+    }
+
+    // Test code
+    // setTimeout(function () {
+    //     state.fetchStatus = 200;
+    //     let arr = [];
+    //     for (let i = 0 ; i < 10; i++) {
+    //         arr.push("abc" + i);
+    //     }
+    //     callback(arr);
+    // }, 1000);
+    // return;
+
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://app2-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&article_id=" + articleId, true);
+    xhr.open("GET", "https://app-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&article_id=" + articleId, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            console.debug("Retrieved remote images: " + xhr.responseText);
-            if (callback && (callback instanceof Function)) {
+            state.fetchStatus = xhr.status;
+            if (xhr.status / 100 === 2) {
+                console.debug("Retrieved remote images: " + xhr.responseText);
                 let resp = undefined;
                 let list = [];
                 try {
                     resp = JSON.parse(xhr.responseText);
-                } catch (ignored) {
+                } catch (e) {
+                    console.error("Failed parsing JSON: " + e);
                 }
+
                 if (resp && resp.list && resp.list.length) {
                     for (const item of resp.list) {
                         list.push(item.url);
@@ -105,6 +123,9 @@ let fetchMdprMobileImages = function (articleId, callback){
                 }
 
                 callback(list);
+            } else {
+                console.log("Failed loading remote images: " + xhr.status + " " + xhr.statusText);
+                callback([]);
             }
         }
     };
@@ -123,7 +144,13 @@ let message = {
 let state = {
     canDownloadMobile: false,
     startedFetchMobile: false,
-    finishedFetchMobile: false
+    finishedFetchMobile: false,
+    fetchStatus: 0,
+    addedCount: 0
+};
+
+const ORIGINS = {
+    "mdpr.jp": ["https://app-mdpr.freetls.fastly.net/"]
 };
 
 let updatePopupUI = function () {
@@ -131,9 +158,33 @@ let updatePopupUI = function () {
         if (message.images && message.images.length) {
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length]);
             if (Object.keys(message.remoteImages).length > 0) {
-                document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");
-                document.getElementById("downloadMobileCheck").checked = state.canDownloadMobile;
-                document.getElementById("downloadMobile").hidden = false;
+                if (!state.canDownloadMobile) {
+                    document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");
+                    document.getElementById("downloadMobileCheck").checked = state.canDownloadMobile;
+                    document.getElementById("downloadMobilePermission").hidden = false;
+                } else {
+                    document.getElementById("downloadMobilePermission").hidden = true;
+                    document.getElementById("downloadMobileStatusHelpLink").hidden = true;
+                    document.getElementById("downloadMobileStatus").hidden = false;
+                    if (state.startedFetchMobile && !state.finishedFetchMobile) {
+                        document.getElementById("downloadMobileStatusText").innerText = chrome.i18n.getMessage("downloadMobileStatusTextInProgress");
+                    } else if (state.finishedFetchMobile) {
+                        switch (state.fetchStatus) {
+                            case 404:
+                                document.getElementById("downloadMobileStatusText").innerText = chrome.i18n.getMessage("downloadMobileStatusTextNotFound");
+                                break;
+                            case 200:
+                                document.getElementById("downloadMobileStatusText").innerText = chrome.i18n.getMessage("downloadMobileStatusTextSuccess", [state.addedCount]);
+                                break;
+                            default:
+                                document.getElementById("downloadMobileStatusText").innerText = chrome.i18n.getMessage("downloadMobileStatusTextFailed");
+                                document.getElementById("downloadMobileStatusHelpLink").href = chrome.i18n.getMessage("downloadMobileStatusFailedHelp");
+                                document.getElementById("downloadMobileStatusHelpLink").hidden = false;
+                                break;
+                        }
+                    }
+                }
+
             }
         } else {
             document.getElementById('download').disabled = "disabled";
@@ -184,16 +235,17 @@ document.getElementById("downloadMobileCheck").addEventListener("click", functio
     if (event.target.id === checkBox.id) {
         if (checkBox.checked) {
             chrome.permissions.request({
-                origins: ["https://app2-mdpr.freetls.fastly.net/"]
+                origins: ORIGINS["mdpr.jp"]
             }, function(granted) {
                 state.canDownloadMobile = granted;
                 if (granted) {
                     startFetchMdprMobileImages();
                 }
+                updatePopupUI();
             });
         } else {
             chrome.permissions.remove({
-                origins: ["https://app2-mdpr.freetls.fastly.net/"]
+                origins: ORIGINS["mdpr.jp"]
             }, function(removed) {
                 state.canDownloadMobile = !removed;
             });
@@ -204,8 +256,10 @@ document.getElementById("downloadMobileCheck").addEventListener("click", functio
 
 let startFetchMdprMobileImages = function() {
     fetchMdprMobileImages(message.remoteImages["mdpr.jp"], function (images) {
+        state.addedCount = 0;
         for (const image of images) {
             if (message.images.indexOf(image) === -1) {
+                state.addedCount++;
                 message.images.push(image);
             }
         }
@@ -215,26 +269,22 @@ let startFetchMdprMobileImages = function() {
     state.startedFetchMobile = true;
     updatePopupUI();
 };
-chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-    chrome.permissions.contains({
-        origins: ["https://app2-mdpr.freetls.fastly.net/"]
-    }, function (granted) {
-        state.canDownloadMobile = granted;
-    });
 
+chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     let action = function (results) {
         console.debug(results);
         if (results && results.length) {
             message = results[0];
             if (message.remoteImages) {
-                if (message.remoteImages["mdpr.jp"] && message.remoteImages["mdpr.jp"].match(/^\d+$/)) {
+                if (message.remoteImages["mdpr.jp"]) {
                     chrome.permissions.contains({
-                        origins: ["https://app2-mdpr.freetls.fastly.net/"]
+                        origins: ORIGINS["mdpr.jp"]
                     }, function (granted) {
+                        state.canDownloadMobile = granted;
                         if (granted) {
-                            state.canDownloadMobile = granted;
                             startFetchMdprMobileImages();
                         }
+                        updatePopupUI();
                     });
                 }
             }

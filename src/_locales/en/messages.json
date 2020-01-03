@@ -22,7 +22,33 @@
     "description": "The title of a list of supported websites shown when the active tab is not supported"
   },
   "downloadMobileLabel": {
-    "message": "Change me",
+    "message": "App only images: Include ",
     "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
+  },
+  "downloadMobileStatusTextInProgress": {
+    "message": "⌛ App only images: Checking ",
+    "description": "The text for in progress fetching extra images"
+  },
+  "downloadMobileStatusTextSuccess": {
+    "message": "✔️ App only images: $NUMBER$",
+    "description": "The text for successfully fetching extra images",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "downloadMobileStatusTextNotFound": {
+    "message": "\uD83E\uDD37 App only images: Not found ",
+    "description": "The text for no extra images found (404)"
+  },
+  "downloadMobileStatusTextFailed": {
+    "message": "❌ App only images: Failed ",
+    "description": "The text for failed fetching extra images with any failure other than 404"
+  },
+  "downloadMobileStatusFailedHelp": {
+    "message": "help/help_en.html",
+    "description": "The link of help page"
   }
 }
