@@ -45,6 +45,15 @@ let downloadInBackground = function (chrome, image, resolve) {
     });
 };
 
+/**
+ * @param chrome
+ */
+let startDownloadInBackground = function (chrome) {
+    chrome.runtime.sendMessage({what: "start"}, function (response) {
+        console.debug("Background download started " +  response);
+    });
+};
+
 let displayInIframe = function(tabId, url, resolve, error) {
     chrome.tabs.sendMessage(tabId, {what: "showIframe", url: url}, function(response) {
         if (response) {
@@ -199,9 +208,11 @@ let updatePopupUI = function () {
 
 document.getElementById('download').addEventListener("click", function () {
     let imagesNeedTab = [];
+    let startBg = false;
     for (const image of message.images) {
         if (typeof image === "string") {
             downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
+            startBg = true;
         } else if (typeof image === "object") {
             if (image.websiteUrl && image.imageUrl) {
                 imagesNeedTab.push(image);
@@ -211,6 +222,10 @@ document.getElementById('download').addEventListener("click", function () {
         } else {
             console.error("event=unknown_type image=" + image);
         }
+    }
+
+    if (startBg) {
+        startDownloadInBackground(chrome);
     }
 
     if (imagesNeedTab.length) {

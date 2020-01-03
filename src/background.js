@@ -22,7 +22,7 @@ const getFileName = function(url, ext) {
 
 const addToDownloadQueue = function (chrome, image, resolve) {
     downloadQueue.push({image: image, resolve: resolve});
-    continueDownload(chrome);
+    //while (continueDownload(chrome)) {}
 };
 
 /**
@@ -47,10 +47,13 @@ const continueDownload = function (chrome) {
                 } else {
                     // Download failed.
                     inProgress--;
-                    continueDownload(chrome);
+                    while (continueDownload(chrome)) {}
                 }
             });
         updateBadge(getJobCount());
+        return true;
+    } else {
+        return false;
     }
 };
 
@@ -76,7 +79,7 @@ chrome.downloads.onChanged.addListener(function (downloadDelta) {
                 item.resolve.apply(undefined);
             }
             // Start another download if any
-            continueDownload(chrome);
+            while (continueDownload(chrome)) {}
         }
     }
 });
@@ -87,5 +90,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             sendResponse({what: "done", image: message.image});
         });
         return true;
+    } else if (message.what === "start") {
+        while (continueDownload(chrome)) {}
     }
 });
