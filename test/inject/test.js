@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 const testDirectDownload = require("./testbase").testDirectDownload;
-const pageutils = require("./pageutils");
+const pageutils = require("../pageutils");
 
 let browser;
 beforeAll(async () => {

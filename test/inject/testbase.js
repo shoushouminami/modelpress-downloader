@@ -11,6 +11,9 @@ const runFuncIfDefined = async function(func, args) {
     }
 };
 
+const resolvePath = function (relativePath) {
+    return __dirname + "/./" + relativePath;
+};
 /**
  *
  * @param browser
@@ -34,8 +37,8 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
     // callback hook to customize action after loading the page, such as scrolling
     await runFuncIfDefined(ops && ops['preinject'], [page]);
 
-    await page.addScriptTag({path: "./mock.js"});
-    await page.addScriptTag({path: "../src/inject.js"});
+    await page.addScriptTag({path: resolvePath("mock.js")});
+    await page.addScriptTag({path: resolvePath("../../src/inject.js")});
 
     const executionContext = await page.mainFrame().executionContext();
     const mid = await executionContext.evaluate("window._mid");
