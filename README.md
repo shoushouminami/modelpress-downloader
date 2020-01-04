@@ -1,15 +1,17 @@
 # Modelpress Image Downloader
 
-A Chrome Extension for batch downloading full size images from modelpress and other supported websites.
-https://chrome.google.com/webstore/detail/modelpress-image-download/nepeemhbchedjbebdekhpkhknljppmif
+This extension is custom made to download full size images from [a list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) including modelpress (mdpr.jp) and more.
+
+
+Chrome Webstore: https://chrome.google.com/webstore/detail/modelpress-image-download/nepeemhbchedjbebdekhpkhknljppmif
 
 ### Add More Websites
-If you have additional websites that you want support in this extension, please [post in the issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
+If you have additional websites that you want this extension to support, please [post on the issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
 
 ### Report Issues
-You can report bugs and issues by [posting in issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
+You can report bugs and issues by [posting on issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
 
-### Release Notes
+### Change Logs
 
 ###### 2.0 (2020/01/04)
 * Re-organize supported website list with bigger icons
