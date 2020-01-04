@@ -1,5 +1,5 @@
 (function(){
-    'use strict';
+    "use strict";
     /**
      * finds the article id from page
      */

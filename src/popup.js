@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 let getFileName = function(url, ext) {
     var filename = url.split("?")[0].split("/");
@@ -199,17 +199,17 @@ let updatePopupUI = function () {
 
             }
         } else {
-            document.getElementById('download').disabled = "disabled";
-            document.getElementById('download').innerText = chrome.i18n.getMessage("noImageMessage");
+            document.getElementById("download").disabled = "disabled";
+            document.getElementById("download").innerText = chrome.i18n.getMessage("noImageMessage");
         }
     } else {
-        document.getElementById('download').hidden = "hidden";
+        document.getElementById("download").hidden = "hidden";
         document.getElementById("supported-sites-title").innerText = chrome.i18n.getMessage("supportedSitesTitle");
         document.getElementById("supported-sites").hidden = false;
     }
 };
 
-document.getElementById('download').addEventListener("click", function () {
+document.getElementById("download").addEventListener("click", function () {
     let imagesNeedTab = [];
     let startBg = false;
     for (const image of message.images) {

@@ -11,6 +11,10 @@ You can report bugs and issues by [posting in issues page](https://github.com/sh
 
 ### Release Notes
 
+###### 2.0 (2020/01/04)
+* Re-organize supported website list with bigger icons
+* Add support for fetch App only images on mdpr.jp
+
 ###### 1.22 (2019/12/14)
 * Support new image store on blog.nogizaka46.com
 
