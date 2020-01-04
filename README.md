@@ -14,6 +14,12 @@ You can report bugs and issues by [posting in issues page](https://github.com/sh
 ###### 2.0 (2020/01/04)
 * Re-organize supported website list with bigger icons
 * Add support for fetch App only images on mdpr.jp
+** Help message about additional permission needed
+** Help message about fetch failures
+* Optimized download code on www.instagram.com
+** Removed legacy code 
+* Add support for bltweb.jp
+* Add experimental background download with concurrency control (turned off)
 
 ###### 1.22 (2019/12/14)
 * Support new image store on blog.nogizaka46.com
@@ -31,7 +37,7 @@ You can report bugs and issues by [posting in issues page](https://github.com/sh
 * Bug fix for blog.nogizaka46.com; Exclude invalid urls
 
 ###### 1.17 (2019/09/15)
-* Support popwave.jp and mikan-incomplete.com; 
+* Support popwave.jp and mikan-incomplete.com
 * Exclude .gif on blog.nogizaka46.com
  
 ###### 1.16 (2019/08/16)
@@ -54,8 +60,8 @@ You can report bugs and issues by [posting in issues page](https://github.com/sh
 * Support instagram.com
 
 ###### 1.8 (2019/06/19)
-* Fix the bug that failed to discover deep img tags. 
-Make recursive loop deeper and add exclude parameter.
+* Fix the bug that failed to discover deep img tags
+Make recursive loop deeper and add exclude parameter
 
 ###### 1.6 (2019/06/18)
 * Further reduce permissions by switching to iframe instead of tabs

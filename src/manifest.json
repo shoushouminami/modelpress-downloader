@@ -7,8 +7,7 @@
     "downloads"
   ],
   "optional_permissions": [
-    "http://*/",
-    "https://*/"
+    "https://app-mdpr.freetls.fastly.net/"
   ],
   "background": {
     "scripts": [
