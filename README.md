@@ -13,11 +13,11 @@ You can report bugs and issues by [posting in issues page](https://github.com/sh
 
 ###### 2.0 (2020/01/04)
 * Re-organize supported website list with bigger icons
-* Add support for fetch App only images on mdpr.jp
+* Add support to fetch App only images on mdpr.jp
   * Help message about additional permission needed
   * Help message about fetch failures
-* Optimized download code on www.instagram.com
-  * Removed legacy code 
+* Optimize download code on www.instagram.com
+  * Remove legacy code 
 * Add support for bltweb.jp
 * Add experimental background download with concurrency control (turned off)
 
