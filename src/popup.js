@@ -25,7 +25,8 @@ let download = function (chrome, image, resolve) {
             saveAs: false,
             method: "GET",
             filename: image.folder + getFileName(image.url, image.ext)
-        }, function () {
+        }, function (downloadId) {
+            console.log("downloadId=" + downloadId);
             if (resolve instanceof Function) {
                 resolve();
             }
@@ -331,17 +332,17 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
 let supportedSites = [
     "https://mdpr.jp/",
     "https://tokyopopline.com/",
-    "http://blog.nogizaka46.com/",
+    "https://news.dwango.jp",
+    "https://popwave.jp",
+    "https://mikan-incomplete.com",
+    "https://cancam.jp",
+    "https://bltweb.jp",
+    "https://blog.nogizaka46.com/",
     "https://twitter.com/",
     // ["https://www.instagram.com/", "instagram.com"],
     ["https://www.bilibili.com/read/home", "www.bilibili.com/read"],
-    "https://news.dwango.jp",
     "https://www.facebook.com",
-    "http://popwave.jp",
-    "https://mikan-incomplete.com",
     //"https://www.asahi.com/and_M/"
-    "https://cancam.jp",
-    "https://bltweb.jp"
 ];
 
 window.addEventListener("load", function(){
@@ -350,18 +351,23 @@ window.addEventListener("load", function(){
         let div = document.createElement("div");
         let img = document.createElement("img");
         let a = document.createElement("a");
-        div.appendChild(img);
-        div.appendChild(document.createTextNode(" "));
+
         div.appendChild(a);
+        // div.appendChild(document.createTextNode(" "));
+        div.classList.add("site");
 
         img.src = iconUrl;
         img.alt = siteUrl;
-        img.height = 10;
+        img.title = siteUrl;
+        img.classList.add("siteIcon");
+
         a.href = siteUrl;
-        a.innerText = displayUrl;
+        // a.innerText = displayUrl;
         a.addEventListener("click", function () {
             chrome.tabs.update({url:siteUrl});
         });
+        a.classList.add("siteLink");
+        a.appendChild(img);
 
         supportedSitesDiv.appendChild(div);
     };
@@ -369,10 +375,10 @@ window.addEventListener("load", function(){
     for (const site of supportedSites) {
         if (typeof site === "string") {
             let url = new URL(site);
-            appendSite("../images/" + url.host + ".ico", url.toString(), url.host + (url.pathname.length > 1 ?  (url.pathname) : ""));
+            appendSite("../images/" + url.host + ".png", url.toString(), url.host + (url.pathname.length > 1 ?  (url.pathname) : ""));
         } else if (Array.isArray(site)) {
             let url = new URL(site[0]);
-            appendSite("../images/" + url.host + ".ico", url.toString(), site[1]);
+            appendSite("../images/" + url.host + ".png", url.toString(), site[1]);
         }
     }
 }, false);

@@ -18,7 +18,7 @@
     "description": "The text on the button when there is no image found to download"
   },
   "supportedSitesTitle": {
-    "message": "Supported Websites:",
+    "message": "This Extension Works on:",
     "description": "The title of a list of supported websites shown when the active tab is not supported"
   },
   "downloadMobileLabel": {
