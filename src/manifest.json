@@ -9,12 +9,6 @@
   "optional_permissions": [
     "https://app-mdpr.freetls.fastly.net/"
   ],
-  "background": {
-    "scripts": [
-      "background.js"
-    ],
-    "persistent": false
-  },
   "browser_action": {
     "default_popup": "popup.html",
     "default_icons": {

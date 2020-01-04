@@ -150,6 +150,7 @@ let message = {
     remoteImages: {}, // for example {"mdpr.jp": "1234567"}
     ext: undefined,
     folder: undefined,
+    fromTabId: null,
 };
 
 let state = {
@@ -244,7 +245,7 @@ document.getElementById("download").addEventListener("click", function () {
 
         context.totalCount = imagesNeedTab.length;
         for (let image of imagesNeedTab) {
-            downloadWithIframe(chrome, image, context, tabs[0].id);
+            downloadWithIframe(chrome, image, context, message.fromTabId);
         }
     }
 });
@@ -294,6 +295,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         console.debug(results);
         if (results && results.length) {
             message = results[0];
+            message.fromTabId = tabs[0].id;
             if (message.remoteImages) {
                 if (message.remoteImages["mdpr.jp"]) {
                     chrome.permissions.contains({
