@@ -99,16 +99,17 @@ let fetchMdprMobileImages = function (articleId, callback){
         return null;
     }
 
-    // Test code
+    // Test code begins
     // setTimeout(function () {
-    //     state.fetchStatus = 200;
+    //     state.fetchStatus = 0;
     //     let arr = [];
-    //     for (let i = 0 ; i < 10; i++) {
+    //     for (let i = 0 ; i < 999; i++) {
     //         arr.push("abc" + i);
     //     }
     //     callback(arr);
     // }, 1000);
     // return;
+    // Test code ends
 
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "https://app-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&article_id=" + articleId, true);
@@ -171,6 +172,7 @@ let updatePopupUI = function () {
                     document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");
                     document.getElementById("downloadMobileCheck").checked = state.canDownloadMobile;
                     document.getElementById("downloadMobilePermission").hidden = false;
+                    document.getElementById("downloadMobilePermissionHelpLink").href = chrome.i18n.getMessage("downloadMobileStatusHelpLink");
                 } else {
                     document.getElementById("downloadMobilePermission").hidden = true;
                     document.getElementById("downloadMobileStatusHelpLink").hidden = true;
@@ -211,8 +213,9 @@ document.getElementById('download').addEventListener("click", function () {
     let startBg = false;
     for (const image of message.images) {
         if (typeof image === "string") {
-            downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
-            startBg = true;
+            // downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
+            // startBg = true;
+            download(chrome, {url: image, folder: message.folder, ext: message.ext});
         } else if (typeof image === "object") {
             if (image.websiteUrl && image.imageUrl) {
                 imagesNeedTab.push(image);

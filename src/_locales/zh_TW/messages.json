@@ -18,15 +18,15 @@
     "message": "支援的網站："
   },
   "downloadMobileLabel": {
-    "message": "下載App專有圖片？",
+    "message": "檢測App專享圖片：",
     "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
   },
   "downloadMobileStatusTextInProgress": {
-    "message": "⌛ App專有圖片：檢測中",
+    "message": "⌛ App專享圖片：檢測中",
     "description": "The text for in progress fetching extra images"
   },
   "downloadMobileStatusTextSuccess": {
-    "message": "✔️ App專有圖片：$NUMBER$",
+    "message": "✔️ App專享圖片：$NUMBER$張",
     "description": "The text for successfully fetching extra images",
     "placeholders": {
       "number": {
@@ -36,15 +36,19 @@
     }
   },
   "downloadMobileStatusTextNotFound": {
-    "message": "\uD83E\uDD37 App專有圖片：無",
+    "message": "\uD83E\uDD37 App專享圖片：無",
     "description": "The text for no extra images found (404)"
   },
   "downloadMobileStatusTextFailed": {
-    "message": "❌ App專有圖片：檢測失敗",
+    "message": "❌ App專享圖片：檢測失敗",
     "description": "The text for failed fetching extra images with any failure other than 404"
   },
   "downloadMobileStatusFailedHelp": {
     "message": "help/help_zh_TW.html",
     "description": "The link of help page"
+  },
+  "downloadMobileStatusHelpLink": {
+    "message": "help/permission_zh_TW.html",
+    "description": "The link that explains additional permission"
   }
 }

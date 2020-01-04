@@ -50,5 +50,9 @@
   "downloadMobileStatusFailedHelp": {
     "message": "help/help_en.html",
     "description": "The link of help page"
+  },
+  "downloadMobileStatusHelpLink": {
+    "message": "help/permission_en.html",
+    "description": "The link that explains additional permission"
   }
 }
