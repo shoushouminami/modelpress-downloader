@@ -1,6 +1,6 @@
 "use strict";
 
-let getFileName = function(url, ext) {
+const getFileName = function(url, ext) {
     var filename = url.split("?")[0].split("/");
     filename = filename[filename.length - 1];
     if (filename.indexOf(":") > -1) {
@@ -18,7 +18,7 @@ let getFileName = function(url, ext) {
  * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
  * @param resolve
  */
-let download = function (chrome, image, resolve) {
+const download = function (chrome, image, resolve) {
     chrome.downloads.download(
         {
             url: image.url,
@@ -35,13 +35,12 @@ let download = function (chrome, image, resolve) {
 
 /**
  * @param chrome
- * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
- * @param resolve
+ * @param images a list of objects: <code> {url: "", folder: "abc/", ext: "jpg"} </code>
  */
-let downloadInBackground = function (chrome, image, resolve) {
-    chrome.runtime.sendMessage({what: "download", image: image}, function (response) {
+const downloadInBackground = function (chrome, images) {
+    chrome.runtime.sendMessage({what: "download", images: images}, function (response) {
         if (response.what === "done") {
-            console.debug("Done: " + image.url);
+            console.debug("Done: " + images.length + " images");
         }
     });
 };
@@ -49,13 +48,13 @@ let downloadInBackground = function (chrome, image, resolve) {
 /**
  * @param chrome
  */
-let startDownloadInBackground = function (chrome) {
+const startDownloadInBackground = function (chrome) {
     chrome.runtime.sendMessage({what: "start"}, function (response) {
         console.debug("Background download started " +  response);
     });
 };
 
-let displayInIframe = function(tabId, url, resolve, error) {
+const displayInIframe = function(tabId, url, resolve, error) {
     chrome.tabs.sendMessage(tabId, {what: "showIframe", url: url}, function(response) {
         if (response) {
             if (response.status === "ok") {
@@ -75,7 +74,7 @@ let displayInIframe = function(tabId, url, resolve, error) {
     });
 };
 
-let downloadWithIframe = function (chrome, image, context, tabId) {
+const downloadWithIframe = function (chrome, image, context, tabId) {
     if (image.websiteUrl) {
         context.p = context.p.then(function () {
             return new Promise(function (resolve) {
@@ -94,7 +93,7 @@ let downloadWithIframe = function (chrome, image, context, tabId) {
 /**
  * get all images from mdpr mobile apis
  */
-let fetchMdprMobileImages = function (articleId, callback){
+const fetchMdprMobileImages = function (articleId, callback){
     if (!articleId || !articleId.match(/^\d+$/) || !callback || !(callback instanceof Function)) {
         console.error("Invalid article id: " + articleId + " or callback " + callback);
         return null;
@@ -165,7 +164,7 @@ const ORIGINS = {
     "mdpr.jp": ["https://app-mdpr.freetls.fastly.net/"]
 };
 
-let updatePopupUI = function () {
+const updatePopupUI = function () {
     if (message.supported) {
         if (message.images && message.images.length) {
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length]);
@@ -212,25 +211,25 @@ let updatePopupUI = function () {
 
 document.getElementById("download").addEventListener("click", function () {
     let imagesNeedTab = [];
+    let downloadInBg = [];
     let startBg = false;
     for (const image of message.images) {
         if (typeof image === "string") {
-            // downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
-            // startBg = true;
-            download(chrome, {url: image, folder: message.folder, ext: message.ext});
-        } else if (typeof image === "object") {
-            if (image.websiteUrl && image.imageUrl) {
-                imagesNeedTab.push(image);
-            } else {
-                console.error("event=unknown_object image=" + image);
-            }
+            downloadInBg.push({url: image, folder: message.folder, ext: message.ext});
+            // download(chrome, {url: image, folder: message.folder, ext: message.ext});
+        } else if (typeof image === "object" && image.websiteUrl && image.imageUrl) {
+            imagesNeedTab.push(image);
+        } else if (typeof image === "object" && image.url && image.retries) {
+            image.folder = message.folder;
+            image.ext = message.ext;
+            downloadInBg.push(image);
         } else {
             console.error("event=unknown_type image=" + image);
         }
     }
 
-    if (startBg) {
-        startDownloadInBackground(chrome);
+    if (downloadInBg.length > 0) {
+        downloadInBackground(chrome, downloadInBg);
     }
 
     if (imagesNeedTab.length) {
@@ -274,7 +273,7 @@ document.getElementById("downloadMobileCheck").addEventListener("click", functio
 
 });
 
-let startFetchMdprMobileImages = function() {
+const startFetchMdprMobileImages = function() {
     fetchMdprMobileImages(message.remoteImages["mdpr.jp"], function (images) {
         state.addedCount = 0;
         for (const image of images) {

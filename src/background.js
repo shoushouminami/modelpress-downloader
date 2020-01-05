@@ -2,9 +2,23 @@
 
 const downloadQueue = []; // Queue for regular downloads
 const inProgressMap = {};
-const CONCURRENT_LIMIT = 5;
+const CONCURRENT_LIMIT = 10;
 let inProgress = 0;
-let downloadPaused = false;
+let downloadCancelled = false;
+
+const incrementInProgress = function () {
+    inProgress++;
+    updateBadge(getJobCount());
+};
+
+const decrementInProgress = function () {
+    inProgress--;
+    if (inProgress < 0) {
+        inProgress = 0;
+    }
+
+    updateBadge(getJobCount());
+};
 
 const getFileName = function(url, ext) {
     let filename = url.split("?")[0].split("/");
@@ -20,21 +34,17 @@ const getFileName = function(url, ext) {
     return filename;
 };
 
-const addToDownloadQueue = function (chrome, image, resolve) {
-    downloadQueue.push({image: image, resolve: resolve});
-    //while (continueDownload(chrome)) {}
-};
-
 /**
  * Continues downloading all the jobs from the queue.
  * @param chrome
  */
 const continueDownload = function (chrome) {
     updateBadge(getJobCount());
-    if (!downloadPaused && inProgress < CONCURRENT_LIMIT && downloadQueue.length > 0) {
-        inProgress++;
+    if (!downloadCancelled && inProgress < CONCURRENT_LIMIT && downloadQueue.length > 0) {
+        incrementInProgress();
         let nextItem = downloadQueue.shift(); // get from the head of queue
         let image = nextItem.image;
+        console.debug("event=download_begin inProgress=" + inProgress + " inProgresssMap.size=" + Object.keys(inProgressMap).length);
         chrome.downloads.download(
             {
                 url: image.url,
@@ -43,10 +53,15 @@ const continueDownload = function (chrome) {
                 filename: image.folder + getFileName(image.url, image.ext)
             }, function (downloadId) {
                 if (downloadId) {
+                    console.debug("event=download_begin_successful inProgress=" + inProgress + " inProgresssMap.size=" + Object.keys(inProgressMap).length + " downloadId=" + downloadId);
                     inProgressMap[downloadId] = nextItem;
+                    if (downloadCancelled) {
+                        cancel();
+                    }
                 } else {
+                    console.debug("event=download_begin_failed inProgress=" + inProgress + " inProgresssMap.size=" + Object.keys(inProgressMap).length);
                     // Download failed.
-                    inProgress--;
+                    decrementInProgress();
                     while (continueDownload(chrome)) {}
                 }
             });
@@ -57,6 +72,25 @@ const continueDownload = function (chrome) {
     }
 };
 
+const cancel = function() {
+    console.log("Resetting... ");
+    downloadQueue.splice(0, downloadQueue.length);
+    downloadCancelled = true;
+    inProgress = 0;
+    for(const downloadId of Object.keys(inProgressMap)) {
+        console.log("event=cancel downloadId=" + downloadId);
+        try {
+            chrome.downloads.cancel(parseInt(downloadId), function () {
+                console.log("event=canceled downloadId=" + downloadId);
+            });
+        } catch (e) {
+            console.error("event=cancel_failed e=" + e);
+        }
+
+        delete inProgressMap[downloadId];
+    }
+    updateBadge(getJobCount());
+};
 /**
  * Number of download jobs that are pending (downloading or in the queue)
  */
@@ -72,7 +106,8 @@ chrome.downloads.onChanged.addListener(function (downloadDelta) {
     if (downloadDelta && downloadDelta.state && inProgressMap[downloadDelta.id]) {
         let item = inProgressMap[downloadDelta.id];
         if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
-            inProgress--;
+            console.debug("event=download_end downloadId=" + inProgressMap[downloadDelta.id] + " state=" + downloadDelta.state.current + " error=" + (downloadDelta.error && downloadDelta.error.current) +  " inProgress=" + inProgress + " inProgresssMap.size=" + Object.keys(inProgressMap).length);
+            decrementInProgress();
             delete inProgressMap[downloadDelta.id];
             // Call resolve if any
             if (item.resolve && item.resolve instanceof Function) {
@@ -84,13 +119,31 @@ chrome.downloads.onChanged.addListener(function (downloadDelta) {
     }
 });
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    if (message.what === "download") {
-        addToDownloadQueue(chrome, message.image, function(){
-            sendResponse({what: "done", image: message.image});
-        });
-        return true;
-    } else if (message.what === "start") {
-        while (continueDownload(chrome)) {}
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    switch (message.what) {
+        case "download" :
+            downloadCancelled = false;
+            console.debug("Received " + message.images.length + " jobs");
+            let count = 0;
+            for (const image of message.images) {
+                downloadQueue.push({
+                    image: image, resolve: function () {
+                        console.debug("Finished " + count + " jobs");
+                        count++;
+                        if (count === message.images.length) {
+                            sendResponse({what: "done", images: message.images});
+                        }
+                    }
+                });
+            }
+
+            while (continueDownload(chrome)) {
+            }
+            return true;
+            // break;
+        case "stop":
+            cancel();
+            sendResponse();
+            break;
     }
 });

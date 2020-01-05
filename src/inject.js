@@ -525,19 +525,28 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
 
 } else if (window.location.host === "bltweb.jp") {
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .entry-content img", m.filterTrailingResolutionNumbers));
-// } else if (window.location.host === "mantan-web.jp") {
-//     let getLargeImg = function(url) {
-//         if (url.endsWith("_thumb.jpg")) {
-//             return url.replace("_thumb.jpg", "_size10.jpg");
-//         } else if (url.endsWith("_thumb.jpeg")) {
-//             return url.replace("_thumb.jpeg", "_size10.jpeg");
-//         } else if (url.endsWith("_thumb.png")) {
-//             return url.replace("_thumb.png", "_size10.png");
-//         }
-//
-//         return url;
-//     };
-//     m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
+} else if (window.location.host === "mantan-web.jp") {
+    let getLargeImg = function(url) {
+        if (url.endsWith("_thumb.jpg")) {
+            return {url: url.replace("_thumb.jpg", "_size10.jpg"), retries: [
+                    url.replace("_thumb.jpg", "_size9.jpg"),
+                    url.replace("_thumb.jpg", "_size8.jpg")
+                ]};
+        } else if (url.endsWith("_thumb.jpeg")) {
+            return {url: url.replace("_thumb.jpeg", "_size10.jpeg"), retries: [
+                    url.replace("_thumb.jpeg", "_size9.jpeg"),
+                    url.replace("_thumb.jpeg", "_size8.jpeg")
+                ]};
+        } else if (url.endsWith("_thumb.png")) {
+            return {url: url.replace("_thumb.png", "_size10.png"), retries: [
+                    url.replace("_thumb.png", "_size9.png"),
+                    url.replace("_thumb.png", "_size8.png")
+                ]};
+        }
+
+        return url;
+    };
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
 } else {
     o.supported = false;
 }

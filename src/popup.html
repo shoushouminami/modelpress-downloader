@@ -50,17 +50,20 @@
         line-height: 1.3;
       }
 
-      /*#downloadMobileStatusIcon {*/
-      /*  display: inline-block;*/
-      /*  width: 8px;*/
-      /*}*/
-
+      #configLink {
+        display: inline-block;
+        /*position: inlin;*/
+        /*right: 5px;*/
+        /*top: 5px;*/
+        text-decoration: none;
+        line-height: 1.3;
+      }
 
     </style>
   </head>
   <body>
     <div>
-      <button id="download"><span id="buttonText"><span id="count">⌛</span></span></button>
+      <button id="download"><span id="buttonText"><span id="count">⌛</span></span></button><a href="config.html" id="configLink">⚙️</a>
     </div>
     <div id="downloadMobilePermission" hidden="hidden">
       <label id="downloadMobileLabel" for="downloadMobileCheck"></label>
