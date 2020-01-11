@@ -57,3 +57,4 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
 };
 
 exports.testDirectDownload = testDirectDownload;
+exports.resolvePath = resolvePath;

@@ -1,5 +1,6 @@
 "use strict";
 
+const retryMap = {}; // {downloadId: image}
 const downloadQueue = []; // Queue for regular downloads
 const inProgressMap = {};
 const CONCURRENT_LIMIT = 5;
@@ -58,6 +59,31 @@ const continueDownload = function (chrome) {
 };
 
 /**
+ * @param chrome
+ * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
+ * @param resolve
+ */
+const download = function (chrome, image, resolve) {
+    chrome.downloads.download(
+        {
+            url: image.url,
+            saveAs: false,
+            method: "GET",
+            filename: image.folder + getFileName(image.url, image.ext)
+        }, function (downloadId) {
+            console.log("downloadId=" + downloadId);
+            if (downloadId && image.retries && image.retries.length > 0) {
+                retryMap[downloadId] = image;
+            }
+
+            if (resolve instanceof Function) {
+                resolve();
+            }
+        });
+};
+
+
+/**
  * Number of download jobs that are pending (downloading or in the queue)
  */
 const getJobCount = function () {
@@ -69,28 +95,32 @@ const updateBadge = function (count){
 };
 
 chrome.downloads.onChanged.addListener(function (downloadDelta) {
-    if (downloadDelta && downloadDelta.state && inProgressMap[downloadDelta.id]) {
-        let item = inProgressMap[downloadDelta.id];
+    if (downloadDelta && downloadDelta.state && retryMap[downloadDelta.id]) {
         if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
-            inProgress--;
-            delete inProgressMap[downloadDelta.id];
-            // Call resolve if any
-            if (item.resolve && item.resolve instanceof Function) {
-                item.resolve.apply(undefined);
+            let image = retryMap[downloadDelta.id];
+            delete retryMap[downloadDelta.id];
+            if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === "SERVER_BAD_CONTENT") {
+                console.log("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
+                image.url = image.retries.shift();
+                download(chrome, image);
             }
-            // Start another download if any
-            while (continueDownload(chrome)) {}
         }
     }
 });
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.what === "download") {
-        addToDownloadQueue(chrome, message.image, function(){
-            sendResponse({what: "done", image: message.image});
-        });
+        console.debug("Received " + message.images.length + " jobs");
+        let count = 0;
+        for (const image of message.images) {
+            download(chrome, image, function () {
+                console.debug("Started " + count + " jobs");
+                count++;
+                if (count === message.images.length) {
+                    sendResponse({what: "done", images: message.images});
+                }
+            });
+        }
         return true;
-    } else if (message.what === "start") {
-        while (continueDownload(chrome)) {}
     }
 });

@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const testDirectDownload = require("./testbase").testDirectDownload;
+const {testDirectDownload, resolvePath} = require("./testbase");
 const pageutils = require("../pageutils");
 
 let browser;
@@ -38,8 +38,8 @@ test("Test http://blog.nogizaka46.com/fourth/2019/06/051125.php", async () => {
 test("Image url is in href of parent A node and hosted on awalker.jp", async () => {
     const page = await browser.newPage();
     await page.goto("http://blog.nogizaka46.com/momoko.oozono/2019/09/052573.php");
-    await page.addScriptTag({path: "./mock.js"});
-    await page.addScriptTag({path: "../src/inject.js"});
+    await page.addScriptTag({path: resolvePath("./mock.js")});
+    await page.addScriptTag({path: resolvePath("../../src/inject.js")});
 
     const executionContext = await page.mainFrame().executionContext();
     const mid = await executionContext.evaluate("window._mid");
@@ -149,8 +149,8 @@ test("Twitter tweet with 1 image", async () => {
     const page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto("https://twitter.com/nogizaka46/status/1149196527375511552");
-    await page.addScriptTag({path: "./mock.js"});
-    await page.addScriptTag({path: "../src/inject.js"});
+    await page.addScriptTag({path: resolvePath("./mock.js")});
+    await page.addScriptTag({path: resolvePath("../../src/inject.js")});
 
     const executionContext = await page.mainFrame().executionContext();
     const mid = await executionContext.evaluate("window._mid");
@@ -173,8 +173,8 @@ test("Twitter tweet with 2 images", async () => {
     const page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto("https://twitter.com/nogizaka_goods/status/1149876704451497984");
-    await page.addScriptTag({path: "./mock.js"});
-    await page.addScriptTag({path: "../src/inject.js"});
+    await page.addScriptTag({path: resolvePath("./mock.js")});
+    await page.addScriptTag({path: resolvePath("../../src/inject.js")});
 
     const executionContext = await page.mainFrame().executionContext();
     const mid = await executionContext.evaluate("window._mid");
