@@ -4,7 +4,7 @@
 npm install
 ```
 
-### Run Test
+### Run tests
 ```
 npm test
 ```

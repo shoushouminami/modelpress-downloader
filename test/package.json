@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nealxyc/modelpress-downloader.git"
+    "url": "git+https://github.com/shoushouminami/modelpress-downloader"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nealxyc/modelpress-downloader/issues"
+    "url": "https://github.com/shoushouminami/modelpress-downloader/issues"
   },
-  "homepage": "https://github.com/nealxyc/modelpress-downloader#readme",
+  "homepage": "https://github.com/shoushouminami/modelpress-downloader#readme",
   "dependencies": {},
   "devDependencies": {
     "jasmine": "^3.5.0",
