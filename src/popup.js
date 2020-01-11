@@ -348,14 +348,15 @@ const supportedSites = [
     "https://news.dwango.jp",
     "https://popwave.jp",
     "https://mikan-incomplete.com",
+    "https://mantan-web.jp",
     "https://cancam.jp",
     "https://bltweb.jp",
     "https://blog.nogizaka46.com/",
     "https://twitter.com/",
     // ["https://www.instagram.com/", "instagram.com"],
-    ["https://www.bilibili.com/read/home", "www.bilibili.com/read"],
     "https://www.facebook.com",
     //"https://www.asahi.com/and_M/"
+    ["https://www.bilibili.com/read/home", "www.bilibili.com/read"]
 ];
 
 window.addEventListener("load", function(){
