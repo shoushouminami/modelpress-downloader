@@ -133,7 +133,13 @@ var m = {
      * Helper method to push value into list if it is not yet in the list.
      */
     pushIfNew: function(list, value){
-        if (list.indexOf(value) === -1) {
+        if (typeof value === "object" && value.url) {
+            if (list.findIndex(function (elem) {
+                return elem.url && (elem.url === value.url);
+            }) === -1) {
+                list.push(value);
+            }
+        } else if (list.indexOf(value) === -1) {
             list.push(value);
         }
     },
@@ -431,8 +437,12 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
         if (slash > -1) {
             let smallFile = url.substring(slash + 1);
             if (smallFile.startsWith("sm_") || smallFile.startsWith("lg_")) {
-                return url.substring(0, slash + 1) + smallFile.replace(/sm_|lg_/, "");
+                url = url.substring(0, slash + 1) + smallFile.replace(/sm_|lg_/, "");
             }
+        }
+
+        if (url.indexOf("://news-img.dwango.jp/") > -1) {
+            return {url: url.replace("://news-img.dwango.jp/", "://green-img-news-dwango-jp-prod.s3.amazonaws.com/"), retries: [url]};
         }
 
         return url;
