@@ -13,6 +13,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.1 (2020/01/011)
+* Supports mantan-web.jp
+* Downloads from S3 bucket for news.dwango.jp
+
 ###### 2.0 (2020/01/04)
 * Re-organize supported website list with bigger icons
 * Add support to fetch App only images on mdpr.jp
