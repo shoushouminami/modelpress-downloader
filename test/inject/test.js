@@ -109,6 +109,17 @@ test("Image url is in href of parent A node but hosted on blog.nogizaka46.com", 
         ]);
 });
 
+test("Image url is in href of parent A node but hosted on blog.nogizaka46.com", async () => {
+    await testDirectDownload(
+        browser,
+        "http://blog.nogizaka46.com/staff/2017/07/039636.php",
+        "blog.nogizaka46.com-staff-2017-07-039636.php/",
+        [
+            "http://img.nogizaka46.com/blog/staff/img/2017/07/05/%E2%91%A0%E9%A3%9B%E9%B3%A5.JPG",
+            "http://img.nogizaka46.com/blog/staff/img/2017/07/05/%E2%91%A1%E4%BA%95%E4%B8%8A.JPG",
+        ].concat(dummyItems(21)));
+});
+
 // Test mdpr.jp
 test("Test https://mdpr.jp/news/detail/1844622", async () => {
     await testDirectDownload(

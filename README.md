@@ -13,7 +13,7 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
-###### 2.1 (2020/01/011)
+###### 2.1 (2020/01/11)
 * Supports mantan-web.jp
 * Downloads from S3 bucket for news.dwango.jp
 

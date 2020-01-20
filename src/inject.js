@@ -148,7 +148,7 @@ var m = {
      */
     getAwalkerImgUrl: function(link) {
         // http://dcimg.awalker.jp/v/rAI1PQ4Vqr0oyhGsyjQMEe4ylHLHwFRREUKDf5gUB67S5P4nMxJDt6tjNJEtjsIWbkH9ktHTZnX6b2u5WGbD6EMA8dVGBmdDbMMe5q9KSkRrA3ZVHNGIIkxSGMjOuGz4UQAbndAJW85FPLF9l7BsY3KI314EOP3VDtli6OyX4rPrf9XgYF2m7myaauc1kCWEdQi1bOh0
-        if (link.match(/*awalker.jp/v/*/)) {
+        if (link.match(/.*awalker\.jp\/v\/.*/)) {
             return link.replace("awalker.jp/v/", "awalker.jp/i/") + ".jpg";
         }
 
@@ -249,9 +249,9 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     if (sheet) {
         var imgs = m.findAllImageDOMsFromRoot(sheet, {"ids": ["comments"]});
         for (const img of imgs) {
-            if (img.parentElement instanceof HTMLAnchorElement &&
-                img.parentElement.href && img.parentElement.href.indexOf("//blog.nogizaka46.com/" > -1) &&
-                (img.parentElement.href.endsWith(".jpg") || img.parentElement.href.endsWith(".png"))) {
+            if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href
+                && (img.parentElement.href.indexOf("//blog.nogizaka46.com/") > -1 || img.parentElement.href.indexOf("//img.nogizaka46.com/"))
+                && (img.parentElement.href.toLowerCase().endsWith(".jpg") || img.parentElement.href.toLowerCase().endsWith(".png"))) {
                 o.images.push(img.parentElement.href);
             } else if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href &&
                 m.getAwalkerImgUrl(img.parentElement.href)) {
@@ -259,7 +259,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
                     imageUrl: m.getAwalkerImgUrl(img.parentElement.href),
                     websiteUrl: img.parentElement.href
                 });
-            } else if (!img.src.endsWith(".gif") && !img.src.endsWith(".php")) {
+            } else if (!img.src.toLowerCase().endsWith(".gif") && !img.src.toLowerCase().endsWith(".php")) {
                 o.images.push(img.src);
             }
         }
