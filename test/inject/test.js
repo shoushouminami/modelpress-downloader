@@ -451,7 +451,7 @@ test("Test natalie.mu news page", async () => {
 test("Test natalie.mu gallery page", async () => {
     await testDirectDownload(
         browser,
-        " https://natalie.mu/eiga/gallery/news/363868/1317326",
+        "https://natalie.mu/eiga/gallery/news/363868/1317326",
         "natalie.mu-eiga-gallery-news-363868-1317326/",
         ["https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_02.jpg?imtype=jpg",
             "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_01.jpg?imtype=jpg",
@@ -463,8 +463,26 @@ test("Test natalie.mu gallery page", async () => {
 test("Test natalie.mu single image page", async () => {
     await testDirectDownload(
         browser,
-        " https://natalie.mu/eiga/news/363866",
+        "https://natalie.mu/eiga/news/363866",
         "natalie.mu-eiga-news-363866/",
         ["https://ogre.natalie.mu/media/news/eiga/2020/0120/Mujica_202001_01.jpg?imtype=jpg"]);
 });
 
+// https://girlswalker.com
+test("Test girlswalker.com article page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://girlswalker.com/archives/238732/",
+        "girlswalker.com-archives-238732-/",
+        ["https://girlswalker.com/wp-content/uploads/2020/01/0d40a5e4a645fc6b96e767d64ac0878e-6.jpg",
+            "https://girlswalker.com/wp-content/uploads/2020/01/384b71410a13f6e7eb9fbe615a00b656.jpg"]);
+});
+
+test("Test girlswalker.com gallery page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://girlswalker.com/archives/238732/%e7%84%a1%e9%a1%8c-48/",
+        "girlswalker.com-archives-238732-%e7%84%a1%e9%a1%8c-48-/",
+        ["https://girlswalker.com/wp-content/uploads/2020/01/0d40a5e4a645fc6b96e767d64ac0878e-6.jpg",
+            "https://girlswalker.com/wp-content/uploads/2020/01/384b71410a13f6e7eb9fbe615a00b656.jpg"]);
+});

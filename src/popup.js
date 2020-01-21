@@ -350,6 +350,7 @@ const supportedSites = [
     "https://mikan-incomplete.com",
     "https://mantan-web.jp",
     "https://natalie.mu/",
+    "https://girlswalker.com/",
     "https://cancam.jp",
     "https://bltweb.jp",
     "https://blog.nogizaka46.com/",

@@ -133,14 +133,16 @@ var m = {
      * Helper method to push value into list if it is not yet in the list.
      */
     pushIfNew: function(list, value){
-        if (typeof value === "object" && value.url) {
-            if (list.findIndex(function (elem) {
-                return elem.url && (elem.url === value.url);
-            }) === -1) {
+        if (value) {
+            if (typeof value === "object" && value.url) {
+                if (list.findIndex(function (elem) {
+                    return elem.url && (elem.url === value.url);
+                }) === -1) {
+                    list.push(value);
+                }
+            } else if (list.indexOf(value) === -1) {
                 list.push(value);
             }
-        } else if (list.indexOf(value) === -1) {
-            list.push(value);
         }
     },
     /**
@@ -570,6 +572,16 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     // let imgs = document.querySelectorAll("#NA_main figure .NA_figure img");
     for (const img of m.findImagesWithCssSelector(document, "#NA_main figure .NA_figure img", m.removeQuery)) {
         m.pushIfNew(o.images, img + "?imtype=jpg");
+    }
+} else if (window.location.host === "girlswalker.com") {
+    let divs = document.querySelectorAll("article.gw-content-wrap ul.gw-content__entry-thumbnail-list a div.gw-content__entry-thumbnail-list__item-image");
+    let pattern = /^url\("(https?:\/\/.*\.(jpg|png))"\)$/i;
+    if (divs && divs.length) {
+        for (const div of divs) {
+            if (div.style && div.style.backgroundImage && div.style.backgroundImage.match(pattern)) {
+                m.pushIfNew(o.images, div.style.backgroundImage.match(pattern)[1]);
+            }
+        }
     }
 } else {
     o.supported = false;
