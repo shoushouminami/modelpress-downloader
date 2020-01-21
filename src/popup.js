@@ -349,6 +349,7 @@ const supportedSites = [
     "https://popwave.jp",
     "https://mikan-incomplete.com",
     "https://mantan-web.jp",
+    "https://natalie.mu/",
     "https://cancam.jp",
     "https://bltweb.jp",
     "https://blog.nogizaka46.com/",
