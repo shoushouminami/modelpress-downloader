@@ -13,6 +13,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.2 (2020/01/20)
+* Support natalie.mu
+* Support girlswalker.com
+* Bug fix on blog.nogizaka46.com
+
 ###### 2.1 (2020/01/11)
 * Supports mantan-web.jp
 * Downloads from S3 bucket for news.dwango.jp
