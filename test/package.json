@@ -26,6 +26,7 @@
     "jest-puppeteer": "^4.3.0",
     "mocha": "^6.2.0",
     "node": "^12.11.0",
-    "puppeteer": "^2.0.0"
+    "puppeteer": "2.0.0",
+    "chromium": "2.0.0"
   }
 }
