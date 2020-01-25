@@ -21,7 +21,7 @@ beforeAll(async () => {
             "--lang=zh-CN,zh",
             "--no-sandbox"
         ],
-        executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+        // executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
     });
 });
 

@@ -1,5 +1,6 @@
 .*
 !.gitignore
+!.travis.yml
 *.iml
 build
 node_modules

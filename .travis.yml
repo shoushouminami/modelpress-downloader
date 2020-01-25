@@ -1,0 +1,9 @@
+dist: bionic
+language: node_js
+node_js:
+  - 12
+cache: npm
+git:
+  depth: 1
+before_install: cd test
+
