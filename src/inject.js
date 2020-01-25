@@ -514,7 +514,7 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     };
     m.pushArray(o.images, m.findImagesWithCssSelector(document, ".l-article__content img", getLargeImg));
 } else if (window.location.host === "cancam.jp") {
-    let re = /^http.*cancam\.jp\/wp-content\/uploads\/.*-[0-9]+x[0-9]+\.jpg$/;
+    let re = /^http.*cancam\.jp\/.*uploads\/.*-[0-9]+x[0-9]+\.jpg$/;
     let getLargeImg = function (src) {
         if (src.match(re)) {
             var l = src.split("-");
