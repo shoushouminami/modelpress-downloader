@@ -15,5 +15,3 @@ before_install:
   - "sysctl kernel.unprivileged_userns_clone=1"
   - "make"
   - "cd test"
-before_script:
-  - "cd test"
