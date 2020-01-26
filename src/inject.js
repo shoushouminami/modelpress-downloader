@@ -593,6 +593,11 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
 
         return url;
     }));
+} else if (window.location.host === "dogatch.jp") {
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main div.inner img", null));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main div.slick-list img", null));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main img.ptph", null));
+
 } else {
     o.supported = false;
 }
