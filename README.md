@@ -1,4 +1,4 @@
-# Modelpress Image Downloader
+# Modelpress Image Downloader [![Build Status](https://travis-ci.org/shoushouminami/modelpress-downloader.svg?branch=master)](https://travis-ci.org/shoushouminami/modelpress-downloader)
 
 This extension is custom made to download full size images from [a list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) including modelpress (mdpr.jp) and more.
 
