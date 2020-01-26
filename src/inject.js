@@ -583,6 +583,16 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             }
         }
     }
+} else if (window.location.host === "this.kiji.is") {
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.main__articleBody img", (url) => {
+        let re = /https?:\/\/nordot-res.cloudinary.com\/(.*\/)ch\/images\/.*\.jpg/;
+        let m = url.match(re);
+        if (m && m[1]) {
+            return url.replace(m[1], "");
+        }
+
+        return url;
+    }));
 } else {
     o.supported = false;
 }

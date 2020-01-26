@@ -351,6 +351,7 @@ const supportedSites = [
     "https://mantan-web.jp",
     "https://natalie.mu/",
     "https://girlswalker.com/",
+    "https://cms.nordot.jp/search/allstories",
     "https://cancam.jp",
     "https://bltweb.jp",
     "https://blog.nogizaka46.com/",

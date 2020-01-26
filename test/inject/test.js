@@ -486,3 +486,15 @@ test("Test girlswalker.com gallery page", async () => {
         ["https://girlswalker.com/wp-content/uploads/2020/01/0d40a5e4a645fc6b96e767d64ac0878e-6.jpg",
             "https://girlswalker.com/wp-content/uploads/2020/01/384b71410a13f6e7eb9fbe615a00b656.jpg"]);
 });
+
+// https://this.kiji.is/
+test("Test this.kiji.is news page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://this.kiji.is/594004166910264417",
+        "this.kiji.is-594004166910264417/",
+        ["https://nordot-res.cloudinary.com/ch/images/594004137030304865/origin_1.jpg",
+            "https://nordot-res.cloudinary.com/ch/images/594004146601296993/origin_1.jpg",
+            "https://nordot-res.cloudinary.com/ch/images/594004152825709665/origin_1.jpg",
+            "https://nordot-res.cloudinary.com/ch/images/594004158265787489/origin_1.jpg"]);
+});
