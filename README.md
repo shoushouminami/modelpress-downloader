@@ -16,6 +16,7 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 ###### 2.3 (2020/01/26)
 * Support dogatch.jp
 * Support this.kiji.is
+* Automated tests (inject.js) on Travis.ci
 
 ###### 2.2 (2020/01/20)
 * Support natalie.mu
