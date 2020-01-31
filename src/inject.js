@@ -597,7 +597,26 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main div.inner img", null));
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main div.slick-list img", null));
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main img.ptph", null));
-
+} else if (window.location.host === "thetv.jp") {
+    let pattern = /^url\("(https?:\/\/.*\.(jpg|png))\??.*"\)$/i;
+    let links = document.querySelectorAll("div.mainContent div.galleryArea ul.list_thumbnail li.list_thumbnail__item a");
+    if (links.length) {
+        for (const link of links) {
+            if (link.style.backgroundImage.match(pattern)) {
+                m.pushIfNew(o.images, link.style.backgroundImage.match(pattern)[1]);
+            }
+        }
+    }
+} else if (window.location.host === "apress.jp") {
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content figure.gallery-item img", m.filterTrailingResolutionNumbers));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content figure.entry-thumbnail img", m.filterTrailingResolutionNumbers));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content p img", m.filterTrailingResolutionNumbers));
+} else if (window.location.host === "news.mynavi.jp") {
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.article div.article-body ul.photo_table img.photo_table__img", (url) => {
+        if (url.endsWith(".jpg")) {
+            return url.replace(".jpg", "l.jpg");
+        }
+    }));
 } else {
     o.supported = false;
 }

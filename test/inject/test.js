@@ -538,3 +538,55 @@ test("Test dogatch.jp single image article", async () => {
         "dogatch.jp-news-nhk-73941-detail-/",
         ["https://dogatch-static-data.s3-ap-northeast-1.amazonaws.com/prod/kanren_news/20200124/b3d4f1b0e973c0c707f8f7a1ca28f6cb.jpg"]);
 });
+
+//
+test("Test thetv.jp image page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://thetv.jp/news/detail/204813/1245284/",
+        "thetv.jp-news-detail-204813-1245284-/",
+        ["https://thetv.jp/i/nw/204813/1245283.jpg",
+            "https://thetv.jp/i/nw/204813/1245284.jpg",
+            "https://thetv.jp/i/nw/204813/1245285.jpg",
+            "https://thetv.jp/i/nw/204813/1245286.jpg",
+            "https://thetv.jp/i/nw/204813/1245287.jpg"]);
+});
+
+test("Test thetv.jp article page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://thetv.jp/news/detail/204813/",
+        "thetv.jp-news-detail-204813-/",
+        ["https://thetv.jp/i/nw/204813/1245283.jpg",
+            "https://thetv.jp/i/nw/204813/1245284.jpg",
+            "https://thetv.jp/i/nw/204813/1245285.jpg",
+            "https://thetv.jp/i/nw/204813/1245286.jpg",
+            "https://thetv.jp/i/nw/204813/1245287.jpg"],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollToBottom(page);
+            }
+        });
+});
+
+test("Test apress.jp article with only embeded image", async () => {
+    await testDirectDownload(
+        browser,
+        "https://apress.jp/archives/10032",
+        "apress.jp-archives-10032/",
+        ["https://apress.jp/wp-content/uploads/2020/01/unnamed-file-1-3622492935-1578220996437.jpg",
+            "https://apress.jp/wp-content/uploads/2020/01/unnamed-file.jpg"]);
+});
+
+test("Test apress.jp article with image gallery", async () => {
+    await testDirectDownload(
+        browser,
+        "https://apress.jp/archives/10040",
+        "apress.jp-archives-10040/",
+        ["https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020-01684.jpg",
+            "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020-01685.jpg",
+            "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020-01697.jpg",
+            "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020-01700.jpg",
+            "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020-01710.jpg",
+            "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020%E3%82%A2%E3%82%A4%E3%82%AD%E3%83%A3%E3%83%83%E3%83%81-01850.jpg"].concat(dummyItems(35)));
+});
