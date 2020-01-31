@@ -165,7 +165,7 @@ test("Test https://www.bilibili.com/read/cv2820325", async () => {
 });
 
 // Twitter
-test("Twitter tweet with 1 image", async () => {
+test.skip("Twitter tweet with 1 image", async () => {
     const page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto("https://twitter.com/nogizaka46/status/1149196527375511552", {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
@@ -189,10 +189,10 @@ test("Twitter tweet with 1 image", async () => {
     page.close();
 });
 
-test("Twitter tweet with 2 images", async () => {
+test.skip("Twitter tweet with 2 images", async () => {
     const page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto("https://twitter.com/nogizaka_goods/status/1149876704451497984", {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+    await page.goto("https://twitter.com/nogizaka_goods/status/1149876704451497984", {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]});
     await page.addScriptTag({path: resolvePath("./mock.js")});
     await page.addScriptTag({path: resolvePath("../../src/inject.js")});
 
