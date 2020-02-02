@@ -13,6 +13,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.4 (2020/02/02)
+* Support thetv.jp
+* Support apress.jp
+* Support news.mynavi.jp
+* Support times.abema.tv
+
 ###### 2.3 (2020/01/26)
 * Support dogatch.jp
 * Support this.kiji.is

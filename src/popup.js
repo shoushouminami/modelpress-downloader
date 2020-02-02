@@ -344,11 +344,15 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
 
 const supportedSites = [
     "https://mdpr.jp/",
+    "https://times.abema.tv/",
+    "https://news.mynavi.jp/",
     "https://tokyopopline.com/",
     "https://news.dwango.jp",
     "https://popwave.jp",
     "https://mikan-incomplete.com",
     "https://mantan-web.jp",
+    "https://thetv.jp/",
+    "https://apress.jp/",
     "https://natalie.mu/",
     "https://girlswalker.com/",
     "https://this.kiji.is/",
