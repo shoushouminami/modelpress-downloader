@@ -4,7 +4,7 @@ const wait = function(time) {
     })
 };
 
-const scrollToBottom = async function(page) {
+const scrollToBottom = async function(page, waitTimeMs = 300) {
    // Get the height of the rendered page
     const bodyHandle = await page.$('body');
     const height = await page.evaluate(body => body.scrollHeight, bodyHandle);
@@ -17,7 +17,7 @@ const scrollToBottom = async function(page) {
         await page.evaluate(_viewportHeight => {
             window.scrollBy(0, _viewportHeight);
         }, viewportHeight);
-        await wait(300);
+        await wait(waitTimeMs);
         viewportIncr += viewportHeight;
     }
 
