@@ -117,7 +117,7 @@ var m = {
      * Removes the query part of the given url
      */
     removeQuery: function (url) {
-        return url.split("?")[0];
+        return url.split("\?")[0];
     },
     /**
      * Helper method to push all elements from newList into list.
@@ -607,16 +607,29 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
             }
         }
     }
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.contentPhotoLerge figure img", m.removeQuery));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.contentText div.alignCenterPhoto img", m.removeQuery));
+    // matome
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.fullWidthImages img", m.removeQuery));
+    // program
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.pp_prg_data img.pp_prg_img", m.removeQuery));
+} else if (window.location.host === "talent.thetv.jp") {
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.personData figure.personDataVisual img", m.removeQuery));
 } else if (window.location.host === "apress.jp") {
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content figure.gallery-item img", m.filterTrailingResolutionNumbers));
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content figure.entry-thumbnail img", m.filterTrailingResolutionNumbers));
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content p img", m.filterTrailingResolutionNumbers));
 } else if (window.location.host === "news.mynavi.jp") {
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.article div.article-body ul.photo_table img.photo_table__img", (url) => {
+    let getLargeImg = (url) => {
         if (url.endsWith(".jpg")) {
             return url.replace(".jpg", "l.jpg");
         }
-    }));
+    };
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.article div.article-body ul.photo_table img.photo_table__img", getLargeImg));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main div.box ul li a img", getLargeImg));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.article div.article-body div.photo_right img"));
+} else if (window.location.host === "times.abema.tv") {
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.blog-article div.blog-body__item a.img__item img", m.removeQuery));
 } else {
     o.supported = false;
 }

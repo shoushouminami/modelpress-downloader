@@ -569,6 +569,30 @@ test("Test thetv.jp article page", async () => {
         });
 });
 
+test("Test talent.thetv.jp single image", async () => {
+    await testDirectDownload(
+        browser,
+        "https://talent.thetv.jp/person/1000031439/",
+        "talent.thetv.jp-person-1000031439-/",
+        ["https://thetv.jp/i/tl/100/0031/1000031439_r.jpg"]);
+});
+
+test("Test thetv.jp program home page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://thetv.jp/program/0000974553/",
+        "thetv.jp-program-0000974553-/",
+        ["https://thetv.jp/i/pg/series_images/0000974553_k.jpg"]);
+});
+
+test("Test thetv.jp matome home page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://thetv.jp/feature/matome/725/",
+        "thetv.jp-feature-matome-725-/",
+        ["https://thetv.jp/i/nw/matome/725.jpg"]);
+});
+
 test("Test apress.jp article with only embeded image", async () => {
     await testDirectDownload(
         browser,
@@ -589,4 +613,76 @@ test("Test apress.jp article with image gallery", async () => {
             "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020-01700.jpg",
             "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020-01710.jpg",
             "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020%E3%82%A2%E3%82%A4%E3%82%AD%E3%83%A3%E3%83%83%E3%83%81-01850.jpg"].concat(dummyItems(35)));
+});
+
+// news.mynavi.jp
+test("Test news.mynavi.jp article page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://news.mynavi.jp/article/20190612-842046/",
+        "news.mynavi.jp-article-20190612-842046-/",
+        ["https://news.mynavi.jp/article/20190612-842046/images/001l.jpg",
+            "https://news.mynavi.jp/article/20190612-842046/images/002l.jpg",
+            "https://news.mynavi.jp/article/20190612-842046/images/003l.jpg",
+            "https://news.mynavi.jp/article/20190612-842046/images/004l.jpg",
+            "https://news.mynavi.jp/article/20190612-842046/images/005l.jpg"].concat(dummyItems(12)),
+        {
+            preinject: async function (page) {
+                await pageutils.scrollToBottom(page);
+            }
+        })
+});
+
+test("Test news.mynavi.jp image gallery", async () => {
+    await testDirectDownload(
+        browser,
+        "https://news.mynavi.jp/photo/article/20190612-842046/images/001l.jpg",
+        "news.mynavi.jp-photo-article-20190612-842046-images-001l.jpg/",
+        ["https://news.mynavi.jp/article/20190612-842046/images/001l.jpg",
+            "https://news.mynavi.jp/article/20190612-842046/images/002l.jpg",
+            "https://news.mynavi.jp/article/20190612-842046/images/003l.jpg",
+            "https://news.mynavi.jp/article/20190612-842046/images/004l.jpg",
+            "https://news.mynavi.jp/article/20190612-842046/images/005l.jpg"].concat(dummyItems(12)));
+});
+
+test("Test news.mynavi.jp article with only inline image", async () => {
+    await testDirectDownload(
+        browser,
+        "https://news.mynavi.jp/article/20200201-965589/",
+        "news.mynavi.jp-article-20200201-965589-/",
+        ["https://news.mynavi.jp/article/20200201-965589/index_images/index.jpg"]
+    );
+});
+
+// times.abema.tv
+test("Test times.abema.tv article with images", async () => {
+    await testDirectDownload(
+        browser,
+        "https://times.abema.tv/posts/7039728",
+        "times.abema.tv-posts-7039728/",
+        ["https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_0.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_1.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_2.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_3.jpg"],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollToBottom(page);
+            }
+        });
+});
+
+test("Test times.abema.tv article with images 2", async () => {
+    await testDirectDownload(
+        browser,
+        "https://times.abema.tv/posts/7006935",
+        "times.abema.tv-posts-7006935/",
+        ["https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_0.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_13.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_1.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_2.jpg"].concat(dummyItems(10)),
+        {
+            preinject: async function (page) {
+                await pageutils.scrollToBottom(page);
+            }
+        });
 });
