@@ -615,6 +615,28 @@ test("Test apress.jp article with image gallery", async () => {
             "https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020%E3%82%A2%E3%82%A4%E3%82%AD%E3%83%A3%E3%83%83%E3%83%81-01850.jpg"].concat(dummyItems(35)));
 });
 
+test("Test apress.jp article with more embeded images", async () => {
+    await testDirectDownload(
+        browser,
+        "https://apress.jp/archives/378",
+        "apress.jp-archives-378/",
+        ["https://apress.jp/wp-content/uploads/2017/08/44cacae9afc2f9b93fb1a26dfe515c93_d48380ce590f730b18556f6b96b1d2fc.jpg",
+            "https://cdn.amebaowndme.com/madrid-prd/madrid-web/images/sites/230815/724e5d568af58369b725a44834745548_ae5718e59903e9bba754a36ab9f61bb6.jpg",
+            "https://cdn.amebaowndme.com/madrid-prd/madrid-web/images/sites/230815/940046f44740816dd1ced5a728274cc1_355b7726b59ee4bbded40db2825f8a48.jpg",
+            "https://cdn.amebaowndme.com/madrid-prd/madrid-web/images/sites/230815/eb0aa41ddab8eaf803f3dc73896f192b_535e5ced904b9041401175b82c8c0754.jpg",
+            "https://cdn.amebaowndme.com/madrid-prd/madrid-web/images/sites/230815/9315ae2852f50ef930177ea1501dbe6b_9847b727b4263511d6544c6dedd3ea4c.jpg",
+            "https://cdn.amebaowndme.com/madrid-prd/madrid-web/images/sites/230815/312194b91c563e2611cdc3c5e1cf1331_2b849365168ddc988ebbd442b4797983.jpg"].concat(dummyItems(47)));
+});
+
+test("Test apress.jp article with embeded images excluding ads", async () => {
+    await testDirectDownload(
+        browser,
+        "https://apress.jp/archives/10003",
+        "apress.jp-archives-10003/",
+        ["https://apress.jp/wp-content/uploads/2019/12/main-8-2914344712-1577333035183.jpg",
+            "https://apress.jp/wp-content/uploads/2019/12/main-9.jpg"]);
+});
+
 // news.mynavi.jp
 test("Test news.mynavi.jp article page", async () => {
     await testDirectDownload(

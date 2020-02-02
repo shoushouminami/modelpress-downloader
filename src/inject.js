@@ -616,9 +616,13 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
 } else if (window.location.host === "talent.thetv.jp") {
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.personData figure.personDataVisual img", m.removeQuery));
 } else if (window.location.host === "apress.jp") {
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content figure.gallery-item img", m.filterTrailingResolutionNumbers));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content figure.entry-thumbnail img", m.filterTrailingResolutionNumbers));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content p img", m.filterTrailingResolutionNumbers));
+    let getLargeImg = (url) => {
+        return m.filterTrailingResolutionNumbers(m.removeQuery(url));
+    };
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content figure.gallery-item img", getLargeImg));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content figure.entry-thumbnail img", getLargeImg));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content p img[class*=wp-image]", getLargeImg));
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content article div.entry-content div.img div.img__item img", getLargeImg));
 } else if (window.location.host === "news.mynavi.jp") {
     let getLargeImg = (url) => {
         if (url.endsWith(".jpg")) {
