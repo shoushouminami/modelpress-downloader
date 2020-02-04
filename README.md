@@ -14,7 +14,7 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 ### Change Logs
 
 ###### 2.5 (2020/02/03)
-* URI encode file names
+* URI decode file names
 * Support more cases on times.abema.tv
 
 ###### 2.4 (2020/02/02)
