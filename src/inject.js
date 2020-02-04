@@ -633,7 +633,16 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main div.box ul li a img", getLargeImg));
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.article div.article-body div.photo_right img"));
 } else if (window.location.host === "times.abema.tv") {
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.blog-article div.blog-body__item a.img__item img", m.removeQuery));
+    let getLargeImg = (url) => {
+        let pattern = /.*(\.w[0-9]+\.v[0-9]+).jpg$/i;
+        url = m.filterTrailingResolutionNumbers(m.removeQuery(url));
+        if (url.match(pattern)) {
+            url = url.replace(url.match(pattern)[1], "");
+        }
+
+        return url;
+    };
+    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.blog-article div.blog-body__item img", getLargeImg));
 } else {
     o.supported = false;
 }

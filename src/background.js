@@ -18,7 +18,7 @@ const getFileName = function(url, ext) {
         return filename + "." + ext;
     }
 
-    return filename;
+    return decodeURI(filename);
 };
 
 const addToDownloadQueue = function (chrome, image, resolve) {
