@@ -685,7 +685,9 @@ test("Test times.abema.tv article with images", async () => {
         ["https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_0.jpg",
             "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_1.jpg",
             "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_2.jpg",
-            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_3.jpg"],
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_3.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_og_4.jpg",
+            "https://hayabusa.io/abema/series/283-10/thumb.jpg"],
         {
             preinject: async function (page) {
                 await pageutils.scrollToBottom(page);
@@ -701,7 +703,8 @@ test("Test times.abema.tv article with images 2", async () => {
         ["https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_0.jpg",
             "https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_13.jpg",
             "https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_1.jpg",
-            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_2.jpg"].concat(dummyItems(10)),
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_2.jpg",
+            "https://hayabusa.io/abema/programs/89-42_s0_p156158/thumb001.jpg"].concat(dummyItems(15)),
         {
             preinject: async function (page) {
                 await pageutils.scrollToBottom(page);
