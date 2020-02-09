@@ -5,20 +5,27 @@ const wait = function(time) {
 };
 
 const scrollToBottom = async function(page, waitTimeMs = 300) {
-   // Get the height of the rendered page
-    const bodyHandle = await page.$('body');
-    const height = await page.evaluate(body => body.scrollHeight, bodyHandle);
+    scrollTo(page, 100, waitTimeMs);
+};
+
+const scrollTo = async function(page, percentage = 100, waitTimeMs = 300) {
+    // Get the height of the rendered page
+    let bodyHandle = await page.$('body');
+    let height = await page.evaluate(body => body.scrollHeight, bodyHandle);
     await bodyHandle.dispose();
 
     // Scroll one viewport at a time, pausing to let content load
-    const viewportHeight = page.viewport().height;
-    let viewportIncr = 0;
-    while (viewportIncr + viewportHeight < height) {
+    let viewportHeight = page.viewport().height;
+    let scrolled = 0;
+    while (scrolled + viewportHeight < height) {
         await page.evaluate(_viewportHeight => {
             window.scrollBy(0, _viewportHeight);
         }, viewportHeight);
         await wait(waitTimeMs);
-        viewportIncr += viewportHeight;
+        scrolled += viewportHeight;
+        if ((scrolled + viewportHeight) * 1.0 / height >= (percentage / 100.0)) {
+            break;
+        }
     }
 
     // Scroll back to top
@@ -28,5 +35,6 @@ const scrollToBottom = async function(page, waitTimeMs = 300) {
 };
 
 module.exports = {
-    scrollToBottom: scrollToBottom
+    scrollToBottom: scrollToBottom,
+    scrollTo: scrollTo
 };

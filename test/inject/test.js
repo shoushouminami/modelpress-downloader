@@ -707,7 +707,23 @@ test("Test times.abema.tv article with images 2", async () => {
             "https://hayabusa.io/abema/programs/89-42_s0_p156158/thumb001.jpg"].concat(dummyItems(15)),
         {
             preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
+                await pageutils.scrollTo(page, 100);
+            }
+        });
+});
+
+test("Test times.abema.tv article with images and data url", async () => {
+    await testDirectDownload(
+        browser,
+        "https://times.abema.tv/posts/7040578",
+        "times.abema.tv-posts-7040578/",
+        ["https://d13krdvwknzmgv.cloudfront.net/files/topics/7040578_ext_col_03_1.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7040578_ext_col_03_3.jpg",
+            "https://d13krdvwknzmgv.cloudfront.net/files/topics/7040578_ext_col_03_6.jpg",
+            "https://hayabusa.io/abema/programs/90-1354_s5_p3/thumb001.jpg"],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 50);
             }
         });
 });

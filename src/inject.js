@@ -217,6 +217,13 @@ var m = {
         }
 
         return null;
+    },
+    nullIfDataUrl: function (url) {
+        if (url.startsWith("data:")) {
+            return null
+        }
+
+        return url;
     }
 };
 
@@ -634,13 +641,20 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.article div.article-body div.photo_right img"));
 } else if (window.location.host === "times.abema.tv") {
     let getLargeImg = (url) => {
-        let pattern = /.*(\.w[0-9]+\.v[0-9]+).jpg$/i;
-        url = m.filterTrailingResolutionNumbers(m.removeQuery(url));
+          url = m.filterTrailingResolutionNumbers(m.removeQuery(url));
+        // turn webp into jpg url
+        let webpPattern = /^(https?:\/\/.*)\/files\/rcms_conv_webp\/files\/topics\/(.*)_[\d]{10,}.webp/i; // webp pattern e.g. https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7006935_ext_col_03_11_1560759726.webp
+        if (url.match(webpPattern)) {
+            let m = url.match(webpPattern);
+            url = m[1] + "/files/topics/" + m[2] + ".jpg";
+        }
+
+        let pattern = /.*(\.w[0-9]+\.v[0-9]+).jpg$/i; // jpg pattern with width and timestamp, e.g. https://hayabusa.io/abema/programs/89-42_s0_p156158/thumb001.w800.v1559579567.jpg
         if (url.match(pattern)) {
             url = url.replace(url.match(pattern)[1], "");
         }
 
-        return url;
+        return m.nullIfDataUrl(url);
     };
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.blog-article div.blog-body__item img", getLargeImg));
 } else {
