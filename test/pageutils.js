@@ -5,7 +5,7 @@ const wait = function(time) {
 };
 
 const scrollToBottom = async function(page, waitTimeMs = 300) {
-    scrollTo(page, 100, waitTimeMs);
+    return scrollTo(page, 100, waitTimeMs);
 };
 
 const scrollTo = async function(page, percentage = 100, waitTimeMs = 300) {
