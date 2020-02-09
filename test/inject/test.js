@@ -707,7 +707,7 @@ test("Test times.abema.tv article with images 2", async () => {
             "https://hayabusa.io/abema/programs/89-42_s0_p156158/thumb001.jpg"].concat(dummyItems(15)),
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 100);
+                await pageutils.scrollTo(page, 60);
             }
         });
 });
