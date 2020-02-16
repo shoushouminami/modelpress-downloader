@@ -26,5 +26,5 @@ module.exports = {
             // { from: 'images', to: 'build/' },
         ])
     ],
-    devtool: ""
+    devtool: false
 };

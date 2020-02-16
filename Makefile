@@ -1,13 +1,7 @@
-
 build: clean cp-resources webpack mk-package
 
-dev: clean cp-resources webpack-dev mk-package
-
-webpack-dev: src/**/* src/*
-	npx webpack --mode=development
-
 webpack: src/**/* src/*
-	npx webpack --mode=production
+	npx webpack --mode=development
 
 cp-resources: images
 	cp -R images build/
