@@ -661,4 +661,4 @@ if (window.location.host === "mdpr.jp" || window.location.host.endsWith(".mdpr.j
     o.supported = false;
 }
 window._mid = {o: o};
-o;
+module.exports = o;

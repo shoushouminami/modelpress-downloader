@@ -38,7 +38,7 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
     await runFuncIfDefined(ops && ops['preinject'], [page]);
 
     await page.addScriptTag({path: resolvePath("mock.js")});
-    await page.addScriptTag({path: resolvePath("../../src/inject.js")});
+    await page.addScriptTag({path: resolvePath("../../build/inject.js")});
 
     const executionContext = await page.mainFrame().executionContext();
     const mid = await executionContext.evaluate("window._mid");

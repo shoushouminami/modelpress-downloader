@@ -1,0 +1,27 @@
+{
+  "name": "modelpress-downloader",
+  "version": "1.0.0",
+  "description": "This extension is custom made to download full size images from [a list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) including modelpress (mdpr.jp) and more.",
+  "private": true,
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "cd test; npm test",
+    "build": "make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shoushouminami/modelpress-downloader.git"
+  },
+  "author": "shoushouminami",
+  "bugs": {
+    "url": "https://github.com/shoushouminami/modelpress-downloader/issues"
+  },
+  "homepage": "https://github.com/shoushouminami/modelpress-downloader#readme",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  }
+}
