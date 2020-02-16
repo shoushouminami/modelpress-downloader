@@ -16,8 +16,8 @@ beforeAll(async () => {
     browser = await puppeteer.launch({
         headless: false, // extension are allowed only in head-full mode
         args: [
-            "--disable-extensions-except=../build",
-            "--load-extension=../build",
+            "--disable-extensions-except=build",
+            "--load-extension=build",
             "--lang=zh-CN,zh",
             "--no-sandbox"
         ],

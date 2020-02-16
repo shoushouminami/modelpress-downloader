@@ -23,4 +23,4 @@ clean:
 	-mkdir build
 
 test:	build
-	-cd test && npm test
+	npm test

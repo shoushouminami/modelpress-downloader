@@ -7,8 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "test": "cd test; npm test",
+    "test": "jest --testTimeout=20000",
     "build": "make"
+  },
+  "jest": {
+    "preset": "jest-puppeteer"
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,13 @@
   "devDependencies": {
     "copy-webpack-plugin": "^5.1.1",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "jasmine": "^3.5.0",
+    "jest": "^24.9.0",
+    "jest-puppeteer": "^4.3.0",
+    "mocha": "^6.2.0",
+    "node": "^12.11.0",
+    "puppeteer": "2.0.0",
+    "chromium": "2.0.0"
   }
 }
