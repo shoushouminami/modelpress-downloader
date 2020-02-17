@@ -1,5 +1,5 @@
 "use strict";
-// const m = require("./utils.js");
+const m = require("./utils.js");
 const o = require("./inject/return-message.js")();
 const sites = require("./inject/supported-sites.js");
 
