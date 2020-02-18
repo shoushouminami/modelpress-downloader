@@ -777,3 +777,37 @@ test("Test times.abema.tv article with images and data url", async () => {
             }
         });
 });
+
+//spice.eplus.jp
+test("Test spice.eplus.jp images page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://spice.eplus.jp/articles/264390/images/811327",
+        "spice.eplus.jp-articles-264390-images-811327/",
+        ["https://spice.eplus.jp/images/utpB1FdcWOGlN0DJLlfjN2B7U5BKIuxlLQ0pW2kEJd5lrWh6a7cZVuQkqGkB2LfE",
+            "https://spice.eplus.jp/images/IMntr6jQBRgjtc3cteh2i9bKlQ9acOo6zxOCO7TMeSMsk3jAFwJ4viG3fMPBy6Oz",
+            "https://spice.eplus.jp/images/bbr5Mg3eXHNGqra1duHmyIVi9YpHF40bbEYHOFBO29vXb4kvEELld9GrrLxj2FH4",
+            "https://spice.eplus.jp/images/hgKfYRVyjFtquTHj2UiFoVLr8yW2hA8zXgG5YNtfvF6PXBqRIzGuMY4sj8bWr2QV",
+            "https://spice.eplus.jp/images/IaGQLUNAWyfuspzryq0L2qxoz8Lbhap0uCTgo1BRyfjdwchplyofgqd67PrHC70E",
+            "https://spice.eplus.jp/images/QSnDFCUJO2jL5SMmkTJwpoLJdzGZQYYFB2rf6drUzBZKFMMaYN6GTCRiT96wZQhV",
+            "https://spice.eplus.jp/images/rIZxrAxtJCZ7sriLPecd5OAB3GnfGFVv0amwKRtuFL8zTOb0XDaleM6wwEVsyVFr"],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 80);
+            }
+        });
+});
+
+test("Test spice.eplus.jp article page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://spice.eplus.jp/articles/264390",
+        "spice.eplus.jp-articles-264390/",
+        ["https://spice.eplus.jp/images/utpB1FdcWOGlN0DJLlfjN2B7U5BKIuxlLQ0pW2kEJd5lrWh6a7cZVuQkqGkB2LfE",
+            "https://spice.eplus.jp/images/IMntr6jQBRgjtc3cteh2i9bKlQ9acOo6zxOCO7TMeSMsk3jAFwJ4viG3fMPBy6Oz",
+            "https://spice.eplus.jp/images/bbr5Mg3eXHNGqra1duHmyIVi9YpHF40bbEYHOFBO29vXb4kvEELld9GrrLxj2FH4",
+            "https://spice.eplus.jp/images/hgKfYRVyjFtquTHj2UiFoVLr8yW2hA8zXgG5YNtfvF6PXBqRIzGuMY4sj8bWr2QV",
+            "https://spice.eplus.jp/images/IaGQLUNAWyfuspzryq0L2qxoz8Lbhap0uCTgo1BRyfjdwchplyofgqd67PrHC70E",
+            "https://spice.eplus.jp/images/QSnDFCUJO2jL5SMmkTJwpoLJdzGZQYYFB2rf6drUzBZKFMMaYN6GTCRiT96wZQhV",
+            "https://spice.eplus.jp/images/rIZxrAxtJCZ7sriLPecd5OAB3GnfGFVv0amwKRtuFL8zTOb0XDaleM6wwEVsyVFr"]);
+});

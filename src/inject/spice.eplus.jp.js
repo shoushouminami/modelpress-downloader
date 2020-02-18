@@ -1,22 +1,21 @@
-const m = require("../utils.js");
+const utils = require("../utils.js");
+const getLargeImg = function (url) {
+    if (url.endsWith("/")) {
+        return url.substring(0, url.length - 1);
+    }
+    if (url.endsWith("/small")) {
+        return url.substring(0, url.length - 6);
+    }
+    return url;
+};
 
 const inject =  function() {
-    m.pushArray(o.images, m.findImagesOfClass("square").map(m.filterTrailingResolutionNumbers));
-    m.pushArray(o.images, m.findImagesOfContainerClass("list-photo").map(m.filterTrailingResolutionNumbers));
-    m.pushArray(o.images, m.findImagesOfClass("figure").map(m.filterTrailingResolutionNumbers));
-    m.pushArray(o.images, m.findImagesOfContainerClass("figure-list").map(m.filterTrailingResolutionNumbers));
-    m.pushArray(o.images, m.findImagesOfClass("headline-photo").map(m.filterTrailingResolutionNumbers));
-    m.pushArray(o.images, m.findImagesOfContainerClass("no-moki").map(m.filterTrailingResolutionNumbers));
-    m.pushArray(o.images, m.findImagesOfContainerClass("snap-content").map(m.filterTrailingResolutionNumbers));
+    let o = require("./return-message").init();
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.article-page main div.img-wrapper img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.article-page main div#other-attachments ul li div.thumb img", getLargeImg));
 
-    let mobileImages =  m.findImagesWithCssSelector(document, ".m-appImageList img", m.removeQuery).map(m.filterTrailingResolutionNumbers);
-    if (mobileImages.length > 0) {
-        m.pushArray(o.images, mobileImages);
-        let articleId = m.findMdprArticleId();
-        if (articleId) {
-            o.remoteImages["mdpr.jp"] = articleId;
-        }
-    }
+    o.ext = "jpg";
+    return o;
 };
 
 module.exports = {
