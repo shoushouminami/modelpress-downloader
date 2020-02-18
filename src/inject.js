@@ -1,11 +1,11 @@
 "use strict";
 const m = require("./utils.js");
-const o = require("./inject/return-message.js")();
+let o = require("./inject/return-message.js").init();
 const sites = require("./inject/supported-sites.js");
 
-const inject = sites.get(window.location.host);
-if (inject) {
-    inject(o);
+const site = sites.get(window.location.host);
+if (site) {
+    o = site.inject();
 }  else if (window.location.host === "blog.nogizaka46.com") {
     var sheet = document.getElementById("sheet");
     if (sheet) {

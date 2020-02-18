@@ -1,7 +1,6 @@
 const m = require("../utils.js");
-const inject = function() {
-    let o = require("./return-message.js").init();
 
+const inject =  function() {
     m.pushArray(o.images, m.findImagesOfClass("square").map(m.filterTrailingResolutionNumbers));
     m.pushArray(o.images, m.findImagesOfContainerClass("list-photo").map(m.filterTrailingResolutionNumbers));
     m.pushArray(o.images, m.findImagesOfClass("figure").map(m.filterTrailingResolutionNumbers));
@@ -18,13 +17,10 @@ const inject = function() {
             o.remoteImages["mdpr.jp"] = articleId;
         }
     }
-
-    return o;
 };
 
 module.exports = {
-    inject: inject,
-    host: function (host) {
-        return host === "mdpr.jp" || host.endsWith(".mdpr.jp");
-    }
+    host: "spice.eplus.jp",
+    inject: inject
 };
+

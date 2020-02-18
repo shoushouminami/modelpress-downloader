@@ -1,6 +1,5 @@
-
 const supportedHost = {};
-const hostFilters = [];
+const modulesWithHostFilter = [];
 
 module.exports = {
     get: function (host) {
@@ -8,24 +7,31 @@ module.exports = {
             return supportedHost[host];
         }
 
-        for (const f of hostFilters) {
-            if (f.filter(host)) {
-                return f.module;
+        for (const f of modulesWithHostFilter) {
+            if (f.host(host)) {
+                return f;
             }
         }
 
         return false;
     },
-    register: function (host, m) {
-        supportedHost[host] = m || function () {};
-    },
+};
 
-    registerHostFilter: function (func, m) {
-        hostFilters.push({
-            filter: func,
-            module: m || function(){}
-        });
+const register = function (siteMoudle) {
+    if (siteMoudle.inject && typeof siteMoudle.inject === "function" && siteMoudle.host) {
+        if (typeof siteMoudle.host === "string") {
+            supportedHost[host] = siteMoudle;
+        } else if (typeof siteMoudle.host === "function") {
+            modulesWithHostFilter.push(siteMoudle);
+        }
+    } else {
+        console.warn("Bad module: " + siteMoudle);
     }
 };
 
-require("./mdpr.jp.js");
+const files = ["mdpr.jp.js"];
+
+for (const f of files) {
+    register(require("./" + f));
+}
+

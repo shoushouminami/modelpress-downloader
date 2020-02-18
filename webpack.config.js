@@ -9,7 +9,6 @@ module.exports = {
         "helper/instagram-react": "./src/helper/instagram-react.js"
     },
     output: {
-        // library: 'o',
         filename: '[name].js',
         path: path.resolve(__dirname, 'build'),
     },
@@ -23,7 +22,6 @@ module.exports = {
                     return targetPath.replace("src/", "");
                 }
             },
-            // { from: 'images', to: 'build/' },
         ])
     ],
     devtool: false
