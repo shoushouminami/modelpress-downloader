@@ -12,6 +12,7 @@ const getLargeImg = function (url) {
 const inject =  function() {
     let o = require("./return-message").init();
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.article-page main div.img-wrapper img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.article-page main ul.other-images li div.thumb img", getLargeImg));
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.article-page main div#other-attachments ul li div.thumb img", getLargeImg));
 
     o.ext = "jpg";
