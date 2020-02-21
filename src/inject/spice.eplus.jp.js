@@ -6,6 +6,11 @@ const getLargeImg = function (url) {
     if (url.endsWith("/small")) {
         return url.substring(0, url.length - 6);
     }
+
+    if (url.endsWith(".gif")) {
+        return null;
+    }
+
     return url;
 };
 
@@ -21,6 +26,7 @@ const inject =  function() {
 
 module.exports = {
     host: "spice.eplus.jp",
-    inject: inject
+    inject: inject,
+
 };
 

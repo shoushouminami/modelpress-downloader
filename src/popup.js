@@ -354,6 +354,7 @@ const supportedSites = [
     "https://thetv.jp/",
     "https://apress.jp/",
     "https://natalie.mu/",
+    "https://spice.eplus.jp/",
     "https://girlswalker.com/",
     "https://this.kiji.is/",
     "https://dogatch.jp/",
