@@ -13,6 +13,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.6 (2020/02/20)
+* Modularize `inject.js` code
+* Support spice.eplus.jp
+
 ###### 2.5 (2020/02/03)
 * URI decode file names
 * Support more cases on times.abema.tv
