@@ -1,7 +1,13 @@
 # Modelpress Image Downloader [![Build Status](https://travis-ci.org/shoushouminami/modelpress-downloader.svg?branch=master)](https://travis-ci.org/shoushouminami/modelpress-downloader)
 
-This extension is custom made to download full size images from [a list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) including modelpress (mdpr.jp) and more.
+One click to batch download the best resolution images from the current news article. A [list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) are supported including ModelPress (mdpr.jp), Abema Times (times.abema.tv),
+Dwango News (news.dwango.jp), and more, and is still growing! 
 
+This extension is different from other image downloaders as it is custom made for the supported websites and it can search on the current  page for images
+only related to the news article, and ignores the other irrelevant images such as ads and logos. Further more, it downloads images that are the best possible resolution.
+
+How to: 
+https://github.com/shoushouminami/modelpress-downloader/wiki
 
 Chrome Webstore: https://chrome.google.com/webstore/detail/modelpress-image-download/nepeemhbchedjbebdekhpkhknljppmif
 

@@ -1,6 +1,6 @@
 {
   "appDesc": {
-    "message": "Batch download full size images from modelpress and other supported websites.",
+    "message": "One click to batch download the best resolution images from the current news article. A list of websites are supported including ModelPress, Abema Times, Dwango News, and more, and is still growing! ",
     "description":"The description of the application, displayed in the web store."
   },
   "downloadButtonMessage": {
