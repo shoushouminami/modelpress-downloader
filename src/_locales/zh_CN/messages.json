@@ -1,6 +1,6 @@
 {
   "appDesc": {
-    "message": "一键批量下载当前新闻页面的相关图片（最大分辨率）。支持的网站包括ModelPress，Abema Times，Dwango News等，并且仍在不断更新中！"
+    "message": "一键批量下载当前新闻页面的相关图片（最大分辨率）。"
   },
   "downloadButtonMessage": {
     "message": "下载 $NUMBER$ 张图片",

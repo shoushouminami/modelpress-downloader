@@ -1,6 +1,6 @@
 {
   "appDesc": {
-    "message": "一鍵批量下載當前新聞網頁的相關圖片（最大解析度）。支援的網頁包括ModelPress，Abema Times，Dwango News等等，並且仍在不斷更新中！"
+    "message": "一鍵批量下載當前新聞網頁的相關圖片（最大解析度）。"
   },
   "downloadButtonMessage": {
     "message": "下載 $NUMBER$ 張圖片",
