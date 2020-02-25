@@ -27,6 +27,5 @@ const inject =  function() {
 module.exports = {
     host: "spice.eplus.jp",
     inject: inject,
-
 };
 
