@@ -22,7 +22,7 @@ const getLargeImgWithRetry = url => {
         return null;
     }
 
-    return {url: filtered, retries: [url]};
+    return {url: filtered, retries: [utils.removeQuery(url)]};
 };
 
 const inject =  function() {
