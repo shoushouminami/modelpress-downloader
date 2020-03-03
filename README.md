@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.8 (2020/03/02)
+* Download jpg instead of webp from natalie.mu
+
 ###### 2.7 (2020/02/24)
 * Modularize times.abema.tv.js
 * Fall back to webp if jpg is not found on times.abema.tv
