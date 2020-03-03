@@ -320,19 +320,6 @@ if (site) {
         return url;
     };
     m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
-} else if (window.location.host === "natalie.mu") {
-    let spans = document.querySelectorAll("#NA_main .NA_articleGallery .NA_imageList a span.NA_thumb");
-    if (spans && spans.length) {
-        for (const span of spans) {
-            if (span.dataset["bg"] && span.dataset["bg"].match && span.dataset["bg"].match(/^(https?:\/\/.*\.(jpg|JPG))\??.*/)) {
-                m.pushIfNew(o.images, m.removeQuery(span.dataset["bg"]) + "?imtype=jpg")
-            }
-        }
-    }
-    // let imgs = document.querySelectorAll("#NA_main figure .NA_figure img");
-    for (const img of m.findImagesWithCssSelector(document, "#NA_main figure .NA_figure img", m.removeQuery)) {
-        m.pushIfNew(o.images, img + "?imtype=jpg");
-    }
 } else if (window.location.host === "girlswalker.com") {
     let divs = document.querySelectorAll("article.gw-content-wrap ul.gw-content__entry-thumbnail-list a div.gw-content__entry-thumbnail-list__item-image");
     let pattern = /^url\("(https?:\/\/.*\.(jpg|png))"\)$/i;
