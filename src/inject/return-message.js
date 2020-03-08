@@ -1,3 +1,8 @@
+/**
+ * This module exports a factory function to construct a new message object. This message object is used by front end to pass
+ * download tasks to backend.
+ * @type {{init: (function(): {ext: undefined, images: [], folder: string, host: string, remoteImages: {}, retry: boolean, supported: boolean})}}
+ */
 module.exports = {
     init: function () {
         return {

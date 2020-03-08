@@ -163,15 +163,43 @@ const utils = {
         document.body.appendChild(iframe);
     },
 
-    findImagesWithCssSelector: function(dom, cssSelector, filterFunc) {
-        var ret = [];
-        let imgs = dom.querySelectorAll(cssSelector);
-        if (imgs && imgs.length) {
-            for (const img of imgs) {
+    /**
+     * Uses the css selector to find children IMG doms from the given root dom. Apply the filter function to IMG.src if given.
+     * A list of objects is returned. The type of the object will be string (DOM.src) if filter function is not supplied.
+     * If the filter function is supplied, the type of the object will be the return type of the filter function.
+     * @param rootDom
+     * @param cssSelector
+     * @param filterFunc a function to transform the found src to another object. Input is the found IMG.src.
+     * @returns {[]}
+     */
+    findImagesWithCssSelector: function(rootDom, cssSelector, filterFunc) {
+        return utils.findDomsWithCssSelector(rootDom, cssSelector, function (dom) {
+            if (typeof filterFunc === "function") {
+                return filterFunc(dom.src);
+            } else {
+                return dom.src;
+            }
+        });
+    },
+
+    /**
+     * Uses the css selector to find children doms from the given root dom. Apply the filter function if given.
+     * A list of objects is returned. The type of the object will be the dom if filter function is not supplied.
+     * If the filter function is supplied, the type of the object will be the return type of the filter function.
+     * @param rootDom
+     * @param cssSelector
+     * @param filterFunc a function to transform the found dom to another object. Input is the dom.
+     * @returns {[]}
+     */
+    findDomsWithCssSelector: function(rootDom, cssSelector, filterFunc) {
+        let ret = [];
+        let doms = rootDom.querySelectorAll(cssSelector);
+        if (doms && doms.length) {
+            for (const dom of doms) {
                 if (typeof filterFunc === "function") {
-                    utils.pushIfNew(ret, filterFunc(img.src));
+                    utils.pushIfNew(ret, filterFunc(dom));
                 } else {
-                    utils.pushIfNew(ret, img.src);
+                    utils.pushIfNew(ret, dom);
                 }
             }
         }
