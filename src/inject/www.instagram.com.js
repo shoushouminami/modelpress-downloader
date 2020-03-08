@@ -25,5 +25,6 @@ module.exports = {
         }
         return o;
     },
-    host: "www.instagram.com"
+    host: "www.instagram.com",
+    hidden: true
 };

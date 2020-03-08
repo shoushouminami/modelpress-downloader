@@ -1,4 +1,5 @@
 "use strict";
+const sites = require("./inject/sites");
 
 let getFileName = function(url, ext) {
     var filename = url.split("?")[0].split("/");
@@ -342,35 +343,9 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         });
 });
 
-const supportedSites = [
-    "https://mdpr.jp/",
-    "https://times.abema.tv/",
-    "https://news.mynavi.jp/",
-    "https://tokyopopline.com/",
-    "https://news.dwango.jp",
-    "https://popwave.jp",
-    "https://mikan-incomplete.com",
-    "https://mantan-web.jp",
-    "https://thetv.jp/",
-    "https://apress.jp/",
-    "https://natalie.mu/",
-    "https://spice.eplus.jp/",
-    "https://girlswalker.com/",
-    "https://this.kiji.is/",
-    "https://dogatch.jp/",
-    "https://entamenext.com/",
-    "https://cancam.jp",
-    "https://bltweb.jp",
-    "https://blog.nogizaka46.com/",
-    "https://twitter.com/",
-    // ["https://www.instagram.com/", "instagram.com"],
-    "https://www.facebook.com",
-    ["https://www.bilibili.com/read/home", "www.bilibili.com/read"]
-];
-
 window.addEventListener("load", function(){
     let supportedSitesDiv = document.getElementById("supported-sites");
-    let appendSite = function(iconUrl, siteUrl, displayUrl) {
+    let appendSite = function(iconUrl, siteUrl) {
         let div = document.createElement("div");
         let img = document.createElement("img");
         let a = document.createElement("a");
@@ -395,13 +370,17 @@ window.addEventListener("load", function(){
         supportedSitesDiv.appendChild(div);
     };
 
-    for (const site of supportedSites) {
-        if (typeof site === "string") {
-            let url = new URL(site);
-            appendSite("../images/" + url.host + ".png", url.toString(), url.host + (url.pathname.length > 1 ?  (url.pathname) : ""));
-        } else if (Array.isArray(site)) {
-            let url = new URL(site[0]);
-            appendSite("../images/" + url.host + ".png", url.toString(), site[1]);
+    for (const site of sites.all()) {
+        let url;
+        if (site.url != null) {
+            url = new URL(site.url);
+        } else if (typeof site.host === "string") {
+            url = new URL("https://" + site.host);
+        }
+
+        if (url && !site.hidden) {
+            let image = site.image || "../images/" + url.host + ".png";
+            appendSite(image, url.toString());
         }
     }
 }, false);

@@ -16,5 +16,6 @@ module.exports = {
     },
     host: function(host) {
         return host === "thetv.jp" || host === "talent.thetv.jp";
-    }
+    },
+    url: "https://thetv.jp"
 };

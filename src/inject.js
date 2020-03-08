@@ -1,7 +1,6 @@
 "use strict";
-const utils = require("./utils.js");
 let o = require("./inject/return-message.js").init();
-const sites = require("./inject/supported-sites.js");
+const sites = require("./inject/sites.js");
 
 const site = sites.get(window.location);
 if (site) {
