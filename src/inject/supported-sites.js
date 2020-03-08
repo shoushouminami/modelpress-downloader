@@ -33,7 +33,6 @@ const register = function (siteMoudle) {
     }
 };
 
-register(require("./mdpr.jp"));
 register(require("./spice.eplus.jp"));
 register(require("./times.abema.tv"));
 register(require("./natalie.mu"));
@@ -50,8 +49,8 @@ register(require("./cancam.jp"));
 register(require("./mikan-incomplete.com"));
 
 (function(siteModuleList){
-    for(const siteModule of siteModuleList) {
-        register(siteModule);
+    for(const siteModuleName of siteModuleList) {
+        register(siteModuleName);
     }
 })([
     require("./popwave.jp"),
@@ -61,5 +60,6 @@ register(require("./mikan-incomplete.com"));
     require("./twitter.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
-    require("./blog.nogizaka46.com")
+    require("./blog.nogizaka46.com"),
+    require("./mdpr.jp"),
 ]);
