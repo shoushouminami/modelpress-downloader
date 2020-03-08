@@ -358,13 +358,13 @@ const supportedSites = [
     "https://girlswalker.com/",
     "https://this.kiji.is/",
     "https://dogatch.jp/",
+    "https://entamenext.com/",
     "https://cancam.jp",
     "https://bltweb.jp",
     "https://blog.nogizaka46.com/",
     "https://twitter.com/",
     // ["https://www.instagram.com/", "instagram.com"],
     "https://www.facebook.com",
-    //"https://www.asahi.com/and_M/"
     ["https://www.bilibili.com/read/home", "www.bilibili.com/read"]
 ];
 

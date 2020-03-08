@@ -11,7 +11,8 @@
     "build": "make"
   },
   "jest": {
-    "preset": "jest-puppeteer"
+    "preset": "jest-puppeteer",
+    "verbose": true
   },
   "repository": {
     "type": "git",

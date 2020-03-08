@@ -3,6 +3,9 @@ build: clean cp-resources webpack mk-package
 webpack: src/**/* src/*
 	npx webpack --mode=development
 
+watch: clean cp-resources src/**/* src/*
+	npx webpack --mode=development --watch
+
 cp-resources: images
 	cp -R images build/
 
