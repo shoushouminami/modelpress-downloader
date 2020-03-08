@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.9 (2020/03/07)
+* Support entamenext.com
+
 ###### 2.8 (2020/03/02)
 * Download jpg instead of webp from natalie.mu
 
