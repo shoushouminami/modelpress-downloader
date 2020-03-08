@@ -320,16 +320,6 @@ if (site) {
         return url;
     };
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
-} else if (window.location.host === "girlswalker.com") {
-    let divs = document.querySelectorAll("article.gw-content-wrap ul.gw-content__entry-thumbnail-list a div.gw-content__entry-thumbnail-list__item-image");
-    let pattern = /^url\("(https?:\/\/.*\.(jpg|png))"\)$/i;
-    if (divs && divs.length) {
-        for (const div of divs) {
-            if (div.style && div.style.backgroundImage && div.style.backgroundImage.match(pattern)) {
-                utils.pushIfNew(o.images, div.style.backgroundImage.match(pattern)[1]);
-            }
-        }
-    }
 } else if (window.location.host === "this.kiji.is") {
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.main__articleBody img", (url) => {
         let re = /https?:\/\/nordot-res.cloudinary.com\/(.*\/)ch\/images\/.*\.jpg/;
