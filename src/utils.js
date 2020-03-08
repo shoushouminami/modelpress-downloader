@@ -1,4 +1,4 @@
-const m = {
+const utils = {
     /**
      * First get a list of DOMs belonging to the given CSS class.
      * Then for each of the DOM element, find 1 image recursively.
@@ -169,9 +169,9 @@ const m = {
         if (imgs && imgs.length) {
             for (const img of imgs) {
                 if (typeof filterFunc === "function") {
-                    m.pushIfNew(ret, filterFunc(img.src));
+                    utils.pushIfNew(ret, filterFunc(img.src));
                 } else {
-                    m.pushIfNew(ret, img.src);
+                    utils.pushIfNew(ret, img.src);
                 }
             }
         }
@@ -181,7 +181,7 @@ const m = {
 
     trailingResolutionPattern: /http.*-[0-9]+x[0-9]+(\.jpg|\.jpeg|\.png)$/,
     filterTrailingResolutionNumbers: function (src) {
-        let result = src.match(m.trailingResolutionPattern);
+        let result = src.match(utils.trailingResolutionPattern);
         if (result) {
             let l = src.split("-");
             l.pop();
@@ -225,4 +225,4 @@ const m = {
     }
 };
 
-module.exports = m;
+module.exports = utils;

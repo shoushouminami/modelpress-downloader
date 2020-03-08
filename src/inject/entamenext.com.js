@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+
 const inject = function() {
     let o = require("./return-message.js").init();
 
@@ -24,7 +25,5 @@ const inject = function() {
 
 module.exports = {
     inject: inject,
-    host: function (host) {
-        return host === "mdpr.jp" || host.endsWith(".mdpr.jp");
-    }
+    host: "entamenext.com"
 };

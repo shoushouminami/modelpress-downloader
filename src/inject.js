@@ -1,5 +1,5 @@
 "use strict";
-const m = require("./utils.js");
+const utils = require("./utils.js");
 let o = require("./inject/return-message.js").init();
 const sites = require("./inject/supported-sites.js");
 
@@ -9,16 +9,16 @@ if (site) {
 }  else if (window.location.host === "blog.nogizaka46.com") {
     var sheet = document.getElementById("sheet");
     if (sheet) {
-        var imgs = m.findAllImageDOMsFromRoot(sheet, {"ids": ["comments"]});
+        var imgs = utils.findAllImageDOMsFromRoot(sheet, {"ids": ["comments"]});
         for (const img of imgs) {
             if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href
                 && (img.parentElement.href.indexOf("//blog.nogizaka46.com/") > -1 || img.parentElement.href.indexOf("//img.nogizaka46.com/"))
                 && (img.parentElement.href.toLowerCase().endsWith(".jpg") || img.parentElement.href.toLowerCase().endsWith(".png"))) {
                 o.images.push(img.parentElement.href);
             } else if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href &&
-                m.getAwalkerImgUrl(img.parentElement.href)) {
+                utils.getAwalkerImgUrl(img.parentElement.href)) {
                 o.images.push({
-                    imageUrl: m.getAwalkerImgUrl(img.parentElement.href),
+                    imageUrl: utils.getAwalkerImgUrl(img.parentElement.href),
                     websiteUrl: img.parentElement.href
                 });
             } else if (!img.src.toLowerCase().endsWith(".gif") && !img.src.toLowerCase().endsWith(".php")) {
@@ -54,24 +54,24 @@ if (site) {
             }
         });
 } else if (window.location.host === "www.instagram.com") {
-    let imgs = m.findImagesWithCssSelector(document, "article img[srcset]");
+    let imgs = utils.findImagesWithCssSelector(document, "article img[srcset]");
     if (imgs.length > 0) {
         let div = document.getElementById("_mid-images_");
         if (div) {
             // helper script injected
             if (div.dataset.images) {
-                m.pushArray(o.images,
+                utils.pushArray(o.images,
                     div.dataset.images.split(";")
                         .filter(s => s.length > 0)
                         .map(s => decodeURIComponent(s)));
                 document.body.removeChild(div);
             } else {
                 // give up and take the first image
-                m.pushIfNew(o.images, imgs[0]);
+                utils.pushIfNew(o.images, imgs[0]);
             }
         } else {
             // inject helper script and wait
-            m.injectScriptDOM(chrome.runtime.getURL("helper/instagram-react.js"));
+            utils.injectScriptDOM(chrome.runtime.getURL("helper/instagram-react.js"));
             o.retry = true;
         }
     }
@@ -93,7 +93,7 @@ if (site) {
     for (const img of imgs) {
         src = img.getAttribute("data-src");
         if (src) {
-            m.pushArray(o.images, [cleanSrc(src)]);
+            utils.pushArray(o.images, [cleanSrc(src)]);
         }
     }
 
@@ -106,7 +106,7 @@ if (site) {
             if (src.length === 3) {
                 src = src[1];
                 if (src) {
-                    m.pushArray(o.images, [cleanSrc(src)]);
+                    utils.pushArray(o.images, [cleanSrc(src)]);
                 }
             }
         }
@@ -149,9 +149,9 @@ if (site) {
     } else {
         let modals = document.querySelectorAll(".PermalinkOverlay-modal .permalink-tweet-container");
         if (modals.length) {
-            m.pushArray(o.images, m.findImagesWithCssSelector(modals[0], ".AdaptiveMedia-container img", getLargeImg));
+            utils.pushArray(o.images, utils.findImagesWithCssSelector(modals[0], ".AdaptiveMedia-container img", getLargeImg));
         } else {
-            m.pushArray(o.images, m.findImagesWithCssSelector(document, ".content .AdaptiveMedia-container img", getLargeImg));
+            utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".content .AdaptiveMedia-container img", getLargeImg));
         }
     }
 
@@ -171,10 +171,10 @@ if (site) {
         if (articles.length) {
             o.ext = "jpg";
             if (isTimelineConversation()) {
-                m.pushArray(o.images, m.findImagesWithCssSelector(articles[0], "div[aria-label=Image] img", getLargeImg));
+                utils.pushArray(o.images, utils.findImagesWithCssSelector(articles[0], "div[aria-label=Image] img", getLargeImg));
             } else {
                 //Timeline: Conversation
-                m.pushArray(o.images, m.findImagesWithCssSelector(document, "div[aria-label=Image] img", getLargeImg));
+                utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div[aria-label=Image] img", getLargeImg));
             }
         }
     }
@@ -191,8 +191,8 @@ if (site) {
         return src;
     };
 
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".p-entry__thumbnail img", getLargeImg));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".gallery-item img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".p-entry__thumbnail img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".gallery-item img", getLargeImg));
 } else if (window.location.host === "news.dwango.jp") {
     let getOriginalImg = function(url) {
         var slash = url.lastIndexOf("/");
@@ -210,9 +210,9 @@ if (site) {
         return url;
     };
 
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".page-sub_img img.img_photo", getOriginalImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".page-sub_img img.img_photo", getOriginalImg));
     // NodeList(2) [img.img_photo, img.ico_15]
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".photolist .sec-item img", getOriginalImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".photolist .sec-item img", getOriginalImg));
 } else if (window.location.host === "www.facebook.com") {
     let spotlights = document.querySelectorAll(":not(.hidden_elem) > .spotlight");
     if (spotlights && spotlights.length) {
@@ -244,7 +244,7 @@ if (site) {
         return src;
     };
 
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".entry img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".entry img", getLargeImg));
 } else if (window.location.host === "mikan-incomplete.com") {
     let re = /http.*-[0-9]+x[0-9]+\.jpg$/;
     let getLargeImg = function (src) {
@@ -256,7 +256,7 @@ if (site) {
 
         return src;
     };
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "article#entry img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "article#entry img", getLargeImg));
 } else if (window.location.host === "www.asahi.com" && window.location.pathname.startsWith("/and_M/")) {
     let getLargeImg = function (src) {
         if (src.indexOf("/resize/") > -1) {
@@ -272,7 +272,7 @@ if (site) {
 
         return src;
     };
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, ".l-article__content img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".l-article__content img", getLargeImg));
 } else if (window.location.host === "cancam.jp") {
     let re = /^http.*cancam\.jp\/.*uploads\/.*-[0-9]+x[0-9]+\.jpg$/;
     let getLargeImg = function (src) {
@@ -286,17 +286,17 @@ if (site) {
     };
 
     if (window.location.pathname.match(/\/archives\/category\/(model|itgirl)\/.+/)) {
-        m.pushArray(o.images, m.findImagesWithCssSelector(document, ".profile-header img", getLargeImg));
-        m.pushArray(o.images, m.findImagesWithCssSelector(document, ".profile-content img", getLargeImg));
-        m.pushArray(o.images, m.findImagesWithCssSelector(document, ".profile-images img", getLargeImg));
+        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".profile-header img", getLargeImg));
+        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".profile-content img", getLargeImg));
+        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".profile-images img", getLargeImg));
     } else if (window.location.pathname.match(/\/archives\/[0-9]+$/)
         || window.location.pathname.match(/\/medias\/.+$/)
         || window.location.pathname.match(/^\/[a-z0-9]+$/)) {
-        m.pushArray(o.images, m.findImagesWithCssSelector(document, "#main img", getLargeImg));
+        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#main img", getLargeImg));
     }
 
 } else if (window.location.host === "bltweb.jp") {
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .entry-content img", m.filterTrailingResolutionNumbers));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "article .entry-content img", utils.filterTrailingResolutionNumbers));
 } else if (window.location.host === "mantan-web.jp") {
     let getLargeImg = function(url) {
         let ext = null;
@@ -319,19 +319,19 @@ if (site) {
 
         return url;
     };
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
 } else if (window.location.host === "girlswalker.com") {
     let divs = document.querySelectorAll("article.gw-content-wrap ul.gw-content__entry-thumbnail-list a div.gw-content__entry-thumbnail-list__item-image");
     let pattern = /^url\("(https?:\/\/.*\.(jpg|png))"\)$/i;
     if (divs && divs.length) {
         for (const div of divs) {
             if (div.style && div.style.backgroundImage && div.style.backgroundImage.match(pattern)) {
-                m.pushIfNew(o.images, div.style.backgroundImage.match(pattern)[1]);
+                utils.pushIfNew(o.images, div.style.backgroundImage.match(pattern)[1]);
             }
         }
     }
 } else if (window.location.host === "this.kiji.is") {
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.main__articleBody img", (url) => {
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.main__articleBody img", (url) => {
         let re = /https?:\/\/nordot-res.cloudinary.com\/(.*\/)ch\/images\/.*\.jpg/;
         let m = url.match(re);
         if (m && m[1]) {
@@ -341,44 +341,44 @@ if (site) {
         return url;
     }));
 } else if (window.location.host === "dogatch.jp") {
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main div.inner img", null));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main div.slick-list img", null));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#container div#main img.ptph", null));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#container div#main div.inner img", null));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#container div#main div.slick-list img", null));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#container div#main img.ptph", null));
 } else if (window.location.host === "thetv.jp") {
     let pattern = /^url\("(https?:\/\/.*\.(jpg|png))\??.*"\)$/i;
     let links = document.querySelectorAll("div.mainContent div.galleryArea ul.list_thumbnail li.list_thumbnail__item a");
     if (links.length) {
         for (const link of links) {
             if (link.style.backgroundImage.match(pattern)) {
-                m.pushIfNew(o.images, link.style.backgroundImage.match(pattern)[1]);
+                utils.pushIfNew(o.images, link.style.backgroundImage.match(pattern)[1]);
             }
         }
     }
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.contentPhotoLerge figure img", m.removeQuery));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.contentText div.alignCenterPhoto img", m.removeQuery));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.contentPhotoLerge figure img", utils.removeQuery));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.contentText div.alignCenterPhoto img", utils.removeQuery));
     // matome
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.fullWidthImages img", m.removeQuery));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.mainContent div.fullWidthImages img", utils.removeQuery));
     // program
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.pp_prg_data img.pp_prg_img", m.removeQuery));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.mainContent div.pp_prg_data img.pp_prg_img", utils.removeQuery));
 } else if (window.location.host === "talent.thetv.jp") {
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.personData figure.personDataVisual img", m.removeQuery));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.personData figure.personDataVisual img", utils.removeQuery));
 } else if (window.location.host === "apress.jp") {
     let getLargeImg = (url) => {
-        return m.filterTrailingResolutionNumbers(m.removeQuery(url));
+        return utils.filterTrailingResolutionNumbers(utils.removeQuery(url));
     };
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content figure.gallery-item img", getLargeImg));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content figure.entry-thumbnail img", getLargeImg));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content div.entry-content p img[class*=wp-image]", getLargeImg));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "div#main-content article div.entry-content div.img div.img__item img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#main-content figure.gallery-item img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#main-content div.entry-content figure.entry-thumbnail img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#main-content div.entry-content p img[class*=wp-image]", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#main-content article div.entry-content div.img div.img__item img", getLargeImg));
 } else if (window.location.host === "news.mynavi.jp") {
     let getLargeImg = (url) => {
         if (url.endsWith(".jpg")) {
             return url.replace(".jpg", "l.jpg");
         }
     };
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.article div.article-body ul.photo_table img.photo_table__img", getLargeImg));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main div.box ul li a img", getLargeImg));
-    m.pushArray(o.images, m.findImagesWithCssSelector(document, "main.main article.article div.article-body div.photo_right img"));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main.main article.article div.article-body ul.photo_table img.photo_table__img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main.main div.box ul li a img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main.main article.article div.article-body div.photo_right img"));
 } else {
     o.supported = false;
 }
