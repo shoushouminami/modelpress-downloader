@@ -31,6 +31,7 @@ const register = function (siteMoudle) {
 
 register(require("./mdpr.jp"));
 register(require("./spice.eplus.jp"));
-register(require("./times.abema.tv.js"));
-register(require("./natalie.mu.js"));
+register(require("./times.abema.tv"));
+register(require("./natalie.mu"));
 register((require("./girlswalker.com")));
+register(require("./entamenext.com"));
