@@ -207,13 +207,11 @@ const utils = {
         return ret;
     },
 
-    trailingResolutionPattern: /http.*-[0-9]+x[0-9]+(\.jpg|\.jpeg|\.png)$/,
+    trailingResolutionPattern: /^https?:\/\/.*(-[0-9]+x[0-9]+(-[\d]+)?)(\.jpg|\.jpeg|\.png)$/,
     filterTrailingResolutionNumbers: function (src) {
         let result = src.match(utils.trailingResolutionPattern);
         if (result) {
-            let l = src.split("-");
-            l.pop();
-            return l.join("-") + result[1];
+            return src.replace(result[1], "");
         }
 
         return src;
