@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.11 (2020/03/11)
+* Bug fix for popwave.jp
+
 ###### 2.10 (2020/03/07)
 * Add entamenext.com in popup UI
 * Refactoring and speed improvement
