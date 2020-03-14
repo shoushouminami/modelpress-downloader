@@ -785,7 +785,7 @@ test("Test news.mynavi.jp article page", async () => {
             "https://news.mynavi.jp/article/20190612-842046/images/005l.jpg"].concat(dummyItems(12)),
         {
             preinject: async function (page) {
-                await pageutils.scrollToBottom(page, 500);
+                await pageutils.scrollToBottom(page);
             }
         })
 });
