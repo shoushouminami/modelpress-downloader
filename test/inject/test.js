@@ -785,7 +785,7 @@ test("Test news.mynavi.jp article page", async () => {
             "https://news.mynavi.jp/article/20190612-842046/images/005l.jpg"].concat(dummyItems(12)),
         {
             preinject: async function (page) {
-                await pageutils.scrollToBottom(page, 1000);
+                await pageutils.scrollToBottom(page, 500);
             }
         })
 });
@@ -875,7 +875,7 @@ test("Test times.abema.tv article with images 2", async () => {
             }].concat(dummyItems(15)),
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 70);
+                await pageutils.scrollTo(page, 100);
             }
         });
 });
