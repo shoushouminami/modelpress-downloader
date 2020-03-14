@@ -19,6 +19,7 @@ module.exports = {
         let o = require("./return-message.js").init();
         utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".page-sub_img img.img_photo", getOriginalImg));
         utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".photolist .sec-item img", getOriginalImg));
+        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#main > div.tc > .page-sub_img > img", getOriginalImg));
         return o;
     },
     host: "news.dwango.jp"

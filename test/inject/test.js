@@ -337,6 +337,17 @@ test("Test dwango.jp animeseiyu article with only 1 image", async () => {
         }]);
 });
 
+test("Test dwango.jp tv article with only 1 image", async () => {
+    await testDirectDownload(
+        browser,
+        "https://news.dwango.jp/tv/46886-2003/photos/218609",
+        "news.dwango.jp-tv-46886-2003-photos-218609/",
+        [{
+            retries: ["https://news-img.dwango.jp/uploads/medium/file/000/218/609/218609/puzx1en3rr4vetgj4jc.JPG"],
+            url: "https://green-img-news-dwango-jp-prod.s3.amazonaws.com/uploads/medium/file/000/218/609/218609/puzx1en3rr4vetgj4jc.JPG"
+        }]);
+});
+
 // http://popwave.jp/
 test("Test popwave.jp archives article", async () => {
     await testDirectDownload(
