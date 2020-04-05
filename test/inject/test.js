@@ -1,5 +1,4 @@
-const puppeteer = require("puppeteer");
-const {testDirectDownload, resolvePath} = require("./testbase");
+const {testDirectDownload, resolvePath, launchBrowser} = require("./testbase");
 const pageutils = require("../pageutils");
 
 const dummyItems = function (count) {
@@ -13,16 +12,7 @@ const dummyItems = function (count) {
 
 let browser;
 beforeAll(async () => {
-    browser = await puppeteer.launch({
-        headless: false, // extension are allowed only in head-full mode
-        args: [
-            "--disable-extensions-except=" + resolvePath( "../../build"),
-            "--load-extension=" + resolvePath( "../../build"),
-            "--lang=zh-CN,zh",
-            "--no-sandbox"
-        ],
-        // executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-    });
+    browser = await launchBrowser();
 });
 
 afterAll(async () => {

@@ -77,6 +77,7 @@ const register = function (siteMoudle) {
     require("./dogatch.jp"),
     require("./entamenext.com"),
     require("./cancam.jp"),
+    require("./ray-web.jp"),
     require("./bltweb.jp"),
     require("./blog.nogizaka46.com"),
     require("./twitter.com"),

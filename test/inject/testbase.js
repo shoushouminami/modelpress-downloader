@@ -1,3 +1,18 @@
+const puppeteer = require("puppeteer");
+
+const launchBrowser = async function () {
+    return await puppeteer.launch({
+        headless: false, // extension are allowed only in head-full mode
+        args: [
+            "--disable-extensions-except=" + resolvePath( "../../build"),
+            "--load-extension=" + resolvePath( "../../build"),
+            "--lang=zh-CN,zh",
+            "--no-sandbox"
+        ],
+        // executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    });
+};
+
 /**
  * Run the function {@code func} if it is of type function, with the given arguments
  */
@@ -63,3 +78,4 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
 
 exports.testDirectDownload = testDirectDownload;
 exports.resolvePath = resolvePath;
+exports.launchBrowser = launchBrowser;
