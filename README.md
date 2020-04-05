@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.12 (2020/04/05)
+* Add missing case on news.dwango.jp
+* Support ray-web.jp
+* Support e-talentbank.co.jp
+
 ###### 2.11 (2020/03/11)
 * Bug fix for popwave.jp
 

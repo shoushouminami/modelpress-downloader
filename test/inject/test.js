@@ -16,7 +16,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    await browser.close();
+    if (browser) {
+        await browser.close();
+    }
 });
 
 // Test blog.nogizaka46.com
