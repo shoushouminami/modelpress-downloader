@@ -707,7 +707,7 @@ test("Test thetv.jp program home page", async () => {
         browser,
         "https://thetv.jp/program/0000974553/",
         "thetv.jp-program-0000974553-/",
-        ["https://thetv.jp/i/pg/series_images/0000974553_k.jpg"]);
+        ["https://thetv.jp/i/pg/program_images/0000665404_1_v.jpg"]);
 });
 
 test("Test thetv.jp matome home page", async () => {
@@ -766,18 +766,28 @@ test("Test apress.jp article with embeded images excluding ads", async () => {
 test("Test news.mynavi.jp article page", async () => {
     await testDirectDownload(
         browser,
-        "https://news.mynavi.jp/article/20190612-842046/",
-        "news.mynavi.jp-article-20190612-842046-/",
-        ["https://news.mynavi.jp/article/20190612-842046/images/001l.jpg",
-            "https://news.mynavi.jp/article/20190612-842046/images/002l.jpg",
-            "https://news.mynavi.jp/article/20190612-842046/images/003l.jpg",
-            "https://news.mynavi.jp/article/20190612-842046/images/004l.jpg",
-            "https://news.mynavi.jp/article/20190612-842046/images/005l.jpg"].concat(dummyItems(12)),
+        "https://news.mynavi.jp/article/20200404-minamisara/",
+        "news.mynavi.jp-article-20200404-minamisara-/",
+        ["https://news.mynavi.jp/article/20200404-minamisara/images/001l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/002l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/003l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/004l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/005l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/006l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/007l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/008l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/009l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/010l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/011l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/012l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/013l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/014l.jpg",
+            "https://news.mynavi.jp/article/20200404-minamisara/images/015l.jpg"],
         {
             preinject: async function (page) {
                 await pageutils.scrollToBottom(page);
             }
-        })
+        });
 });
 
 test("Test news.mynavi.jp image gallery", async () => {

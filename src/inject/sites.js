@@ -74,6 +74,7 @@ const register = function (siteMoudle) {
     require("./spice.eplus.jp"),
     require("./girlswalker.com"),
     require("./this.kiji.is"),
+    require("./e-talentbank.co.jp"),
     require("./dogatch.jp"),
     require("./entamenext.com"),
     require("./cancam.jp"),
