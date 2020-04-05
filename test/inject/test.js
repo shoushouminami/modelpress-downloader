@@ -1,14 +1,5 @@
-const {testDirectDownload, resolvePath, launchBrowser} = require("./testbase");
+const {testDirectDownload, resolvePath, launchBrowser, dummyItems} = require("./testbase");
 const pageutils = require("../pageutils");
-
-const dummyItems = function (count) {
-    let ret = [];
-    for (let i = 0 ; i < count; i++) {
-        ret.push({});
-    }
-
-    return ret;
-};
 
 let browser;
 beforeAll(async () => {
@@ -762,55 +753,6 @@ test("Test apress.jp article with embeded images excluding ads", async () => {
         "apress.jp-archives-10003/",
         ["https://apress.jp/wp-content/uploads/2019/12/main-8-2914344712-1577333035183.jpg",
             "https://apress.jp/wp-content/uploads/2019/12/main-9.jpg"]);
-});
-
-// news.mynavi.jp
-test("Test news.mynavi.jp article page", async () => {
-    await testDirectDownload(
-        browser,
-        "https://news.mynavi.jp/article/20200404-minamisara/",
-        "news.mynavi.jp-article-20200404-minamisara-/",
-        ["https://news.mynavi.jp/article/20200404-minamisara/images/001l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/002l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/003l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/004l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/005l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/006l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/007l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/008l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/009l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/010l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/011l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/012l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/013l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/014l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/015l.jpg"],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
-            }
-        });
-});
-
-test("Test news.mynavi.jp image gallery", async () => {
-    await testDirectDownload(
-        browser,
-        "https://news.mynavi.jp/photo/article/20190612-842046/images/001l.jpg",
-        "news.mynavi.jp-photo-article-20190612-842046-images-001l.jpg/",
-        ["https://news.mynavi.jp/article/20190612-842046/images/001l.jpg",
-            "https://news.mynavi.jp/article/20190612-842046/images/002l.jpg",
-            "https://news.mynavi.jp/article/20190612-842046/images/003l.jpg",
-            "https://news.mynavi.jp/article/20190612-842046/images/004l.jpg",
-            "https://news.mynavi.jp/article/20190612-842046/images/005l.jpg"].concat(dummyItems(12)));
-});
-
-test("Test news.mynavi.jp article with only inline image", async () => {
-    await testDirectDownload(
-        browser,
-        "https://news.mynavi.jp/article/20200201-965589/",
-        "news.mynavi.jp-article-20200201-965589-/",
-        ["https://news.mynavi.jp/article/20200201-965589/index_images/index.jpg"]
-    );
 });
 
 // times.abema.tv

@@ -29,6 +29,16 @@ const runFuncIfDefined = async function(func, args) {
 const resolvePath = function (relativePath) {
     return __dirname + "/./" + relativePath;
 };
+
+const dummyItems = function (count) {
+    let ret = [];
+    for (let i = 0 ; i < count; i++) {
+        ret.push({});
+    }
+
+    return ret;
+};
+
 /**
  *
  * @param browser
@@ -79,3 +89,4 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
 exports.testDirectDownload = testDirectDownload;
 exports.resolvePath = resolvePath;
 exports.launchBrowser = launchBrowser;
+exports.dummyItems = dummyItems;
