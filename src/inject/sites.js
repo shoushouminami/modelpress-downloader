@@ -85,4 +85,5 @@ const register = function (siteMoudle) {
     require("./www.facebook.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
+    require("./www.cinematoday.jp")
 ]);
