@@ -41,7 +41,8 @@ test("Test times.abema.tv article with images", async () => {
             }],
         {
             preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
+                await pageutils.wait(3000);
+                await pageutils.scrollTo(page,50);
             }
         });
 });
@@ -73,7 +74,8 @@ test("Test times.abema.tv article with images 2", async () => {
             }].concat(dummyItems(15)),
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 100);
+                await pageutils.wait(3000);
+                await  await pageutils.scrollTo(page,50);
             }
         });
 });
@@ -101,6 +103,7 @@ test("Test times.abema.tv article with images and data url", async () => {
             }],
         {
             preinject: async function (page) {
+                await pageutils.wait(3000);
                 await pageutils.scrollTo(page, 50);
             }
         });

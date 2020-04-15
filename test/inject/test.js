@@ -25,7 +25,12 @@ test("Test https://www.bilibili.com/read/cv2820325", async () => {
             "https://i0.hdslb.com/bfs/article/f904750e2dd1ac5b5ce88fa832c4e1ea53c7c048.jpg",
             "https://i0.hdslb.com/bfs/article/363276193da02eeaa6a2acfceebdb04b8edee308.jpg",
             "https://i0.hdslb.com/bfs/article/51f18ffc742682c944d23ce10a93ef92c46b82f0.jpg"
-        ]);
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page,70);
+            }
+        });
 });
 
 // Twitter

@@ -43,5 +43,6 @@ const scrollTo = async function(page, percentage = 100, waitTimeMs = 300) {
 
 module.exports = {
     scrollToBottom: scrollToBottom,
-    scrollTo: scrollTo
+    scrollTo: scrollTo,
+    wait: wait
 };
