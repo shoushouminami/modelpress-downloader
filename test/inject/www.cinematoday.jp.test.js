@@ -1,5 +1,5 @@
 const {re, getLargeImg} = require("../../src/inject/www.cinematoday.jp");
-const {testDirectDownload, launchBrowser} = require("./testbase");
+const {testDirectDownload, launchBrowser, dummyItems} = require("./testbase");
 const pageutils = require("../pageutils");
 
 test("Test regex", () => {
@@ -63,8 +63,7 @@ test("Test www.cinematoday.jp image gallery page", async () => {
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4844.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4848.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4864.JPG",
-            "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4877.JPG",
-            "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/main.jpg"],
+            "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4877.JPG"].concat(dummyItems(1)),
         {
             preinject: async function (page) {
                 await pageutils.scrollTo(page, 50);
