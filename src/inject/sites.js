@@ -41,16 +41,15 @@ const validate = function (siteMoudle) {
 
 const register = function (siteMoudle) {
     if (validate(siteMoudle)) {
+        modules.push(siteMoudle);
         if (typeof siteMoudle.host === "string") {
             if (modulesWithHostname[siteMoudle.host]) {
                 console.error("Duplicated site script: " + siteMoudle.host);
                 throw Error("Duplicated site script: " + siteMoudle.host);
             }
             modulesWithHostname[siteMoudle.host] = siteMoudle;
-            modules.push(siteMoudle);
         } else if (typeof siteMoudle.host === "function") {
             modulesWithHostFilter.push(siteMoudle);
-            modules.push(siteMoudle);
         }
     }
 };
@@ -65,15 +64,16 @@ const register = function (siteMoudle) {
     require("./news.mynavi.jp"),
     require("./tokyopopline.com"),
     require("./news.dwango.jp"),
-    require("./popwave.jp"),
-    require("./mikan-incomplete.com"),
     require("./mantan-web.jp"),
+    require("./natalie.mu"),
+    require("./this.kiji.is"),
     require("./thetv.jp"),
     require("./apress.jp"),
-    require("./natalie.mu"),
+    require("./www.cinematoday.jp"),
+    require("./popwave.jp"),
     require("./spice.eplus.jp"),
     require("./girlswalker.com"),
-    require("./this.kiji.is"),
+    require("./mikan-incomplete.com"),
     require("./e-talentbank.co.jp"),
     require("./dogatch.jp"),
     require("./entamenext.com"),
@@ -85,5 +85,4 @@ const register = function (siteMoudle) {
     require("./www.facebook.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
-    require("./www.cinematoday.jp")
 ]);
