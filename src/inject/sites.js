@@ -81,6 +81,7 @@ const register = function (siteMoudle) {
     require("./ray-web.jp"),
     require("./bltweb.jp"),
     require("./blog.nogizaka46.com"),
+    require("./7gogo.jp"),
     require("./twitter.com"),
     require("./www.facebook.com"),
     require("./www.bilibili.com"),
