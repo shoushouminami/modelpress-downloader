@@ -22,7 +22,7 @@ afterAll(async () => {
 });
 
 
-test("Test apress.jp article with only embeded image", async () => {
+test("Test 7gogo.jp hoshino-minami", async () => {
     await testDirectDownload(
         browser,
         "https://7gogo.jp/hoshino-minami",

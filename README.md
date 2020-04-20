@@ -19,6 +19,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.13 (2020/04/20)
+* Support 7gogo.jp
+* Support www.cinematoday.jp
+
 ###### 2.12 (2020/04/05)
 * Add missing case on news.dwango.jp
 * Support ray-web.jp
