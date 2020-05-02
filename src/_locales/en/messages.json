@@ -1,4 +1,8 @@
 {
+  "appName": {
+    "message": "Modelpress Image Downloader",
+    "description":"The name of this extension, displayed in the web store and extension menu."
+  },
   "appDesc": {
     "message": "One click to batch download the best resolution images from the current news article.",
     "description":"The description of the application, displayed in the web store."

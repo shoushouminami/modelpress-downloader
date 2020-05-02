@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.14 (2020/04/20)
+* Add Chinese name
+
 ###### 2.13 (2020/04/20)
 * Support 7gogo.jp
 * Support www.cinematoday.jp
