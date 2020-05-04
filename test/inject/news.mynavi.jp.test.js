@@ -57,8 +57,8 @@ test("Test news.mynavi.jp image gallery", async () => {
 test("Test news.mynavi.jp article with only inline image", async () => {
     await testDirectDownload(
         browser,
-        "https://news.mynavi.jp/article/20200201-965589/",
-        "news.mynavi.jp-article-20200201-965589-/",
-        ["https://news.mynavi.jp/article/20200201-965589/index_images/index.jpg"]
+        "https://news.mynavi.jp/article/20200424-1023132/",
+        "news.mynavi.jp-article-20200424-1023132-/",
+        ["https://news.mynavi.jp/article/20200424-1023132/images/001.jpg"]
     );
 });
