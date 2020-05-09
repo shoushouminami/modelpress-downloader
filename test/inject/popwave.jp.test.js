@@ -11,7 +11,7 @@ afterAll(async () => {
 });
 
 // http://popwave.jp/
-test("Test popwave.jp archives article", async () => {
+test.skip("Test popwave.jp archives article", async () => {
     await testDirectDownload(
         browser,
         "http://popwave.jp/archives/6586",
@@ -29,7 +29,7 @@ test("Test popwave.jp archives article", async () => {
         });
 });
 
-test("Test popwave.jp archives article with different pattern", async () => {
+test.skip("Test popwave.jp archives article with different pattern", async () => {
     await testDirectDownload(
         browser,
         "http://popwave.jp/archives/7197",
@@ -56,7 +56,7 @@ test("Test popwave.jp archives article with different pattern", async () => {
         });
 });
 
-test("Test popwave.jp archives article 2 with different pattern", async () => {
+test.skip("Test popwave.jp archives article 2 with different pattern", async () => {
     await testDirectDownload(
         browser,
         "http://popwave.jp/archives/7222",
