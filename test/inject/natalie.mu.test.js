@@ -1,4 +1,5 @@
 const {testDirectDownload, launchBrowser} = require("./testbase");
+const pageutils = require("../pageutils");
 
 let browser;
 beforeAll(async () => {
@@ -15,7 +16,12 @@ test("Test natalie.mu news page", async () => {
         "https://natalie.mu/owarai/news/363814",
         "natalie.mu-owarai-news-363814/",
         ["https://ogre.natalie.mu/media/news/owarai/2020/0120/kowaimadori2.jpg?imtype=",
-            "https://ogre.natalie.mu/media/news/owarai/2020/0120/kowaimadori1.jpg?imtype="]);
+            "https://ogre.natalie.mu/media/news/owarai/2020/0120/kowaimadori1.jpg?imtype="],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 50);
+            }
+        });
 });
 
 test("Test natalie.mu gallery page", async () => {
