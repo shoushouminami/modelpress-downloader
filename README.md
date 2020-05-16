@@ -19,6 +19,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.15 (2020/05/15)
+* Adapt to new page layout on natalie.mu.js
+* Minor popup text tweak.
+
 ###### 2.14 (2020/04/20)
 * Add Chinese name
 
