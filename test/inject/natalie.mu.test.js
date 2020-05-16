@@ -33,7 +33,12 @@ test("Test natalie.mu gallery page", async () => {
             "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_01.jpg?imtype=",
             "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_04.jpg?imtype=",
             "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_05.jpg?imtype=",
-            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_03.jpg?imtype="]);
+            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_03.jpg?imtype="],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 50);
+            }
+        });
 });
 
 test("Test natalie.mu single image page", async () => {

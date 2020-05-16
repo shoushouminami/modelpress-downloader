@@ -52,7 +52,7 @@ test("Test thetv.jp program home page", async () => {
         browser,
         "https://thetv.jp/program/0000974553/",
         "thetv.jp-program-0000974553-/",
-        ["https://thetv.jp/i/pg/series_images/0000665404_v.jpg"]);
+        ["https://thetv.jp/i/pg/program_images/0000665404_6_v.jpg"]);
 });
 
 test("Test thetv.jp matome home page", async () => {
