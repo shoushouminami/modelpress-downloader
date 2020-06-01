@@ -122,7 +122,7 @@ const fetchMdprMobileImages = function (articleId, callback){
     // Test code ends
 
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://app-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&article_id=" + articleId, true);
+    xhr.open("GET", "https://app-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=" + articleId, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             state.fetchStatus = xhr.status;
