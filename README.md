@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.16 (2020/05/31)
+* Fix mdpr remote image url
+
 ###### 2.15 (2020/05/15)
 * Adapt to new page layout on natalie.mu.js
 * Minor popup.html and permission.html text tweak.
