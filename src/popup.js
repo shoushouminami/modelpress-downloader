@@ -123,7 +123,7 @@ const fetchMdprMobileImages = function (articleId, callback, domains){
     // Test code ends
 
     if (!domains) {
-        domains = ["app2-mdpr.freetls.fastly.net", "app-mdpr.freetls.fastly.net"];
+        domains = ["app2-mdpr.freetls.fastly.net", "app-mdpr.freetls.fastly.net", "app1-mdpr.freetls.fastly.net"];
     }
 
     if (domains.length > 0) {
