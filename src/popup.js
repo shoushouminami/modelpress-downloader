@@ -102,8 +102,9 @@ const downloadWithIframe = function (chrome, image, context, tabId) {
 
 /**
  * get all images from mdpr mobile apis
+ * @param domains - The domains to try in order
  */
-const fetchMdprMobileImages = function (articleId, callback){
+const fetchMdprMobileImages = function (articleId, callback, domains){
     if (!articleId || !articleId.match(/^\d+$/) || !callback || !(callback instanceof Function)) {
         console.error("Invalid article id: " + articleId + " or callback " + callback);
         return null;
@@ -121,35 +122,45 @@ const fetchMdprMobileImages = function (articleId, callback){
     // return;
     // Test code ends
 
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://app-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=" + articleId, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            state.fetchStatus = xhr.status;
-            if (xhr.status / 100 === 2) {
-                console.debug("Retrieved remote images: " + xhr.responseText);
-                let resp = undefined;
-                let list = [];
-                try {
-                    resp = JSON.parse(xhr.responseText);
-                } catch (e) {
-                    console.error("Failed parsing JSON: " + e);
-                }
+    if (!domains) {
+        domains = ["app2-mdpr.freetls.fastly.net", "app-mdpr.freetls.fastly.net"];
+    }
 
-                if (resp && resp.list && resp.list.length) {
-                    for (const item of resp.list) {
-                        list.push(item.url);
+    if (domains.length > 0) {
+        const domain = domains.shift();
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://" + domain + "/api/images/dialog/article?index=0&image_id=0&article_id=" + articleId, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                state.fetchStatus = xhr.status;
+                if (xhr.status / 100 === 2) {
+                    console.debug("Retrieved remote images: " + xhr.responseText);
+                    let resp = undefined;
+                    let list = [];
+                    try {
+                        resp = JSON.parse(xhr.responseText);
+                    } catch (e) {
+                        console.error("Failed parsing JSON: " + e);
+                    }
+
+                    if (resp && resp.list && resp.list.length) {
+                        for (const item of resp.list) {
+                            list.push(item.url);
+                        }
+                    }
+                    callback(list);
+                } else {
+                    console.error("Failed loading remote images: " + xhr.status + " " + xhr.statusText);
+                    if (domains.length > 0) {
+                        fetchMdprMobileImages(articleId, callback, domains);
+                    } else {
+                        callback([]);
                     }
                 }
-
-                callback(list);
-            } else {
-                console.log("Failed loading remote images: " + xhr.status + " " + xhr.statusText);
-                callback([]);
             }
-        }
-    };
-    xhr.send();
+        };
+        xhr.send();
+    }
 };
 
 let message = {
@@ -170,8 +181,9 @@ let state = {
     addedCount: 0
 };
 
+// Used in Chrome permission request
 const ORIGINS = {
-    "mdpr.jp": ["https://app-mdpr.freetls.fastly.net/"]
+    "mdpr.jp": ["https://*.freetls.fastly.net/"]
 };
 
 const updatePopupUI = function () {

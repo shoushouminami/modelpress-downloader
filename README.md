@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.17 (2020/06/01)
+* Fix mdpr remote image url
+
 ###### 2.16 (2020/05/31)
 * Fix mdpr remote image url
 

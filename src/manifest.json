@@ -1,13 +1,13 @@
 {
   "name": "__MSG_appName__",
-  "version": "2.16",
+  "version": "2.17",
   "description": "__MSG_appDesc__",
   "permissions": [
     "activeTab",
     "downloads"
   ],
   "optional_permissions": [
-    "https://app-mdpr.freetls.fastly.net/"
+    "https://*.freetls.fastly.net/"
   ],
   "background": {
     "scripts": [
