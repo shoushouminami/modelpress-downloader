@@ -102,6 +102,8 @@ const downloadWithIframe = function (chrome, image, context, tabId) {
 
 /**
  * get all images from mdpr mobile apis
+ * @param callback - the callback function which will receive an array of additional image urls when successful. On
+ *                  failure it will receive an empty array.
  * @param domains - The domains to try in order
  */
 const fetchMdprMobileImages = function (articleId, callback, domains){
@@ -396,3 +398,7 @@ window.addEventListener("load", function(){
         }
     }
 }, false);
+
+module.exports = {
+    fetchMdprMobileImages: fetchMdprMobileImages
+};
