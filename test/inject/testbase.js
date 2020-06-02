@@ -71,13 +71,26 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
     expect(mid['o']).toBeDefined();
     expect(mid['o']['supported']).toBeTruthy();
     expect(mid['o']['images']).toHaveLength(images.length);
+    // matches images array
+    // 1. literals: ["url1", "url2", ...]
+    // 2. regex: [{regex: /regex/, count: 1}, ...]
+    // 3. object match: [{url: "url1", retries: ["retry_url1", "retry_url2", ...]}, ... ]
     for (const image of images) {
         if (image instanceof String || typeof image === "string") {
             expect(mid['o']['images']).toContain(image);
-        } else if (typeof image === "object" && image.url) {
-            expect(mid['o']['images']).toContainEqual(image);
+        } else if (typeof image === "object") {
+            if (image.regex) {
+                let count = image.count || 1;
+                mid['o']['images'].forEach((image) =>{
+                    if (typeof image == "string" && image.match(image.regex)) {
+                        count--;
+                    }
+                })
+                expect(count).toBe(0);
+            } else if (image.url) {
+                expect(mid['o']['images']).toContainEqual(image);
+            }
         }
-
     }
 
     expect(mid['o']['folder']).toBe(folder);
