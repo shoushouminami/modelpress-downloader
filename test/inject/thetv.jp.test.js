@@ -50,9 +50,17 @@ test("Test talent.thetv.jp single image", async () => {
 test("Test thetv.jp program home page", async () => {
     await testDirectDownload(
         browser,
-        "https://thetv.jp/program/0000974811/",
-        "thetv.jp-program-0000974811-/",
-        [{regex: /^https:\/\/thetv\.jp\/i\/pg\/program_images\/0000668536_...\.jpg$/}]);
+        "https://thetv.jp/news/detail/235367/",
+        "thetv.jp-news-detail-235367-/",
+        [
+            "https://thetv.jp/i/nw/235367/1475224.jpg",
+            "https://thetv.jp/i/nw/235367/1475226.jpg",
+            "https://thetv.jp/i/nw/235367/1475227.jpg"
+        ],{
+            preinject: async function (page) {
+                await pageutils.scrollToBottom(page);
+            }
+        });
 });
 
 test("Test thetv.jp matome home page", async () => {
