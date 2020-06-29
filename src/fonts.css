@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Noto Sans SC;
+    src: url("Noto_Sans_SC/NotoSansSC-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Noto Sans SC;
+    font-weight: bold;
+    src: url("Noto_Sans_SC/NotoSansSC-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Noto Sans SC;
+    font-weight: 200;
+    src: url("Noto_Sans_SC/NotoSansSC-Thin.otf") format("opentype");
+}
+

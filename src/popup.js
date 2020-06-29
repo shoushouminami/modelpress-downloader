@@ -165,6 +165,18 @@ const fetchMdprMobileImages = function (articleId, callback, domains){
     }
 };
 
+function addClickListenerForLinks(element) {
+    if (element && element.nodeName === "A") {
+        element.addEventListener("click", function (e) {
+            chrome.tabs.update({url:element.href});
+        })
+    }
+
+    for (const child of element.childNodes) {
+        addClickListenerForLinks(child);
+    }
+}
+
 let message = {
     supported: false,
     retry: false,
@@ -228,8 +240,12 @@ const updatePopupUI = function () {
         }
     } else {
         document.getElementById("download").hidden = "hidden";
+        document.getElementById("app-name").innerText = chrome.i18n.getMessage("appName");
         document.getElementById("supported-sites-title").innerText = chrome.i18n.getMessage("supportedSitesTitle");
         document.getElementById("supported-sites").hidden = false;
+        document.getElementById("support-request").innerHTML = chrome.i18n.getMessage("supportMessageML");
+        addClickListenerForLinks(document.getElementById("support-request"));
+        document.getElementById("support-request").hidden = false;
     }
 };
 
@@ -374,10 +390,7 @@ window.addEventListener("load", function(){
         img.classList.add("siteIcon");
 
         a.href = siteUrl;
-        // a.innerText = displayUrl;
-        a.addEventListener("click", function () {
-            chrome.tabs.update({url:siteUrl});
-        });
+        addClickListenerForLinks(a);
         a.classList.add("siteLink");
         a.appendChild(img);
 

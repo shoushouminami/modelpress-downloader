@@ -22,8 +22,12 @@
     "description": "The text on the button when there is no image found to download"
   },
   "supportedSitesTitle": {
-    "message": "Modelpress Image Downloader works on:",
+    "message": "Currently Works On:",
     "description": "The title of a list of supported websites shown when the active tab is not supported"
+  },
+  "supportMessageML": {
+    "message": "This website is not yet supported. You can submit a request report on this <a href=\"https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8\">Google Form</a>",
+    "description": "Shows the Google form url where the user can file a support request."
   },
   "downloadMobileLabel": {
     "message": "Include App only images?",

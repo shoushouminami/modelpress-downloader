@@ -18,7 +18,10 @@
     "message": "未检测到图片"
   },
   "supportedSitesTitle": {
-    "message": "米酱图片一键下载可用在："
+    "message": "本扩展可用在："
+  },
+  "supportMessageML": {
+    "message": "暂不支持该网页。你可以通过 <a href=\"https://docs.google.com/forms/d/1it_kUTKcBH8MUT_wA7lvngOF6Ro-p4MQdN4xzyG8DFA\">这个Google 表单</a> 提交报告来提醒作者。"
   },
   "downloadMobileLabel": {
     "message": "检测App专享图片：",
