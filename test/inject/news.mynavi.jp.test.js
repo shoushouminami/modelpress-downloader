@@ -37,6 +37,9 @@ test("Test news.mynavi.jp article page", async () => {
                 try {
                     await page.goto("https://news.mynavi.jp/article/20200404-minamisara/", {timeout: 5000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
                 } catch (ignored) {}
+                try {
+                    await page.goto("https://news.mynavi.jp/article/20200404-minamisara/", {timeout: 5000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+                } catch (ignored) {}
                 await pageutils.scrollToBottom(page);
             }
         });
