@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.19 (2020/07/18)
+* Support www.hinatazaka46.com
+
 ###### 2.18 (2020/06/28)
 * Add Google form for support request
 
