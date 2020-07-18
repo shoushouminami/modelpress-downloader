@@ -35,7 +35,7 @@ test("Test news.mynavi.jp article page", async () => {
         {
             preinject: async function (page) {
                 try {
-                    await page.goto("https://news.mynavi.jp/article/20200404-minamisara/", {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+                    await page.goto("https://news.mynavi.jp/article/20200404-minamisara/", {timeout: 5000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
                 } catch (ignored) {}
                 await pageutils.scrollToBottom(page);
             }
