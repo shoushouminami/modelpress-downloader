@@ -120,17 +120,11 @@ test("Test mantan-web.jp page", async () => {
 test("Test this.kiji.is news page", async () => {
     await testDirectDownload(
         browser,
-        "https://this.kiji.is/627857249927726177",
-        "this.kiji.is-627857249927726177/",
-        ["https://nordot-res.cloudinary.com/ch/images/627857151665521761/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857161274459233/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857168394503265/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857175979738209/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857184732955745/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857197404554337/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857206021506145/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857212545483873/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857225936077921/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/627857235524469857/origin_1.jpg"]);
+        "https://this.kiji.is/661084856750736481",
+        "this.kiji.is-661084856750736481/",
+        ["https://nordot-res.cloudinary.com/ch/images/661084824142857313/origin_1.jpg",
+            "https://nordot-res.cloudinary.com/ch/images/661084830553883745/origin_1.jpg",
+            "https://nordot-res.cloudinary.com/ch/images/661084837809210465/origin_1.jpg",
+            "https://nordot-res.cloudinary.com/ch/images/661084846522303585/origin_1.jpg"]);
 });
 
