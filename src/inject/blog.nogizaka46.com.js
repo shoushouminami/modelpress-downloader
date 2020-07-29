@@ -23,7 +23,7 @@ module.exports = {
         }
 
         var iframe = null;
-        chrome.runtime.onMessage.addListener(
+        window.chrome && chrome.runtime.onMessage.addListener(
             function (request, sender, sendResponse) {
                 if (request.what === "showIframe" && request.url) {
                     if (iframe == null) {

@@ -26,13 +26,13 @@
   "devDependencies": {
     "chromium": "2.0.0",
     "copy-webpack-plugin": "^5.1.1",
-    "jasmine": "^3.5.0",
+    "jasmine": "^3.6.1",
     "jest": "^24.9.0",
     "jest-puppeteer": "^4.3.0",
     "mocha": "^6.2.3",
     "node": "^12.18.2",
     "puppeteer": "2.0.0",
-    "webpack": "^4.43.0",
+    "webpack": "^4.44.0",
     "webpack-cli": "^3.3.12"
   }
 }

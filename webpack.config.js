@@ -6,7 +6,8 @@ module.exports = {
         inject: "./src/inject.js",
         background: "./src/background.js",
         popup: "./src/popup.js",
-        "helper/instagram-react": "./src/helper/instagram-react.js"
+        "helper/instagram-react": "./src/helper/instagram-react.js",
+        shortcut: "./src/shortcut.js"
     },
     output: {
         filename: '[name].js',
@@ -24,5 +25,5 @@ module.exports = {
             },
         ])
     ],
-    devtool: false
+    devtool: false,
 };
