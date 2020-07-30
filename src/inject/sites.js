@@ -1,15 +1,8 @@
 const modulesWithHostname = {};
-const modulesWithHostFilter = [];
 const modules = [];
 const get = function (location) {
     if (modulesWithHostname[location.host]) {
         return modulesWithHostname[location.host];
-    }
-
-    for (const f of modulesWithHostFilter) {
-        if (f.host(location.host, location)) {
-            return f;
-        }
     }
 
     return false;
@@ -39,17 +32,15 @@ const validate = function (siteMoudle) {
     return false;
 };
 
-const register = function (siteMoudle) {
-    if (validate(siteMoudle)) {
-        modules.push(siteMoudle);
-        if (typeof siteMoudle.host === "string") {
-            if (modulesWithHostname[siteMoudle.host]) {
-                console.error("Duplicated site script: " + siteMoudle.host);
-                throw Error("Duplicated site script: " + siteMoudle.host);
+const register = function (siteModule) {
+    if (validate(siteModule)) {
+        modules.push(siteModule);
+        if (typeof siteModule.host === "string") {
+            if (modulesWithHostname[siteModule.host]) {
+                console.error("Duplicated site script: " + siteModule.host);
+                throw Error("Duplicated site script: " + siteModule.host);
             }
-            modulesWithHostname[siteMoudle.host] = siteMoudle;
-        } else if (typeof siteMoudle.host === "function") {
-            modulesWithHostFilter.push(siteMoudle);
+            modulesWithHostname[siteModule.host] = siteModule;
         }
     }
 };

@@ -39,8 +39,6 @@ module.exports = {
         }
         return o;
     },
-    host: function (host, location) {
-        return host === "www.bilibili.com" && location.pathname.startsWith("/read/");
-    },
+    host: "www.bilibili.com",
     url: "https://www.bilibili.com/read/home"
 };

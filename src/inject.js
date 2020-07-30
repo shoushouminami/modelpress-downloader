@@ -1,11 +1,10 @@
 "use strict";
 let o = require("./inject/return-message.js").init();
-const sites = require("./inject/sites.js");
-
-const site = sites.get(window.location);
-if (site) {
+try {
+    const site = require("./inject/" + require("./inject/hostMapping").check(window.location));
     o = site.inject();
-} else {
+} catch (e) {
+    // not found
     o.supported = false;
 }
 

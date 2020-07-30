@@ -14,8 +14,6 @@ module.exports = {
         utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.mainContent div.contentBody div.personData figure.personDataVisual img", utils.removeQuery));
         return o;
     },
-    host: function(host) {
-        return host === "thetv.jp" || host === "talent.thetv.jp";
-    },
+    host: "thetv.jp",
     url: "https://thetv.jp"
 };

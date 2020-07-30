@@ -24,8 +24,6 @@ const inject = function() {
 
 module.exports = {
     inject: inject,
-    host: function (host) {
-        return host === "mdpr.jp" || host.endsWith(".mdpr.jp");
-    },
+    host: "mdpr.jp",
     url: "https://mdpr.jp"
 };
