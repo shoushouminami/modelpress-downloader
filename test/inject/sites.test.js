@@ -7,7 +7,9 @@ test("Test sites.all", () => {
     sites.all().forEach((module) => {
         if (typeof module.host === "string") {
             hosts.push(module.host);
-        } else {
+        }
+
+        if (module.url) {
             urls.push(module.url);
         }
     });
