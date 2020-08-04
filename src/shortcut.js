@@ -1,11 +1,12 @@
-let o = require("./inject/return-message.js").init();
-
 try {
     const site = require("./inject/" + require("./inject/hostMapping").check(window.location));
-    o = site.inject();
-    completion(o.images);
+    const o = site.inject();
+    completion({
+        count: o.images.length,
+        urls: o.images,
+        supported: true
+    });
 } catch (e) {
     // not found
-    o.supported = false;
-    completion([]);
+    completion({});
 }

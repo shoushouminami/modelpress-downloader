@@ -68,6 +68,7 @@ const register = function (siteModule) {
     require("./e-talentbank.co.jp"),
     require("./dogatch.jp"),
     require("./entamenext.com"),
+    require("./nonno.hpplus.jp"),
     require("./cancam.jp"),
     require("./ray-web.jp"),
     require("./bltweb.jp"),
