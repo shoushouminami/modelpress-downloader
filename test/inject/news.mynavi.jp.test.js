@@ -62,6 +62,6 @@ test("Test news.mynavi.jp article with only inline image", async () => {
         browser,
         "https://news.mynavi.jp/article/20200424-1023132/",
         "news.mynavi.jp-article-20200424-1023132-/",
-        ["https://news.mynavi.jp/article/20200424-1023132/images/001.jpg"]
+        ["https://news.mynavi.jp/article/20200424-1023132/images/001l.jpg"]
     );
 });
