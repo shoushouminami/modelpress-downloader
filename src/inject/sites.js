@@ -73,7 +73,7 @@ const register = function (siteModule) {
     require("./ray-web.jp"),
     require("./bltweb.jp"),
     require("./blog.nogizaka46.com"),
-    require("./hinatazaka46.com"),
+    require("./www.hinatazaka46.com"),
     require("./7gogo.jp"),
     require("./twitter.com"),
     require("./www.facebook.com"),
