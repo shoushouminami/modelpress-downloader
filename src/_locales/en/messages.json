@@ -30,15 +30,15 @@
     "description": "Shows the Google form url where the user can file a support request."
   },
   "downloadMobileLabel": {
-    "message": "Include App only images?",
+    "message": "Check App only images?",
     "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
   },
   "downloadMobileStatusTextInProgress": {
-    "message": "⌛ App only images: Checking",
+    "message": "⌛ Only on App: Checking",
     "description": "The text for in progress fetching extra images"
   },
   "downloadMobileStatusTextSuccess": {
-    "message": "✔️ App only images: $NUMBER$",
+    "message": "✔️ Only on App: $NUMBER$",
     "description": "The text for successfully fetching extra images",
     "placeholders": {
       "number": {
@@ -48,11 +48,11 @@
     }
   },
   "downloadMobileStatusTextNotFound": {
-    "message": "\uD83E\uDD37 App only images: Not found ",
+    "message": "\uD83E\uDD37 Only on App: Not found ",
     "description": "The text for no extra images found (404)"
   },
   "downloadMobileStatusTextFailed": {
-    "message": "❌ App only images: Failed ",
+    "message": "❌ Only on App: Failed ",
     "description": "The text for failed fetching extra images with any failure other than 404"
   },
   "downloadMobileStatusFailedHelp": {
