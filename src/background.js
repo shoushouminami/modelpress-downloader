@@ -1,5 +1,5 @@
 "use strict";
-
+const ga = require("./google-analytics");
 const retryMap = {}; // {downloadId: image}
 const downloadQueue = []; // Queue for regular downloads
 const inProgressMap = {};

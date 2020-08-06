@@ -7,7 +7,8 @@ module.exports = {
         background: "./src/background.js",
         popup: "./src/popup.js",
         "helper/instagram-react": "./src/helper/instagram-react.js",
-        shortcut: "./src/shortcut.js"
+        shortcut: "./src/shortcut.js",
+        "google-analytics": "./src/google-analytics.js"
     },
     output: {
         filename: '[name].js',

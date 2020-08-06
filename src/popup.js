@@ -1,5 +1,6 @@
 "use strict";
 const sites = require("./inject/sites");
+const ga = require("./google-analytics");
 
 let getFileName = function(url, ext) {
     var filename = url.split("?")[0].split("/");
@@ -251,12 +252,11 @@ const updatePopupUI = function () {
 
 document.getElementById("download").addEventListener("click", function () {
     let imagesNeedTab = [];
-    let startBg = false;
     let downloadInBg = [];
+    ga.trackDownloadButtonClick(message.images.length);
     for (const image of message.images) {
         if (typeof image === "string") {
             // downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
-            // startBg = true;
             // download(chrome, {url: image, folder: message.folder, ext: message.ext});
             downloadInBg.push({url: image, folder: message.folder, ext: message.ext});
         } else if (typeof image === "object" && image.websiteUrl && image.imageUrl) {
