@@ -2,9 +2,9 @@ const utils = require("../utils.js");
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        var sheet = document.getElementById("sheet");
+        let sheet = document.getElementById("sheet");
         if (sheet) {
-            var imgs = utils.findAllImageDOMsFromRoot(sheet, {"ids": ["comments"]});
+            let imgs = utils.findAllImageDOMsFromRoot(sheet, {"ids": ["comments"]});
             for (const img of imgs) {
                 if (img.parentElement instanceof HTMLAnchorElement && img.parentElement.href
                     && (img.parentElement.href.indexOf("//blog.nogizaka46.com/") > -1 || img.parentElement.href.indexOf("//img.nogizaka46.com/"))
@@ -22,7 +22,7 @@ module.exports = {
             }
         }
 
-        var iframe = null;
+        let iframe = null;
         window.chrome && chrome.runtime.onMessage.addListener(
             function (request, sender, sendResponse) {
                 if (request.what === "showIframe" && request.url) {

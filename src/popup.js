@@ -1,6 +1,7 @@
 "use strict";
 const sites = require("./inject/sites");
 const ga = require("./google-analytics");
+const downloader = require("./downloader");
 
 let getFileName = function(url, ext) {
     var filename = url.split("?")[0].split("/");
@@ -15,12 +16,14 @@ let getFileName = function(url, ext) {
 
     return filename;
 };
+
 /**
  * @param chrome
  * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
  * @param resolve
+ * @param error is called when the download started and failed because of server side error, in addition to resolve.
  */
-const download = function (chrome, image, resolve) {
+const download = function (chrome, image, resolve, error) {
     chrome.downloads.download(
         {
             url: image.url,
@@ -29,14 +32,15 @@ const download = function (chrome, image, resolve) {
             filename: image.folder + getFileName(image.url, image.ext)
         }, function (downloadId) {
             console.log("downloadId=" + downloadId);
-            if (downloadId && image.retries && image.retries.length > 0) {
-                retryMap[downloadId] = image;
-            }
-
-            if (resolve instanceof Function) {
+            if (typeof resolve === "function") {
                 resolve();
             }
 
+            if (downloadId && typeof error === "function") {
+                downloader.addDownloadCompleteListener(downloadId, undefined, function (){
+                    error();
+                });
+            }
         });
 };
 
@@ -92,7 +96,10 @@ const downloadWithIframe = function (chrome, image, context, tabId) {
                 console.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
                 displayInIframe(tabId, image.websiteUrl, function () {
                     console.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                    download(chrome, {url: image.imageUrl, folder: context.folder} , resolve);
+                    download(chrome, {url: image.imageUrl, folder: context.folder} , resolve, function () {
+                        console.error("event=download_with_iframe_failed");
+                        ga.trackIframeDownloadFailure(context.host);
+                    });
                 }, function (msg) {
                     console.error(msg);
                 });
@@ -166,9 +173,16 @@ const fetchMdprMobileImages = function (articleId, callback, domains){
     }
 };
 
-function addClickListenerForLinks(element) {
+/**
+ * Recursively enhance A element so a click on the element would update the active chrome tab.
+ * Runs callback before navigating.
+ */
+function addClickListenerForLinks(element, callback) {
     if (element && element.nodeName === "A") {
         element.addEventListener("click", function (e) {
+            if (typeof callback === "function") {
+                callback();
+            }
             chrome.tabs.update({url:element.href});
         })
     }
@@ -245,7 +259,9 @@ const updatePopupUI = function () {
         document.getElementById("supported-sites-title").innerText = chrome.i18n.getMessage("supportedSitesTitle");
         document.getElementById("supported-sites").hidden = false;
         document.getElementById("support-request").innerHTML = chrome.i18n.getMessage("supportMessageML");
-        addClickListenerForLinks(document.getElementById("support-request"));
+        addClickListenerForLinks(document.getElementById("support-request"), () => {
+            ga.trackEvent("support_link", "clicked");
+        });
         document.getElementById("support-request").hidden = false;
     }
 };
@@ -253,7 +269,7 @@ const updatePopupUI = function () {
 document.getElementById("download").addEventListener("click", function () {
     let imagesNeedTab = [];
     let downloadInBg = [];
-    ga.trackDownloadButtonClick(message.images.length);
+    ga.trackDownload(message.host, message.images.length);
     for (const image of message.images) {
         if (typeof image === "string") {
             // downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
@@ -276,13 +292,15 @@ document.getElementById("download").addEventListener("click", function () {
     }
 
     if (imagesNeedTab.length) {
+        ga.trackIframeDownload(message.host, imagesNeedTab.length);
         let context = {
             p: Promise.resolve(),
             tempTab: null,
             tempIframe: null,
             folder: message.folder,
             finishCount: 0,
-            totalCount: imagesNeedTab.length
+            totalCount: imagesNeedTab.length,
+            host: message.host
         };
 
         context.totalCount = imagesNeedTab.length;
@@ -338,6 +356,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         if (results && results.length) {
             message = results[0];
             message.fromTabId = tabs[0].id;
+            ga.trackSupport(message.host, message.supported)
             if (message.remoteImages) {
                 if (message.remoteImages["mdpr.jp"]) {
                     chrome.permissions.contains({
@@ -351,6 +370,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                     });
                 }
             }
+
         }
         updatePopupUI();
     };
@@ -390,7 +410,9 @@ window.addEventListener("load", function(){
         img.classList.add("siteIcon");
 
         a.href = siteUrl;
-        addClickListenerForLinks(a);
+        addClickListenerForLinks(a, () => {
+            ga.trackEvent("site_icon", "clicked")
+        });
         a.classList.add("siteLink");
         a.appendChild(img);
 

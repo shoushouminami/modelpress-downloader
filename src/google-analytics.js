@@ -7,20 +7,38 @@ const getGaq = function () {
     return window._gaq;
 }
 
-const trackDownloadButtonClick = function (imageCount){
-    trackEvent("download", "clicked", "count", imageCount);
+const setVar = function (slot, name, value) {
+    getGaq().push(["_setCustomVar", slot, name, value]);
+}
+
+let e = {
+    trackButtonClick: function (buttonId) {
+        e.trackEvent(buttonId, "clicked");
+    },
+    trackEvent: function (category, action, label, value) {
+        getGaq().push(["_trackEvent", category, action, label, value]);
+    },
+    trackDownload: function (site, count) {
+        setVar(1, "site", site);
+        e.trackEvent("download", "clicked", site, count);
+    },
+    trackSupport: function (site, supported) {
+        setVar(1, "site", site);
+        e.trackEvent("extension", "popup", site, supported ? 1 : 0);
+    },
+    trackIframeDownload: function (site, count) {
+        setVar(1, "site", site);
+        e.trackEvent("if_download", "started", site, count);
+    },
+    trackIframeDownloadFailure: function (site) {
+        e.trackEvent("if_download", "failed", site);
+    }
 };
 
-const trackButtonClick = function (buttonId){
-    trackEvent(buttonId, "clicked");
-};
-
-const trackEvent = function (object, event, param, value){
-    getGaq().push(["_trackEvent", object, event, param, value]);
-};
+module.exports = e;
 
 // bootstrap ga script
-(function() {
+(function () {
     let ga = document.createElement("script");
     ga.type = "text/javascript";
     ga.async = true;
@@ -28,9 +46,3 @@ const trackEvent = function (object, event, param, value){
     let s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(ga, s);
 })();
-
-module.exports = {
-    trackButtonClick: trackButtonClick,
-    trackEvent: trackEvent,
-    trackDownloadButtonClick: trackDownloadButtonClick
-}

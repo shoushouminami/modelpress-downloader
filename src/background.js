@@ -114,7 +114,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         let count = 0;
         for (const image of message.images) {
             download(chrome, image, function () {
-                console.debug("Started " + count + " jobs");
+                console.debug("Started job #" + count);
                 count++;
                 if (count === message.images.length) {
                     sendResponse({what: "done", images: message.images});
