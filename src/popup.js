@@ -32,14 +32,14 @@ const download = function (chrome, image, resolve, error) {
             filename: image.folder + getFileName(image.url, image.ext)
         }, function (downloadId) {
             console.log("downloadId=" + downloadId);
-            if (typeof resolve === "function") {
-                resolve();
-            }
-
             if (downloadId && typeof error === "function") {
                 downloader.addDownloadCompleteListener(downloadId, undefined, function (){
                     error();
                 });
+            }
+
+            if (typeof resolve === "function") {
+                resolve();
             }
         });
 };
@@ -69,36 +69,43 @@ const startDownloadInBackground = function (chrome) {
     });
 };
 
-const displayInIframe = function(tabId, url, resolve, error) {
-    chrome.tabs.sendMessage(tabId, {what: "showIframe", url: url}, function(response) {
-        if (response) {
-            if (response.status === "ok") {
-                if (resolve instanceof Function) {
+const displayInNewTab = function(tabId, url, resolve, error) {
+    chrome.tabs.create({
+        url: url,
+        active: false
+    }, (newTab) => {
+        chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+            if (tabId === newTab.id && changeInfo.status === "complete") {
+                chrome.tabs.remove(newTab.id, () => {
                     resolve();
-                }
-            } else {
-                if (error instanceof Function) {
-                    error("Something went wrong...");
-                }
+                });
             }
-        } else if (chrome.runtime.lastError) {
-            if (error instanceof Function) {
-                error(chrome.runtime.lastError.message);
-            }
-        }
+        });
     });
 };
 
-const downloadWithIframe = function (chrome, image, context, tabId) {
+const downloadWithNewTab = function (chrome, image, context, tabId) {
     if (image.websiteUrl) {
         context.p = context.p.then(function () {
             return new Promise(function (resolve) {
                 console.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                displayInIframe(tabId, image.websiteUrl, function () {
+                displayInNewTab(tabId, image.websiteUrl, function () {
                     console.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                    download(chrome, {url: image.imageUrl, folder: context.folder} , resolve, function () {
+                    download(chrome, {url: image.imageUrl, folder: context.folder} , () => {
+                        context.finishCount++;
+                        if (context.finishCount === context.totalCount) {
+                            if (context.errorCount > 0) {
+                                ga.trackEvent("tab_download", "failure", context.host, context.errorCount);
+                            }
+
+                            if (context.finishCount > context.errorCount) {
+                                ga.trackEvent("tab_download", "success", context.host, context.finishCount - context.errorCount);
+                            }
+                        }
+                        resolve();
+                    }, function () {
                         console.error("event=download_with_iframe_failed");
-                        ga.trackIframeDownloadFailure(context.host);
+                        context.errorCount++;
                     });
                 }, function (msg) {
                     console.error(msg);
@@ -294,20 +301,21 @@ document.getElementById("download").addEventListener("click", function () {
     }
 
     if (imagesNeedTab.length) {
-        ga.trackIframeDownload(message.host, imagesNeedTab.length);
+        ga.trackEvent("tab_download", "started", message.host, imagesNeedTab.length);
         let context = {
             p: Promise.resolve(),
             tempTab: null,
             tempIframe: null,
             folder: message.folder,
             finishCount: 0,
+            errorCount: 0,
             totalCount: imagesNeedTab.length,
             host: message.host
         };
 
         context.totalCount = imagesNeedTab.length;
         for (let image of imagesNeedTab) {
-            downloadWithIframe(chrome, image, context, message.fromTabId);
+            downloadWithNewTab(chrome, image, context, message.fromTabId);
         }
     }
 });
@@ -418,7 +426,7 @@ window.addEventListener("load", function(){
 
         a.href = siteUrl;
         addClickListenerForLinks(a, () => {
-            ga.trackEvent("site_icon", "clicked")
+            ga.trackEvent("site_icon", "clicked", siteUrl);
         });
         a.classList.add("siteLink");
         a.appendChild(img);

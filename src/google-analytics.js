@@ -29,13 +29,6 @@ let e = {
         setVar(1, "site", site);
         setVar(2, "version", chrome.runtime.getManifest().version);
         e.trackEvent("website", supported ? "supported" : "not_supported", site);
-    },
-    trackIframeDownload: function (site, count) {
-        setVar(1, "site", site);
-        e.trackEvent("if_download", "started", site, count);
-    },
-    trackIframeDownloadFailure: function (site) {
-        e.trackEvent("if_download", "failed", site);
     }
 };
 

@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.22 (2020/08/08)
+* Bug fix for blog.nogizaka46.com
+
 ###### 2.21 (2020/08/08)
 * Integrate with Google Analytics
 
