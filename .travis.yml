@@ -12,5 +12,6 @@ git:
   depth: 1
 before_script:
   - "sysctl kernel.unprivileged_userns_clone=1"
-  - "make"
-script: TEST_WORKERS=1 npm test
+script:
+  - "export TEST_WORKERS=1"
+  - "make test"
