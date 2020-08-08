@@ -1,7 +1,6 @@
 let _gaq = window._gaq = window._gaq || [];
 _gaq.push(["_setAccount", "UA-156562835-1"]);
 _gaq.push(['_gat._forceSSL']);
-_gaq.push(["_trackPageview"]);
 
 const getGaq = function () {
     return window._gaq;
@@ -12,6 +11,9 @@ const setVar = function (slot, name, value) {
 }
 
 let e = {
+    trackPageview: function (){
+        getGaq().push(["_trackPageview"]);
+    },
     trackButtonClick: function (buttonId) {
         e.trackEvent(buttonId, "clicked");
     },
@@ -20,11 +22,13 @@ let e = {
     },
     trackDownload: function (site, count) {
         setVar(1, "site", site);
+        setVar(2, "version", chrome.runtime.getManifest().version);
         e.trackEvent("download", "clicked", site, count);
     },
     trackSupport: function (site, supported) {
         setVar(1, "site", site);
-        e.trackEvent("extension", supported ? "supported" : "not_supported", site);
+        setVar(2, "version", chrome.runtime.getManifest().version);
+        e.trackEvent("website", supported ? "supported" : "not_supported", site);
     },
     trackIframeDownload: function (site, count) {
         setVar(1, "site", site);
