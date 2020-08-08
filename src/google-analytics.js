@@ -1,5 +1,5 @@
 let _gaq = window._gaq = window._gaq || [];
-_gaq.push(["_setAccount", "UA-156562835-1"]);
+_gaq.push(["_setAccount", __GA_PROPERTY__]); // defined in webpack.config.js
 _gaq.push(['_gat._forceSSL']);
 
 const getGaq = function () {

@@ -1,10 +1,13 @@
 build: clean cp-resources webpack mk-package
 
+webpack-test: src/**/* src/*
+	npx webpack --mode=development --env.NODE_ENV=test
+
 webpack: src/**/* src/*
 	npx webpack --mode=development
 
 watch: clean cp-resources src/**/* src/*
-	npx webpack --mode=development --watch
+	npx webpack --mode=development --watch --env.NODE_ENV=test
 
 cp-resources: images
 	cp -R images build/
@@ -19,5 +22,5 @@ clean:
 	-rm -rf build
 	-mkdir build
 
-test:	build
+test: clean cp-resources webpack-test
 	npm test
