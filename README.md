@@ -19,7 +19,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
-###### 2.19 (2020/08/03)
+###### 2.21 (2020/08/08)
+* Integrate with Google Analytics
+
+###### 2.20 (2020/08/03)
 * Add nonno.hpplus.jp
 * Fix download on news.mynavi.jp
 
