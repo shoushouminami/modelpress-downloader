@@ -158,8 +158,10 @@ const fetchMdprMobileImages = function (articleId, callback, domains){
                             list.push(item.url);
                         }
                     }
+                    ga.trackEvent("mdpr_remote", "success", "count", list.length);
                     callback(list);
                 } else {
+                    ga.trackEvent("mdpr_remote", "failure", "status", xhr.status);
                     console.error("Failed loading remote images: " + xhr.status + " " + xhr.statusText);
                     if (domains.length > 0) {
                         fetchMdprMobileImages(articleId, callback, domains);
@@ -188,7 +190,7 @@ function addClickListenerForLinks(element, callback) {
     }
 
     for (const child of element.childNodes) {
-        addClickListenerForLinks(child);
+        addClickListenerForLinks(child, callback);
     }
 }
 
@@ -314,12 +316,16 @@ document.getElementById("downloadMobileCheck").addEventListener("click", functio
     let checkBox = document.getElementById("downloadMobileCheck");
     if (event.target.id === checkBox.id) {
         if (checkBox.checked) {
+            ga.trackEvent("mdpr_remote", "perm_ask");
             chrome.permissions.request({
                 origins: ORIGINS["mdpr.jp"]
             }, function(granted) {
                 state.canDownloadMobile = granted;
                 if (granted) {
+                    ga.trackEvent("mdpr_remote", "perm_grant");
                     startFetchMdprMobileImages();
+                } else {
+                    ga.trackEvent("mdpr_remote", "perm_deny");
                 }
                 updatePopupUI();
             });
@@ -335,6 +341,7 @@ document.getElementById("downloadMobileCheck").addEventListener("click", functio
 });
 
 const startFetchMdprMobileImages = function() {
+    ga.trackEvent("mdpr_remote", "fetch");
     fetchMdprMobileImages(message.remoteImages["mdpr.jp"], function (images) {
         state.addedCount = 0;
         for (const image of images) {
@@ -356,7 +363,6 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         if (results && results.length) {
             message = results[0];
             message.fromTabId = tabs[0].id;
-            ga.trackSupport(message.host, message.supported)
             if (message.remoteImages) {
                 if (message.remoteImages["mdpr.jp"]) {
                     chrome.permissions.contains({
@@ -372,6 +378,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             }
 
         }
+        ga.trackSupport(message.host, message.supported)
         updatePopupUI();
     };
 

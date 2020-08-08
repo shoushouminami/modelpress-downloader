@@ -24,7 +24,7 @@ let e = {
     },
     trackSupport: function (site, supported) {
         setVar(1, "site", site);
-        e.trackEvent("extension", "popup", site, supported ? 1 : 0);
+        e.trackEvent("extension", supported ? "supported" : "not_supported", site);
     },
     trackIframeDownload: function (site, count) {
         setVar(1, "site", site);
