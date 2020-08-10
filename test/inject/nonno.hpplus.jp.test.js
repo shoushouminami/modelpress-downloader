@@ -39,3 +39,41 @@ test("Test nonno beauty article", async () => {
             "https://d3bhdfps5qyllw.cloudfront.net/org/6a/6a7d5768c56c65e8e185fc5b7808ae57_1080x600_w.jpg",
             "https://d3bhdfps5qyllw.cloudfront.net/org/da/da27b03771af250bdab182b527190304_1080x600_w.jpg"]);
 });
+
+
+test("Test nonno magazine trial", async () => {
+    await testDirectDownload(
+        browser,
+        "https://nonno.hpplus.jp/magazine?content_id=56207",
+        "nonno.hpplus.jp-magazine/",
+        ["https://d3bhdfps5qyllw.cloudfront.net/org/f0/f0f42ef9051a5f8607283c7e10edd9bf_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/c1/c13cc4e3a6bde3175945ae0cef1065f0_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/de/de7c3add21346fe4d76d86861c6c69f3_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/58/58b694c55b9f1aa1ee064834e4ac95b4_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/85/8535cae45dc207369e85d9917b3d535f_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/67/674d821533fa9c7ee4bb7b5f5a170c60_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/5e/5e5f8e4b2b4a668d1733b6ec077d941b_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/55/5527b6f7ee80ec1ee3b4abc70ed1e4ec_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/d2/d26b6bd18212880b3eeeebcc4f2705c3_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/fb/fb840b882b503ee1a1234a7bf5d0523f_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/56/566c61b2ccd8174bedfcb480492e5e48_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/bd/bdbf84f9ba75fb6bd8c7200b6052016e_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/e3/e3528cf577305f940b071af2291f4d4c_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/d7/d7628c10e538121453b1847b7fe5fabc_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/a9/a9894b03484eb3c3241a9fddae70b517_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/11/114d4a59aa21b0ec1ef16d5f42cc75d8_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/c3/c34127d362130be6642b8b7533fb2f9f_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/90/9009b938c724d547e5840afc5820a337_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/a4/a49f885d39e619a152acf1a189f104bb_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/86/86085eb7ccadc5286d50fdf64e1b0411_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/7c/7c0aa3a8778ab325fdf3c0af96d5feb3_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/7f/7f0a145b6960697ceb0f2174166e8e6b_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/7a/7ae0476f0796f1d1256b8fb082c56c04_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/4b/4b2690d64c15f526c2976a0a8a2ec1dd_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/a0/a0e7721a018b8eb86acee8851e9fd5ff_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/1b/1be312d6812b245d0a432948794f6f58_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/6c/6ca5bf59326aba67201ce21388bad61c_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/63/63893331e298b88bcf086a9731bd61f5_1080x1383_h.jpg",
+            "https://d3bhdfps5qyllw.cloudfront.net/org/80/80330f1d29ce2d3538bde9421bedcfb0_1080x1383_h.jpg"]);
+});
+

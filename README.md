@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.23 (2020/08/09)
+* Add support for Nonno magazine trial
+
 ###### 2.22 (2020/08/08)
 * Bug fix for blog.nogizaka46.com
 

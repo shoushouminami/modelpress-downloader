@@ -1,5 +1,7 @@
+# Build for local testing
 build: clean cp-resources webpack-test
 
+# Build for production release with package.zip
 release: clean cp-resources webpack mk-package
 
 source: src/**/* src/* config/*
@@ -16,6 +18,7 @@ watch: clean cp-resources source
 cp-resources: images
 	cp -R images build/
 
+# Build package.zip
 mk-package:
 	cd build && zip -r package.zip * -x package.zip && ls *.zip
 	echo "Done packaging."
