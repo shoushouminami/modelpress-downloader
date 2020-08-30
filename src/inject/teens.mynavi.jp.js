@@ -1,5 +1,5 @@
 const utils = require("../utils.js");
-// const downloader = require("../downloader")
+const four04list = ["https://teens.mynavi.jp/main/files/20190621/story06122.jpg", "https://teens.mynavi.jp/main/files/20190621/profile0621.jpg"];
 
 const getLargeImg = (url) => {
     if (url.startsWith("https://teens.mynavi.jp/main/im.php?")) {
@@ -12,7 +12,11 @@ const getLargeImg = (url) => {
         }
     }
 
-    if (url.endsWith(".png")) {
+    if (url.startsWith("/")) {
+        return window.location.origin + url;
+    }
+
+    if (four04list.includes(url)) {
         return null;
     }
 
@@ -27,6 +31,9 @@ const inject = function () {
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#contents section.container .detail :not(fieldset) p img", getLargeImg));
     // report article images
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#contents section.container .challenge :not(fieldset) p img", getLargeImg));
+    // report article single image
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#contents section.container .challenge .p1 img", getLargeImg));
+
     return o;
 };
 

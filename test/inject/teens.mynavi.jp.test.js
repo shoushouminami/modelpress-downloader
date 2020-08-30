@@ -10,8 +10,7 @@ afterAll(async () => {
     await browser.close();
 });
 
-// teens.mynavi.jp
-test("Test news.mynavi.jp article page", async () => {
+test("Test news.mynavi.jp report article page", async () => {
     await testDirectDownload(
         browser,
         "https://teens.mynavi.jp/report/detail/12397",
@@ -26,5 +25,29 @@ test("Test news.mynavi.jp article page", async () => {
     "https://teens.mynavi.jp/main/files/20200421/11826325307566.jpg",
     "https://teens.mynavi.jp/main/files/20200421/11826325347850.jpg",
     "https://teens.mynavi.jp/main/files/20200422/11826325297385.jpg",
-     "https://teens.mynavi.jp/main/files/20200422/11826325286473.jpg"]);
+     "https://teens.mynavi.jp/main/files/20200422/11826325286473.jpg"].concat(dummyItems(16)));
+});
+
+test("Test news.mynavi.jp challenge article page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://teens.mynavi.jp/challenge/detail/12485",
+        "teens.mynavi.jp-challenge-detail-12485/",
+        [ "https://teens.mynavi.jp/main/files/20200731/hurihura07303.jpg",
+            "https://teens.mynavi.jp/main/files/20200731/hurihura07304.jpg",
+     "https://teens.mynavi.jp/main/files/20200731/hurihura07301.jpg",
+     "https://teens.mynavi.jp/main/files/20200731/hurihura07305.jpg",
+     "https://teens.mynavi.jp/main/files/20200731/hamabepre.jpg",
+     "https://teens.mynavi.jp/main/files/20200709/mynavitwitter0709a.jpg",
+     "https://teens.mynavi.jp/main/files/20200709/mynaviinstagram0709a..jpg",
+     "https://teens.mynavi.jp/main/files/20200818/profile0621.jpg",
+     "https://teens.mynavi.jp/main/files/20200818/story06213.jpg"]);
+});
+
+test("Test news.mynavi.jp report article single page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://teens.mynavi.jp/report/detail/12516",
+        "teens.mynavi.jp-report-detail-12516/",
+        [ "https://teens.mynavi.jp/main/files/20200827/takikabu0828.jpg"]);
 });

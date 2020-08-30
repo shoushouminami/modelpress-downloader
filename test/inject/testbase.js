@@ -90,6 +90,7 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
             } else if (image.url) {
                 expect(mid['o']['images']).toContainEqual(image);
             }
+            // empty object for dummy item
         }
     }
 
