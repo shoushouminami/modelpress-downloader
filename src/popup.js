@@ -74,7 +74,7 @@ const displayInNewTab = function(tabId, url, resolve, error) {
     chrome.tabs.create({
         url: url,
         active: false
-    }, (newTab) => {news.mynavi.jp.js
+    }, (newTab) => {
         chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
             if (tabId === newTab.id && changeInfo.status === "complete") {
                 chrome.tabs.remove(newTab.id, () => {
