@@ -17,8 +17,6 @@ const inject = function () {
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".contents .magnify .magnifyBlock figure img", getLargeImg));
     // image gallery slide stack
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, ".slick-list .slick-track div a img", getLargeImg));
-
-
     return o;
 };
 

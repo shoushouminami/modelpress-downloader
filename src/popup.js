@@ -2,6 +2,7 @@
 const sites = require("./inject/sites");
 const ga = require("./google-analytics");
 const downloader = require("./downloader");
+downloader.init();
 
 let getFileName = function(url, ext) {
     var filename = url.split("?")[0].split("/");
@@ -73,7 +74,7 @@ const displayInNewTab = function(tabId, url, resolve, error) {
     chrome.tabs.create({
         url: url,
         active: false
-    }, (newTab) => {
+    }, (newTab) => {news.mynavi.jp.js
         chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
             if (tabId === newTab.id && changeInfo.status === "complete") {
                 chrome.tabs.remove(newTab.id, () => {
