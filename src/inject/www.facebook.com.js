@@ -21,5 +21,6 @@ module.exports = {
         }
         return o;
     },
-    host: "www.facebook.com"
+    host: "www.facebook.com",
+    hidden: true
 };

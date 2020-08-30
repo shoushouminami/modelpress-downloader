@@ -40,5 +40,6 @@ module.exports = {
         return o;
     },
     host: "www.bilibili.com",
-    url: "https://www.bilibili.com/read/home"
+    url: "https://www.bilibili.com/read/home",
+    hidden: true
 };
