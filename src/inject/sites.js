@@ -53,6 +53,7 @@ const register = function (siteModule) {
     require("./mdpr.jp"),
     require("./times.abema.tv"),
     require("./news.mynavi.jp"),
+    require("./teens.mynavi.jp"),
     require("./tokyopopline.com"),
     require("./news.dwango.jp"),
     require("./mantan-web.jp"),
