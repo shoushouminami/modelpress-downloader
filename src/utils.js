@@ -260,6 +260,14 @@ const utils = {
         }
 
         return null;
+    },
+    printTestAssertion: function (message) {
+        let s = "";
+        try {
+            s += JSON.stringify(message.folder) + ",\n";
+            s += JSON.stringify(message.images);
+        } catch (e) {} // make sure dont fail
+        return s;
     }
 };
 
