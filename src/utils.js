@@ -265,7 +265,7 @@ const utils = {
         let s = "";
         try {
             s += JSON.stringify(message.folder) + ",\n";
-            s += JSON.stringify(message.images);
+            s += JSON.stringify(message.images, null, 1);
         } catch (e) {} // make sure dont fail
         return s;
     }

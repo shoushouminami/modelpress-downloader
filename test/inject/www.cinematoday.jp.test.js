@@ -36,7 +36,8 @@ test("Test www.cinematoday.jp image gallery page", async () => {
         browser,
         "https://www.cinematoday.jp/gallery/E0014987",
         "www.cinematoday.jp-gallery-E0014987/",
-        ["https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4753.JPG",
+        [
+            "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4753.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4754.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4755.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4760.JPG",
@@ -63,10 +64,12 @@ test("Test www.cinematoday.jp image gallery page", async () => {
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4844.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4848.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4864.JPG",
-            "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4877.JPG"].concat(dummyItems(1)),
+            "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4877.JPG",
+            "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/main.jpg"
+        ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 50);
+                await pageutils.scrollTo(page, 80);
             }
         });
 });
