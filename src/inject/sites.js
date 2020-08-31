@@ -72,6 +72,7 @@ const register = function (siteModule) {
     require("./nonno.hpplus.jp"),
     require("./cancam.jp"),
     require("./ray-web.jp"),
+    require("./bisweb.jp"),
     require("./bltweb.jp"),
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),

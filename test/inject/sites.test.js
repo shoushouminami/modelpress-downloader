@@ -1,7 +1,7 @@
 const sites = require("../../src/inject/sites");
 
 test("Test sites.all", () => {
-    expect(sites.all().length).toBe(29);
+    expect(sites.all().length).toBe(32);
     let hosts = [];
     let urls = [];
     sites.all().forEach((module) => {
@@ -32,6 +32,7 @@ test("Test sites.all", () => {
     expect(hosts).toContain("entamenext.com");
     expect(hosts).toContain("cancam.jp");
     expect(hosts).toContain("ray-web.jp");
+    expect(hosts).toContain("bisweb.jp");
     expect(hosts).toContain("bltweb.jp");
     expect(hosts).toContain("blog.nogizaka46.com");
     expect(hosts).toContain("www.hinatazaka46.com");
@@ -39,7 +40,9 @@ test("Test sites.all", () => {
     expect(hosts).toContain("www.facebook.com");
     expect(hosts).toContain("www.instagram.com");
     expect(hosts).toContain("7gogo.jp");
-    expect(hosts).toContain("nonno.hpplus.jp")
+    expect(hosts).toContain("nonno.hpplus.jp");
+    expect(hosts).toContain("www.keyakizaka46.com");
+    expect(hosts).toContain("teens.mynavi.jp");
 
     expect(urls).toContain("https://www.bilibili.com/read/home");
     expect(urls).toContain("https://mdpr.jp");

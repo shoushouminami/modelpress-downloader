@@ -284,8 +284,6 @@ document.getElementById("download").addEventListener("click", function () {
     ga.trackDownload(message.host, message.images.length);
     for (const image of message.images) {
         if (typeof image === "string") {
-            // downloadInBackground(chrome, {url: image, folder: message.folder, ext: message.ext});
-            // download(chrome, {url: image, folder: message.folder, ext: message.ext});
             downloadInBg.push({url: image, folder: message.folder, ext: message.ext});
         } else if (typeof image === "object" && image.websiteUrl && image.imageUrl) {
             imagesNeedTab.push(image);
