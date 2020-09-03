@@ -300,7 +300,7 @@ test("Test fashion article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 85);
+                await pageutils.scrollTo(page, 90);
             }
         });
 });
@@ -398,7 +398,7 @@ test("Test lifestyle article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 85);
+                await pageutils.scrollTo(page, 90);
             }
         });
 });
@@ -424,7 +424,7 @@ test("Test mote article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 85);
+                await pageutils.scrollTo(page, 90);
             }
         });
 });
