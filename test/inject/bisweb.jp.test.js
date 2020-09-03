@@ -13,13 +13,27 @@ afterAll(async () => {
 
 test("Test filter function ", () => {
     expect(bisweb.getLargeImg("https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1-scaled.jpeg"))
-        .toBe("https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1.jpeg");
+        .toStrictEqual({
+            "retries":
+                ["https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1-scaled.jpeg"],
+            "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1.jpeg"
+        });
 
     expect(bisweb.getLargeImg("https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1-scaled.jpg"))
-        .toBe("https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1.jpg");
+        .toStrictEqual(
+            {
+                "retries":
+                    ["https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1-scaled.jpg"],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1.jpg"
+            }
+        );
 
     expect(bisweb.getLargeImg("https://img.bisweb.jp/wp-content/uploads/2020/08/30122635/DMA-0648.jpg"))
-        .toBe("https://img.bisweb.jp/wp-content/uploads/2020/08/30122635/DMA-0648.jpg");
+        .toStrictEqual({
+                "retries": ["https://img.bisweb.jp/wp-content/uploads/2020/08/30122635/DMA-0648.jpg"],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/30122635/DMA-0648.jpg"
+            }
+        );
 });
 
 
@@ -188,7 +202,7 @@ test("Test beauty article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 85);
+                await pageutils.scrollTo(page, 90);
             }
         });
 });
