@@ -73,6 +73,7 @@ const register = function (siteModule) {
     require("./cancam.jp"),
     require("./ray-web.jp"),
     require("./bisweb.jp"),
+    require("./ananweb.jp"),
     require("./bltweb.jp"),
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),

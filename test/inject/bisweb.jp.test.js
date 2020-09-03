@@ -202,7 +202,7 @@ test("Test beauty article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 90);
+                await pageutils.scrollTo(page, 93);
             }
         });
 });
