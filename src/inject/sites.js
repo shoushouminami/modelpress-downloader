@@ -65,6 +65,7 @@ const register = function (siteModule) {
     require("./popwave.jp"),
     require("./spice.eplus.jp"),
     require("./girlswalker.com"),
+    require("./www.walkerplus.com"),
     require("./mikan-incomplete.com"),
     require("./e-talentbank.co.jp"),
     require("./dogatch.jp"),
