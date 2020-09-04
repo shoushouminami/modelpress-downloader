@@ -1,15 +1,19 @@
 const puppeteer = require("puppeteer");
+const windowWidth = 1080;
+const windowHeight = 800;
 
 const launchBrowser = async function () {
     return await puppeteer.launch({
         headless: false, // extension are allowed only in head-full mode
         args: [
-            "--disable-extensions-except=" + resolvePath( "../../build"),
-            "--load-extension=" + resolvePath( "../../build"),
+            "--disable-extensions-except=" + resolvePath("../../build"),
+            "--load-extension=" + resolvePath("../../build"),
             "--lang=zh-CN,zh",
-            "--no-sandbox"
+            "--no-sandbox",
+            "--window-size=" + windowWidth + "," + windowHeight
         ],
         // executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+        defaultViewport: {width: windowWidth, height: windowHeight}
     });
 };
 
