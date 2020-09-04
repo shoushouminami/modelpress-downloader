@@ -38,3 +38,12 @@ test("Test girlswalker.com gallery page", async () => {
         });
 });
 
+test("Test girlswalker.com article page lazy load", async () => {
+    await testDirectDownload(
+        browser,
+        "https://girlswalker.com/archives/256147/",
+        "girlswalker.com-archives-256147-/",
+        [
+            "https://girlswalker.com/wp-content/uploads/2020/08/642d295b13e606fae7f5c437262e1824.jpg"
+        ]);
+});
