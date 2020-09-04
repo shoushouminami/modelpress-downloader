@@ -2,6 +2,26 @@ const puppeteer = require("puppeteer");
 const windowWidth = 1080;
 const windowHeight = 800;
 
+/**
+ * Returns a function which will return a browser instance for unit tests.
+ * @returns {function(): Puppeteer.Browser}
+ */
+const getBrowserFactory = function(beforeAll, afterAll) {
+    let browser;
+
+    beforeAll(async () => {
+        browser = await launchBrowser();
+    });
+
+    afterAll(async () => {
+        await browser.close();
+    });
+
+    return function (){
+        return browser;
+    };
+};
+
 const launchBrowser = async function () {
     return await puppeteer.launch({
         headless: false, // extension are allowed only in head-full mode
@@ -108,3 +128,4 @@ exports.testDirectDownload = testDirectDownload;
 exports.resolvePath = resolvePath;
 exports.launchBrowser = launchBrowser;
 exports.dummyItems = dummyItems;
+exports.getBrowserFactory = getBrowserFactory;
