@@ -105,6 +105,9 @@ test("Test times.abema.tv article with images and data url", async () => {
             preinject: async function (page) {
                 await pageutils.wait(3000);
                 await pageutils.scrollTo(page, 75);
+            },
+            sizeMatch: function (expectedSize, actualSize) {
+                return actualSize >= 3;
             }
         });
 });

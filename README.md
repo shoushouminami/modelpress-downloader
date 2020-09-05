@@ -19,6 +19,18 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.24 (2020/09/04)
+* Add support for 
+   * teens.mynavi.jp
+   * www.keyakizaka46.com
+   * bisweb.jp
+   * ananweb.jp
+   * www.walkerplus.com
+   * www.wws-channel.com 
+   * fineboys-online.jp
+   * www.news-postseven.com
+   * diet.news-postseven.com
+
 ###### 2.23 (2020/08/09)
 * Add support for Nonno magazine trial
 
