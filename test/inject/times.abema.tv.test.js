@@ -42,7 +42,7 @@ test("Test times.abema.tv article with images", async () => {
         {
             preinject: async function (page) {
                 await pageutils.wait(3000);
-                await pageutils.scrollTo(page,80);
+                await pageutils.scrollTo(page,50, 800);
             }
         });
 });

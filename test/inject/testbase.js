@@ -69,10 +69,11 @@ const dummyItems = function (count) {
  * @param url
  * @param folder
  * @param images
- * @param ops An object with callbacks for customized browser action before assertion or customized assertion
- * @returns {Promise<void>}
+ * @param ops {{prenavigate?: Function, preinject?: Function, sizeMatch?: Function<a, b>}}
+ *              An object with callbacks for customized browser action before assertion or customized assertion
+ * @returns {Promise<Object>}
  */
-const testDirectDownload = async function (browser, url, folder, images, ops) {
+const testDirectDownload = async function (browser, url, folder, images, ops= {}) {
     const page = await browser.newPage();
 
     // callback hook to customize action before going to the url. (Such as disable CSP enforcements)
@@ -94,7 +95,11 @@ const testDirectDownload = async function (browser, url, folder, images, ops) {
     expect(mid).toBeDefined();
     expect(mid['o']).toBeDefined();
     expect(mid['o']['supported']).toBeTruthy();
-    expect(mid['o']['images']).toHaveLength(images.length);
+    if (ops && ops.sizeMatch) {
+        expect(ops.sizeMatch(images.length, mid['o']['images'].length)).toBeTruthy();
+    } else {
+        expect(mid['o']['images']).toHaveLength(images.length);
+    }
     // matches images array
     // 1. literals: ["url1", "url2", ...]
     // 2. regex: [{regex: /regex/, count: 1}, ...]

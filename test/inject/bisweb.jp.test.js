@@ -203,6 +203,9 @@ test("Test beauty article", async () => {
         {
             preinject: async function (page) {
                 await pageutils.scrollTo(page, 98);
+            },
+            sizeMatch: function (expectedSize, actualSize) {
+                return actualSize >= expectedSize;
             }
         });
 });
@@ -300,7 +303,10 @@ test("Test fashion article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 90);
+                await pageutils.scrollTo(page, 98);
+            },
+            sizeMatch: function (expectedSize, actualSize) {
+                return actualSize >= expectedSize;
             }
         });
 });
@@ -398,7 +404,10 @@ test("Test lifestyle article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 90);
+                await pageutils.scrollTo(page, 98);
+            },
+            sizeMatch: function (expectedSize, actualSize) {
+                return actualSize >= expectedSize;
             }
         });
 });
@@ -424,7 +433,10 @@ test("Test mote article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 90);
+                await pageutils.scrollTo(page, 98);
+            },
+            sizeMatch: function (expectedSize, actualSize) {
+                return actualSize >= expectedSize;
             }
         });
 });

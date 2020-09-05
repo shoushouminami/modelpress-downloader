@@ -6,7 +6,7 @@ test("Test girls article page", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://fineboys-online.jp/girls/detail.php?id=2844",
-        "fineboys-online.jp-girls-detail.php/",
+        "fineboys-online.jp-girls-detail.php-id-2844/",
         [
             "https://fineboys-online.jp/thegear/content/theme/media/2/FBO_2020_08/2844/FB_M%28data%29A-133.jpg",
             "https://fineboys-online.jp/thegear/content/theme/media/2/FBO_2020_08/2844/FB_(data)A-129.jpg",
