@@ -96,10 +96,6 @@ test("Test times.abema.tv article with images and data url", async () => {
             {
                 retries: ["https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7040578_ext_col_03_6_1581045919.webp"],
                 url: "https://d13krdvwknzmgv.cloudfront.net/files/topics/7040578_ext_col_03_6.jpg"
-            },
-            {
-                retries: ["https://hayabusa.io/abema/programs/90-1354_s5_p3/thumb001.w800.v1581039915.jpg"],
-                url: "https://hayabusa.io/abema/programs/90-1354_s5_p3/thumb001.jpg"
             }],
         {
             preinject: async function (page) {
