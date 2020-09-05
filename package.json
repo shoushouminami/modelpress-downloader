@@ -25,12 +25,12 @@
   "homepage": "https://github.com/shoushouminami/modelpress-downloader#readme",
   "devDependencies": {
     "chromium": "2.0.0",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^5.1.2",
     "jasmine": "^3.6.1",
     "jest": "^24.9.0",
     "jest-puppeteer": "^4.3.0",
     "mocha": "^6.2.3",
-    "node": "^12.18.2",
+    "node": "^12.18.3",
     "puppeteer": "2.0.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
