@@ -64,6 +64,7 @@ const register = function (siteModule) {
     require("./apress.jp"),
     require("./www.cinematoday.jp"),
     require("./www.news-postseven.com"),
+    require("./diet.news-postseven.com"),
     require("./popwave.jp"),
     require("./spice.eplus.jp"),
     require("./fineboys-online.jp"),
