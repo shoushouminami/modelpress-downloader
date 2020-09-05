@@ -24,8 +24,8 @@ test("Test nonno fasion article", async () => {
 test("Test nonno beauty article", async () => {
     await testDirectDownload(
         browser,
-        "https://nonno.hpplus.jp/article/56660/01/",
-        "nonno.hpplus.jp-article-56660-01-/",
+        "https://nonno.hpplus.jp/article/56660/02/",
+        "nonno.hpplus.jp-article-56660-02-/",
         ["https://d3bhdfps5qyllw.cloudfront.net/org/5b/5b1be0181da5a48495a007bd1ee2dc50_1080x217_w.jpg",
             "https://d3bhdfps5qyllw.cloudfront.net/org/2e/2e106ba9f08d04fc22bd6ccf48e8420e_1080x1074_w.jpg",
             "https://d3bhdfps5qyllw.cloudfront.net/org/f6/f617247cad4a76e51799d9361381b4a6_1080x600_w.jpg",
