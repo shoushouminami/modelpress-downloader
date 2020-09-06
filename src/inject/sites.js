@@ -83,6 +83,7 @@ const register = function (siteModule) {
     require("./bisweb.jp"),
     require("./ananweb.jp"),
     require("./bltweb.jp"),
+    require("./www.crank-in.net"),
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),
