@@ -13,7 +13,7 @@ const getLargeImg = (url) => {
         url = url.replace(url.match(pattern)[1], "");
     }
 
-    return utils.nullIfDataUrl(url);
+    return utils.removeDataUrl(url);
 };
 
 const getLargeImgWithRetry = url => {

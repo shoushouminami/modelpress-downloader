@@ -242,7 +242,7 @@ const utils = {
 
         return null;
     },
-    nullIfDataUrl: function (url) {
+    removeDataUrl: function (url) {
         if (url.startsWith("data:")) {
             return null
         }
