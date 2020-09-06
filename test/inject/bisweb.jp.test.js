@@ -203,8 +203,10 @@ test("Test beauty article", async () => {
         {
             preinject: async function (page) {
                 await pageutils.scrollTo(page, 85);
+                await pageutils.wait(500);
             },
             sizeMatch: function (expectedSize, actualSize) {
+                console.log("expectedSize={} actualSize={}", expectedSize, actualSize)
                 return actualSize >= expectedSize - 1;
             }
         });
