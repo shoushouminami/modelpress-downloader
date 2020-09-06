@@ -19,4 +19,5 @@ module.exports = {
         return o;
     },
     host: "www.edgeline-tokyo.com",
+    url: "http://www.edgeline-tokyo.com/"
 };

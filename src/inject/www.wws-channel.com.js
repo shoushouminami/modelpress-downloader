@@ -17,4 +17,5 @@ const inject = function () {
 module.exports = {
     host: "www.wws-channel.com",
     inject: inject,
+    url: "http://www.wws-channel.com/"
 };
