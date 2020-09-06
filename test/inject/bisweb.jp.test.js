@@ -207,7 +207,7 @@ test("Test beauty article", async () => {
             },
             sizeMatch: function (expectedSize, actualSize) {
                 console.log("expectedSize={} actualSize={}", expectedSize, actualSize)
-                return actualSize >= expectedSize - 1;
+                return actualSize >= 20;
             }
         });
 });
