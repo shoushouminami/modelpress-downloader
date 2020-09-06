@@ -24,7 +24,6 @@ test("Test mdpr App API on app2-mdpr.freetls.fastly.net", async (resolve, error)
             }
 
             expect(list.length).toBe(24);
-            console.log(payload)
             resolve();
         });
 
@@ -52,7 +51,6 @@ test("Test mdpr App API on app-mdpr.freetls.fastly.net should fail", done => {
                 done();
             }
 
-            console.log(payload);
             if (payload) {
                 done("Should fail to parse JSON");
             }
@@ -82,7 +80,6 @@ test("Test mdpr App API on app1-mdpr.freetls.fastly.net", done => {
                 done();
             }
 
-            console.log(payload);
             if (payload) {
                 done("Should fail to parse JSON");
             }
