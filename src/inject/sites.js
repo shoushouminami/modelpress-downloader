@@ -58,6 +58,7 @@ const register = function (siteModule) {
     require("./news.dwango.jp"),
     require("./mantan-web.jp"),
     require("./natalie.mu"),
+    require("./hominis.media"),
     require("./this.kiji.is"),
     require("./thetv.jp"),
     require("./www.wws-channel.com"),

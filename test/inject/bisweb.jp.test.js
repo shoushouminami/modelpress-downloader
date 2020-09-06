@@ -202,8 +202,8 @@ test("Test beauty article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 85);
-                await pageutils.wait(500);
+                await pageutils.scrollTo(page, 90);
+                await pageutils.wait(1000);
             },
             sizeMatch: function (expectedSize, actualSize) {
                 console.log("expectedSize={} actualSize={}", expectedSize, actualSize)
