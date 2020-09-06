@@ -59,6 +59,7 @@ const register = function (siteModule) {
     require("./mantan-web.jp"),
     require("./natalie.mu"),
     require("./hominis.media"),
+    require("./www.edgeline-tokyo.com"),
     require("./this.kiji.is"),
     require("./thetv.jp"),
     require("./www.wws-channel.com"),

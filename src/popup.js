@@ -3,6 +3,7 @@ const sites = require("./inject/sites");
 const ga = require("./google-analytics");
 const downloader = require("./downloader");
 const utils = require("./utils");
+const isDev = require("./is-dev");
 
 downloader.init();
 
@@ -368,9 +369,13 @@ const startFetchMdprMobileImages = function() {
 
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     let action = function (results) {
-        console.debug(results);
+        if (isDev) {
+            console.debug(results);
+        }
         if (results && results.length) {
-            console.debug(utils.printTestAssertion(results[0]));
+            if (isDev) {
+                console.debug(utils.printTestAssertion(results[0]));
+            }
             message = results[0];
             message.fromTabId = tabs[0].id;
             if (message.remoteImages) {

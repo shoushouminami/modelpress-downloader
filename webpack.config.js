@@ -27,7 +27,8 @@ module.exports = env => {
                 },
             ]),
             new webpack.DefinePlugin({
-                "__GA_PROPERTY__": JSON.stringify(conf.ga_property)
+                "__GA_PROPERTY__": JSON.stringify(conf.ga_property),
+                "__IS_DEV__": JSON.stringify(conf.is_dev)
             })
         ],
         devtool: false,
