@@ -9,7 +9,8 @@ module.exports = env => {
             inject: "./src/inject.js",
             background: "./src/background.js",
             popup: "./src/popup.js",
-            "helper/instagram-react": "./src/helper/instagram-react.js"
+            "helper/instagram-react": "./src/helper/instagram-react.js",
+            "helper/rbbtoday-check-size": "./src/helper/rbbtoday-check-size.js"
         },
         output: {
             filename: '[name].js',

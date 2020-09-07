@@ -5,6 +5,9 @@ try {
     o = site.inject();
 } catch (e) {
     // not found
+    if (require("./is-dev")) {
+        console.error(e);
+    }
     o.supported = false;
 }
 

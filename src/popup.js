@@ -397,6 +397,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         updatePopupUI();
     };
 
+    // inject script with 1 retry.
     chrome.tabs.executeScript(
         tabs[0].id,
         {file: "inject.js", matchAboutBlank: true},

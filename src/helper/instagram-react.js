@@ -28,14 +28,7 @@
         }
     };
 
-    let div = document.getElementById("_mid-images_");
-    if (!div) {
-        div = document.createElement('div');
-        div.id = "_mid-images_";
-        document.body.appendChild(div);
-        div = document.getElementById("_mid-images_");
-    }
-
+    let div = require("./helper-utils").getOrCreateDataDiv();
     let post = findPropFromReactDOM(document.querySelector("article"), "post");
     let s = "";
     if (post && post.sidecarChildren) {

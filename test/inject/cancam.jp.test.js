@@ -1,4 +1,5 @@
 const {testDirectDownload, launchBrowser} = require("./testbase");
+const pageutils = require("../pageutils");
 
 let browser;
 beforeAll(async () => {
@@ -41,7 +42,18 @@ test("Test cancam.jp model home page", async () => {
         browser,
         "https://cancam.jp/archives/category/model/sayurimatsumura",
         "cancam.jp-archives-category-model-sayurimatsumura/",
-        ["https://cancam.jp/uploads/2017/02/0ff87d29781c0b487703d1637e6dbb7e-20190620182123.jpg","https://cancam.jp/uploads/2017/11/DM4jzwIUEAAjm0C-20171107135337.jpg","https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_1-20170301184924.jpg","https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_2-20170301184925.jpg","https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_3-20170301184925.jpg"]
+        [
+            "https://cancam.jp/uploads/2017/02/0ff87d29781c0b487703d1637e6dbb7e-20190620182123.jpg",
+            "https://cancam.jp/uploads/2017/11/DM4jzwIUEAAjm0C-20171107135337.jpg",
+            "https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_1-20170301184924.jpg",
+            "https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_2-20170301184925.jpg",
+            "https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_3-20170301184925.jpg"
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 50);
+            }
+        }
     );
 });
 

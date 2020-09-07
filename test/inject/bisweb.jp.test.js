@@ -139,54 +139,6 @@ test("Test fashion article", async () => {
                     "https://img.bisweb.jp/wp-content/uploads/2020/08/13143756/DMA-0003-598x399.jpg"
                 ],
                 "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143756/DMA-0003.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143517/DMA-0015-598x898.jpg"
-                ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143517/DMA-0015.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143811/DMA-0002-598x897.jpg"
-                ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143811/DMA-0002.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143825/DMA-0001-598x897.jpg"
-                ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143825/DMA-0001.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143638/DMA-0009-598x897.jpg"
-                ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143638/DMA-0009.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143605/DMA-0013-598x897.jpg"
-                ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143605/DMA-0013.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143445/DMA-0017-598x897.jpg"
-                ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143445/DMA-0017.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143854/DMA-_29A0776-598x898.jpg"
-                ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143854/DMA-_29A0776.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143621/DMA-0012-598x897.jpg"
-                ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143621/DMA-0012.jpg"
             }
         ],
         {
@@ -194,7 +146,7 @@ test("Test fashion article", async () => {
                 await pageutils.scrollTo(page, 80);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= expectedSize;
+                return actualSize >= (expectedSize - 1);
             }
         });
 });

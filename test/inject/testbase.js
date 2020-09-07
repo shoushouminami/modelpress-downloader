@@ -1,10 +1,11 @@
 const puppeteer = require("puppeteer");
-const windowWidth = 1080;
-const windowHeight = 800;
+const WINDOW_WIDTH = 1080;
+const WINDOW_HEIGHT = 800;
+const pageutils = require("../pageutils");
 
 /**
  * Returns a function which will return a browser instance for unit tests.
- * @returns {function(): Puppeteer.Browser}
+ * @returns {Function}
  */
 const getBrowserFactory = function(beforeAll, afterAll) {
     let browser;
@@ -30,10 +31,9 @@ const launchBrowser = async function () {
             "--load-extension=" + resolvePath("../../build"),
             "--lang=zh-CN,zh",
             "--no-sandbox",
-            "--window-size=" + windowWidth + "," + windowHeight
+            "--window-size=" + WINDOW_WIDTH + "," + WINDOW_HEIGHT
         ],
-        // executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-        defaultViewport: {width: windowWidth, height: windowHeight}
+        defaultViewport: {width: WINDOW_WIDTH, height: WINDOW_HEIGHT}
     });
 };
 
@@ -50,6 +50,11 @@ const runFuncIfDefined = async function(func, args) {
     }
 };
 
+/**
+ *
+ * @param relativePath relative path to this folder (test/inject)
+ * @returns {string}
+ */
 const resolvePath = function (relativePath) {
     return __dirname + "/./" + relativePath;
 };
@@ -62,6 +67,38 @@ const dummyItems = function (count) {
 
     return ret;
 };
+
+/**
+ * Emulates popup.js and injects "inject.js" with retry
+ * @param page
+ * @returns {Promise<{o}|*>}
+ */
+async function injectWithRetry(page) {
+    await page.addScriptTag({path: resolvePath("mock.js")});
+    await page.addScriptTag({path: resolvePath("../../build/inject.js")});
+    const executionContext = await page.mainFrame().executionContext();
+    // check for helper script and inject using puppeteer API
+    let filepaths = await executionContext.evaluate(() => {
+        let filepaths = [];
+        document.querySelectorAll("script._mid-helper_").forEach((node) => {
+            filepaths.push(node.dataset["src"]);
+        })
+        return filepaths;
+    });
+    for (const filepath of filepaths) {
+        console.log("injecting helper script", filepath);
+        await page.addScriptTag({path: resolvePath(filepath)});
+    }
+
+    let mid = await executionContext.evaluate("window._mid");
+    // emulate retry logic in popup.js
+    if (mid && mid.o && mid.o.retry) {
+        await pageutils.wait(1000);
+        await page.addScriptTag({path: resolvePath("../../build/inject.js")});
+        mid = await executionContext.evaluate("window._mid");
+    }
+    return mid;
+}
 
 /**
  *
@@ -81,21 +118,22 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
 
     try {
         await page.goto(url, {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
-    } catch (ignored) {}
-
+    } catch (e) {
+        console.error(e)
+    }
 
     // callback hook to customize action after loading the page, such as scrolling
     await runFuncIfDefined(ops && ops['preinject'], [page]);
+    // emulate popup.js and inject "inject.js" with retry
+    const mid = await injectWithRetry(page);
 
-    await page.addScriptTag({path: resolvePath("mock.js")});
-    await page.addScriptTag({path: resolvePath("../../build/inject.js")});
-
-    const executionContext = await page.mainFrame().executionContext();
-    const mid = await executionContext.evaluate("window._mid");
     expect(mid).toBeDefined();
     expect(mid['o']).toBeDefined();
     expect(mid['o']['supported']).toBeTruthy();
-    if (ops && ops.sizeMatch) {
+    if (ops && ops.sizeMatch && typeof ops.sizeMatch === "function") {
+        console.log(expect.getState().currentTestName,
+            "expectedSize=", images.length,
+            "actualSize=", mid['o']['images'].length);
         expect(ops.sizeMatch(images.length, mid['o']['images'].length)).toBeTruthy();
     } else {
         expect(mid['o']['images']).toHaveLength(images.length);
