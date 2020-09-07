@@ -57,6 +57,7 @@ const register = function (siteModule) {
     require("./tokyopopline.com"),
     require("./news.dwango.jp"),
     require("./mantan-web.jp"),
+    require("./mainichikirei.jp"),
     require("./natalie.mu"),
     require("./hominis.media"),
     require("./www.edgeline-tokyo.com"),

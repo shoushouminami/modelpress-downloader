@@ -1,18 +1,6 @@
 const utils = require("../utils.js");
-const getLargeImg = function(url) {
-    let m = url.match(/^.*(_thumb|_size\d{1,2})(.jpg|.jpeg|.png)$/i)
-    let ext = m[2]
-    if (ext) {
-        let ret = {url: url.replace(m[1] + ext, "_size10" + ext), retries: []};
-        for (let i = 9; i >= 6; i--) {
-            ret.retries.push(url.replace(m[1] + ext, "_size" + i + ext));
-        }
+const getLargeImg = utils.getSizeGuessingFunc(10);
 
-        return ret;
-    }
-
-    return url;
-};
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();

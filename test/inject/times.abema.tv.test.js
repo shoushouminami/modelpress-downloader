@@ -71,11 +71,14 @@ test("Test times.abema.tv article with images 2", async () => {
             {
                 retries: ["https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7006935_ext_col_03_3_1560759726.webp"],
                 url: "https://d13krdvwknzmgv.cloudfront.net/files/topics/7006935_ext_col_03_3.jpg"
-            }].concat(dummyItems(15)),
+            }],
         {
             preinject: async function (page) {
                 await pageutils.wait(3000);
                 await  await pageutils.scrollTo(page,80);
+            },
+            sizeMatch: function (expectedSize, actualSize) {
+                return actualSize >= 19;
             }
         });
 });

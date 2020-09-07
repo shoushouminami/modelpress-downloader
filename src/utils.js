@@ -268,6 +268,38 @@ const utils = {
             s += JSON.stringify(message.images, null, 1);
         } catch (e) {} // make sure dont fail
         return s;
+    },
+    /**
+     * Returns a filter function that will try replacing "size6.jpg" with "size10.jpg"
+     * The highest number to try is defined by largeNum.
+     * @param largeNum
+     * @returns {function(*): ({retries: [], url: *}|undefined)}
+     */
+    getSizeGuessingFunc: function (largeNum) {
+        return function (url) {
+            let m = url.match(/^.*(_thumb|_size(\d{1,2}))(.jpg|.jpeg|.png)$/i)
+            let smallNum;
+            try {
+                smallNum = parseInt(m[2])
+                if (isNaN(smallNum)) {
+                    smallNum = 6;
+                }
+            } catch (e) {
+                let smallNum = 6;
+            }
+
+            let ext = m[3]
+            if (ext) {
+                let ret = {url: url.replace(m[1] + ext, "_size" + largeNum + ext), retries: []};
+                for (let i = (largeNum - 1); i >= smallNum; i--) {
+                    ret.retries.push(url.replace(m[1] + ext, "_size" + i + ext));
+                }
+
+                return ret;
+            }
+
+            return url;
+        }
     }
 };
 
