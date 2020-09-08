@@ -1,5 +1,4 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-const {pattern} = require("../../src/inject/www.rbbtoday.com");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test fashion news article", async () => {
