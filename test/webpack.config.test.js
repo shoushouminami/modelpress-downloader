@@ -1,5 +1,5 @@
 const {merge} = require('webpack-merge');
-const prodFunc = require('./webpack.config');
+const prodFunc = require('../webpack.config');
 const webpack = require('webpack');
 
 module.exports = env => {

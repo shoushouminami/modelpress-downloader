@@ -12,7 +12,8 @@
   },
   "jest": {
     "preset": "jest-puppeteer",
-    "verbose": true
+    "verbose": true,
+    "modulePathIgnorePatterns": ["webpack.config.test.js"]
   },
   "repository": {
     "type": "git",
