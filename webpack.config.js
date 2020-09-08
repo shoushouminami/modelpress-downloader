@@ -3,7 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = env => {
-    let conf = env && env.NODE_ENV === "test" ? require("./config/dev") : require("./config/prod");
+    let conf = env && env.NODE_ENV === "dev" ? require("./config/dev") : require("./config/prod");
     return {
         entry: {
             inject: "./src/inject.js",
