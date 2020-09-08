@@ -19,6 +19,15 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.25 (2020/09/07)
+* Add support for
+   * www.rbbtoday.com
+   * mainichikirei.jp
+   * www.crank-in.net
+   * realsound.jp
+   * www.edgeline-tokyo.com
+   * hominis.media
+
 ###### 2.24 (2020/09/04)
 * Add support for 
    * teens.mynavi.jp
