@@ -120,6 +120,7 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
     try {
         await page.goto(url, {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
     } catch (e) {
+        console.error("Error during page.goto() url=", url)
         console.error(e)
     }
 
