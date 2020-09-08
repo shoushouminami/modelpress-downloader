@@ -1,5 +1,5 @@
 # Default build for local testing with dev
-build: clean cp-resources webpack-dev
+build: clean cp-resources webpack-test
 
 # Build for production release with package.zip
 release: clean cp-resources webpack mk-package
@@ -18,12 +18,8 @@ webpack-dev: source
 webpack: source
 	npx webpack --mode=development
 
-# dev mode with watch flag
+# dev mode with watch flag and test config
 watch: clean cp-resources source
-	npx webpack --mode=development --watch --env.NODE_ENV=dev
-
-# test mode with watch fag
-test-watch: clean cp-resources source
 	npx webpack --mode=development --watch --env.NODE_ENV=dev --config test/webpack.config.test.js
 
 cp-resources: images
@@ -40,5 +36,5 @@ clean:
 	-rm -rf build
 	-mkdir build
 
-test: clean cp-resources webpack-test
+test: build
 	npm test
