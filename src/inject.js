@@ -11,5 +11,4 @@ try {
     o.supported = false;
 }
 
-window._mid = {o: o};
 module.exports = o;

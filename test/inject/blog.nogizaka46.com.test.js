@@ -26,7 +26,7 @@ test("Test http://blog.nogizaka46.com/fourth/2019/06/051125.php", async () => {
 test("Image url is in href of parent A node and hosted on awalker.jp", async () => {
     const page = await browser.newPage();
     await page.goto("http://blog.nogizaka46.com/momoko.oozono/2019/09/052573.php");
-    await page.addScriptTag({path: resolvePath("./mock.js")});
+    await page.addScriptTag({path: resolvePath("./mock-chrome-api.js")});
     await page.addScriptTag({path: resolvePath("../../build/inject.js")});
 
     const executionContext = await page.mainFrame().executionContext();

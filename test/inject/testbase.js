@@ -73,14 +73,14 @@ const dummyItems = function (count) {
  * @param page
  * @returns {Promise<{o}|*>}
  */
-async function injectWithRetry(page) {
-    await page.addScriptTag({path: resolvePath("mock.js")});
-    await page.addScriptTag({path: resolvePath("../../build/inject.js")});
+async function emulateInjectWithRetry(page) {
+    await page.addScriptTag({path: resolvePath("mock-chrome-api.js")});
+    await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
     const executionContext = await page.mainFrame().executionContext();
     // check for helper script and inject using puppeteer API
     let filepaths = await executionContext.evaluate(() => {
         let filepaths = [];
-        document.querySelectorAll("script._mid-helper_").forEach((node) => {
+        document.querySelectorAll("span._mid-helper_").forEach((node) => {
             filepaths.push(node.dataset["src"]);
         })
         return filepaths;
@@ -94,7 +94,7 @@ async function injectWithRetry(page) {
     // emulate retry logic in popup.js
     if (mid && mid.o && mid.o.retry) {
         await pageutils.wait(1000);
-        await page.addScriptTag({path: resolvePath("../../build/inject.js")});
+        await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
         mid = await executionContext.evaluate("window._mid");
     }
     return mid;
@@ -125,7 +125,7 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
     // callback hook to customize action after loading the page, such as scrolling
     await runFuncIfDefined(ops && ops['preinject'], [page]);
     // emulate popup.js and inject "inject.js" with retry
-    const mid = await injectWithRetry(page);
+    const mid = await emulateInjectWithRetry(page);
 
     expect(mid).toBeDefined();
     expect(mid['o']).toBeDefined();

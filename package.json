@@ -32,7 +32,9 @@
     "mocha": "^6.2.3",
     "node": "^12.18.3",
     "puppeteer": "2.0.0",
+    "rewiremock": "^3.14.3",
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.3"
   }
 }

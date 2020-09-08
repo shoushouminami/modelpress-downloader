@@ -33,5 +33,6 @@ module.exports = env => {
             })
         ],
         devtool: false,
+        mode: "development",
     }
 };

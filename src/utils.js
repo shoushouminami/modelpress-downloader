@@ -219,10 +219,6 @@ const utils = {
     injectScriptDOM: function (filepath) {
         let script = document.createElement('script');
         script.src = filepath;
-        // unit test looks at this value and injects the script using puppeteer API
-        // since browser side won't have permission to get a local file
-        script.classList.add("_mid-helper_");
-        script.dataset["src"] = filepath;
         document.body.appendChild(script);
     },
     /**
