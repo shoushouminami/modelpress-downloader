@@ -97,6 +97,7 @@ async function emulateInjectWithRetry(page) {
         await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
         mid = await executionContext.evaluate("window._mid");
     }
+
     return mid;
 }
 

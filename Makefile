@@ -8,7 +8,7 @@ source: src/**/* src/* config/*
 
 # test mode build using test webpack config file, which has unit test mocks on inject.js
 webpack-test: source
-	npx webpack --mode=development --env.NODE_ENV=dev --config test/webpack.config.test.js
+	npx webpack --mode=development --env.NODE_ENV=dev --config webpack.config.test.js
 
 # dev mode build, using dev config
 webpack-dev: source

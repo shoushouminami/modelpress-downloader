@@ -42,7 +42,7 @@ test.skip("Twitter tweet with 1 image", async () => {
     await page.setBypassCSP(true);
     await page.goto("https://twitter.com/nogizaka46/status/1149196527375511552", {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
     await page.addScriptTag({path: resolvePath("./mock-chrome-api.js")});
-    await page.addScriptTag({path: resolvePath("../../build/inject.js")});
+    await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
 
     const executionContext = await page.mainFrame().executionContext();
     const mid = await executionContext.evaluate("window._mid");
@@ -66,7 +66,7 @@ test.skip("Twitter tweet with 2 images", async () => {
     await page.setBypassCSP(true);
     await page.goto("https://twitter.com/nogizaka_goods/status/1149876704451497984", {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]});
     await page.addScriptTag({path: resolvePath("./mock-chrome-api.js")});
-    await page.addScriptTag({path: resolvePath("../../build/inject.js")});
+    await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
 
     const executionContext = await page.mainFrame().executionContext();
     const mid = await executionContext.evaluate("window._mid");
