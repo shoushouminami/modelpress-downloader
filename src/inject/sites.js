@@ -52,6 +52,7 @@ const register = function (siteModule) {
 })([
     require("./mdpr.jp"),
     require("./times.abema.tv"),
+    require("./www.rbbtoday.com"),
     require("./news.mynavi.jp"),
     require("./teens.mynavi.jp"),
     require("./tokyopopline.com"),
