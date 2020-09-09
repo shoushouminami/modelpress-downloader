@@ -118,7 +118,7 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
     await runFuncIfDefined(ops && ops['prenavigate'], [page]);
 
     try {
-        await page.goto(url, {timeout: 10000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+        await page.goto(url, {timeout: 15000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
     } catch (e) {}
 
     // callback hook to customize action after loading the page, such as scrolling

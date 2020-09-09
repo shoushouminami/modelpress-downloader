@@ -15,34 +15,39 @@ test("Test times.abema.tv article with images", async () => {
         browser,
         "https://times.abema.tv/posts/7039728",
         "times.abema.tv-posts-7039728/",
-        [{
-            retries: ["https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_0_1580522021.webp"],
-            url: "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_0.jpg"
-        },
+        [
             {
-                retries: ["https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_1_1580522021.webp"],
-                url: "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_1.jpg"
+                "retries": [
+                    "https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_0_1580522021.webp"
+                ],
+                "url": "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_0.jpg"
             },
             {
-                retries: ["https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_2_1580522021.webp"],
-                url: "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_2.jpg"
+                "retries": [
+                    "https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_1_1580522021.webp"
+                ],
+                "url": "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_1.jpg"
             },
             {
-                retries: ["https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_3_1580522021.webp"],
-                url: "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_3.jpg"
+                "retries": [
+                    "https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_2_1580522021.webp"
+                ],
+                "url": "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_2.jpg"
             },
             {
-                retries: ["https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_og_4_1580522021.webp"],
-                url: "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_og_4.jpg"
-            },
-            {
-                retries: ["https://hayabusa.io/abema/series/283-10/thumb.w800.v1577092222.jpg"],
-                url: "https://hayabusa.io/abema/series/283-10/thumb.jpg"
-            }],
+                "retries": [
+                    "https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7039728_ext_col_03_3_1580522021.webp"
+                ],
+                "url": "https://d13krdvwknzmgv.cloudfront.net/files/topics/7039728_ext_col_03_3.jpg"
+            }
+        ],
         {
             preinject: async function (page) {
                 await pageutils.wait(3000);
                 await pageutils.scrollTo(page,50, 800);
+            },
+            sizeMatch: function (expectedSize, actualSize) {
+                return actualSize >= 5;
             }
         });
 });
