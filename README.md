@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.26 (2020/09/08)
+* Bug fix for www.edgeline-tokyo.com
+
 ###### 2.25 (2020/09/07)
 * Add support for
    * www.rbbtoday.com
