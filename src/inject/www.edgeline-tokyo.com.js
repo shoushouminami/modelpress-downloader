@@ -9,7 +9,7 @@ module.exports = {
         // images in article
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document,
-                "#main article #the-content p img", getLargeImg)
+                "#main article #the-content .image img", getLargeImg)
         );
         return o;
     },
