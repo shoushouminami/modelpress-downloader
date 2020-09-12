@@ -79,6 +79,7 @@ const register = function (siteModule) {
     require("./mikan-incomplete.com"),
     require("./e-talentbank.co.jp"),
     require("./dogatch.jp"),
+    require("./www.tvlife.jp"),
     require("./entamenext.com"),
     require("./nonno.hpplus.jp"),
     require("./cancam.jp"),
