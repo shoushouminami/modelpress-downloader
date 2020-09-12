@@ -9,7 +9,7 @@ afterAll(async () => {
     await browser.close();
 });
 
-test("Test e-talentbank.co.jp article page with 1 image", async () => {
+test.skip("Test e-talentbank.co.jp article page with 1 image", async () => {
     await testDirectDownload(
         browser,
         "https://e-talentbank.co.jp/news/139105/",
@@ -17,7 +17,7 @@ test("Test e-talentbank.co.jp article page with 1 image", async () => {
         ["https://e-talentbank.co.jp/wp-content/uploads/2020/04/b0e9871e81145fe31bbc09d53c5e5aa4-2-680x680-1-1.jpg"]);
 });
 
-test("Test e-talentbank.co.jp article page with 5 images", async () => {
+test.skip("Test e-talentbank.co.jp article page with 5 images", async () => {
     await testDirectDownload(
         browser,
         "https://e-talentbank.co.jp/news/139166/",
@@ -29,7 +29,7 @@ test("Test e-talentbank.co.jp article page with 5 images", async () => {
             "https://e-talentbank.co.jp/wp-content/uploads/2020/04/58c92516ee5b8f966347b1f91c71da5d.png"]);
 });
 
-test("Test e-talentbank.co.jp attachment page", async () => {
+test.skip("Test e-talentbank.co.jp attachment page", async () => {
     await testDirectDownload(
         browser,
         "https://e-talentbank.co.jp/news/139166/attachment/%e3%82%b3%e3%83%a1%e3%83%b3%e3%83%88-2020-04-03-183112/",
@@ -41,7 +41,7 @@ test("Test e-talentbank.co.jp attachment page", async () => {
             "https://e-talentbank.co.jp/wp-content/uploads/2020/04/58c92516ee5b8f966347b1f91c71da5d.png"]);
 });
 
-test("Test e-talentbank.co.jp interview page", async () => {
+test.skip("Test e-talentbank.co.jp interview page", async () => {
     await testDirectDownload(
         browser,
         "https://e-talentbank.co.jp/interview/96270/",
@@ -52,7 +52,7 @@ test("Test e-talentbank.co.jp interview page", async () => {
             "https://e-talentbank.co.jp/wp-content/uploads/2019/05/D75_4743-1.jpeg"]);
 });
 
-test("Test e-talentbank.co.jp interview attachment page", async () => {
+test.skip("Test e-talentbank.co.jp interview attachment page", async () => {
     await testDirectDownload(
         browser,
         "https://e-talentbank.co.jp/interview/96270/attachment/d75_4804-2/",

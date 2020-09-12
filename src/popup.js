@@ -172,7 +172,7 @@ const fetchMdprMobileImages = function (articleId, callback, domains){
                     ga.trackEvent("mdpr_remote", "success", "count", list.length);
                     callback(list);
                 } else {
-                    ga.trackEvent("mdpr_remote", "failure", "status", xhr.status);
+                    ga.trackEvent("mdpr_remote", "failure", xhr.status + "", 1);
                     console.error("Failed loading remote images: " + xhr.status + " " + xhr.statusText);
                     if (domains.length > 0) {
                         fetchMdprMobileImages(articleId, callback, domains);
