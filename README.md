@@ -19,6 +19,13 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.27 (2020/09/13)
+* Add
+   * www.m-on-music.jp
+   * www.tvlife.jp
+   * www.musicvoice.jp
+   * actresspress.com
+   
 ###### 2.26 (2020/09/08)
 * Bug fix for www.edgeline-tokyo.com
 
