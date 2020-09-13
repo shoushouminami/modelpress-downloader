@@ -68,6 +68,7 @@ const register = function (siteModule) {
     require("./apress.jp"),
     require("./realsound.jp"),
     require("./www.m-on-music.jp"),
+    require("./www.musicvoice.jp"),
     require("./www.cinematoday.jp"),
     require("./www.news-postseven.com"),
     require("./diet.news-postseven.com"),
