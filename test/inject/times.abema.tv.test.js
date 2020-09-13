@@ -47,7 +47,7 @@ test("Test times.abema.tv article with images", async () => {
                 await pageutils.scrollTo(page,50, 800);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= 5;
+                expect(actualSize).toBeGreaterThan(4);
             }
         });
 });
@@ -113,7 +113,7 @@ test("Test times.abema.tv article with images 2", async () => {
                 await  await pageutils.scrollTo(page,80);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= 19;
+                expect(actualSize).toBeGreaterThan(8);
             }
         });
 });
@@ -149,7 +149,7 @@ test("Test times.abema.tv article with images and data url", async () => {
                 await pageutils.scrollTo(page, 75);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= 3;
+                expect(actualSize).toBeGreaterThan(2);
             }
         });
 });

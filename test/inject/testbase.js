@@ -133,7 +133,7 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
         console.log(expect.getState().currentTestName,
             "expectedSize=", images.length,
             "actualSize=", mid['o']['images'].length);
-        expect(ops.sizeMatch(images.length, mid['o']['images'].length)).toBeTruthy();
+        ops.sizeMatch(images.length, mid['o']['images'].length);
     } else {
         expect(mid['o']['images']).toHaveLength(images.length);
     }

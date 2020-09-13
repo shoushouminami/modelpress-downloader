@@ -31,7 +31,7 @@ test("Test https://www.bilibili.com/read/cv2820325", async () => {
                 await pageutils.scrollTo(page,70);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= 4;
+                expect(actualSize).toBeGreaterThanOrEqual(4);
             }
         });
 });

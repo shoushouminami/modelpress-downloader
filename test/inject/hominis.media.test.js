@@ -48,7 +48,7 @@ test("Test news article lazy loading 1st image", async () => {
         ],
         {
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= 1;
+                expect(actualSize).toBeGreaterThanOrEqual(1);
             }
         });
 });

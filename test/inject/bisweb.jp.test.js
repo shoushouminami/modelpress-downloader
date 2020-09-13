@@ -93,7 +93,7 @@ test("Test beauty article", async () => {
             },
             sizeMatch: function (expectedSize, actualSize) {
                 console.log("expectedSize={} actualSize={}", expectedSize, actualSize)
-                return actualSize >= 20;
+                expect(actualSize).toBeGreaterThanOrEqual(20);
             }
         });
 });
@@ -146,7 +146,7 @@ test("Test fashion article", async () => {
                 await pageutils.scrollTo(page, 80);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= (expectedSize - 1);
+                expect(actualSize).toBeGreaterThanOrEqual(expectedSize - 1);
             }
         });
 });
@@ -247,7 +247,7 @@ test("Test lifestyle article", async () => {
                 await pageutils.scrollTo(page, 90);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= expectedSize;
+                expect(actualSize).toBeGreaterThanOrEqual(expectedSize);
             }
         });
 });
@@ -276,7 +276,7 @@ test("Test mote article", async () => {
                 await pageutils.scrollTo(page, 90);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= expectedSize;
+                expect(actualSize).toBeGreaterThanOrEqual(expectedSize);
             }
         });
 });

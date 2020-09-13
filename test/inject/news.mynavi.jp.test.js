@@ -34,7 +34,7 @@ test("Test news.mynavi.jp article page", async () => {
                 await pageutils.scrollToBottom(page, 500);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                return actualSize >= 6;
+                expect(actualSize).toBeGreaterThanOrEqual(6);
             }
         });
 });
