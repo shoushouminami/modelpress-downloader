@@ -1,4 +1,11 @@
 const utils = require("../utils.js");
+const getLargeImg = function (url) {
+    if (url.startsWith("http://")) {
+        url = url.replace("http://", "https://");
+    }
+
+    return utils.filterTrailingResolutionNumbers(url);
+};
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
@@ -8,14 +15,13 @@ module.exports = {
             utils.findImagesWithCssSelector(
                 document,
                 [
-                    "#post-entry section .post-frame img", // news article top and thumbnail images
-                    ".content-all-wrap .content-interview-wrap img", // interview article top image
-                    "#post-entry section article a img" // interview thumbnail images
+                    "#container #content #main figure img", // news article top image
+                    "#container #content #main section img", // news article top image
                 ].join(","),
-                utils.filterTrailingResolutionNumbers
+                getLargeImg
             )
         );
         return o;
     },
-    host: "www.musicvoice.jp"
+    host: "actresspress.com"
 };

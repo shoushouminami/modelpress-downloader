@@ -1,55 +1,51 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test news article with 1 image", async () => {
+test("Test news article with top and in article images", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.musicvoice.jp/news/202009120163313/",
-        "www.musicvoice.jp-news-202009120163313-/",
+        "https://actresspress.com/mei_nagano-sekkisei20200908/",
+        "actresspress.com-mei_nagano-sekkisei20200908-/",
         [
-                "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200806-K026.jpg"
+            "https://actresspress.com/wp-content/uploads/2020/09/mei_nagano-sekkisei-event20200908-5.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mei_nagano-sekkisei-event20200908-1.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mei_nagano-sekkisei-event20200908-2.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mei_nagano-sekkisei-event20200908-3.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mei_nagano-sekkisei-event20200908-4.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mei_nagano-sekkisei-event20200908-6.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mei_nagano-profile202009.jpg"
         ]);
 });
 
-test("Test news article with 4 images", async () => {
+test("Test magazine news article", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.musicvoice.jp/news/202008190160451/",
-        "www.musicvoice.jp-news-202008190160451-/",
+        "https://actresspress.com/mizuki_yamamoto20200910/",
+        "actresspress.com-mizuki_yamamoto20200910-/",
         [
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K011.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K009.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K010.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K012.jpg"
+            "https://actresspress.com/wp-content/uploads/2020/09/mizuki_yamamoto-photo202009010-3.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/ac9b7bea06a67824104ab6cc635169ae.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mizuki_yamamoto-comic202009010-4.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mizuki_yamamoto-photo202009010-1.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mizuki_yamamoto-photo202009010-2.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/mizuki_yamamoto-photo202009010-4.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/45f88575a6434dcc3b76e3863c5860f8.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/09/085b0803cda62106321802c82e0386e2.jpg"
         ]);
 });
 
-test("Test news article single image view", async () => {
+test("Test fashion news article", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.musicvoice.jp/news/202008190160451/p200819-k012/",
-        "www.musicvoice.jp-news-202008190160451-p200819-k012-/",
+        "https://actresspress.com/nao_kosaka-furisode-movie20200131/",
+        "actresspress.com-nao_kosaka-furisode-movie20200131-/",
         [
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K012.jpg"
-        ]);
-});
-
-test("Test news interview article", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://www.musicvoice.jp/news/202009110163179/",
-        "www.musicvoice.jp-news-202009110163179-/",
-        [
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K026.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K028.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K024.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K032.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K022.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K023.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K025.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K027.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K029.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K030.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K031.jpg"
+            "https://actresspress.com/wp-content/uploads/2020/01/cc736cfec37d2bc8855ed176f70850d4.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/01/nao_kosaka-furisode20200131-1.png",
+            "https://actresspress.com/wp-content/uploads/2020/01/nao_kosaka-furisode-movie20200131-1-scaled.jpg",
+            "https://actresspress.com/wp-content/uploads/2020/01/nao_kosaka-furisode-movie20200131-2.png",
+            "https://actresspress.com/wp-content/uploads/2020/01/nao_kosaka-furisode-movie20200131-4.png",
+            "https://actresspress.com/wp-content/uploads/2020/01/nao_kosaka-furisode-movie20200131-3.png",
+            "https://actresspress.com/wp-content/uploads/2020/01/nao_kosaka-profile20200131.jpg"
         ]);
 });

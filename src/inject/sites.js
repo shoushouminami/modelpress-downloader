@@ -60,6 +60,7 @@ const register = function (siteModule) {
     require("./mantan-web.jp"),
     require("./mainichikirei.jp"),
     require("./natalie.mu"),
+    require("./actresspress.com"),
     require("./hominis.media"),
     require("./www.edgeline-tokyo.com"),
     require("./this.kiji.is"),
