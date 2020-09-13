@@ -107,34 +107,11 @@ test("Test news article images", async () => {
                     "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675750.jpg"
                 ],
                 "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675750.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675752.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675752.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/zoom/675752.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675751.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675751.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/zoom/675751.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/675753.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675753.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675753.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/675747.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675747.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675747.jpg"
             }
-        ]);
+        ],
+        {
+            sizeMatch: function (expectedSize, actualSize) {
+                expect(actualSize).toBeGreaterThanOrEqual(expectedSize);
+            }
+        });
 });
