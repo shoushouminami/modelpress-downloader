@@ -10,7 +10,7 @@ afterAll(async () => {
     await browser.close();
 });
 
-test("Test mikan-incomplete.com game article", async () => {
+test.skip("Test mikan-incomplete.com game article", async () => {
     await testDirectDownload(
         browser,
         "https://mikan-incomplete.com/girls/55932",
@@ -45,7 +45,7 @@ test("Test mikan-incomplete.com game article", async () => {
         });
 });
 
-test("Test mikan-incomplete.com character article", async () => {
+test.skip("Test mikan-incomplete.com character article", async () => {
     await testDirectDownload(
         browser,
         "https://mikan-incomplete.com/character/55983",
@@ -62,7 +62,7 @@ test("Test mikan-incomplete.com character article", async () => {
         });
 });
 
-test("Test mikan-incomplete.com girls/news-girls article", async () => {
+test.skip("Test mikan-incomplete.com girls/news-girls article", async () => {
     await testDirectDownload(
         browser,
         "https://mikan-incomplete.com/girls/55579",
