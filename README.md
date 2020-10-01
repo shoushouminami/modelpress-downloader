@@ -19,6 +19,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.28 (2020/09/30)
+* Fix mantan-web.jp web change
+* Fix ray-web.jp web change
+ 
 ###### 2.27 (2020/09/13)
 * Add
    * www.m-on-music.jp
