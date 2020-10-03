@@ -11,6 +11,10 @@ const getLargeImg = function (url) {
     return url;
 };
 
+const guessImages = function (current, total, urls) {
+    //console.log(current, total, urls);
+}
+
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
@@ -26,6 +30,21 @@ module.exports = {
             utils.findImagesWithCssSelector(document,
                 "#content main article figure img", getLargeImg)
         );
+
+        // guess images on gallery page
+        if (document.querySelectorAll(".photo-link-num").length > 0) {
+            let numbers = document.querySelectorAll(".photo-link-num")[0].innerText.trim().split("/");
+            try {
+                let current = Number.parseInt(numbers[0]);
+                let total = Number.parseInt(numbers[1]);
+                guessImages(current, total,
+                    utils.findImagesWithCssSelector(
+                    document,
+                    "#content main article figure img")
+                )
+            } catch (ignored) {
+            }
+        }
         return o;
     },
     host: "www.crank-in.net",
