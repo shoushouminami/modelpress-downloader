@@ -4,8 +4,8 @@ const getLargeImg = function (url) {
     let m = url.match(pattern);
     if (m && m[1]) {
         return {
-            url: url.replace(m[1], "_650"),
-            retries: [url]
+            url: url.replace(m[1], "_1200"),
+            retries: [url.replace(m[1], "_650"), url]
         }
     }
     return url;

@@ -10,71 +10,83 @@ test("Test special page", async () => {
         [
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397289_650.jpg",
                     "https://www.crank-in.net/img/db/1397289_650.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397289_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397289_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397174_650.jpg",
                     "https://www.crank-in.net/img/db/1397174_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397174_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397174_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397290_650.jpg",
                     "https://www.crank-in.net/img/db/1397290_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397290_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397290_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397292_650.jpg",
                     "https://www.crank-in.net/img/db/1397292_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397292_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397292_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397176_650.jpg",
                     "https://www.crank-in.net/img/db/1397176_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397176_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397176_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397175_650.jpg",
                     "https://www.crank-in.net/img/db/1397175_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397175_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397175_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397186_650.jpg",
                     "https://www.crank-in.net/img/db/1397186_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397186_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397186_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397184_650.jpg",
                     "https://www.crank-in.net/img/db/1397184_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397184_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397184_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397293_650.jpg",
                     "https://www.crank-in.net/img/db/1397293_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397293_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397293_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397179_650.jpg",
                     "https://www.crank-in.net/img/db/1397179_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397179_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397179_1200.jpg"
             },
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397294_650.jpg",
                     "https://www.crank-in.net/img/db/1397294_150.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397294_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397294_1200.jpg"
             }
-        ]);
+        ]
+    );
 });
 
 test("Test special gallery page", async () => {
@@ -85,11 +97,13 @@ test("Test special gallery page", async () => {
         [
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1397174_650.jpg",
                     "https://www.crank-in.net/img/db/1397174_650.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1397174_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1397174_1200.jpg"
             }
-        ]);
+        ]
+    );
 });
 
 test("Test column article page", async () => {
@@ -100,11 +114,13 @@ test("Test column article page", async () => {
         [
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1416220_650.jpg",
                     "https://www.crank-in.net/img/db/1416220_650.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1416220_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1416220_1200.jpg"
             }
-        ]);
+        ]
+    );
 });
 
 test("Test column summary page", async () => {
@@ -115,9 +131,11 @@ test("Test column summary page", async () => {
         [
             {
                 "retries": [
+                    "https://www.crank-in.net/img/db/1416220_650.jpg",
                     "https://www.crank-in.net/img/db/1416220_300.jpg"
                 ],
-                "url": "https://www.crank-in.net/img/db/1416220_650.jpg"
+                "url": "https://www.crank-in.net/img/db/1416220_1200.jpg"
             }
-        ]);
+        ]
+    );
 });
