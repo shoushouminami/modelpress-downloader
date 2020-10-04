@@ -10,34 +10,25 @@ afterAll(async () => {
     await browser.close();
 });
 
-test.skip("Test mikan-incomplete.com game article", async () => {
+test("Test mikan-incomplete.com news article", async () => {
     await testDirectDownload(
         browser,
-        "https://mikan-incomplete.com/girls/55932",
-        "mikan-incomplete.com-girls-55932/",
-        ["https://mikan-incomplete.com/wp-content/uploads/2019/09/449.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/124.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/179-1.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/207.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/226-1.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/173-2.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/174.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/238.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/268.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/316-2.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/332.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/410.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/414.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/426.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/430.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/442.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/088-1.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/114.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/186.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/214.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/230.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/301.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/444.jpg"],
+        "https://mikan-incomplete.com/report/78430",
+        "mikan-incomplete.com-report-78430/",
+        [
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/447.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/447.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/494.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/494.jpg"
+            }
+        ],
         {
                 preinject: async function (page) {
                         await pageutils.scrollToBottom(page);
@@ -45,33 +36,274 @@ test.skip("Test mikan-incomplete.com game article", async () => {
         });
 });
 
-test.skip("Test mikan-incomplete.com character article", async () => {
+test("Test mikan-incomplete.com image gallery", async () => {
     await testDirectDownload(
         browser,
-        "https://mikan-incomplete.com/character/55983",
-        "mikan-incomplete.com-character-55983/",
-        ["https://mikan-incomplete.com/wp-content/uploads/2019/09/08d1ca8582b80c45a5b3b3d278e576c8.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/024423ecc3cd13d0cd6c054656bcae05.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/0e8bc1e7970b1324d77e045ba8d3b1a4.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/18a7f4f545a16ca9c72551e79046d033.jpg",
-            "https://mikan-incomplete.com/wp-content/uploads/2019/09/f1ea29a728dafa39c6df1e680d98475a.jpg"],
+        "https://mikan-incomplete.com/report/78430/2",
+        "mikan-incomplete.com-report-78430-2/",
+        [
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/342-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/342.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/388-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/388.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/403-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/403.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/428-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/428.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/415-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/415.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/396-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/396.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/391-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/391.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/547-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/547.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/334-1-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/334-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/346-1-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/346-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/353-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/353.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/365-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/365.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/406-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/406.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/409-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/409.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/439-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/439.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/450-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/450.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/452-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/452.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/458-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/458.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/467-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/467.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/481-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/481.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/484-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/484.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/496-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/496.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/501-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/501.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/512-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/512.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/518-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/518.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/534-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/534.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/544-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/544.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/447-150x150.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/447.jpg"
+            }
+        ],
         {
                 preinject: async function (page) {
-                        await pageutils.scrollToBottom(page);
+                        await pageutils.scrollToBottom(page, 1000);
                 }
         });
 });
 
-test.skip("Test mikan-incomplete.com girls/news-girls article", async () => {
+test("Test girls news article", async () => {
     await testDirectDownload(
         browser,
-        "https://mikan-incomplete.com/girls/55579",
-        "mikan-incomplete.com-girls-55579/",
-        ["https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-941773-17-1.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-941773-17.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-448624-9.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-890535-11.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-155733-7.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-175733-6.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-347954-4.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-870129-5.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-990737-3.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-446123-8.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-211403-13.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-234826-14.jpg","https://mikan-incomplete.com/wp-content/uploads/2019/09/d1735-397-954803-15.jpg"],
+        "https://mikan-incomplete.com/girls/78210",
+        "mikan-incomplete.com-girls-78210/",
+        [
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-782828-1.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-782828-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-440075-4.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-440075-4.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-902570-2.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-902570-2.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-911086-3.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-911086-3.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-220257-5.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-220257-5.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-155147-0.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/10/d2929-1608-155147-0.jpg"
+            }
+        ],
         {
                 preinject: async function (page) {
                         await pageutils.scrollToBottom(page);
                 }
+        }
+    );
+});
+
+test("Test serial news article", async () => {
+    await testDirectDownload(
+        browser,
+        "https://mikan-incomplete.com/serial/66844",
+        "mikan-incomplete.com-serial-66844/",
+        [
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/04/005-1.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/04/005-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/04/065.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/04/065.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/04/041.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/04/041.jpg"
+            },
+            {
+                "retries": [
+                    "https://mikan-incomplete.com/wp-content/uploads/2020/04/022.jpg"
+                ],
+                "url": "https://mikan-incomplete.com/wp-content/uploads/2020/04/022.jpg"
+            }
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollToBottom(page);
+            }
         }
     );
 });

@@ -1,19 +1,45 @@
 const utils = require("../utils.js");
-const re = /http.*-[0-9]+x[0-9]+\.jpg$/;
-const getLargeImg = function (src) {
-    if (src.match(re)) {
-        var l = src.split("-");
-        l.pop();
-        return l.join("-") + ".jpg";
-    }
-
-    return src;
-};
-
+const getLargeImg = function (url) {
+    return {
+        url: utils.filterTrailingResolutionNumbers(url),
+        retries: [url]
+    };
+}
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "article#entry img", getLargeImg));
+        // article top image
+        utils.pushArray(o.images,
+            utils.findImagesWithCssSelector(
+                document,
+                "#content main article .p-articleThumb img",
+                getLargeImg
+            )
+        );
+        // article images
+        utils.pushArray(o.images,
+            utils.findImagesWithCssSelector(
+                document,
+                "#content main article .wp-block-image img",
+                getLargeImg
+            )
+        );
+        // article images
+        utils.pushArray(o.images,
+            utils.findImagesWithCssSelector(
+                document,
+                "#content main article .post_content p a img",
+                getLargeImg
+            )
+        );
+        // gallery images
+        utils.pushArray(o.images,
+            utils.findImagesWithCssSelector(
+                document,
+                "#content main article .blocks-gallery-grid img",
+                getLargeImg
+            )
+        );
         return o;
     },
     host: "mikan-incomplete.com"
