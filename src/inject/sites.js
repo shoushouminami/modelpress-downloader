@@ -68,6 +68,7 @@ const register = function (siteModule) {
     require("./this.kiji.is"),
     require("./thetv.jp"),
     require("./www.wws-channel.com"),
+    require("./lp.p.pia.jp"),
     require("./apress.jp"),
     require("./realsound.jp"),
     require("./www.m-on-music.jp"),
