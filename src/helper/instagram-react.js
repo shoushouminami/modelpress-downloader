@@ -28,16 +28,14 @@
         }
     };
 
-    let div = require("./helper-utils").getOrCreateDataDiv();
+    let helper = require("./helper-utils");
+    helper.getOrCreateDataDiv();
     let post = findPropFromReactDOM(document.querySelector("article"), "post");
-    let s = "";
     if (post && post.sidecarChildren) {
         for (const child of post.sidecarChildren) {
             if (child.displayResources) {
-                s += encodeURIComponent(child.displayResources[child.displayResources.length - 1].src) + ";";
+                helper.saveImageInDataDiv(child.displayResources[child.displayResources.length - 1].src);
             }
         }
     }
-
-    div.dataset["images"] = s;
 })();

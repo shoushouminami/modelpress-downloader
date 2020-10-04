@@ -10,7 +10,8 @@ module.exports = env => {
             background: "./src/background.js",
             popup: "./src/popup.js",
             "helper/instagram-react": "./src/helper/instagram-react.js",
-            "helper/rbbtoday-check-size": "./src/helper/rbbtoday-check-size.js"
+            "helper/rbbtoday-check-size": "./src/helper/rbbtoday-check-size.js",
+            "helper/twitter-react": "./src/helper/twitter-react.js"
         },
         output: {
             filename: '[name].js',

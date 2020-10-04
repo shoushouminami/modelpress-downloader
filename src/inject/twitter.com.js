@@ -27,32 +27,6 @@ const getLargeImg = function (src) {
     return src;
 };
 
-const getImagesFromReactGroupNode = function (dom) {
-    //__reactInternalInstance$833n2mfz9lr.return.return.stateNode.props.children[0].props.children[0].props.mediaDetail.media_url_https
-    for (const k of Object.keys(dom)) {
-        if (k.startsWith("__reactInternalInstance$")) {
-            let list = utils.getChildElement(dom[k], "return.return.stateNode.props.children.0.props.children".split("\."));
-            if (list) {
-                let ret = [];
-                for (const l of list) {
-                    utils.pushIfNew(ret,
-                        getLargeImg(
-                            utils.getChildElement(
-                                l, 
-                                "props.mediaDetail.media_url_https".split("\.")
-                            )
-                        )
-                    );
-                }
-
-                return ret;
-            }
-        }
-    }
-
-    return null;
-}
-
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
@@ -79,15 +53,19 @@ module.exports = {
         // slide show images
         let group = document.querySelectorAll("div[aria-labelledby=modal-header] [role=group]");
         if (group.length > 0) {
-            let images = getImagesFromReactGroupNode(group[0]);
-            if (images && images.length > 0) {
-                utils.pushArray(o.images, images);
-            } else {
-                for (const img of group[0].querySelectorAll("img")) {
-                    o.images.push(getLargeImg(img.src));
+            let helper = require("../helper/helper-utils");
+            let div = helper.getDataDiv();
+            if (div) {
+                // helper script injected
+                if (helper.dataDivHasImages()) {
+                    utils.pushArray(o.images, helper.loadImagesFromDataDiv());
                 }
-            }
-            o.ext = "jpg";
+                o.ext = "jpg";
+            } else {
+                // inject helper script and wait
+                utils.injectScriptDOM(chrome.runtime.getURL("helper/twitter-react.js"));
+                o.retry = true;
+            }  
         } else {
             let articles = document.querySelectorAll("article");
             if (articles.length) {
@@ -103,5 +81,6 @@ module.exports = {
 
         return o;
     },
-    host: "twitter.com"
+    host: "twitter.com",
+    getLargeImg: getLargeImg
 };
