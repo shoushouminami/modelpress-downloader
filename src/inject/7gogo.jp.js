@@ -17,5 +17,6 @@ const inject = function () {
 module.exports = {
     inject: inject,
     host: "7gogo.jp",
-    re: re
+    re: re,
+    hidden: true
 };
