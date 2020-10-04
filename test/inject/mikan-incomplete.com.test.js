@@ -1,18 +1,11 @@
-const {testDirectDownload, launchBrowser} = require("./testbase");
+const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const pageutils = require("../pageutils");
 
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
+let browserFactory = getBrowserFactory(beforeAll, afterAll);
 
 test("Test mikan-incomplete.com news article", async () => {
     await testDirectDownload(
-        browser,
+        browserFactory(),
         "https://mikan-incomplete.com/report/78430",
         "mikan-incomplete.com-report-78430/",
         [
@@ -38,7 +31,7 @@ test("Test mikan-incomplete.com news article", async () => {
 
 test("Test mikan-incomplete.com image gallery", async () => {
     await testDirectDownload(
-        browser,
+        browserFactory(),
         "https://mikan-incomplete.com/report/78430/2",
         "mikan-incomplete.com-report-78430-2/",
         [
@@ -220,7 +213,7 @@ test("Test mikan-incomplete.com image gallery", async () => {
 
 test("Test girls news article", async () => {
     await testDirectDownload(
-        browser,
+        browserFactory(),
         "https://mikan-incomplete.com/girls/78210",
         "mikan-incomplete.com-girls-78210/",
         [
@@ -271,7 +264,7 @@ test("Test girls news article", async () => {
 
 test("Test serial news article", async () => {
     await testDirectDownload(
-        browser,
+        browserFactory(),
         "https://mikan-incomplete.com/serial/66844",
         "mikan-incomplete.com-serial-66844/",
         [
