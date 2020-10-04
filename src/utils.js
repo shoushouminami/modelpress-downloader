@@ -301,6 +301,17 @@ const utils = {
 
             return url;
         }
+    },
+    getChildElement: function (dom, pathArr) {
+        for (const path of pathArr) {
+            if (dom[path]) {
+                dom = dom[path]
+            } else {
+                return null;
+            }
+        }
+
+        return dom;
     }
 };
 

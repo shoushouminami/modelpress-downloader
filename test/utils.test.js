@@ -34,3 +34,25 @@ test("Test removeTrailingResolutionNumbers", () => {
     expect(utils.removeTrailingResolutionNumbers("http://popwave.jp/wp-content/uploads/2020/03/25607-150x150-1.jpg"))
         .toBe("http://popwave.jp/wp-content/uploads/2020/03/25607.jpg");
 });
+
+
+test("Test getChildElement", () => {
+    let o = {
+        "a": {
+            "b": {
+                "c": 1
+            }
+        }
+    };
+
+    expect(utils.getChildElement(
+        o,
+        ["a", "b", "c"]
+    )).toBe(1);
+    expect(utils.getChildElement(
+        o,
+        ["e", "f", "g"]
+    )).toBeNull()
+
+});
+
