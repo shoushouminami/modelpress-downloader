@@ -288,7 +288,7 @@ document.getElementById("download").addEventListener("click", function () {
             downloadInBg.push({url: image, folder: message.folder, ext: message.ext});
         } else if (typeof image === "object" && image.websiteUrl && image.imageUrl) {
             imagesNeedTab.push(image);
-        } else if (typeof image === "object" && image.url && image.retries) {
+        } else if (typeof image === "object" && image.url) {
             image.folder = message.folder;
             image.ext = message.ext;
             downloadInBg.push(image);

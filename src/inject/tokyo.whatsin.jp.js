@@ -1,14 +1,4 @@
 const utils = require("../utils.js");
-const re = /^https:\/\/.*\.walkerplus\.com\/.*(_\d+)\.(jpg|jpeg|png)$/i
-const getLargeImg = function (url) {
-    let m = url.match(re);
-    if (m && m[1]) {
-        return {url: url.replace(m[1], ""), retries: [url]};
-    }
-
-    return url;
-};
-
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
