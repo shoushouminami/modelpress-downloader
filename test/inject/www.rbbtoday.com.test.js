@@ -1,5 +1,7 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const {pattern} = require("../../src/inject/www.rbbtoday.com");
+const pageutils = require("../pageutils");
+
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test regex pattern", () => {
@@ -78,7 +80,13 @@ test("Test news article gallery", async () => {
                 ],
                 "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676759.jpg"
             }
-        ]);
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollToBottom(page);
+            }
+        }
+    );
 });
 
 test("Test news article images", async () => {

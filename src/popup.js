@@ -294,7 +294,7 @@ document.getElementById("download").addEventListener("click", function () {
             downloadInBg.push(image);
             // download(chrome, {url: image.url, retries: image.retries, folder: message.folder, ext: message.ext});
         } else {
-            console.error("event=unknown_type image=" + image);
+            console.error("event=unknown_type image=" + JSON.stringify(image));
         }
     }
 
