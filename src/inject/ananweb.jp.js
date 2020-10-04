@@ -1,7 +1,7 @@
 const utils = require("../utils.js");
 const getLargeImg = function (url) {
     return {
-        url: utils.filterTrailingResolutionNumbers(url),
+        url: utils.removeTrailingResolutionNumbers(url),
         retries: [url]
     };
 };

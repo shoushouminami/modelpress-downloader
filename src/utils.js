@@ -208,7 +208,7 @@ const utils = {
     },
 
     trailingResolutionPattern: /^https?:\/\/.*(-[0-9]+x[0-9]+(-[\d]+)?)(\.jpg|\.jpeg|\.png)$/,
-    filterTrailingResolutionNumbers: function (src) {
+    removeTrailingResolutionNumbers: function (src) {
         let result = src.match(utils.trailingResolutionPattern);
         if (result) {
             return src.replace(result[1], "");

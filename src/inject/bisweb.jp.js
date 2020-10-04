@@ -9,7 +9,7 @@ const getLargeImg = function (url) {
         return {url: url.replace(m[1], ""), retries: [url]};
     }
 
-    return {url: utils.filterTrailingResolutionNumbers(url), retries: [url]};
+    return {url: utils.removeTrailingResolutionNumbers(url), retries: [url]};
 };
 
 module.exports = {

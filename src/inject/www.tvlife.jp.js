@@ -10,7 +10,7 @@ module.exports = {
                 [
                     "#primary #main .entry-content img",
                 ].join(","),
-                utils.filterTrailingResolutionNumbers
+                utils.removeTrailingResolutionNumbers
             )
         );
         return o;

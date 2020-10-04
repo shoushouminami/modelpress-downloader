@@ -12,7 +12,7 @@ module.exports = {
                     ".content-all-wrap .content-interview-wrap img", // interview article top image
                     "#post-entry section article a img" // interview thumbnail images
                 ].join(","),
-                utils.filterTrailingResolutionNumbers
+                utils.removeTrailingResolutionNumbers
             )
         );
         return o;

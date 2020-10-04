@@ -1,6 +1,6 @@
 const utils = require("../utils.js");
 const getLargeImg = function (url) {
-    return {url: utils.filterTrailingResolutionNumbers(url), retries: [url]};
+    return {url: utils.removeTrailingResolutionNumbers(url), retries: [url]};
 };
 
 module.exports = {

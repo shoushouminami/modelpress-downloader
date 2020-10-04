@@ -4,7 +4,7 @@ const getLargeImg = function (url){
         return null;
     }
 
-    return utils.filterTrailingResolutionNumbers(url);
+    return utils.removeTrailingResolutionNumbers(url);
 };
 
 const inject = function () {

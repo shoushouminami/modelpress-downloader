@@ -1,6 +1,6 @@
 const utils = require("../utils.js");
 const getLargeImg = (url) => {
-    return utils.filterTrailingResolutionNumbers(utils.removeQuery(url));
+    return utils.removeTrailingResolutionNumbers(utils.removeQuery(url));
 };
 const inject = function () {
     let o = require("./return-message.js").init();

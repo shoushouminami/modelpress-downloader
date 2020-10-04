@@ -16,7 +16,7 @@ module.exports = {
             utils.findImagesWithCssSelector(
                 document,
                 "#container #contents #wrapper main article .slidethumb ul li img",
-                utils.filterTrailingResolutionNumbers
+                utils.removeTrailingResolutionNumbers
             )
         );
         // article top image
@@ -25,7 +25,7 @@ module.exports = {
             utils.findImagesWithCssSelector(
                 document,
                 "#container #contents #wrapper main article .eyecatch img",
-                utils.filterTrailingResolutionNumbers
+                utils.removeTrailingResolutionNumbers
             )
         );
         // in article images
@@ -38,7 +38,7 @@ module.exports = {
                     "#container #contents #wrapper main article .entry-body .wp-caption img",
                     "#container #contents #wrapper main article .entry-body > p > img"
                 ].join(","),
-                utils.filterTrailingResolutionNumbers
+                utils.removeTrailingResolutionNumbers
             )
         );
         return o;

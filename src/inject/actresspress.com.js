@@ -4,7 +4,7 @@ const getLargeImg = function (url) {
         url = url.replace("http://", "https://");
     }
 
-    return utils.filterTrailingResolutionNumbers(url);
+    return utils.removeTrailingResolutionNumbers(url);
 };
 module.exports = {
     inject: function () {

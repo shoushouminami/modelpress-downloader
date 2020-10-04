@@ -1,6 +1,6 @@
 const utils = require("../utils.js");
 const getLargeImg = (url) => {
-    url = utils.filterTrailingResolutionNumbers(utils.removeQuery(url));
+    url = utils.removeTrailingResolutionNumbers(utils.removeQuery(url));
     // turn webp into jpg url
     let webpPattern = /^(https?:\/\/.*)\/files\/rcms_conv_webp\/files\/topics\/(.*)_[\d]{10,}.webp/i; // webp pattern e.g. https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7006935_ext_col_03_11_1560759726.webp
     if (url.match(webpPattern)) {

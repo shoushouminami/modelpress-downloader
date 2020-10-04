@@ -7,7 +7,7 @@ const getLargeImgFromDom = function (img){
 
 const getLargeImg = function (url) {
     if (url) {
-        return utils.filterTrailingResolutionNumbers(url);
+        return utils.removeTrailingResolutionNumbers(url);
     }
 };
 
