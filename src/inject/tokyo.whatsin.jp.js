@@ -12,21 +12,23 @@ const getLargeImg = function (url) {
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        // article top image
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(
                 document,
-                ".l-content .content-main .media .media-thm-post-main img",
+                [   // article top image
+                    ".l-content .content-main .media .media-thm-post-main img",
+                    // article images
+                    ".l-content .content-main .media .media-content-detail > img",
+                    // article images
+                    ".l-content .content-main .media .media-content-detail .wp-caption > img",
+                    // article vertical images
+                    ".l-content .content-main .media .media-content-detail .vertical > img",
+                    // image gallery
+                    ".l-content .content-main .media .media-content-detail .gallery-item img",
+                ].join(","),
                 utils.removeTrailingResolutionNumbers)
         );
-        // image gallery active
-        utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(document,
-                ".l-content .content-main .media .media-thm-post-main img", getLargeImg)
-        );
-        // in image gallery
         return o;
     },
-    host: "www.walkerplus.com",
-    getLargeImg: getLargeImg
+    host: "tokyo.whatsin.jp"
 };

@@ -264,6 +264,7 @@ const utils = {
     printTestAssertion: function (message) {
         let s = "";
         try {
+            s += JSON.stringify(message.href) + ",\n";
             s += JSON.stringify(message.folder) + ",\n";
             s += JSON.stringify(message.images, null, 1);
         } catch (e) {} // make sure dont fail

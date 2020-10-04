@@ -56,6 +56,7 @@ const register = function (siteModule) {
     require("./news.mynavi.jp"),
     require("./teens.mynavi.jp"),
     require("./www.fujitv-view.jp"),
+    require("./tokyo.whatsin.jp"),
     require("./tokyopopline.com"),
     require("./news.dwango.jp"),
     require("./mantan-web.jp"),

@@ -6,6 +6,7 @@
 module.exports = {
     init: function () {
         return {
+            href: window.location.href,
             host: window.location.host,
             supported: true,
             retry: false,
