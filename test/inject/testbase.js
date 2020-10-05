@@ -74,7 +74,7 @@ const dummyItems = function (count) {
  * @returns {Promise<{o}|*>}
  */
 async function emulateInjectWithRetry(page) {
-    await page.addScriptTag({path: resolvePath("mock-chrome-api.js")});
+    await page.addScriptTag({path: resolvePath("./mock-chrome-api.js")});
     await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
     const executionContext = await page.mainFrame().executionContext();
     // check for helper script and inject using puppeteer API
@@ -113,6 +113,7 @@ async function emulateInjectWithRetry(page) {
  */
 const testDirectDownload = async function (browser, url, folder, images, ops= {}) {
     const page = await browser.newPage();
+    page.setBypassCSP(true);
 
     // callback hook to customize action before going to the url. (Such as disable CSP enforcements)
     await runFuncIfDefined(ops && ops['prenavigate'], [page]);

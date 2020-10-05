@@ -51,7 +51,7 @@ module.exports = {
         };
 
         // slide show images
-        let group = document.querySelectorAll("div[aria-labelledby=modal-header] [role=group]");
+        let group = document.querySelectorAll("div[aria-labelledby=modal-header]");
         if (group.length > 0) {
             let helper = require("../helper/helper-utils");
             let div = helper.getDataDiv();

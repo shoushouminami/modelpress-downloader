@@ -1,7 +1,7 @@
 const { testDirectDownload, getBrowserFactory } = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test mutliple images", async () => {
+test.skip("Test mutliple images", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://www.instagram.com/p/CFw1v9ujoXA/",
@@ -20,7 +20,7 @@ test("Test mutliple images", async () => {
     );
 });
 
-test("Test 1 image", async () => {
+test.skip("Test 1 image", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://www.instagram.com/p/CFeb6krDWyk/",
