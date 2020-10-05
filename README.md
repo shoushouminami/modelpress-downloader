@@ -19,6 +19,14 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.29 (2020/10/04)
+* Support seigura.com
+* Support new layout on mikan-incomplete.com
+* Support www.fujitv-view.jp
+* Support tokyo.whatsin.jp
+* Support www.fashion-press.net
+* Support lp.p.pia.jp
+
 ###### 2.28 (2020/09/30)
 * Fix mantan-web.jp web change
 * Fix ray-web.jp web change
