@@ -15,25 +15,34 @@ test("Test news article page", async () => {
                 "url": "https://www.fashion-press.net/img/movies/23487/DWM.jpg"
             },
             {
-                "url": "https://www.fashion-press.net/img/movies/23487/32U.jpg"
+                "url": "https://www.fashion-press.net/img/movies/23487/XZw.jpg"
             },
             {
-                "url": "https://www.fashion-press.net/img/movies/23487/GW0.jpg"
+                "url": "https://www.fashion-press.net/img/movies/23487/T3Y.jpg"
             },
             {
-                "url": "https://www.fashion-press.net/img/movies/23487/es8.jpg"
+                "url": "https://www.fashion-press.net/img/movies/23487/yEw.jpg"
             },
             {
-                "url": "https://www.fashion-press.net/img/movies/23487/sY0.jpg"
-            },
-            {
-                "url": "https://www.fashion-press.net/img/movies/23487/gEE.jpg"
+                "url": "https://www.fashion-press.net/img/movies/23487/vEE.jpg"
             },
             {
                 "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_XZw.jpg"
+                    "https://www.fashion-press.net/img/movies/23487/w300_32U.jpg"
                 ],
-                "url": "https://www.fashion-press.net/img/movies/23487/XZw.jpg"
+                "url": "https://www.fashion-press.net/img/movies/23487/32U.jpg"
+            },
+            {
+                "retries": [
+                    "https://www.fashion-press.net/img/movies/23487/w300_GW0.jpg"
+                ],
+                "url": "https://www.fashion-press.net/img/movies/23487/GW0.jpg"
+            },
+            {
+                "retries": [
+                    "https://www.fashion-press.net/img/movies/23487/w300_gEE.jpg"
+                ],
+                "url": "https://www.fashion-press.net/img/movies/23487/gEE.jpg"
             },
             {
                 "retries": [
@@ -49,6 +58,12 @@ test("Test news article page", async () => {
             },
             {
                 "retries": [
+                    "https://www.fashion-press.net/img/movies/23487/w300_sY0.jpg"
+                ],
+                "url": "https://www.fashion-press.net/img/movies/23487/sY0.jpg"
+            },
+            {
+                "retries": [
                     "https://www.fashion-press.net/img/movies/23487/w300_g8Y.jpg"
                 ],
                 "url": "https://www.fashion-press.net/img/movies/23487/g8Y.jpg"
@@ -61,15 +76,33 @@ test("Test news article page", async () => {
             },
             {
                 "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_yEw.jpg"
+                    "https://www.fashion-press.net/img/movies/23487/w300_es8.jpg"
                 ],
-                "url": "https://www.fashion-press.net/img/movies/23487/yEw.jpg"
+                "url": "https://www.fashion-press.net/img/movies/23487/es8.jpg"
             },
             {
                 "retries": [
                     "https://www.fashion-press.net/img/movies/23487/w300_n0w.jpg"
                 ],
                 "url": "https://www.fashion-press.net/img/movies/23487/n0w.jpg"
+            },
+            {
+                "retries": [
+                    "https://www.fashion-press.net/img/movies/23487/w300_5Uk.jpg"
+                ],
+                "url": "https://www.fashion-press.net/img/movies/23487/5Uk.jpg"
+            },
+            {
+                "retries": [
+                    "https://www.fashion-press.net/img/movies/23487/w300_Jcg.jpg"
+                ],
+                "url": "https://www.fashion-press.net/img/movies/23487/Jcg.jpg"
+            },
+            {
+                "retries": [
+                    "https://www.fashion-press.net/img/movies/23487/w300_hd8.jpg"
+                ],
+                "url": "https://www.fashion-press.net/img/movies/23487/hd8.jpg"
             }
         ],
         {
