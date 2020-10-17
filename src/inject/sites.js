@@ -98,6 +98,7 @@ const register = function (siteModule) {
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),
+    require("./sakurazaka46.com"),
     require("./7gogo.jp"),
     require("./twitter.com"),
     require("./www.facebook.com"),
