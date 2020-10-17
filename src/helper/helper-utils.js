@@ -34,7 +34,6 @@ exports.saveImageInDataDiv = function (url) {
     console.log("s=", s);
     s += encodeURIComponent(url) + ";";
     div.dataset["images"] = s;
-    console.log("dataset=", div.dataset["images"]);
 }
 
 exports.dataDivHasImages = function () {
@@ -47,7 +46,6 @@ exports.loadImagesFromDataDiv = function () {
         let ret = exports.getDataDiv().dataset["images"].split(";")
         .filter(s => s.length > 0)
         .map(s => decodeURIComponent(s))
-        console.log(ret);
         return ret;
     }
 

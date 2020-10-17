@@ -55,7 +55,7 @@ test("Test 1 image slide show", async () => {
         });
 });
 
-test("Test 3 images slide show", async () => {
+test.skip("Test 3 images slide show", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://twitter.com/nogizaka46/status/1312658348064428032/",

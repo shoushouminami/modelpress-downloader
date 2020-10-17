@@ -1,6 +1,6 @@
 const utils = require("../utils.js");
 const getLargeImg = function (src) {
-    if (src.indexOf(".twimg.com/") > -1) {
+    if (src && src.indexOf(".twimg.com/") > -1) {
         if (src.endsWith(".jpg") || src.endsWith(".png")) {
             return src + ":large";
         }
