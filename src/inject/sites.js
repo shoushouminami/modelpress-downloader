@@ -82,6 +82,7 @@ const register = function (siteModule) {
     require("./fineboys-online.jp"),
     require("./girlswalker.com"),
     require("./www.walkerplus.com"),
+    require("./movie.walkerplus.com"),
     require("./mikan-incomplete.com"),
     require("./e-talentbank.co.jp"),
     require("./dogatch.jp"),

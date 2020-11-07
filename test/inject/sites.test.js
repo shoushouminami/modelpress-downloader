@@ -1,7 +1,7 @@
 const sites = require("../../src/inject/sites");
 
 test("Test sites.all", () => {
-    expect(sites.all().length).toBe(54);
+    expect(sites.all().length).toBe(55);
     let hosts = [];
     let urls = [];
     sites.all().forEach((module) => {
@@ -64,6 +64,7 @@ test("Test sites.all", () => {
     expect(hosts).toContain("www.fashion-press.net");
     expect(hosts).toContain("lp.p.pia.jp");
     expect(hosts).toContain("sakurazaka46.com");
+    expect(hosts).toContain("movie.walkerplus.com");
     expect(urls).toContain("https://www.bilibili.com/read/home");
     expect(urls).toContain("https://mdpr.jp");
     expect(urls).toContain("https://thetv.jp");

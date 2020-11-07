@@ -23,6 +23,13 @@ test("Test getDomBackgroundImage", () => {
             }
         }))
         .toBe("https://images.entamenext.com/articles_photos/4000/4011/478x850/aef621b8d71c50e985c8872510939652.jpg");
+    expect(utils.getDomBackgroundImage(
+        {
+            style: {
+                backgroundImage: "url(\"https://movie.walkerplus.com/api/resizeimage/news/article/1009954/10082388?w=615\")"
+            }
+        }))
+        .toBe("https://movie.walkerplus.com/api/resizeimage/news/article/1009954/10082388?w=615");
 });
 
 test("Test removeTrailingResolutionNumbers", () => {

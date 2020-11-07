@@ -254,7 +254,7 @@ const utils = {
      * Returns the background image url from the DOM's style attribute.
      */
     getDomBackgroundImage: function (dom) {
-        const pattern = /url\(['"]?(https?:\/\/.*\.(jpg|jpeg|webp|png)(\?[^'"]*)?)['"]?\)/i;
+        const pattern = /url\(['"]?(https?:\/\/[^'"]*(\.(jpg|jpeg|webp|png))?(\?[^'"]*)?)['"]?\);?$/i;
         if (dom && dom.style && dom.style.backgroundImage && dom.style.backgroundImage.match(pattern)) {
             return dom.style.backgroundImage.match(pattern)[1];
         }
