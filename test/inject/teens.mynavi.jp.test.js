@@ -13,19 +13,17 @@ afterAll(async () => {
 test("Test news.mynavi.jp report article page", async () => {
     await testDirectDownload(
         browser,
-        "https://teens.mynavi.jp/report/detail/12397",
-        "teens.mynavi.jp-report-detail-12397/",
-        [ "https://teens.mynavi.jp/main/files/20200811/jkmem0812.jpg",
-            "https://teens.mynavi.jp/main/files/20200421/11826098884764.jpg",
-    "https://teens.mynavi.jp/main/files/20200421/11826109797108%20(1).jpg",
-    "https://teens.mynavi.jp/main/files/20200421/11826085721918.jpg",
-    "https://teens.mynavi.jp/main/files/20200421/11826085691653.jpg",
-    "https://teens.mynavi.jp/main/files/20200421/11826085675587.jpg",
-    "https://teens.mynavi.jp/main/files/20200421/11826085724312.jpg",
-    "https://teens.mynavi.jp/main/files/20200421/11826325307566.jpg",
-    "https://teens.mynavi.jp/main/files/20200421/11826325347850.jpg",
-    "https://teens.mynavi.jp/main/files/20200422/11826325297385.jpg",
-     "https://teens.mynavi.jp/main/files/20200422/11826325286473.jpg"].concat(dummyItems(16)));
+        "https://teens.mynavi.jp/report/detail/12602",
+        "teens.mynavi.jp-report-detail-12602/",
+        [
+            "https://teens.mynavi.jp/main/files/20201022/teshima10271.jpg",
+            "https://teens.mynavi.jp/main/files/20201022/teshima10272.jpg",
+            "https://teens.mynavi.jp/main/files/20201022/teshima1027.png",
+            "https://teens.mynavi.jp/main/files/20200818/profile0621.jpg",
+            "https://teens.mynavi.jp/main/files/20200818/story06213.jpg",
+            "https://teens.mynavi.jp/main/files/20201022/teshima10274.jpg"
+        ]
+    );
 });
 
 test("Test news.mynavi.jp challenge article page", async () => {

@@ -66,8 +66,11 @@ test("Test thetv.jp program home page", async () => {
 test("Test thetv.jp matome home page", async () => {
     await testDirectDownload(
         browser,
-        "https://thetv.jp/feature/matome/725/",
-        "thetv.jp-feature-matome-725-/",
-        ["https://thetv.jp/i/nw/matome/725.jpg"]);
+        "https://thetv.jp/feature/matome/11131/",
+        "thetv.jp-feature-matome-11131-/",
+        [
+            "https://thetv.jp/i/nw/matome/11131/725.jpg"
+        ]
+    );
 });
 

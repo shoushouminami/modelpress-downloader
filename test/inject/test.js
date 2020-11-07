@@ -99,35 +99,58 @@ test("Test mantan-web.jp page", async () => {
         browser,
         "https://mantan-web.jp/article/20191228dog00m200028000c.html",
         "mantan-web.jp-article-20191228dog00m200028000c.html/",
-        [{
-            retries: ["https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size9.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size8.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size7.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size6.jpg"],
-            url: "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size10.jpg"
-        }
-            , {
-            retries: ["https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size9.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size8.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size7.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size6.jpg"],
-            url: "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size10.jpg"
-        }
-            , {
-            retries: ["https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size9.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size8.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size7.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size6.jpg"],
-            url: "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size10.jpg"
-        }
-            , {
-            retries: ["https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size9.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size8.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size7.jpg", "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size6.jpg"],
-            url: "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size10.jpg"
-        }]
+        [
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size10.jpg"
+            }
+        ]
     );
 });
 
 
-// https://this.kiji.is/
 test("Test this.kiji.is news page", async () => {
     await testDirectDownload(
         browser,
-        "https://this.kiji.is/661084856750736481",
-        "this.kiji.is-661084856750736481/",
-        ["https://nordot-res.cloudinary.com/ch/images/661084824142857313/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/661084830553883745/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/661084837809210465/origin_1.jpg",
-            "https://nordot-res.cloudinary.com/ch/images/661084846522303585/origin_1.jpg"]);
+        "https://this.kiji.is/697600748417352801?c=516798125649773665",
+        "this.kiji.is-697600748417352801/",
+        [
+            "https://nordot-res.cloudinary.com/ch/images/697600539908064353/origin_1.jpg",
+            "https://nordot-res.cloudinary.com/ch/images/697600602317014113/origin_1.jpg",
+            "https://nordot-res.cloudinary.com/ch/images/697600665032066145/origin_1.jpg"
+        ]
+    );
 });
 
