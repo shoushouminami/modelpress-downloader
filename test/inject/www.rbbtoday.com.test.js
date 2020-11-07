@@ -83,7 +83,8 @@ test("Test news article gallery", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
+                await pageutils.scrollTo(page, 50, 1000);
+                await pageutils.wait(1000);
             }
         }
     );

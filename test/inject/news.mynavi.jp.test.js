@@ -19,22 +19,19 @@ test("Test news.mynavi.jp article page", async () => {
         "news.mynavi.jp-article-20200404-minamisara-/",
         ["https://news.mynavi.jp/article/20200404-minamisara/images/001l.jpg",
             "https://news.mynavi.jp/article/20200404-minamisara/images/002l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/003l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/004l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/005l.jpg",
-            "https://news.mynavi.jp/article/20200404-minamisara/images/006l.jpg"],
+            "https://news.mynavi.jp/article/20200404-minamisara/images/003l.jpg"],
         {
             preinject: async function (page) {
                 try {
-                    await page.goto("https://news.mynavi.jp/article/20200404-minamisara/", {timeout: 5000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+                    await page.goto("https://news.mynavi.jp/article/20200404-minamisara/", {timeout: 3000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
                 } catch (ignored) {}
                 try {
-                    await page.goto("https://news.mynavi.jp/article/20200404-minamisara/", {timeout: 5000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+                    await page.goto("https://news.mynavi.jp/article/20200404-minamisara/", {timeout: 3000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
                 } catch (ignored) {}
-                await pageutils.scrollToBottom(page, 500);
+                await pageutils.scrollToBottom(page, 300);
             },
             sizeMatch: function (expectedSize, actualSize) {
-                expect(actualSize).toBeGreaterThanOrEqual(6);
+                expect(actualSize).toBeGreaterThanOrEqual(3);
             }
         });
 });
