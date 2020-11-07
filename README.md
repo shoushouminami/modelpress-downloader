@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.30 (2020/11/06)
+* Support sakurazaka46.com
+* Support movie.walkerplus.com
+* Fix download on e-talentbank.co.jp
+
 ###### 2.29 (2020/10/04)
 * Support seigura.com
 * Support new layout on mikan-incomplete.com
