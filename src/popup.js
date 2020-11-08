@@ -22,6 +22,8 @@ let getFileName = function(url, ext) {
 };
 
 /**
+ * TODO: refactor into {@link downloader.js}
+ * @deprecated Only tab download calls this.
  * @param chrome
  * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
  * @param resolve
@@ -264,7 +266,7 @@ const updatePopupUI = function () {
             }
         } else {
             document.getElementById("download").disabled = "disabled";
-            document.getElementById("download").innerText = chrome.i18n.getMessage("noImageMessage");
+            document.getElementById("buttonText").innerText = chrome.i18n.getMessage("noImageMessage");
         }
     } else {
         document.getElementById("download").hidden = "hidden";
@@ -291,8 +293,11 @@ document.getElementById("download").addEventListener("click", function () {
         } else if (typeof image === "object" && image.url) {
             image.folder = message.folder;
             image.ext = message.ext;
-            downloadInBg.push(image);
-            // download(chrome, {url: image.url, retries: image.retries, folder: message.folder, ext: message.ext});
+            if (image.url.startsWith("data:")) {
+                downloader.download(chrome, image);
+            } else {
+                downloadInBg.push(image);
+            }
         } else {
             console.error("event=unknown_type image=" + JSON.stringify(image));
         }
@@ -367,34 +372,44 @@ const startFetchMdprMobileImages = function() {
     updatePopupUI();
 };
 
+const updateMessage = function (result, tabId) {
+    if (isDev) {
+        console.debug(result);
+    }
+    if (result) {
+        if (isDev) {
+            console.debug(utils.printTestAssertion(result));
+        }
+        message = result;
+        message.fromTabId = tabId;
+        if (message.remoteImages) {
+            if (message.remoteImages["mdpr.jp"]) {
+                chrome.permissions.contains({
+                    origins: ORIGINS["mdpr.jp"]
+                }, function (granted) {
+                    state.canDownloadMobile = granted;
+                    if (granted) {
+                        startFetchMdprMobileImages();
+                    }
+                    updatePopupUI();
+                });
+            }
+        }
+
+    }
+    ga.trackSupport(message.host, message.supported);
+    try {
+        updatePopupUI();
+    } catch (e) {
+        if (isDev) {
+            console.warn(e);
+        }
+    }
+}
+
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     let action = function (results) {
-        if (isDev) {
-            console.debug(results);
-        }
-        if (results && results.length) {
-            if (isDev) {
-                console.debug(utils.printTestAssertion(results[0]));
-            }
-            message = results[0];
-            message.fromTabId = tabs[0].id;
-            if (message.remoteImages) {
-                if (message.remoteImages["mdpr.jp"]) {
-                    chrome.permissions.contains({
-                        origins: ORIGINS["mdpr.jp"]
-                    }, function (granted) {
-                        state.canDownloadMobile = granted;
-                        if (granted) {
-                            startFetchMdprMobileImages();
-                        }
-                        updatePopupUI();
-                    });
-                }
-            }
-
-        }
-        ga.trackSupport(message.host, message.supported)
-        updatePopupUI();
+        updateMessage(results && results[0], tabs[0].id);
     };
 
     // inject script with 1 retry.
@@ -414,6 +429,12 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 action(results);
             }
         });
+});
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.what === "refreshInject") {
+        updateMessage(message.result, sender.tab.id);
+    }
 });
 
 window.addEventListener("load", function(){

@@ -58,9 +58,53 @@ const init = function () {
     });
 }
 
+const getFileName = function(url, ext, preferedName) {
+    if (preferedName != null) {
+        return preferedName;
+    }
+
+    let filename = url.split("?")[0].split("/");
+    filename = filename[filename.length - 1];
+    if (filename.indexOf(":") > -1) {
+        filename = filename.split(":")[0];
+    }
+
+    if (ext) {
+        return filename + "." + ext;
+    }
+
+    return decodeURI(filename);
+};
+
+/**
+ * Use Chrome API to download the given image
+ * @param chrome
+ * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
+ * @param resolve
+ */
+const download = function (chrome, image, resolve) {
+    chrome.downloads.download(
+        {
+            url: image.url,
+            saveAs: false,
+            method: "GET",
+            filename: decodeURI(image.folder) + getFileName(image.url, image.ext, image.filename)
+        }, function (downloadId) {
+            console.log("downloadId=" + downloadId);
+            if (downloadId && image.retries && image.retries.length > 0) {
+                retryMap[downloadId] = image;
+            }
+
+            if (resolve instanceof Function) {
+                resolve();
+            }
+        });
+};
+
 module.exports = {
     addDownloadCompleteListener: addDownloadCompleteListener,
-    init: init
+    init: init,
+    download: download,
 };
 
 

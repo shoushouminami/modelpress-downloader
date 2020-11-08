@@ -1,5 +1,6 @@
 "use strict";
 const ga = require("./google-analytics");
+const downloader = require("./downloader");
 const retryMap = {}; // {downloadId: image}
 const downloadQueue = []; // Queue for regular downloads
 const inProgressMap = {};
@@ -7,7 +8,11 @@ const CONCURRENT_LIMIT = 5;
 let inProgress = 0;
 let downloadPaused = false;
 
-const getFileName = function(url, ext) {
+const getFileName = function(url, ext, preferredFilename) {
+    if (preferredFilename != null) {
+        return preferredFilename;
+    }
+
     let filename = url.split("?")[0].split("/");
     filename = filename[filename.length - 1];
     if (filename.indexOf(":") > -1) {
@@ -41,7 +46,7 @@ const continueDownload = function (chrome) {
                 url: image.url,
                 saveAs: false,
                 method: "GET",
-                filename: image.folder + getFileName(image.url, image.ext)
+                filename: image.folder + getFileName(image.url, image.ext, image.filename)
             }, function (downloadId) {
                 if (downloadId) {
                     inProgressMap[downloadId] = nextItem;
@@ -56,30 +61,6 @@ const continueDownload = function (chrome) {
     } else {
         return false;
     }
-};
-
-/**
- * @param chrome
- * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
- * @param resolve
- */
-const download = function (chrome, image, resolve) {
-    chrome.downloads.download(
-        {
-            url: image.url,
-            saveAs: false,
-            method: "GET",
-            filename: image.folder + getFileName(image.url, image.ext)
-        }, function (downloadId) {
-            console.log("downloadId=" + downloadId);
-            if (downloadId && image.retries && image.retries.length > 0) {
-                retryMap[downloadId] = image;
-            }
-
-            if (resolve instanceof Function) {
-                resolve();
-            }
-        });
 };
 
 
@@ -102,7 +83,7 @@ chrome.downloads.onChanged.addListener(function (downloadDelta) {
             if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === "SERVER_BAD_CONTENT") {
                 console.log("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
                 image.url = image.retries.shift();
-                download(chrome, image);
+                downloader.download(chrome, image);
             }
         }
     }
@@ -113,7 +94,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         console.debug("Received " + message.images.length + " jobs");
         let count = 0;
         for (const image of message.images) {
-            download(chrome, image, function () {
+            downloader.download(chrome, image, function () {
                 console.debug("Started job #" + count);
                 count++;
                 if (count === message.images.length) {

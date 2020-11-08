@@ -216,9 +216,12 @@ const utils = {
 
         return src;
     },
-    injectScriptDOM: function (filepath) {
+    injectScriptDOM: function (filepath, options) {
         let script = document.createElement('script');
         script.src = filepath;
+        if (options.async) {
+            script.async = true;
+        }
         document.body.appendChild(script);
     },
     /**
@@ -312,6 +315,16 @@ const utils = {
         }
 
         return dom;
+    },
+    dataURItoBlobUrl: function (dataURI) {
+        let byteString = atob(dataURI.split(',')[1]);
+        let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+        let ab = new ArrayBuffer(byteString.length);
+        let ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return URL.createObjectURL(new Blob([ab], {type: mimeString}));
     }
 };
 

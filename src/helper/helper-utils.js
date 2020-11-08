@@ -1,3 +1,4 @@
+const utils = require("../utils");
 const id = "_mid-images_";
 exports.getOrCreateDataDiv = function () {
     let div = document.getElementById(id);
@@ -11,10 +12,13 @@ exports.getOrCreateDataDiv = function () {
     return div;
 };
 
-exports.attachInvisibleImage = function (dom, imageUrl) {
+exports.attachInvisibleImage = function (dom, imageUrl, name) {
     let image = document.createElement('img');
     image.src = imageUrl;
     image.style = "display: none;"
+    if (name) {
+        image.dataset.name = name;
+    }
     dom.appendChild(image);
 }
 
@@ -52,3 +56,62 @@ exports.loadImagesFromDataDiv = function () {
     return [];
 }
 
+/**
+ * Returns true if div.dataset["cachedIds"] contains the given id
+ * @param id
+ */
+exports.hasCachedId = function (id) {
+    let div = exports.getOrCreateDataDiv();
+    if (div.dataset.cachedIds != null) {
+        try {
+            let l = JSON.parse(div.dataset.cachedIds)
+            return l.indexOf(id) > -1;
+        } catch (e) {
+            div.dataset.cachedIds = "";
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Save id into div.dataset["cachedIds"]
+ * @param id
+ */
+exports.cachedId = function (id) {
+    let div = exports.getOrCreateDataDiv();
+    let l = [];
+    if (div.dataset.cachedIds != null) {
+        try {
+            l = JSON.parse(div.dataset.cachedIds)
+        } catch (e) {
+            div.dataset.cachedIds = "";
+        }
+    }
+
+    utils.pushIfNew(l, id);
+    div.dataset.cachedIds = JSON.stringify(l);
+}
+
+exports.mazeStatus = function (status) {
+    let div = exports.getOrCreateDataDiv();
+    let oldStatus = div.dataset.mazeStatus;
+    if (status) {
+        div.dataset.mazeStatus = status;
+    }
+
+    return oldStatus;
+}
+
+exports.solvingMaze = function () {
+    return exports.mazeStatus() === "solving";
+}
+
+exports.startSolvingMaze = function () {
+    return exports.mazeStatus("solving");
+}
+
+exports.doneSolvingMaze = function () {
+    return exports.mazeStatus("done");
+}
