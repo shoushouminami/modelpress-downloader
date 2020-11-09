@@ -338,6 +338,10 @@ document.getElementById("download").addEventListener("click", function () {
         for (let image of imagesNeedTab) {
             downloadWithNewTab(chrome, image, context, message.fromTabId);
         }
+        // after download finishes
+        context.p = context.p.then(function() {
+            window.close();
+        });
     }
 });
 
