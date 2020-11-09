@@ -111,6 +111,7 @@
             return false;
         }
 
+
         open.push(getCellId(currentCell()));
         // DFS
         while (open.length > 0) {
@@ -161,7 +162,9 @@
     }
 
     if (document.getElementById("xCVSpMap") != null) {
+        helperUtils.startSolvingMaze();
         await solveMatrix();
+        helperUtils.doneSolvingMaze();
     } else {
         loadAll();
     }

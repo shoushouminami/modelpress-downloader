@@ -6,13 +6,10 @@ const getImg = function (dom) {
 
 let refreshHandle = null;
 const refresh = function () {
-    if (helper.solvingMaze()) {
-        chrome.runtime.sendMessage({what: "refreshInject", result: retryInject()});
-    } else {
-        if (refreshHandle) {
-            clearInterval(refreshHandle);
-            refreshHandle = 0;
-        }
+    chrome.runtime.sendMessage({what: "refreshInject", result: retryInject()});
+    if (!helper.solvingMaze() && refreshHandle) {
+        clearInterval(refreshHandle);
+        refreshHandle = 0;
     }
 }
 
@@ -41,12 +38,10 @@ const retryInject = function () {
 const inject = function () {
     let o = require("./return-message.js").init();
     if (helper.getDataDiv() == null) {
-        utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"), {
-            async: true
-        });
+        utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"));
         o.retry = true;
         // setup async refresh
-        refreshHandle = setInterval(refresh, 1000);
+        refreshHandle = setInterval(refresh, 550);
         return o;
     } else {
         return retryInject();

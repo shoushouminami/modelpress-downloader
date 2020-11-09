@@ -216,12 +216,9 @@ const utils = {
 
         return src;
     },
-    injectScriptDOM: function (filepath, options) {
+    injectScriptDOM: function (filepath) {
         let script = document.createElement('script');
         script.src = filepath;
-        if (options.async) {
-            script.async = true;
-        }
         document.body.appendChild(script);
     },
     /**

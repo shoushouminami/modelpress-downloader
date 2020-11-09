@@ -233,6 +233,7 @@ const ORIGINS = {
 const updatePopupUI = function () {
     if (message.supported) {
         if (message.images && message.images.length) {
+            document.getElementById("download").disabled = false;
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length]);
             if (Object.keys(message.remoteImages).length > 0) {
                 if (!state.canDownloadMobile) {
