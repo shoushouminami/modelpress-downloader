@@ -10,6 +10,7 @@ module.exports = {
             host: window.location.host,
             supported: true,
             retry: false,
+            scan: false, // if there is smart scan support for this page
             images: [],
             remoteImages: {}, // for example {"mdpr.jp": "1234567"}
             ext: undefined,

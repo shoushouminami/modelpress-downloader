@@ -7,6 +7,7 @@ module.exports = env => {
     return {
         entry: {
             inject: "./src/inject.js",
+            scan: "./src/scan.js",
             background: "./src/background.js",
             popup: "./src/popup.js",
             "helper/instagram-react": "./src/helper/instagram-react.js",

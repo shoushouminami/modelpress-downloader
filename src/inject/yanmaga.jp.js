@@ -4,16 +4,7 @@ const getImg = function (dom) {
     return {url: dom.src, filename: dom.dataset.name};
 }
 
-let refreshHandle = null;
-const refresh = function () {
-    chrome.runtime.sendMessage({what: "refreshInject", result: retryInject()});
-    if (!helper.solvingMaze() && refreshHandle) {
-        clearInterval(refreshHandle);
-        refreshHandle = 0;
-    }
-}
-
-const retryInject = function () {
+const inject = function () {
     let o = require("./return-message.js").init();
     o.folder = window.location.host
         + window.location.pathname
@@ -30,26 +21,34 @@ const retryInject = function () {
                 getImg
             )
         );
+    } else {
+        o.scan = true;
     }
 
     return o;
-}
-
-const inject = function () {
-    let o = require("./return-message.js").init();
-    if (helper.getDataDiv() == null) {
-        utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"));
-        o.retry = true;
-        // setup async refresh
-        refreshHandle = setInterval(refresh, 550);
-        return o;
-    } else {
-        return retryInject();
-    }
 };
+
+const scan = function () {
+    // setup update listener
+    window.addEventListener("message", function(event) {
+        // We only accept messages from ourselves
+        if (event.source !== window) {
+            return;
+        }
+
+        if (event.data.type && (event.data.type === "FROM_PAGE")) {
+            // console.log("Content script received: " + JSON.stringify(event.data.image));
+            chrome.runtime.sendMessage({what: "updateImage", image: event.data.image});
+        }
+    }, false);
+
+    utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"));
+}
 
 module.exports = {
     inject: inject,
-    host: "yanmaga.jp/",
-    hidden: true
+    scan: scan,
+    host: "yanmaga.jp",
+    hidden: true,
+    getImg: getImg
 };

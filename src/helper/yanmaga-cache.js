@@ -1,5 +1,6 @@
 (async function () {
     "use strict";
+    const getImg = require("../inject/yanmaga.jp").getImg;
     const toUrl = function (canvas) {
         return canvas.toDataURL("image/jpeg", 1);
     }
@@ -28,8 +29,11 @@
                     if (attr.indexOf("gtmVisRecentOnScreen") > -1) {
                         let id = getCanvasId(canvas);
                         if (!helperUtils.hasCachedId(id)) {
-                            helperUtils.attachInvisibleImage(midDiv, toUrl(canvas), id + ".jpg");
+                            let imgDom = helperUtils.attachInvisibleImage(midDiv, toUrl(canvas), id + ".jpg");
                             helperUtils.cachedId(id);
+                            window.postMessage({
+                                type: "FROM_PAGE", image: getImg(imgDom)
+                            }, window.origin);
                         }
                     }
                 }

@@ -20,6 +20,7 @@ exports.attachInvisibleImage = function (dom, imageUrl, name) {
         image.dataset.name = name;
     }
     dom.appendChild(image);
+    return image;
 }
 
 exports.getDataDiv = function () {

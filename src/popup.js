@@ -210,6 +210,7 @@ function addClickListenerForLinks(element, callback) {
 let message = {
     supported: false,
     retry: false,
+    scan: false,
     images: [],
     remoteImages: {}, // for example {"mdpr.jp": "1234567"}
     ext: undefined,
@@ -268,6 +269,13 @@ const updatePopupUI = function () {
         } else {
             document.getElementById("download").disabled = "disabled";
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("noImageMessage");
+            if (message.scan === true) {
+                document.getElementById("download").hidden = "hidden";
+                document.getElementById("scan").hidden = false;
+            } else {
+                document.getElementById("download").hidden = false;
+                document.getElementById("scan").hidden = "hidden";
+            }
         }
     } else {
         document.getElementById("download").hidden = "hidden";
@@ -432,9 +440,33 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         });
 });
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    if (message.what === "refreshInject") {
-        updateMessage(message.result, sender.tab.id);
+document.getElementById("scan").addEventListener("click", function () {
+    if (message.fromTabId != null) {
+        chrome.tabs.executeScript(
+            message.fromTabId,
+            {file: "scan.js", matchAboutBlank: true},
+            function () {
+                setTimeout(function () {
+                    chrome.tabs.executeScript(
+                        message.fromTabId,
+                        {file: "inject.js", matchAboutBlank: true},
+                        (results) => updateMessage(results && results[0], message.fromTabId));
+                }, 1000);
+            });
+    }
+});
+
+// process updateImage message (from scan.js)
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+    if (msg.what === "updateImage") {
+        if (msg.image) {
+            if (message.images == null) {
+                message.images = [];
+            }
+            utils.pushIfNew(message.images, msg.image);
+        }
+        // update message with null so it will call updateUI()
+        updateMessage();
     }
 });
 
