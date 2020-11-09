@@ -269,13 +269,8 @@ const updatePopupUI = function () {
         } else {
             document.getElementById("download").disabled = "disabled";
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("noImageMessage");
-            if (message.scan === true) {
-                document.getElementById("download").hidden = "hidden";
-                document.getElementById("scan").hidden = false;
-            } else {
-                document.getElementById("download").hidden = false;
-                document.getElementById("scan").hidden = "hidden";
-            }
+            document.getElementById("download").hidden = message.scan;
+            document.getElementById("scan").hidden = !message.scan;
         }
     } else {
         document.getElementById("download").hidden = "hidden";
@@ -293,8 +288,11 @@ const updatePopupUI = function () {
 document.getElementById("download").addEventListener("click", function () {
     let imagesNeedTab = [];
     let downloadInBg = [];
-    ga.trackDownload(message.host, message.images.length);
-    for (const image of message.images) {
+    let images = message.images.slice(0, message.images.length);
+    ga.trackDownload(message.host, images.length);
+    document.getElementById("download").disabled = true;
+    let i = 0;
+    for (const image of images) {
         if (typeof image === "string") {
             downloadInBg.push({url: image, folder: message.folder, ext: message.ext});
         } else if (typeof image === "object" && image.websiteUrl && image.imageUrl) {
@@ -303,7 +301,12 @@ document.getElementById("download").addEventListener("click", function () {
             image.folder = message.folder;
             image.ext = message.ext;
             if (image.url.startsWith("data:")) {
-                downloader.download(chrome, image);
+                downloader.download(chrome, image, function () {
+                    i++;
+                    if (i === message.images.length) {
+                        window.close();
+                    }
+                });
             } else {
                 downloadInBg.push(image);
             }
@@ -313,7 +316,9 @@ document.getElementById("download").addEventListener("click", function () {
     }
 
     if (downloadInBg.length > 0) {
-        downloadInBackground(chrome, downloadInBg);
+        downloadInBackground(chrome, downloadInBg, function () {
+            window.close();
+        });
     }
 
     if (imagesNeedTab.length) {
@@ -407,52 +412,64 @@ const updateMessage = function (result, tabId) {
 
     }
     ga.trackSupport(message.host, message.supported);
-    try {
-        updatePopupUI();
-    } catch (e) {
-        if (isDev) {
-            console.warn(e);
-        }
-    }
+    updatePopupUI();
 }
+
+const injectScanScript = function (tabId) {
+    chrome.tabs.executeScript(
+        tabId,
+        {file: "scan.js", matchAboutBlank: true},
+        function () {
+            setTimeout(function () {
+                window.location = "popup.html";
+            }, 1000);
+        });
+};
 
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     let action = function (results) {
         updateMessage(results && results[0], tabs[0].id);
     };
 
-    // inject script with 1 retry.
-    chrome.tabs.executeScript(
-        tabs[0].id,
-        {file: "inject.js", matchAboutBlank: true},
-        function (results) {
-            if (results && results.length && results[0].retry) {
-                // retry in 100ms
-                setTimeout(function () {
-                    chrome.tabs.executeScript(
-                        tabs[0].id,
-                        {file: "inject.js", matchAboutBlank: true},
-                        action);
-                }, 100);
-            } else {
-                action(results);
-            }
-        });
+    let skipInject = false;
+    if (window.location.search) {
+        let params = (new URL(window.location)).searchParams;
+        if (params.get("scan") === "true") {
+            skipInject = true;
+            injectScanScript(tabs[0].id);
+        }
+
+        if (params.get("always") === "true") {
+            window.localStorage.setItem("alwaysScan", "true");
+        }
+    }
+
+    if (!skipInject) {
+        // inject script with 1 retry.
+        chrome.tabs.executeScript(
+            tabs[0].id,
+            {file: "inject.js", matchAboutBlank: true},
+            function (results) {
+                if (results && results.length && results[0].retry) {
+                    // retry in 100ms
+                    setTimeout(function () {
+                        chrome.tabs.executeScript(
+                            tabs[0].id,
+                            {file: "inject.js", matchAboutBlank: true},
+                            action);
+                    }, 100);
+                } else {
+                    action(results);
+                }
+            });
+    }
 });
 
 document.getElementById("scan").addEventListener("click", function () {
-    if (message.fromTabId != null) {
-        chrome.tabs.executeScript(
-            message.fromTabId,
-            {file: "scan.js", matchAboutBlank: true},
-            function () {
-                setTimeout(function () {
-                    chrome.tabs.executeScript(
-                        message.fromTabId,
-                        {file: "inject.js", matchAboutBlank: true},
-                        (results) => updateMessage(results && results[0], message.fromTabId));
-                }, 1000);
-            });
+    if (localStorage.getItem("alwaysScan") !== "true") {
+        window.location = "scan-confirm.html";
+    } else if (message.fromTabId) {
+        injectScanScript(message.fromTabId);
     }
 });
 
@@ -466,7 +483,9 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             utils.pushIfNew(message.images, msg.image);
         }
         // update message with null so it will call updateUI()
-        updateMessage();
+        if (message.supported) {
+            updatePopupUI();
+        }
     }
 });
 
