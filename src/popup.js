@@ -4,6 +4,8 @@ const ga = require("./google-analytics");
 const downloader = require("./downloader");
 const utils = require("./utils");
 const isDev = require("./is-dev");
+const scan = require("./scan");
+const messaging = require("./messaging");
 
 downloader.init();
 
@@ -419,79 +421,84 @@ const updateMessage = function (result, tabId) {
     updatePopupUI();
 }
 
-const injectScanScript = function (tabId) {
-    chrome.tabs.executeScript(
-        tabId,
-        {file: "scan.js", matchAboutBlank: true},
-        function () {
-            setTimeout(function () {
-                window.location = "popup.html";
-            }, 1000);
-        });
-};
-
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     let action = function (results) {
         updateMessage(results && results[0], tabs[0].id);
     };
 
-    let skipInject = false;
-    if (window.location.search) {
-        let params = (new URL(window.location)).searchParams;
-        if (params.get("scan") === "true") {
-            skipInject = true;
-            injectScanScript(tabs[0].id);
-        }
-
-        if (params.get("always") === "true") {
-            window.localStorage.setItem("alwaysScan", "true");
-        }
-    }
-
-    if (!skipInject) {
+    //injectScanScript(chrome, tabId);
+    let doScan = scan.confirmScan(window);
+    if (doScan) {
+        scan.injectScanScript(chrome, tabs[0].id);
+    } else {
         // inject script with 1 retry.
         chrome.tabs.executeScript(
             tabs[0].id,
             {file: "inject.js", matchAboutBlank: true},
             function (results) {
-                if (results && results.length && results[0].retry) {
-                    // retry in 100ms
-                    setTimeout(function () {
-                        chrome.tabs.executeScript(
-                            tabs[0].id,
-                            {file: "inject.js", matchAboutBlank: true},
-                            action);
-                    }, 100);
+                if (results && results.length) {
+                    let result = results[0];
+                    if (result.retry) {
+                        // retry in 100ms
+                        setTimeout(function () {
+                            chrome.tabs.executeScript(
+                                tabs[0].id,
+                                {file: "inject.js", matchAboutBlank: true},
+                                action);
+                        }, 100);
+                    } else if (result.scan) {
+                        if (scan.hasStoredAlwaysScan()) {
+                            action(results);
+                        } else {
+                            scan.navigateToConfirmPage(window);
+                        }
+                    }
                 } else {
                     action(results);
                 }
             });
     }
+
 });
 
-document.getElementById("scan").addEventListener("click", function () {
+document.getElementById("scan").addEventListener("click", function (event) {
     if (localStorage.getItem("alwaysScan") !== "true") {
         window.location = "scan-confirm.html";
     } else if (message.fromTabId) {
-        injectScanScript(message.fromTabId);
+        scan.injectScanScript(chrome, message.fromTabId);
+        event.target.disabled = true;
     }
 });
 
 // process updateImage message (from scan.js)
-chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    if (msg.what === "updateImage") {
-        if (msg.image) {
-            if (message.images == null) {
-                message.images = [];
-            }
-            utils.pushIfNew(message.images, msg.image);
+messaging.listen("updateImage", function (msg){
+    console.log("received updateImage");
+    if (msg.image) {
+        if (message.images == null) {
+            message.images = [];
         }
-        // update message with null so it will call updateUI()
-        if (message.supported) {
-            updatePopupUI();
-        }
+        utils.pushIfNew(message.images, msg.image);
+    }
+
+    if (message.supported) {
+        updatePopupUI();
     }
 });
+
+// chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+//     if (msg.what === "updateImage") {
+//         if (msg.image) {
+//             if (message.images == null) {
+//                 message.images = [];
+//             }
+//             utils.pushIfNew(message.images, msg.image);
+//         }
+//         // update message with null so it will call updateUI()
+//         if (message.supported) {
+//             updatePopupUI();
+//         }
+//     }
+// });
 
 window.addEventListener("load", function(){
     let supportedSitesDiv = document.getElementById("supported-sites");

@@ -1,5 +1,6 @@
 (async function () {
     "use strict";
+    const messaging = require("../messaging");
     const getImg = require("../inject/yanmaga.jp").getImg;
     const toUrl = function (canvas) {
         return canvas.toDataURL("image/jpeg", 1);
@@ -31,9 +32,10 @@
                         if (!helperUtils.hasCachedId(id)) {
                             let imgDom = helperUtils.attachInvisibleImage(midDiv, toUrl(canvas), id + ".jpg");
                             helperUtils.cachedId(id);
-                            window.postMessage({
-                                type: "FROM_PAGE", image: getImg(imgDom)
-                            }, window.origin);
+                            messaging.send("updateImage", {image: getImg(imgDom)});
+                            // window.postMessage({
+                            //     type: "FROM_PAGE", image: getImg(imgDom)
+                            // }, window.origin);
                         }
                     }
                 }

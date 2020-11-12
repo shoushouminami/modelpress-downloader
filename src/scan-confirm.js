@@ -1,4 +1,6 @@
 
+require("./i18n").autoBind("scanConfirm");
+
 let url = "popup.html?scan=true";
 let always = "";
 

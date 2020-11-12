@@ -65,7 +65,7 @@
         border: none;
       }
 
-      #scan-confirm-text {
+      #scanConfirmText {
         padding-top: 5px;
         padding-left: 5px;
         padding-right: 5px;
@@ -90,48 +90,21 @@
     </style>
   </head>
   <body>
-<!--    <div>-->
-<!--      <button id="download">-->
-<!--        <span id="buttonText"><span id="count">⌛</span></span>-->
-<!--      </button>-->
-<!--      <button id="scan" hidden="hidden">-->
-<!--        <span>🔍</span>-->
-<!--      </button>-->
-<!--    </div>-->
-<!--    <div id="downloadMobilePermission" hidden="hidden">-->
-<!--      <label id="downloadMobileLabel" for="downloadMobileCheck"></label>-->
-<!--      <input type="checkbox" id="downloadMobileCheck" name="downloadMobile"/>-->
-<!--      <a id="downloadMobilePermissionHelpLink" href="help/permission_en.html">?</a>-->
-<!--    </div>-->
-<!--    <div id="downloadMobileStatus" hidden="hidden">-->
-<!--      <span id="downloadMobileStatusText"></span> <a id="downloadMobileStatusHelpLink" href="help/help_en.html" hidden="hidden">?</a>-->
-<!--    </div>-->
-<!--    <div id="supported-sites" hidden="hidden">-->
-<!--      <div>-->
-<!--        <div id="app-name">Modelpress Image Downloader</div>-->
-<!--      </div>-->
-<!--      <div id="support-request" hidden="hidden">-->
-<!--        You can request support for this website <a href="https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8">here</a>-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <div id="supported-sites-title">Supported Websites:</div>-->
-<!--      </div>-->
-<!--    </div>-->
     <div id="scan-confirm">
-        <div class="app-name">
+        <div id="appName" class="app-name i18n-auto-bind" >
             Modelpress Image Downloader
         </div>
-        <div id="scan-confirm-text">
+        <div id="scanConfirmText" class="i18n-auto-bind">
             Modelpress Image Downloader can use Smart Scan to find images on this page. Do you want to enable Smart Scan?
         </div>
         <button id="yes">
-            <span class="buttonText">Yes</span>
+            <span class="buttonText i18n-auto-bind" id="yesText">Yes</span>
         </button>
         <button id="cancel">
-            <span class="buttonText">Cancel</span>
+            <span class="buttonText i18n-auto-bind" id="cancelText">Cancel</span>
         </button>
         <div id="always-yes">
-            <input type="checkbox"/> Always Enable
+            <input type="checkbox"/><span class="i18n-auto-bind" id="alwaysYesText">Always Enable</span>
         </div>
     </div>
 

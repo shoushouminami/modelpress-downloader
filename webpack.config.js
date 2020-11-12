@@ -7,7 +7,7 @@ module.exports = env => {
     return {
         entry: {
             inject: "./src/inject.js",
-            scan: "./src/scan.js",
+            "scan-inject": "./src/scan-inject.js",
             background: "./src/background.js",
             popup: "./src/popup.js",
             "scan-confirm": "./src/scan-confirm.js",

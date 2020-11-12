@@ -38,3 +38,7 @@ clean:
 
 test: build
 	npm test
+
+vm: build
+	cp -R build ~/Documents/shared/
+

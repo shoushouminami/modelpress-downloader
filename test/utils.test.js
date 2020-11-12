@@ -63,3 +63,14 @@ test("Test getChildElement", () => {
 
 });
 
+test("Test pushIfNew", () => {
+    let l = [];
+    utils.pushIfNew(l, 0);
+    expect(l).toStrictEqual([0]);
+    utils.pushIfNew(l, 0);
+    expect(l).toStrictEqual([0]);
+    utils.pushIfNew(l, {url: "abc"});
+    expect(l).toStrictEqual([0, {url: "abc"}]);
+    utils.pushIfNew(l, {url: "abc"});
+    expect(l).toStrictEqual([0, {url: "abc"}]);
+});

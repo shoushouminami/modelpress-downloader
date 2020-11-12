@@ -62,5 +62,21 @@
   "downloadMobileStatusHelpLink": {
     "message": "help/permission_en.html",
     "description": "The link that explains additional permission"
+  },
+  "scanConfirm_scanConfirmText": {
+    "message": "Modelpress Image Downloader can use Smart Scan to find images on this page. Do you want to enable Smart Scan?",
+    "description": "The text that explains the Smart Scan feature"
+  },
+  "scanConfirm_yesText": {
+    "message": "Yes",
+    "description": "The text on Yes button"
+  },
+  "scanConfirm_cancelText": {
+    "message": "Cancel",
+    "description": "The text on Cancel button"
+  },
+  "scanConfirm_alwaysYesText": {
+    "message": "Always Enable",
+    "description": "The text label for alwaysYesText check box"
   }
 }

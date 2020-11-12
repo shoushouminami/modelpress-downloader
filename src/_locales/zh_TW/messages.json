@@ -56,5 +56,21 @@
   "downloadMobileStatusHelpLink": {
     "message": "help/permission_zh_TW.html",
     "description": "The link that explains additional permission"
+  },
+  "scanConfirm_scanConfirmText": {
+    "message": "要使用智能掃描來查找圖片嗎？",
+    "description": "The text that explains the Smart Scan feature"
+  },
+  "scanConfirm_yesText": {
+    "message": "使用",
+    "description": "The text on Yes button"
+  },
+  "scanConfirm_cancelText": {
+    "message": "取消",
+    "description": "The text on Cancel button"
+  },
+  "scanConfirm_alwaysYesText": {
+    "message": "使用并不再詢問",
+    "description": "The text label for alwaysYesText check box"
   }
 }

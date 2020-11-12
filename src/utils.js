@@ -129,9 +129,10 @@ const utils = {
     },
     /**
      * Helper method to push value into list if it is not yet in the list.
+     * null/undefined is not permitted.
      */
     pushIfNew: function(list, value){
-        if (value) {
+        if (value != null) {
             if (typeof value === "object" && value.url) {
                 if (list.findIndex(function (elem) {
                     return elem.url && (elem.url === value.url);
