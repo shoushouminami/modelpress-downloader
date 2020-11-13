@@ -132,7 +132,7 @@ const utils = {
      * null/undefined is not permitted.
      */
     pushIfNew: function(list, value){
-        if (value != null) {
+        if (value !== null && value !== undefined) {
             if (typeof value === "object" && value.url) {
                 if (list.findIndex(function (elem) {
                     return elem.url && (elem.url === value.url);

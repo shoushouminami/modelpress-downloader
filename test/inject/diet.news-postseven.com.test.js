@@ -17,7 +17,10 @@ test("Test news article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 80);
+                try {
+                    await page.goto(page.url(), {timeout: 3000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+                } catch (ignored) {}
+                await pageutils.scrollTo(page, 80, 600);
             }
         });
 });
@@ -44,7 +47,10 @@ test("Test workout article", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 80);
+                try {
+                    await page.goto(page.url(), {timeout: 3000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+                } catch (ignored) {}
+                await pageutils.scrollTo(page, 80, 600);
             }
         });
 });

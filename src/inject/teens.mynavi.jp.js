@@ -20,6 +20,10 @@ const getLargeImg = (url) => {
         return null;
     }
 
+    if (url.trim().length === 0) {
+        url = null;
+    }
+
     return url;
 };
 
