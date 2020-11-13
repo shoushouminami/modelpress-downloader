@@ -10,35 +10,42 @@ const getLargeImg = function (url) {
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
+        // article top image
+        utils.pushArray(o.images,
+            utils.findImagesWithCssSelector(document,
+                [
+
+                    "main .ly_content_main_inner .un_newsDetail_head img",
+                ].join(","),
+                getLargeImg)
+        );
+
         // in article images
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document,
                 [
 
-                    "main .p-newsDetail-article-block figure a img",
+                    "main .ly_content_main_inner .un_newsDetail_content figure a img",
                 ].join(","),
                 getLargeImg)
         );
 
         // article end thumbnails
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document,
+            utils.findImagesWithCssSelector(document,
                 [
 
-                    "main .p-newsDetail-images .p-newsDetail-images__item a",
+                    "main .un_newsDetail_pic .un_newsDetail_picListItem a img",
                 ].join(","),
-                function (dom){
-                    let a = getLargeImg(utils.getDomBackgroundImage(dom));
-                    return a;
-                })
+                getLargeImg)
         );
 
-        // moive page images
+        // image gallery page
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document,
                 [
 
-                    "#main #photoLists a img",
+                    "main .un_newsImages_tmb li a img",
                 ].join(","),
                 getLargeImg)
         );
