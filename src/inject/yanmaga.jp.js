@@ -39,7 +39,6 @@ const inject = function () {
 const scan = function () {
     // setup update listener
     messaging.relayMsgToRuntime("updateImage", function (msg){
-        console.log("Relaying message...");
         msg.image.folder = getFolderName();
     });
     // window.addEventListener("message", function(event) {

@@ -1,8 +1,10 @@
 
-let isOnRuntime = window.chrome && window.chrome.extension != null;
-let isOnPage = !isOnRuntime;
-let isOnCS = !isOnRuntime && window.chrome.runtime && window.chrome.runtime.getManifest != null;
-let sender = "s" + Math.round(Math.random() * 1000000000); // random sender id
+const isRuntime = window.chrome && window.chrome.extension != null;
+const isPage = !isRuntime;
+const isCS = isPage && window.chrome.runtime && window.chrome.runtime.getManifest != null;
+const sender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
+console.debug("Sender", sender);
+
 /**
  * Page sends to content script, or content script sends to page.
  */
@@ -56,7 +58,7 @@ export function listenOnPage(key, callback) {
             return;
         }
 
-        if (event.data.what && (event.data.what === key) && (event.data.sender !== sender)) {
+        if (event.data.what && (event.data.what === key)) {
             callback(event.data.msg);
         }
     }, false);
@@ -64,7 +66,7 @@ export function listenOnPage(key, callback) {
 
 export function listenOnRuntime(key, callback) {
     chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
-        if (data && data.what && data.what === key && (data.sender !== sender)) {
+        if (data && data.what && data.what === key) {
             // if callback returns true, async replying mode is enabled and calling sendResponse can reply
             callback(data.msg, sendResponse);
         }
@@ -75,9 +77,9 @@ export function listenOnRuntime(key, callback) {
  * unified send method.
  */
 export function send(key, msg, onResponse) {
-    if (isOnPage) {
+    if (isPage) {
         sendToPage(key, msg);
-        if (isOnCS) {
+        if (isCS) {
             sendToRuntime(key, msg, onResponse);
         }
     } else {
@@ -89,9 +91,9 @@ export function send(key, msg, onResponse) {
  * unified listen method.
  */
 export function listen(key, callback) {
-    if (isOnPage) {
+    if (isPage) {
         listenOnPage(key, callback);
-        if (isOnCS) {
+        if (isCS) {
             listenOnRuntime(key, callback);
         }
     } else {

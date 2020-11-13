@@ -446,12 +446,11 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                                 {file: "inject.js", matchAboutBlank: true},
                                 action);
                         }, 100);
-                    } else if (result.scan) {
-                        if (scan.hasStoredAlwaysScan()) {
-                            action(results);
-                        } else {
+                    } else {
+                        if (result.scan && !scan.hasStoredAlwaysScan()) {
                             scan.navigateToConfirmPage(window);
                         }
+                        action(results);
                     }
                 } else {
                     action(results);
@@ -484,21 +483,6 @@ messaging.listen("updateImage", function (msg){
         updatePopupUI();
     }
 });
-
-// chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-//     if (msg.what === "updateImage") {
-//         if (msg.image) {
-//             if (message.images == null) {
-//                 message.images = [];
-//             }
-//             utils.pushIfNew(message.images, msg.image);
-//         }
-//         // update message with null so it will call updateUI()
-//         if (message.supported) {
-//             updatePopupUI();
-//         }
-//     }
-// });
 
 window.addEventListener("load", function(){
     let supportedSitesDiv = document.getElementById("supported-sites");
