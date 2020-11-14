@@ -41,6 +41,7 @@ const scan = function () {
     messaging.relayMsgToRuntime("updateImage", function (msg){
         msg.image.folder = getFolderName();
     });
+    messaging.relayAllMsgsToRuntime("startScan", "stopScan");
     // window.addEventListener("message", function(event) {
     //     if (event.source !== window) {
     //         return;

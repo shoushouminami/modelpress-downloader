@@ -24,6 +24,7 @@ const getPageScrollHeight = async function (page) {
  * @returns {Promise<void>}
  */
 exports.scrollTo = async function (page, percentage = 100, waitTimeMs = 300) {
+    this.scrollToTop(page);
     // Get the height of the rendered page
     let height = await getPageScrollHeight(page);
 

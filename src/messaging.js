@@ -3,12 +3,12 @@ const isRuntime = window.chrome && window.chrome.extension != null;
 const isPage = !isRuntime;
 const isCS = isPage && window.chrome.runtime && window.chrome.runtime.getManifest != null;
 const sender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
-console.debug("Sender", sender);
+// console.debug("Sender", sender);
 
 /**
  * Page sends to content script, or content script sends to page.
  */
-export function sendToPage(key, msg) {
+exports.sendToPage = function (key, msg) {
     window.postMessage({
         what: key,
         sender: sender,
@@ -19,7 +19,7 @@ export function sendToPage(key, msg) {
 /**
  * Content script sends messages to extension runtime (popup or background).
  */
-export function sendToRuntime(key, msg, onResponse) {
+exports.sendToRuntime = function (key, msg, onResponse) {
     chrome.runtime.sendMessage({
         what: key,
         sender: sender,
@@ -30,20 +30,27 @@ export function sendToRuntime(key, msg, onResponse) {
 /**
  * Content script relays the message from page to extension runtime (popup or background).
  */
-export function relayMsgToRuntime(key, transformerFunc) {
-    listenOnPage(key, function (msg){
-        if (transformerFunc) {
+exports.relayMsgToRuntime = function (key, transformerFunc) {
+    this.listenOnPage(key, function (msg){
+        if (transformerFunc instanceof Function) {
             let newMsg = transformerFunc(msg);
             if (newMsg != null) {
                 msg = newMsg;
             }
         }
-        sendToRuntime(key, msg); // won't send response to page
+        exports.sendToRuntime(key, msg); // won't send response to page
     });
 }
 
-export function relayMsgToPage(tabId, key, transformFunc) {
-    listenOnRuntime(key, function (msg, sendResponse) {
+exports.relayAllMsgsToRuntime = function (...keys) {
+    keys.forEach(key => {
+        this.relayMsgToRuntime(key);
+    })
+}
+
+exports.relayMsgToPage = function (tabId, key, transformFunc) {
+    this.listenOnRuntime(key, function (msg, sendResponse) {
+        console.debug("Relaying", key);
         window.chrome.tabs.sendMessage(tabId, {what: key, msg: msg}, sendResponse);
         return true; // always enable async response
     });
@@ -52,7 +59,7 @@ export function relayMsgToPage(tabId, key, transformFunc) {
 /**
  * Listens for a message from page, or content script (to page)
  */
-export function listenOnPage(key, callback) {
+exports.listenOnPage = function (key, callback) {
     window.addEventListener("message", function(event) {
         if (event.source !== window || event.origin !== window.origin) {
             return;
@@ -64,9 +71,10 @@ export function listenOnPage(key, callback) {
     }, false);
 }
 
-export function listenOnRuntime(key, callback) {
+exports.listenOnRuntime = function (key, callback) {
     chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
         if (data && data.what && data.what === key) {
+            console.debug("Receiving", key);
             // if callback returns true, async replying mode is enabled and calling sendResponse can reply
             callback(data.msg, sendResponse);
         }
@@ -76,28 +84,29 @@ export function listenOnRuntime(key, callback) {
 /**
  * unified send method.
  */
-export function send(key, msg, onResponse) {
+exports.send = function (key, msg, onResponse) {
+    console.debug("Sending", key);
     if (isPage) {
-        sendToPage(key, msg);
+        this.sendToPage(key, msg);
         if (isCS) {
-            sendToRuntime(key, msg, onResponse);
+            this.sendToRuntime(key, msg, onResponse);
         }
     } else {
-        sendToRuntime(key, msg, onResponse);
+        this.sendToRuntime(key, msg, onResponse);
     }
 }
 
 /**
  * unified listen method.
  */
-export function listen(key, callback) {
+exports.listen = function (key, callback) {
     if (isPage) {
-        listenOnPage(key, callback);
+        this.listenOnPage(key, callback);
         if (isCS) {
-            listenOnRuntime(key, callback);
+            this.listenOnRuntime(key, callback);
         }
     } else {
-        listenOnRuntime(key, callback);
+        this.listenOnRuntime(key, callback);
     }
 }
 

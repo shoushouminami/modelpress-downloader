@@ -52,9 +52,11 @@
                 setTimeout(loadNext, 500);
             } else {
                 helperUtils.doneSolvingMaze();
+                messaging.send("stopScan");
             }
         }
         helperUtils.startSolvingMaze();
+        messaging.send("startScan");
         loadNext();
     }
 
@@ -169,8 +171,10 @@
 
     if (document.getElementById("xCVSpMap") != null) {
         helperUtils.startSolvingMaze();
+        messaging.send("startScan", {});
         await solveMatrix();
         helperUtils.doneSolvingMaze();
+        messaging.send("stopScan", {});
     } else {
         loadAll();
     }

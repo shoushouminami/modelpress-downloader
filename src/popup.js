@@ -429,7 +429,12 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     //injectScanScript(chrome, tabId);
     let doScan = scan.confirmScan(window);
     if (doScan) {
-        scan.injectScanScript(chrome, tabs[0].id);
+        scan.injectScanScript(chrome, tabs[0].id, function () {
+            chrome.tabs.executeScript(
+                tabs[0].id,
+                {file: "inject.js", matchAboutBlank: true},
+                action);
+        });
     } else {
         // inject script with 1 retry.
         chrome.tabs.executeScript(
@@ -464,14 +469,20 @@ document.getElementById("scan").addEventListener("click", function (event) {
     if (localStorage.getItem("alwaysScan") !== "true") {
         window.location = "scan-confirm.html";
     } else if (message.fromTabId) {
-        scan.injectScanScript(chrome, message.fromTabId);
+        scan.injectScanScript(chrome, message.fromTabId, function (){
+            if (message.fromTabId) {
+                chrome.tabs.executeScript(
+                    message.fromTabId,
+                    {file: "inject.js", matchAboutBlank: true},
+                    results => updateMessage(results[0], message.fromTabId));
+            }
+        });
         event.target.disabled = true;
     }
 });
 
 // process updateImage message (from scan.js)
 messaging.listen("updateImage", function (msg){
-    console.log("received updateImage");
     if (msg.image) {
         if (message.images == null) {
             message.images = [];
@@ -483,6 +494,10 @@ messaging.listen("updateImage", function (msg){
         updatePopupUI();
     }
 });
+
+// messaging.listen("startScan", function () {
+//
+// });
 
 window.addEventListener("load", function(){
     let supportedSitesDiv = document.getElementById("supported-sites");
