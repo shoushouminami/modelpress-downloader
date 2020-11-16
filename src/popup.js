@@ -11,7 +11,7 @@ const inject = require("./inject");
 downloader.init();
 
 let getFileName = function(url, ext) {
-    var filename = url.split("?")[0].split("/");
+    let filename = url.split("?")[0].split("/");
     filename = filename[filename.length - 1];
     if (filename.indexOf(":") > -1) {
         filename = filename.split(":")[0];
@@ -230,7 +230,7 @@ const updatePopupUI = function () {
         if (message.images && message.images.length) {
             document.getElementById("download").disabled = false;
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length]);
-            document.getElementById("scanButtonText").innerText = chrome.i18n.getMessage("scanButtonText", [message.images.length]);
+            // document.getElementById("scanButtonText").innerText = chrome.i18n.getMessage("scanButtonText", [message.images.length]);
             if (Object.keys(message.remoteImages).length > 0) {
                 if (!state.canDownloadMobile) {
                     document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");
@@ -264,18 +264,25 @@ const updatePopupUI = function () {
         } else {
             document.getElementById("download").disabled = "disabled";
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("noImageMessage");
-            document.getElementById("download").hidden = message.scan;
-            document.getElementById("scan").hidden = !message.scan;
         }
 
         if (message.scan) {
+
             switch(message.scanState) {
                 case "started":
-                    document.getElementById("download").disabled = true;
+                    document.getElementById("download").disabled = "disabled";
+                    document.getElementById("download").hidden = false;
+                    document.getElementById("scan").hidden = true;
                     break;
                 case "stopped":
-                    // document.getElementById("download").disabled = false;
+                    document.getElementById("download").disabled = false;
+                    document.getElementById("download").hidden = false;
+                    document.getElementById("scan").hidden = true;
                     break;
+                default:
+                    // scan hasn't started, show scan button
+                    document.getElementById("download").hidden = true;
+                    document.getElementById("scan").hidden = false;
             }
         }
 
@@ -470,11 +477,13 @@ const injectScan = function (tabId) {
         (results, tabId) => {
             updateMessage(results[0], tabId)
         },
-        function (){
+        function () {
             inject.injectInjectScript(chrome, tabId,
                 (results, tabId) => {
+                    message.scanState = "stopped";
                     updateMessage(results[0], tabId);
-                })
+                }
+            )
         });
     document.getElementById("scan").disabled = "disabled";
 }
