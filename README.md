@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.31 (2020/11/16)
+* Fix on movie.walkerplus.com
+
 ###### 2.30 (2020/11/06)
 * Support sakurazaka46.com
 * Support movie.walkerplus.com
