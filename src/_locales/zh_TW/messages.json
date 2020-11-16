@@ -72,5 +72,14 @@
   "scanConfirm_alwaysYesText": {
     "message": "使用并不再詢問",
     "description": "The text label for alwaysYesText check box"
+  },
+  "scanButtonText": {
+    "message": "下載 $NUMBER$ 張圖片",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
   }
 }

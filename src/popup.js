@@ -467,7 +467,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
 
 const injectScan = function (tabId) {
     scan.injectScanScript(chrome, tabId,
-        (results) => {
+        (results, tabId) => {
             updateMessage(results[0], tabId)
         },
         function (){

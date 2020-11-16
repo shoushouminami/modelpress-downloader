@@ -1,1 +1,1 @@
-exports = require("./scan").scanContentScript();
+module.exports = require("./scan").scanContentScript();

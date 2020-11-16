@@ -35,7 +35,7 @@ exports.injectScanScript = function (chrome, tabId, injectCallback, stopScanCall
         tabId,
         // calls scanContentScript() above in content script
         {file: "scan-cs.js", matchAboutBlank: true},
-        injectCallback);
+        (results) => injectCallback(results, tabId));
 
     if (stopScanCallback instanceof Function) {
         messaging.listen("stopScan", function () {

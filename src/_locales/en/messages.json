@@ -78,5 +78,15 @@
   "scanConfirm_alwaysYesText": {
     "message": "Always Enable",
     "description": "The text label for alwaysYesText check box"
+  },
+  "scanButtonText": {
+    "message": "Download $NUMBER$ Images",
+    "description": "The text on the button after scan is started",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
   }
 }
