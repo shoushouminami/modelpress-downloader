@@ -43,7 +43,6 @@ const scan = function () {
     });
     messaging.relayAllMsgsToRuntime("startScan", "stopScan");
     utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"));
-    return inject();
 }
 
 module.exports = {

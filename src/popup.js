@@ -6,6 +6,7 @@ const utils = require("./utils");
 const isDev = require("./is-dev");
 const scan = require("./scan");
 const messaging = require("./messaging");
+const inject = require("./inject");
 
 downloader.init();
 
@@ -209,17 +210,7 @@ function addClickListenerForLinks(element, callback) {
     }
 }
 
-let message = {
-    supported: false,
-    retry: false,
-    scan: false,
-    scanState: "", // "started", "stopped"
-    images: [],
-    remoteImages: {}, // for example {"mdpr.jp": "1234567"}
-    ext: undefined,
-    folder: undefined,
-    fromTabId: null,
-};
+let message = require("./inject/return-message").notSupported();
 
 let state = {
     canDownloadMobile: false,
@@ -408,7 +399,7 @@ const startFetchMdprMobileImages = function() {
 
 const updateMessage = function (result, tabId) {
     if (isDev) {
-        console.debug(result);
+        console.debug(JSON.stringify(result));
     }
     if (result) {
         if (isDev) {
@@ -443,15 +434,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     //injectScanScript(chrome, tabId);
     let doScan = scan.confirmScan(window);
     if (doScan) {
-        scan.injectScanScript(chrome, tabs[0].id,
-            action,
-            function () {
-                chrome.tabs.executeScript(
-                    tabs[0].id,
-                    {file: "inject-cs.js", matchAboutBlank: true},
-                    action);
-            });
-        document.getElementById("scan").disabled = "disabled";
+        injectScan(tabs[0].id);
     } else {
         // inject script with 1 retry.
         chrome.tabs.executeScript(
@@ -482,23 +465,25 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
 
 });
 
+const injectScan = function (tabId) {
+    scan.injectScanScript(chrome, tabId,
+        (results) => {
+            updateMessage(results[0], tabId)
+        },
+        function (){
+            inject.injectInjectScript(chrome, tabId,
+                (results, tabId) => {
+                    updateMessage(results[0], tabId);
+                })
+        });
+    document.getElementById("scan").disabled = "disabled";
+}
+
 document.getElementById("scan").addEventListener("click", function (event) {
     if (localStorage.getItem("alwaysScan") !== "true") {
         window.location = "scan-confirm.html";
     } else if (message.fromTabId) {
-        scan.injectScanScript(chrome, message.fromTabId,
-            (results) => {
-                updateMessage(results[0], message.fromTabId)
-            },
-            function (){
-            if (message.fromTabId) {
-                chrome.tabs.executeScript(
-                    message.fromTabId,
-                    {file: "inject-cs.js", matchAboutBlank: true},
-                    results => updateMessage(results[0], message.fromTabId));
-            }
-        });
-        event.target.disabled = true;
+        injectScan(message.fromTabId);
     }
 });
 
@@ -516,10 +501,6 @@ messaging.listen("updateImage", function (msg){
     // }
     updatePopupUI();
 });
-
-// messaging.listen("startScan", function () {
-//
-// });
 
 window.addEventListener("load", function(){
     let supportedSitesDiv = document.getElementById("supported-sites");

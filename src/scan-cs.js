@@ -1,1 +1,1 @@
-exports = require("./scan").scanInject();
+exports = require("./scan").scanContentScript();

@@ -1,5 +1,6 @@
 
 const messaging = require("./messaging");
+const getSiteModule = require("./inject").getSiteModule;
 
 exports.navigateToConfirmPage = function (window) {
     window.location = "scan-confirm.html";
@@ -8,17 +9,14 @@ exports.navigateToConfirmPage = function (window) {
 /**
  * Runs in content script. Injects the scan script
  */
-exports.scanInject = function () {
-    try {
-        const site = require("./inject/" + require("./inject/hostMapping").check(window.location));
-        if (site.scan) {
-           return site.scan();
-        }
-    } catch (e) {
-        // not found
-        if (require("./is-dev")) {
-            console.error(e);
-        }
+exports.scanContentScript = function () {
+    const site = getSiteModule();
+    if (site != null && site.scan) {
+        site.scan();
+        let o = require("./inject/return-message.js").init();
+        o.scan = true;
+        o.scanState = "started";
+        return o;
     }
 }
 
@@ -35,7 +33,7 @@ exports.storeAlwaysScan = () => {
 exports.injectScanScript = function (chrome, tabId, injectCallback, stopScanCallback) {
     chrome.tabs.executeScript(
         tabId,
-        // calls scanInject() above in content script
+        // calls scanContentScript() above in content script
         {file: "scan-cs.js", matchAboutBlank: true},
         injectCallback);
 
