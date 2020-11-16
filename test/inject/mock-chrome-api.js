@@ -7,6 +7,9 @@ window.chrome = {
         getURL: function (filepath) { // needed for retrying inject script
             // bridges from "test/inject" to "build/"
             return "../../build/" + filepath;
+        },
+        sendMessage: function () {
+
         }
     }
 };

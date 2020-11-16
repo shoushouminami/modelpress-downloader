@@ -18,16 +18,24 @@ const inject = function () {
     let o = require("./return-message.js").init();
     o.folder = getFolderName();
 
-    if (helper.getDataDiv() != null) {
-        utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(
-                helper.getDataDiv(),
-                "img",
-                getImg
-            )
-        );
-    } else {
-        o.scan = true;
+    // article images
+    utils.pushArray(o.images,
+        utils.findImagesWithCssSelector(document,
+            "main .container .article-body figure img")
+    );
+
+    if (o.images.length === 0) {
+        if (helper.getDataDiv() != null) {
+            utils.pushArray(o.images,
+                utils.findDomsWithCssSelector(
+                    helper.getDataDiv(),
+                    "img",
+                    getImg
+                )
+            );
+        } else {
+            o.scan = true;
+        }
     }
 
     return o;

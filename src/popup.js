@@ -7,6 +7,9 @@ const isDev = require("./is-dev");
 const scan = require("./scan");
 const messaging = require("./messaging");
 const inject = require("./inject");
+const i18n = require("./i18n");
+
+i18n.autoBind("popup");
 
 downloader.init();
 
@@ -230,7 +233,6 @@ const updatePopupUI = function () {
         if (message.images && message.images.length) {
             document.getElementById("download").disabled = false;
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length]);
-            // document.getElementById("scanButtonText").innerText = chrome.i18n.getMessage("scanButtonText", [message.images.length]);
             if (Object.keys(message.remoteImages).length > 0) {
                 if (!state.canDownloadMobile) {
                     document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");

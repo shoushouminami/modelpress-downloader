@@ -73,7 +73,7 @@ const dummyItems = function (count) {
  * @param page
  * @returns {Promise<{o}|*>}
  */
-async function emulateInjectWithRetry(page) {
+async function emulateInjectWithRetry(page, ops) {
     await page.addScriptTag({path: resolvePath("./mock-chrome-api.js")});
     await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
     const executionContext = await page.mainFrame().executionContext();
@@ -91,6 +91,10 @@ async function emulateInjectWithRetry(page) {
     }
 
     let mid = await executionContext.evaluate("window._mid");
+
+    // callback hook to customize action after loading the page, such as scrolling
+    await runFuncIfDefined(ops && ops['preretry'], [page]);
+
     // emulate retry logic in popup.js
     if (mid && mid.o && mid.o.retry) {
         await pageutils.wait(1000);
@@ -125,7 +129,10 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
     // callback hook to customize action after loading the page, such as scrolling
     await runFuncIfDefined(ops && ops['preinject'], [page]);
     // emulate popup.js and inject "inject-cs.js" with retry
-    const mid = await emulateInjectWithRetry(page);
+    const mid = await emulateInjectWithRetry(page, ops);
+
+    // callback hook to customize action after loading the page, such as scrolling
+    await runFuncIfDefined(ops && ops['postinject'], [page]);
 
     expect(mid).toBeDefined();
     expect(mid['o']).toBeDefined();

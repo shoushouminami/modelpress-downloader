@@ -13,5 +13,9 @@ utils.injectScriptDOM = function (filepath) {
 rewiremock(() => require("../../src/utils")).with(utils);
 rewiremock.enable();
 
-let o = require("../../src/inject");
+let o = require("../../src/inject-cs");
+if (o.scan) {
+    o = require("../../src/scan-cs");
+    o.retry = true;
+}
 window._mid = {o: o};

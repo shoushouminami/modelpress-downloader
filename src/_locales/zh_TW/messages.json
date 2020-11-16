@@ -58,7 +58,7 @@
     "description": "The link that explains additional permission"
   },
   "scanConfirm_scanConfirmText": {
-    "message": "要使用智能掃描來查找圖片嗎？",
+    "message": "智能掃描會滾動網頁來搜尋圖片，要使用智能掃描嗎？",
     "description": "The text that explains the Smart Scan feature"
   },
   "scanConfirm_yesText": {
@@ -74,12 +74,6 @@
     "description": "The text label for alwaysYesText check box"
   },
   "scanButtonText": {
-    "message": "下載 $NUMBER$ 張圖片",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
+    "message": "\uD83D\uDD0D 智能掃描"
   }
 }

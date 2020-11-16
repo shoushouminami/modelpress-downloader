@@ -64,7 +64,7 @@
     "description": "The link that explains additional permission"
   },
   "scanConfirm_scanConfirmText": {
-    "message": "Modelpress Image Downloader can use Smart Scan to find images on this page. Do you want to enable Smart Scan?",
+    "message": "Smart Scan will scroll the page to find images. Do you want to enable Smart Scan ?",
     "description": "The text that explains the Smart Scan feature"
   },
   "scanConfirm_yesText": {
@@ -80,13 +80,7 @@
     "description": "The text label for alwaysYesText check box"
   },
   "scanButtonText": {
-    "message": "Download $NUMBER$ Images",
-    "description": "The text on the button after scan is started",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
+    "message": "\uD83D\uDD0D Smart Scan",
+    "description": "The text on the button after scan is started"
   }
 }
