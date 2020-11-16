@@ -12,7 +12,7 @@ exports.scanInject = function () {
     try {
         const site = require("./inject/" + require("./inject/hostMapping").check(window.location));
         if (site.scan) {
-            site.scan();
+           return site.scan();
         }
     } catch (e) {
         // not found
@@ -32,19 +32,17 @@ exports.storeAlwaysScan = () => {
     window.localStorage.setItem(ALWAYS_SCAN, "true");
 }
 
-exports.injectScanScript = function (chrome, tabId, callback) {
+exports.injectScanScript = function (chrome, tabId, injectCallback, stopScanCallback) {
     chrome.tabs.executeScript(
         tabId,
         // calls scanInject() above in content script
-        {file: "scan-inject.js", matchAboutBlank: true},
-        function (results) {
-        });
+        {file: "scan-cs.js", matchAboutBlank: true},
+        injectCallback);
 
-    if (callback instanceof Function) {
+    if (stopScanCallback instanceof Function) {
         messaging.listen("stopScan", function () {
             console.debug("Receiving stopScan");
-
-            callback();
+            stopScanCallback();
         });
     }
 }
@@ -58,7 +56,7 @@ exports.confirmScan = function (window) {
         }
 
         if (params.get("always") === "true") {
-            storeAlwaysScan();
+            exports.storeAlwaysScan();
         }
     }
     return doScan;

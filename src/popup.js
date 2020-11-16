@@ -213,6 +213,7 @@ let message = {
     supported: false,
     retry: false,
     scan: false,
+    scanState: "", // "started", "stopped"
     images: [],
     remoteImages: {}, // for example {"mdpr.jp": "1234567"}
     ext: undefined,
@@ -238,6 +239,7 @@ const updatePopupUI = function () {
         if (message.images && message.images.length) {
             document.getElementById("download").disabled = false;
             document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length]);
+            document.getElementById("scanButtonText").innerText = chrome.i18n.getMessage("scanButtonText", [message.images.length]);
             if (Object.keys(message.remoteImages).length > 0) {
                 if (!state.canDownloadMobile) {
                     document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");
@@ -274,6 +276,18 @@ const updatePopupUI = function () {
             document.getElementById("download").hidden = message.scan;
             document.getElementById("scan").hidden = !message.scan;
         }
+
+        if (message.scan) {
+            switch(message.scanState) {
+                case "started":
+                    document.getElementById("download").disabled = true;
+                    break;
+                case "stopped":
+                    // document.getElementById("download").disabled = false;
+                    break;
+            }
+        }
+
     } else {
         document.getElementById("download").hidden = "hidden";
         document.getElementById("app-name").innerText = chrome.i18n.getMessage("appName");
@@ -429,17 +443,20 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     //injectScanScript(chrome, tabId);
     let doScan = scan.confirmScan(window);
     if (doScan) {
-        scan.injectScanScript(chrome, tabs[0].id, function () {
-            chrome.tabs.executeScript(
-                tabs[0].id,
-                {file: "inject.js", matchAboutBlank: true},
-                action);
-        });
+        scan.injectScanScript(chrome, tabs[0].id,
+            action,
+            function () {
+                chrome.tabs.executeScript(
+                    tabs[0].id,
+                    {file: "inject-cs.js", matchAboutBlank: true},
+                    action);
+            });
+        document.getElementById("scan").disabled = "disabled";
     } else {
         // inject script with 1 retry.
         chrome.tabs.executeScript(
             tabs[0].id,
-            {file: "inject.js", matchAboutBlank: true},
+            {file: "inject-cs.js", matchAboutBlank: true},
             function (results) {
                 if (results && results.length) {
                     let result = results[0];
@@ -448,7 +465,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                         setTimeout(function () {
                             chrome.tabs.executeScript(
                                 tabs[0].id,
-                                {file: "inject.js", matchAboutBlank: true},
+                                {file: "inject-cs.js", matchAboutBlank: true},
                                 action);
                         }, 100);
                     } else {
@@ -469,11 +486,15 @@ document.getElementById("scan").addEventListener("click", function (event) {
     if (localStorage.getItem("alwaysScan") !== "true") {
         window.location = "scan-confirm.html";
     } else if (message.fromTabId) {
-        scan.injectScanScript(chrome, message.fromTabId, function (){
+        scan.injectScanScript(chrome, message.fromTabId,
+            (results) => {
+                updateMessage(results[0], message.fromTabId)
+            },
+            function (){
             if (message.fromTabId) {
                 chrome.tabs.executeScript(
                     message.fromTabId,
-                    {file: "inject.js", matchAboutBlank: true},
+                    {file: "inject-cs.js", matchAboutBlank: true},
                     results => updateMessage(results[0], message.fromTabId));
             }
         });
@@ -490,9 +511,10 @@ messaging.listen("updateImage", function (msg){
         utils.pushIfNew(message.images, msg.image);
     }
 
-    if (message.supported) {
-        updatePopupUI();
-    }
+    // if (message.supported) {
+    //     updatePopupUI();
+    // }
+    updatePopupUI();
 });
 
 // messaging.listen("startScan", function () {

@@ -69,7 +69,7 @@ const dummyItems = function (count) {
 };
 
 /**
- * Emulates popup.js and injects "inject.js" with retry
+ * Emulates popup.js and injects "inject-cs.js" with retry
  * @param page
  * @returns {Promise<{o}|*>}
  */
@@ -124,7 +124,7 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
 
     // callback hook to customize action after loading the page, such as scrolling
     await runFuncIfDefined(ops && ops['preinject'], [page]);
-    // emulate popup.js and inject "inject.js" with retry
+    // emulate popup.js and inject "inject-cs.js" with retry
     const mid = await emulateInjectWithRetry(page);
 
     expect(mid).toBeDefined();

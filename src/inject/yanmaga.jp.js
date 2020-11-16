@@ -42,20 +42,8 @@ const scan = function () {
         msg.image.folder = getFolderName();
     });
     messaging.relayAllMsgsToRuntime("startScan", "stopScan");
-    // window.addEventListener("message", function(event) {
-    //     if (event.source !== window) {
-    //         return;
-    //     }
-    //
-    //     if (event.data.type && (event.data.type === "FROM_PAGE")) {
-    //         // console.log("Content script received: " + JSON.stringify(event.data.image));
-    //         let image = event.data.image;
-    //         image.folder = getFolderName();
-    //         chrome.runtime.sendMessage({what: "updateImage", image: image});
-    //     }
-    // }, false);
-
     utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"));
+    return inject();
 }
 
 module.exports = {

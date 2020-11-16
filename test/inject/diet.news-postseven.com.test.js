@@ -48,6 +48,7 @@ test("Test workout article", async () => {
                 try {
                     await page.goto(page.url(), {timeout: 3000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
                 } catch (ignored) {}
+                await pageutils.wait(1000);
                 await pageutils.scrollTo(page, 80, 600);
             }
         });
