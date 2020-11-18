@@ -335,7 +335,7 @@ document.getElementById("download").addEventListener("click", function () {
     }
 
     if (downloadWithMsg.length > 0) {
-        downloader.downloadWithMsg(chrome, message, downloadWithMsg, function () {
+        downloader.downloadWithMsg(chrome, message.fromTabId, message.folder, downloadWithMsg, function () {
             if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
                 window.close();
             }

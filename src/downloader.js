@@ -105,17 +105,18 @@ const download = function (chrome, image, resolve) {
 /**
  * First send a message to get the url of the image. Once we have the url, call {@link download} to download the image.
  * @param chrome
- * @param message {any}
+ * @param tabId {number}
+ * @param folder {string}
  * @param images {any[]}
  * @param done {function():void} is called when all downloads are initiated in Chrome.
  */
-const downloadWithMsg = function (chrome, message, images, done) {
+const downloadWithMsg = function (chrome, tabId, folder, images, done) {
     if (images.length > 0) {
         let count = 0;
         for (const image of images) {
             messaging.sendToCS(tabId, "getImageUrl", image, function (imageWithUrl) {
                 if (imageWithUrl) {
-                    imageWithUrl.folder = message.folder;
+                    imageWithUrl.folder = folder;
                     download(chrome, imageWithUrl, function () {
                         if (++count === images.length && done instanceof Function) {
                             done();
