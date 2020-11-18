@@ -31,3 +31,7 @@ module.exports = {
 
 // images: [] an array of image urls. Instead of string representing the url directly, it can also be an object type like
 // {url: "url", retries: ["retry url1", "retry url2"]}. The retry url is used if the url fails.
+// {type: "msg", filename: "1.jpg"} download through messaging exchange
+// {type: "tab", imageUrl: "", websiteUrl: ""} // download through background tab
+
+

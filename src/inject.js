@@ -1,4 +1,5 @@
 const inject = function () {
+    setupMessageRelay();
     let o = require("./inject/return-message.js").init();
     const site = getSiteModule();
     if (site != null) {
@@ -7,6 +8,13 @@ const inject = function () {
         o.supported = false;
     }
     return o;
+}
+
+const setupMessageRelay = function () {
+    const messaging = require("./messaging");
+    // setup message relaying
+    messaging.relayMsgToPage("getImageUrl");
+    messaging.relayAllMsgsToRuntime("startScan", "stopScan", "updateImage");
 }
 
 /**
@@ -42,5 +50,6 @@ const injectInjectScript = function (chrome, tabId, callback) {
 module.exports = {
     inject: inject,
     getSiteModule: getSiteModule,
-    injectInjectScript: injectInjectScript
+    injectInjectScript: injectInjectScript,
+    setupMessageRelay: setupMessageRelay
 }

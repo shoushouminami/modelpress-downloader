@@ -304,6 +304,7 @@ const updatePopupUI = function () {
 document.getElementById("download").addEventListener("click", function () {
     let imagesNeedTab = [];
     let downloadInBg = [];
+    let downloadWithMsg = [];
     let images = message.images.slice(0, message.images.length);
     ga.trackDownload(message.host, images.length);
     document.getElementById("download").disabled = true;
@@ -311,8 +312,10 @@ document.getElementById("download").addEventListener("click", function () {
     for (const image of images) {
         if (typeof image === "string") {
             downloadInBg.push({url: image, folder: message.folder, ext: message.ext});
-        } else if (typeof image === "object" && image.websiteUrl && image.imageUrl) {
+        } else if (typeof image === "object" && image.type === "tab") {
             imagesNeedTab.push(image);
+        } else if (typeof image === "object" && image.type === "msg") {
+            downloadWithMsg.push(image);
         } else if (typeof image === "object" && image.url) {
             image.folder = message.folder;
             image.ext = message.ext;
@@ -331,9 +334,19 @@ document.getElementById("download").addEventListener("click", function () {
         }
     }
 
+    if (downloadWithMsg.length > 0) {
+        downloader.downloadWithMsg(chrome, message, downloadWithMsg, function () {
+            if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
+                window.close();
+            }
+        });
+    }
+
     if (downloadInBg.length > 0) {
         downloadInBackground(chrome, downloadInBg, function () {
-            window.close();
+            if (imagesNeedTab.length === 0) {
+                window.close();
+            }
         });
     }
 
@@ -408,7 +421,7 @@ const startFetchMdprMobileImages = function() {
 
 const updateMessage = function (result, tabId) {
     if (isDev) {
-        console.debug(JSON.stringify(result));
+        console.debug(result);
     }
     if (result) {
         if (isDev) {
@@ -504,12 +517,10 @@ messaging.listen("updateImage", function (msg){
         if (message.images == null) {
             message.images = [];
         }
+
         utils.pushIfNew(message.images, msg.image);
     }
 
-    // if (message.supported) {
-    //     updatePopupUI();
-    // }
     updatePopupUI();
 });
 

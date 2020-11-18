@@ -3,7 +3,11 @@ const helper = require("../helper/helper-utils");
 const messaging = require("../messaging");
 
 const getImg = function (dom) {
-    return {url: dom.src, filename: dom.dataset.name};
+    return {
+        url: dom.dataset.name,
+        filename: dom.dataset.name,
+        type: "msg" // download through messaging exchange
+    }
 }
 
 const getFolderName = function () {
@@ -45,11 +49,6 @@ const inject = function () {
  * Runs in content script
  */
 const scan = function () {
-    // setup update listener
-    messaging.relayMsgToRuntime("updateImage", function (msg){
-        msg.image.folder = getFolderName();
-    });
-    messaging.relayAllMsgsToRuntime("startScan", "stopScan");
     utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"));
 }
 

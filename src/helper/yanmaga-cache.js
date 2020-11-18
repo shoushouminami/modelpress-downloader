@@ -21,6 +21,21 @@
 
     const helperUtils = require("./helper-utils");
     let midDiv = helperUtils.getOrCreateDataDiv();
+
+    //listen for getImageUrl messages
+    messaging.listen("getImageUrl", function (msg, sendResponse) {
+        let dataDiv = helperUtils.getDataDiv();
+        if (dataDiv && msg.filename) {
+            let imgDom = helperUtils.getAttachedImageByName(dataDiv, msg.filename);
+            if (imgDom && imgDom.src) {
+                sendResponse({
+                    url: imgDom.src,
+                    filename: msg.filename
+                });
+            }
+        }
+    });
+    
     let pages = document.getElementById("xCVPages");
     if (pages) {
         new MutationObserver(function (events) {
@@ -33,9 +48,6 @@
                             let imgDom = helperUtils.attachInvisibleImage(midDiv, toUrl(canvas), id + ".jpg");
                             helperUtils.cachedId(id);
                             messaging.send("updateImage", {image: getImg(imgDom)});
-                            // window.postMessage({
-                            //     type: "FROM_PAGE", image: getImg(imgDom)
-                            // }, window.origin);
                         }
                     }
                 }

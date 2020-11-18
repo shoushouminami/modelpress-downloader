@@ -1,6 +1,6 @@
 
 const messaging = require("./messaging");
-const getSiteModule = require("./inject").getSiteModule;
+const inject = require("./inject");
 
 exports.navigateToConfirmPage = function (window) {
     window.location = "scan-confirm.html";
@@ -10,8 +10,9 @@ exports.navigateToConfirmPage = function (window) {
  * Runs in content script. Injects the scan script
  */
 exports.scanContentScript = function () {
-    const site = getSiteModule();
+    const site = inject.getSiteModule();
     if (site != null && site.scan) {
+        inject.setupMessageRelay();
         site.scan();
         let o = require("./inject/return-message.js").init();
         o.scan = true;
@@ -30,6 +31,9 @@ exports.storeAlwaysScan = () => {
     window.localStorage.setItem(ALWAYS_SCAN, "true");
 }
 
+/**
+ * Called in runtime to inject scan-cs.js as content script.
+ */
 exports.injectScanScript = function (chrome, tabId, injectCallback, stopScanCallback) {
     chrome.tabs.executeScript(
         tabId,

@@ -1,3 +1,4 @@
+const messaging = require("./messaging");
 /**
  * Adds listener functions for a downloadId during download completion
  * @param downloadId
@@ -101,10 +102,37 @@ const download = function (chrome, image, resolve) {
         });
 };
 
+/**
+ * First send a message to get the url of the image. Once we have the url, call {@link download} to download the image.
+ * @param chrome
+ * @param message {any}
+ * @param images {any[]}
+ * @param done {function():void} is called when all downloads are initiated in Chrome.
+ */
+const downloadWithMsg = function (chrome, message, images, done) {
+    if (images.length > 0) {
+        let count = 0;
+        for (const image of images) {
+            messaging.sendToCS(tabId, "getImageUrl", image, function (imageWithUrl) {
+                if (imageWithUrl) {
+                    imageWithUrl.folder = message.folder;
+                    download(chrome, imageWithUrl, function () {
+                        if (++count === images.length && done instanceof Function) {
+                            done();
+                        }
+                    });
+                }
+            })
+        }
+    }
+}
+
+
 module.exports = {
     addDownloadCompleteListener: addDownloadCompleteListener,
     init: init,
     download: download,
+    downloadWithMsg: downloadWithMsg
 };
 
 
