@@ -18,6 +18,9 @@ test("Test news article", async () => {
         {
             preinject: async function (page) {
                 await pageutils.wait(1000);
+                await pageutils.scrollToTop(page);
+                await pageutils.wait(1000);
+                await pageutils.scrollToTop(page);
                 await pageutils.scrollTo(page, 60);
             }
         });

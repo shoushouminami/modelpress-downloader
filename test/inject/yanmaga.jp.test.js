@@ -73,7 +73,8 @@ test("Test scanning page", async () => {
         ],
         {
             preretry: async function (page) {
-                await pageutils.wait(8000);
+                await pageutils.wait(5000);
+                await pageutils.scrollToTop(page);
             }
         }
     );
