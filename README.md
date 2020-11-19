@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.32 (2020/11/18)
+* Fix download retries
+* Support www.tokyoheadline.com
+* Support girlsnews.tv
+
 ###### 2.31 (2020/11/16)
 * Fix on movie.walkerplus.com
 
