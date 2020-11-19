@@ -4,7 +4,7 @@ const isPage = !isRuntime;
 const isCS = isPage && window.chrome.runtime && window.chrome.runtime.getManifest != null;
 const thisSender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
 let msgCount = 0; // id of message == (sender + msgCount)
-const inDebug = require("./is-dev");
+const inDebug = false; // require("./is-dev");
 
 const path = function (obj, ...path) {
     for (const p of path) {
