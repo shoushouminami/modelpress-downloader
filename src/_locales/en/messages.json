@@ -64,7 +64,7 @@
     "description": "The link that explains additional permission"
   },
   "scanConfirm_scanConfirmText": {
-    "message": "Smart Scan will scroll the page to find images. Do you want to enable Smart Scan ?",
+    "message": "Smart Scan will scroll the web page to find and download images. Do you want to enable Smart Scan?",
     "description": "The text that explains the Smart Scan feature"
   },
   "scanConfirm_yesText": {

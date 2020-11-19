@@ -58,7 +58,7 @@
     "description": "The link that explains additional permission"
   },
   "scanConfirm_scanConfirmText": {
-    "message": "智能扫描会滚动页面来查找图片，要使用智能扫描吗?",
+    "message": "智能扫描会滚动该页面来查找并下载图片，要使用智能扫描吗?",
     "description": "The text that explains the Smart Scan feature"
   },
   "scanConfirm_yesText": {
