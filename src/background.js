@@ -8,6 +8,8 @@ const CONCURRENT_LIMIT = 5;
 let inProgress = 0;
 let downloadPaused = false;
 
+downloader.listenForDownloadFailureAndRetry();
+
 const getFileName = function(url, ext, preferredFilename) {
     if (preferredFilename != null) {
         return preferredFilename;
@@ -75,20 +77,7 @@ const updateBadge = function (count){
     chrome.browserAction.setBadgeText({text: count === 0 ? "" : ("" + count)});
 };
 
-chrome.downloads.onChanged.addListener(function (downloadDelta) {
-    if (downloadDelta && downloadDelta.state && retryMap[downloadDelta.id]) {
-        if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
-            let image = retryMap[downloadDelta.id];
-            delete retryMap[downloadDelta.id];
-            if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === "SERVER_BAD_CONTENT") {
-                console.log("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
-                image.url = image.retries.shift();
-                downloader.download(chrome, image);
-            }
-        }
-    }
-});
-
+// listen for download message from popup.js
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.what === "download") {
         console.debug("Received " + message.images.length + " jobs");

@@ -496,7 +496,6 @@ const injectScan = function (tabId) {
             inject.injectInjectScript(chrome, tabId,
                 (results, tabId) => {
                     message.scanState = "stopped";
-                    // updateMessage(results[0], tabId);
                     window.close()
                 }
             )

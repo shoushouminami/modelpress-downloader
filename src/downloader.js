@@ -7,6 +7,8 @@ const messaging = require("./messaging");
  */
 const callbackMap = {}; // downloadId => {successCallback: function, failureCallback: function}
 
+const retryMap = {}; // for keeping retry urls
+
 const addDownloadCompleteListener = function (downloadId, successCallback, failureCallback) {
     callbackMap[downloadId] = {
         success: successCallback,
@@ -128,13 +130,63 @@ const downloadWithMsg = function (chrome, tabId, folder, images, done) {
     }
 }
 
+const listenForDownloadFailureAndRetry = function () {
+    // listen for download failure and retry if possible
+    chrome.downloads.onChanged.addListener(function (downloadDelta) {
+        if (downloadDelta && downloadDelta.state && retryMap[downloadDelta.id]) {
+            if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
+                let image = retryMap[downloadDelta.id];
+                delete retryMap[downloadDelta.id];
+                if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === "SERVER_BAD_CONTENT") {
+                    console.log("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
+                    image.url = image.retries.shift();
+                    download(chrome, image);
+                }
+            }
+        }
+    });
+}
 
-module.exports = {
-    addDownloadCompleteListener: addDownloadCompleteListener,
-    init: init,
-    download: download,
-    downloadWithMsg: downloadWithMsg
+const listenForDownloadJob = function(){
+    // listen for download message from popup.js
+    messaging.listen("download", function (msg, sendResponse){
+        console.debug("Received " + message.images.length + " jobs");
+        let count = 0;
+        for (const image of message.images) {
+            download(chrome, image, function () {
+                console.debug("Started job #" + count);
+                count++;
+                if (count === message.images.length) {
+                    sendResponse({what: "done", images: message.images});
+                }
+            });
+        }
+        return true;
+    });
+    // chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    //     if (message.what === "download") {
+    //         console.debug("Received " + message.images.length + " jobs");
+    //         let count = 0;
+    //         for (const image of message.images) {
+    //             downloader.download(chrome, image, function () {
+    //                 console.debug("Started job #" + count);
+    //                 count++;
+    //                 if (count === message.images.length) {
+    //                     sendResponse({what: "done", images: message.images});
+    //                 }
+    //             });
+    //         }
+    //         return true;
+    //     }
+    // });
 };
+
+
+exports.addDownloadCompleteListener = addDownloadCompleteListener;
+exports.init = init;
+exports.download = download;
+exports.downloadWithMsg = downloadWithMsg;
+exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
 
 
 
