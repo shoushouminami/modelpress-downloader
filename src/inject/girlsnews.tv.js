@@ -1,5 +1,5 @@
 const utils = require("../utils.js");
-const re = /^.*(\/w\d+\/)(h\d+\/)?.*$/;
+const re = /^.*(\/w\d+\/)(h(\d+\/)+)?.*$/;
 const getLargeImg = function (src) {
     let m = src.match(re);
     if (m && m[1]) {
@@ -21,7 +21,8 @@ module.exports = {
             utils.findImagesWithCssSelector(
                 document,
                 [
-                    ".main_colum .entry .img_field_wrap a img"
+                    ".main_colum .entry .img_field_wrap a img", // news page
+                    ".hotimages_colum .hotimages a img" //hot images
                 ].join(","),
                 getLargeImg
             )
@@ -29,5 +30,6 @@ module.exports = {
         return o;
     },
     host: "girlsnews.tv",
-    re: re
+    re: re,
+    getLargeImg: getLargeImg
 };

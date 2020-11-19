@@ -1,6 +1,6 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const getBrowser = getBrowserFactory(beforeAll, afterAll);
-const re = require("../../src/inject/girlsnews.tv.js").re;
+const {re, getLargeImg} = require("../../src/inject/girlsnews.tv.js");
 
 test("Test re", () => {
     let m = "/w123/".match(re);
@@ -18,12 +18,86 @@ test("Test re", () => {
     expect(m[2]).toBe("h90/");
 });
 
+test("Test getLargeImg", function (){
+    expect(getLargeImg("https://girlsnews.tv/reimage/y2020/m11/w92/h92/1/1/img202001110_youka.jpg").url)
+        .toBe("https://girlsnews.tv/reimage/y2020/m11/w1000/img202001110_youka.jpg");
+    expect(getLargeImg("https://girlsnews.tv/reimage/y2020/m11/w92/h92/1/1/ig20201109aya01.jpeg").url)
+        .toBe("https://girlsnews.tv/reimage/y2020/m11/w1000/ig20201109aya01.jpeg");
+    expect(getLargeImg("https://girlsnews.tv/reimage/y2020/m11/w92/h92/1/1/img20201101morisakitomomi3.jpg").url)
+        .toBe("https://girlsnews.tv/reimage/y2020/m11/w1000/img20201101morisakitomomi3.jpg");
 
-test("Test cancam.jp magzine main page", async () => {
+})
+
+test("Test news page", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://cancam.jp/cancam201911",
-        "cancam.jp-cancam201911/",
-        ["https://cancam.jp/uploads/2019/09/CanCam201911_cover-20190919180345.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P7-20190919180348.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P9-20190919180349.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P28-20190919180356.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P29-20190919180358.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P22-20190919180353.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P23-20190919180355.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P56-20190919180938.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P57-20190919180403.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P78-20190919180406.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P72-20190919180405.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P21-20190919180351.jpg"]
+        "https://girlsnews.tv/actress/361305",
+        "girlsnews.tv-actress-361305/",
+        [
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m09/w288/img20200930rinkuma02.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m09/w1000/img20200930rinkuma02.jpg"
+            },
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m09/w130/h90/img20200930rinkuma01.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m09/w1000/img20200930rinkuma01.jpg"
+            },
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m09/w130/h90/img20200930rinkuma03.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m09/w1000/img20200930rinkuma03.jpg"
+            },
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m09/w130/h90/img20200930rinkuma05.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m09/w1000/img20200930rinkuma05.jpg"
+            },
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m09/w130/h90/img20200930rinkuma04B.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m09/w1000/img20200930rinkuma04B.jpg"
+            }
+        ]
+    );
+});
+
+test("Test actress page", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://girlsnews.tv/actress/362139",
+        "girlsnews.tv-actress-362139/",
+        [
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m10/w288/ig20201010fukagawa01.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m10/w1000/ig20201010fukagawa01.jpg"
+            },
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m10/w130/h90/ig20201010fukagawa04.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m10/w1000/ig20201010fukagawa04.jpg"
+            },
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m10/w130/h90/ig20201010fukagawa02.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m10/w1000/ig20201010fukagawa02.jpg"
+            },
+            {
+                "retries": [
+                    "https://girlsnews.tv/reimage/y2020/m10/w130/h90/ig20201010fukagawa03.jpg"
+                ],
+                "url": "https://girlsnews.tv/reimage/y2020/m10/w1000/ig20201010fukagawa03.jpg"
+            }
+        ]
     );
 });

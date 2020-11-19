@@ -71,6 +71,7 @@ const register = function (siteModule) {
     require("./www.wws-channel.com"),
     require("./lp.p.pia.jp"),
     require("./apress.jp"),
+    require("./girlsnews.tv"),
     require("./realsound.jp"),
     require("./www.m-on-music.jp"),
     require("./www.musicvoice.jp"),
