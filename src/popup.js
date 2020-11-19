@@ -497,6 +497,7 @@ const injectScan = function (tabId) {
                 (results, tabId) => {
                     message.scanState = "stopped";
                     updateMessage(results[0], tabId);
+                    setTimeout(() => window.close(), 500);
                 }
             )
         });
@@ -518,6 +519,7 @@ messaging.listen("updateImage", function (msg){
             message.images = [];
         }
 
+        downloader.downloadWithMsg(chrome, message.fromTabId, message.folder, [msg.image]);
         utils.pushIfNew(message.images, msg.image);
     }
 
