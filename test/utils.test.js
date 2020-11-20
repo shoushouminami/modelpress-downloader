@@ -74,3 +74,9 @@ test("Test pushIfNew", () => {
     utils.pushIfNew(l, {url: "abc"});
     expect(l).toStrictEqual([0, {url: "abc"}]);
 });
+
+
+test("test getSearchParams", function (){
+    expect(utils.getSearchParam("http://example.com?a=1").get("a")).toBe("1");
+    expect(utils.getSearchParam("http://example.com?a=1").get("b")).toBeNull();
+});

@@ -1,9 +1,11 @@
 
 const messaging = require("./messaging");
 const inject = require("./inject");
+const {getWindow} = require("./globals");
+const utils = require("./utils");
 
-exports.navigateToConfirmPage = function (window) {
-    window.location = "scan-confirm.html";
+exports.navigateToConfirmPage = function (window, module) {
+    getWindow().location = "scan-confirm.html?module=" + module;
 }
 
 /**
@@ -50,8 +52,8 @@ exports.injectScanScript = function (chrome, tabId, injectCallback, stopScanCall
 
 exports.hasScanInQuery = function (window) {
     let doScan = false;
-    if (window.location.search) {
-        let params = (new URL(window.location)).searchParams;
+    if (getWindow().location.search) {
+        let params = utils.getSearchParam(getWindow().location);
         if (params.get("scan") === "true") {
             doScan = true;
         }

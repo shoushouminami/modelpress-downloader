@@ -323,6 +323,9 @@ const utils = {
             ia[i] = byteString.charCodeAt(i);
         }
         return URL.createObjectURL(new Blob([ab], {type: mimeString}));
+    },
+    getSearchParam: function (url){
+        return (new URL(url)).searchParams;
     }
 };
 

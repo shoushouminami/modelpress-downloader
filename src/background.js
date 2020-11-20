@@ -8,6 +8,8 @@ const CONCURRENT_LIMIT = 5;
 let inProgress = 0;
 let downloadPaused = false;
 
+// inits
+ga.bootstrap();
 downloader.listenForDownloadFailureAndRetry();
 
 const getFileName = function(url, ext, preferredFilename) {

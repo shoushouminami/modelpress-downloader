@@ -9,8 +9,8 @@ const messaging = require("./messaging");
 const inject = require("./inject");
 const i18n = require("./i18n");
 
+ga.bootstrap();
 i18n.autoBind("popup");
-
 downloader.init();
 
 let getFileName = function(url, ext) {
@@ -269,7 +269,6 @@ const updatePopupUI = function () {
         }
 
         if (message.scan) {
-
             switch(message.scanState) {
                 case "started":
                     document.getElementById("download").disabled = "disabled";
@@ -475,7 +474,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                         }, 100);
                     } else {
                         if (result.scan && !scan.hasStoredAlwaysScan()) {
-                            scan.navigateToConfirmPage(window);
+                            scan.navigateToConfirmPage(window, result.host);
                         }
                         action(results);
                     }
@@ -505,7 +504,7 @@ const injectScan = function (tabId) {
 
 document.getElementById("scan").addEventListener("click", function (event) {
     if (localStorage.getItem("alwaysScan") !== "true") {
-        window.location = "scan-confirm.html";
+        window.location = "scan-confirm.html?module=" + message.host;
     } else if (message.fromTabId) {
         injectScan(message.fromTabId);
     }
