@@ -13,8 +13,7 @@ exports.scanContentScript = function () {
     const site = inject.getSiteModule();
     if (site != null && site.scan) {
         inject.setupMessageRelay();
-        site.scan();
-        let o = require("./inject/return-message.js").init();
+        let o = site.scan();
         o.scan = true;
         o.scanState = "started";
         return o;
@@ -49,7 +48,7 @@ exports.injectScanScript = function (chrome, tabId, injectCallback, stopScanCall
     }
 }
 
-exports.confirmScan = function (window) {
+exports.hasScanInQuery = function (window) {
     let doScan = false;
     if (window.location.search) {
         let params = (new URL(window.location)).searchParams;

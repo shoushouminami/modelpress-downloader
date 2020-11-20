@@ -12,6 +12,7 @@ const getImg = function (dom) {
 
 const getFolderName = function () {
     return window.location.host
+        + "-"
         + window.location.pathname
             .split("/")
             .slice(1, 4)
@@ -49,7 +50,9 @@ const inject = function () {
  * Runs in content script
  */
 const scan = function () {
+    let o = inject();
     utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"));
+    return o;
 }
 
 module.exports = {

@@ -454,7 +454,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     };
 
     //injectScanScript(chrome, tabId);
-    let doScan = scan.confirmScan(window);
+    let doScan = scan.hasScanInQuery(window);
     if (doScan) {
         injectScan(tabs[0].id);
     } else {
@@ -496,7 +496,7 @@ const injectScan = function (tabId) {
             inject.injectInjectScript(chrome, tabId,
                 (results, tabId) => {
                     message.scanState = "stopped";
-                    window.close()
+                    // window.close()
                 }
             )
         });

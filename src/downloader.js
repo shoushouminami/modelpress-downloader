@@ -163,22 +163,6 @@ const listenForDownloadJob = function(){
         }
         return true;
     });
-    // chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    //     if (message.what === "download") {
-    //         console.debug("Received " + message.images.length + " jobs");
-    //         let count = 0;
-    //         for (const image of message.images) {
-    //             downloader.download(chrome, image, function () {
-    //                 console.debug("Started job #" + count);
-    //                 count++;
-    //                 if (count === message.images.length) {
-    //                     sendResponse({what: "done", images: message.images});
-    //                 }
-    //             });
-    //         }
-    //         return true;
-    //     }
-    // });
 };
 
 
