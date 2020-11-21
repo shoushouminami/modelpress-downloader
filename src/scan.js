@@ -4,7 +4,7 @@ const inject = require("./inject");
 const {getWindow} = require("./globals");
 const utils = require("./utils");
 
-exports.navigateToConfirmPage = function (window, module) {
+exports.navigateToConfirmPage = function (module) {
     getWindow().location = "scan-confirm.html?module=" + module;
 }
 

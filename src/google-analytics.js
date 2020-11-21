@@ -16,6 +16,12 @@ const trackButtonClick = function (buttonId) {
     trackEvent(buttonId, "clicked");
 };
 
+/**
+ * @param category {string}
+ * @param action {string}
+ * @param label {string?}
+ * @param value {number?}
+ */
 const trackEvent = function (category, action, label, value) {
     getGaq().push(["_trackEvent", category, action, label, value]);
 };

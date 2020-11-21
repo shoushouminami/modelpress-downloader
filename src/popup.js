@@ -8,6 +8,7 @@ const scan = require("./scan");
 const messaging = require("./messaging");
 const inject = require("./inject");
 const i18n = require("./i18n");
+const {getWindow, getChrome} = require("./globals");
 
 ga.bootstrap();
 i18n.autoBind("popup");
@@ -474,7 +475,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                         }, 100);
                     } else {
                         if (result.scan && !scan.hasStoredAlwaysScan()) {
-                            scan.navigateToConfirmPage(window, result.host);
+                            scan.navigateToConfirmPage(result.host);
                         }
                         action(results);
                     }
@@ -495,6 +496,7 @@ const injectScan = function (tabId) {
             inject.injectInjectScript(chrome, tabId,
                 (results, tabId) => {
                     message.scanState = "stopped";
+                    ga.trackEvent("scan", "success", message.host, message.images.length);
                     // window.close()
                 }
             )
@@ -503,8 +505,9 @@ const injectScan = function (tabId) {
 }
 
 document.getElementById("scan").addEventListener("click", function (event) {
-    if (localStorage.getItem("alwaysScan") !== "true") {
-        window.location = "scan-confirm.html?module=" + message.host;
+    ga.trackEvent("scan", "clicked", message.host);
+    if (!scan.hasStoredAlwaysScan()) {
+        scan.navigateToConfirmPage(message.host);
     } else if (message.fromTabId) {
         injectScan(message.fromTabId);
     }
