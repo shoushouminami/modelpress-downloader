@@ -7,7 +7,7 @@ test("Test columns page", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://yanmaga.jp/columns/articles/180",
-        "yanmaga.jpcolumns-articles-180/",
+        "yanmaga.jp-columns-articles-180/",
         [
             "https://eh96lnrmau.user-space.cdn.idcfcloud.net/uploads/trix_image/path/1651/55fb4a41-4f47-4875-8950-e319420812a4.jpg"
         ]
