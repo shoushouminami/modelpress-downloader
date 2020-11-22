@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 2.33 (2020/11/21)
+* Support www.astage-ent.com
+
 ###### 2.32 (2020/11/18)
 * Fix download retries
 * Support www.tokyoheadline.com
