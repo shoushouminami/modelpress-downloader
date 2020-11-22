@@ -6,16 +6,17 @@ const inject = function () {
         utils.findImagesWithCssSelector(
             document,
             [
-                "#main_photo img"
-            ].join(",")
-
+                ".entry img"
+            ].join(","),
+            utils.removeTrailingResolutionNumbers
         )
     );
 
-    return require("./return-message").notSupported();
+    return o;
 };
 
 module.exports = {
     inject: inject,
-    host: "www.oricon.co.jp"
+    host: "www.astage-ent.com",
+    url: "http://www.astage-ent.com/"
 };
