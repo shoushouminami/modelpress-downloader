@@ -8,7 +8,14 @@ const inject = function () {
             [
                 ".entry img"
             ].join(","),
-            utils.removeTrailingResolutionNumbers
+            function(url){
+                if (url.endsWith(".svg")) {
+                    return null;
+                }
+
+                return utils.removeTrailingResolutionNumbers(url);
+            }
+
         )
     );
 
