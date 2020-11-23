@@ -1,4 +1,4 @@
-# Modelpress Image Downloader [![Build Status](https://travis-ci.org/shoushouminami/modelpress-downloader.svg?branch=master)](https://travis-ci.org/shoushouminami/modelpress-downloader)
+# Modelpress Image Downloader [![Build Status](https://travis-ci.com/shoushouminami/modelpress-downloader.svg?branch=master)](https://travis-ci.com/shoushouminami/modelpress-downloader)
 
 One click to batch download the best resolution images from the current news article. A [list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) are supported including ModelPress (mdpr.jp), Abema Times (times.abema.tv),
 Dwango News (news.dwango.jp), and more, and is still growing! 
