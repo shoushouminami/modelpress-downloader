@@ -53,6 +53,7 @@ const register = function (siteModule) {
     require("./mdpr.jp"),
     require("./times.abema.tv"),
     require("./www.rbbtoday.com"),
+    require("./www.nikkansports.com"),
     require("./news.mynavi.jp"),
     require("./teens.mynavi.jp"),
     require("./www.fujitv-view.jp"),
