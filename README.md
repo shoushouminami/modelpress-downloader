@@ -18,6 +18,8 @@ If you have additional websites that you want this extension to support, please 
 You can report bugs and issues by [posting on issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
 
 ### Change Logs
+###### 2.34 (2020/11/27)
+* Support www.nikkansports.com
 
 ###### 2.33 (2020/11/21)
 * Support www.astage-ent.com
