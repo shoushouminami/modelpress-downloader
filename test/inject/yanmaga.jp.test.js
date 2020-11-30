@@ -46,11 +46,6 @@ test("Test scanning page", async () => {
                 "url": "5.jpg"
             },
             {
-                "filename": "6.jpg",
-                "type": "msg",
-                "url": "6.jpg"
-            },
-            {
                 "filename": "7.jpg",
                 "type": "msg",
                 "url": "7.jpg"
