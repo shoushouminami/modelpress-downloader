@@ -21,11 +21,6 @@ test("Test scanning page", async () => {
         "yanmaga.jp-gravures-books-%E5%8A%A0%E8%97%A4%E5%B0%8F%E5%A4%8F%E3%80%81%E3%82%B0%E3%83%A9%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8B%E3%81%8B%EF%BC%9F%E3%82%A8%E3%83%A2%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8B%E3%81%8B%EF%BC%9F/",
         [
             {
-                "filename": "0.jpg",
-                "type": "msg",
-                "url": "0.jpg"
-            },
-            {
                 "filename": "1.jpg",
                 "type": "msg",
                 "url": "1.jpg"
@@ -64,17 +59,15 @@ test("Test scanning page", async () => {
                 "filename": "8.jpg",
                 "type": "msg",
                 "url": "8.jpg"
-            },
-            {
-                "filename": "9.jpg",
-                "type": "msg",
-                "url": "9.jpg"
             }
         ],
         {
             preretry: async function (page) {
                 await pageutils.wait(6000);
                 await pageutils.scrollToTop(page);
+            },
+            sizeMatch: function (expected, actual) {
+                expect(actual).toBeGreaterThan(8);
             }
         }
     );
