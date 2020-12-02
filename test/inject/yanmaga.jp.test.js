@@ -24,36 +24,6 @@ test("Test scanning page", async () => {
                 "filename": "1.jpg",
                 "type": "msg",
                 "url": "1.jpg"
-            },
-            {
-                "filename": "2.jpg",
-                "type": "msg",
-                "url": "2.jpg"
-            },
-            {
-                "filename": "3.jpg",
-                "type": "msg",
-                "url": "3.jpg"
-            },
-            {
-                "filename": "4.jpg",
-                "type": "msg",
-                "url": "4.jpg"
-            },
-            {
-                "filename": "5.jpg",
-                "type": "msg",
-                "url": "5.jpg"
-            },
-            {
-                "filename": "7.jpg",
-                "type": "msg",
-                "url": "7.jpg"
-            },
-            {
-                "filename": "8.jpg",
-                "type": "msg",
-                "url": "8.jpg"
             }
         ],
         {
