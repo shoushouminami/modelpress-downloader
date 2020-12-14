@@ -30,6 +30,13 @@ test("Test getDomBackgroundImage", () => {
             }
         }))
         .toBe("https://movie.walkerplus.com/api/resizeimage/news/article/1009954/10082388?w=615");
+    expect(utils.getDomBackgroundImage(
+        {
+            style: {
+                backgroundImage: "url('/wp-content/uploads/2020/08/20200805-yodayuuki-sub2.jpeg')"
+            }
+        }))
+        .toBe("/wp-content/uploads/2020/08/20200805-yodayuuki-sub2.jpeg");
 });
 
 test("Test removeTrailingResolutionNumbers", () => {

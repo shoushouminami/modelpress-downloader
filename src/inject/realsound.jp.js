@@ -1,6 +1,15 @@
 const utils = require("../utils.js");
+const globals = require("../globals");
 const getLargeImg = function (url) {
-    return utils.removeDataUrl(url);
+    if (url != null) {
+        if (url.startsWith("/")) {
+            return globals.getWindow().location.origin + url;
+        }
+
+        return utils.removeDataUrl(url);
+    }
+
+    return url;
 };
 
 module.exports = {
@@ -10,6 +19,14 @@ module.exports = {
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document,
                 ".page .container main .entry-single img", getLargeImg)
+        );
+
+        // images in article div bg
+        utils.pushArray(o.images,
+            utils.findDomsWithCssSelector(document,
+                ".page .container main .entry-body .n2-ss-slide-background-image", function (dom) {
+                    return getLargeImg(utils.getDomBackgroundImage(dom));
+                })
         );
         return o;
     },
