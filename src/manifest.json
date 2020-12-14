@@ -1,6 +1,6 @@
 {
   "name": "__MSG_appName__",
-  "version": "2.34",
+  "version": "2.35",
   "description": "__MSG_appDesc__",
   "permissions": [
     "activeTab",
