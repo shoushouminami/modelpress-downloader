@@ -3,7 +3,7 @@ jobs:
   build: # name of your job
     machine: # executor type
       image: ubuntu-2004:202010-01
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
       - run: sudo apt-get install -y xvfb # Install xvfb so headful chrome/chromium is possible
