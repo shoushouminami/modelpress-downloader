@@ -3,17 +3,9 @@ jobs:
   build: # name of your job
     machine: # executor type
       image: ubuntu-2004:202010-01
-  steps:
-    - checkout
-    - run:
-        name: Turn on xvfb so headful chrome/chromium is possible
-        command: services xvfb start
-    - run:
-        name: Setup
-        command: sysctl kernel.unprivileged_userns_clone=1
-    - run:
-        name: Run 2 tests in parallel
-        command: export TEST_WORKERS=2
-    - run:
-        name: Build and run tests
-        command: make test
+    steps:
+      - checkout
+      - run: services xvfb start # Turn on xvfb so headful chrome/chromium is possible
+      - run: sysctl kernel.unprivileged_userns_clone=1
+      - run: export TEST_WORKERS=2
+      - run: make test
