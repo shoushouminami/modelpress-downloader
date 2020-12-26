@@ -9,5 +9,6 @@ jobs:
       - run: sudo apt-get install -y xvfb # Install xvfb so headful chrome/chromium is possible
       - run: sudo sysctl kernel.unprivileged_userns_clone=1
       - run: export TEST_WORKERS=1
+      - run: export TEST_TIMEOUT=120000
       - run: npm ci
       - run: make test
