@@ -28,7 +28,7 @@ test("Test getLargeImg", function (){
 
 })
 
-test("Test news page", async () => {
+test.skip("Test news page", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://girlsnews.tv/actress/361305",
@@ -68,7 +68,7 @@ test("Test news page", async () => {
     );
 });
 
-test("Test actress page", async () => {
+test.skip("Test actress page", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://girlsnews.tv/actress/362139",

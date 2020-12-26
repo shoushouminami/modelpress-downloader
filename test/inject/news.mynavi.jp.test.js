@@ -1,20 +1,12 @@
-const {testDirectDownload, launchBrowser, dummyItems} = require("./testbase");
+const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
 const pageutils = require("../pageutils");
 
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
-
+let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 // news.mynavi.jp
 test("Test news.mynavi.jp article page", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://news.mynavi.jp/article/20200404-minamisara/",
         "news.mynavi.jp-article-20200404-minamisara-/",
         ["https://news.mynavi.jp/article/20200404-minamisara/images/001l.jpg",
@@ -38,7 +30,7 @@ test("Test news.mynavi.jp article page", async () => {
 
 test("Test news.mynavi.jp image gallery", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://news.mynavi.jp/photo/article/20190612-842046/images/001l.jpg",
         "news.mynavi.jp-photo-article-20190612-842046-images-001l.jpg/",
         ["https://news.mynavi.jp/article/20190612-842046/images/001l.jpg",
@@ -50,7 +42,7 @@ test("Test news.mynavi.jp image gallery", async () => {
 
 test("Test news.mynavi.jp article with only inline image", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://news.mynavi.jp/article/20200424-1023132/",
         "news.mynavi.jp-article-20200424-1023132-/",
         ["https://news.mynavi.jp/article/20200424-1023132/images/001l.jpg"]
