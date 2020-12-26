@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --testTimeout=30000 --maxWorkers=${TEST_WORKERS:-4} --silent",
+    "test": "jest --testTimeout=120000 --maxWorkers=1 --silent",
     "build": "make"
   },
   "jest": {
