@@ -4,17 +4,17 @@ const inject = function () {
     // article images
     utils.pushArray(o.images,
         utils.findImagesWithCssSelector(document,
-            "#contents #main main section .detailSec figure img")
+            "article #contents #main main section .detailSec .wp-editor figure img")
     );
     // image gallery main image
     utils.pushArray(o.images,
         utils.findImagesWithCssSelector(document,
-            "#contents #main main section .detailSec .img4 img")
+            "#contents #main main section .detailSec .img4 .img img")
     );
     // image gallery
     utils.pushArray(o.images,
         utils.findImagesWithCssSelector(document,
-            "#contents #main main section .detailSec ul li img")
+            "#contents #main main section .detailSec ul.img5 li a img")
     );
     return o;
 };
