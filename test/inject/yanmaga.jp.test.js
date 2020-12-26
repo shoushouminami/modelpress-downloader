@@ -32,7 +32,7 @@ test("Test scanning page", async () => {
                 await pageutils.scrollToTop(page);
             },
             sizeMatch: function (expected, actual) {
-                expect(actual).toBeGreaterThan(8);
+                expect(actual).toBeGreaterThan(6);
             }
         }
     );
