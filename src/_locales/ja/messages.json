@@ -23,7 +23,7 @@
     "message": "以下のサイトに利用出来ます："
   },
   "supportMessageML": {
-    "message": "このサイトはまだサポートされていません。こちらの <a href=\"https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8\">Google フォーム</a> でリクエストレポートを送信できます。"
+    "message": "このサイトはまだサポートされていません。こちらの <a href=\"https://docs.google.com/forms/d/1RJpMZnxmjqbsy5qAvMcwZFKIl9FqYfIrfiXQU901xxM\">Google フォーム</a> でリクエストレポートを送信できます。"
   },
   "downloadMobileLabel": {
     "message": "アプリのみも検出する",
