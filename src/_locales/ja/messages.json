@@ -1,0 +1,82 @@
+{
+  "appName": {
+    "message": "ミッチャン画像ダウンローダ"
+  },
+  "appDesc": {
+    "message": "ニュースページに表示されているすべての画像をワンクリックでダウンロードする事が出来るようになります。"
+  },
+  "downloadButtonMessage": {
+    "message": "$NUMBER$ 枚画像をダウンロードする",
+    "description": "The text on the button which user clicks to batch download all images",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "noImageMessage": {
+    "message": "画像を検出しませんでした",
+    "description": "The text on the button when there is no image found to download"
+  },
+  "supportedSitesTitle": {
+    "message": "以下のサイトに利用出来ます："
+  },
+  "supportMessageML": {
+    "message": "このサイトはまだサポートされていません。こちらの <a href=\"https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8\">Google フォーム</a> でリクエストレポートを送信できます。"
+  },
+  "downloadMobileLabel": {
+    "message": "アプリのみも検出する",
+    "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
+  },
+  "downloadMobileStatusTextInProgress": {
+    "message": "⌛ アプリのみ：検出中",
+    "description": "The text for in progress fetching extra images"
+  },
+  "downloadMobileStatusTextSuccess": {
+    "message": "✔️ アプリのみ：$NUMBER$",
+    "description": "The text for successfully fetching extra images",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "downloadMobileStatusTextNotFound": {
+    "message": "\uD83E\uDD37 アプリのみ：検出しませんでした ",
+    "description": "The text for no extra images found (404)"
+  },
+  "downloadMobileStatusTextFailed": {
+    "message": "❌ アプリのみ：エラー ",
+    "description": "The text for failed fetching extra images with any failure other than 404"
+  },
+  "downloadMobileStatusFailedHelp": {
+    "message": "help/help_en.html",
+    "description": "The link of help page"
+  },
+  "downloadMobileStatusHelpLink": {
+    "message": "help/permission_ja.html",
+    "description": "The link that explains additional permission"
+  },
+  "scanConfirm_scanConfirmText": {
+    "message": "スマートスキャンは、Webページをスクロールして、画像を検索してダウンロードします。スマートスキャンを有効にしますか？",
+    "description": "The text that explains the Smart Scan feature"
+  },
+  "scanConfirm_yesText": {
+    "message": "はい",
+    "description": "The text on Yes button"
+  },
+  "scanConfirm_cancelText": {
+    "message": "キャンセル",
+    "description": "The text on Cancel button"
+  },
+  "scanConfirm_alwaysYesText": {
+    "message": "常に有効にする",
+    "description": "The text label for alwaysYesText check box"
+  },
+  "scanButtonText": {
+    "message": "\uD83D\uDD0D スマートスキャン",
+    "description": "The text on the button after scan is started"
+  }
+}
