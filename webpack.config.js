@@ -18,6 +18,20 @@ module.exports = env => {
             "helper/yanmaga-cache": "./src/helper/yanmaga-cache.js",
             "google-analytics-bootstrap": "./src/google-analytics-bootstrap.js"
         },
+        module: {
+            rules: [
+                {
+                    test: /\.m?js$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: "babel-loader",
+                        options: {
+                            presets: ['@babel/preset-react']
+                        }
+                    }
+                }
+            ]
+        },
         output: {
             filename: '[name].js',
             path: path.resolve(__dirname, 'build'),

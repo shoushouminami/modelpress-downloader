@@ -577,6 +577,9 @@ window.addEventListener("load", function(){
     }
 }, false);
 
+const SupportedSites = require("./components/supported-sites");
+require("react-dom").render(<SupportedSites />, document.getElementById("supported-sites-react-root"));
+
 module.exports = {
     fetchMdprMobileImages: fetchMdprMobileImages
 };
