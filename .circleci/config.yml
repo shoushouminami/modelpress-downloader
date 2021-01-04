@@ -10,3 +10,18 @@ jobs:
       - run: sudo sysctl kernel.unprivileged_userns_clone=1
       - run: npm ci
       - run: TEST_WORKERS=1 TEST_TIMEOUT=120000 make test
+
+workflows:
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build
+  commit:
+    jobs:
+      - build
