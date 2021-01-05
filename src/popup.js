@@ -266,7 +266,9 @@ const updatePopupUI = function () {
             }
         } else {
             document.getElementById("download").disabled = "disabled";
-            document.getElementById("buttonText").innerText = chrome.i18n.getMessage("noImageMessage");
+            if (!message.loading) {
+                document.getElementById("buttonText").innerText = chrome.i18n.getMessage("noImageMessage");
+            }
         }
 
         if (message.scan) {
@@ -525,6 +527,13 @@ messaging.listen("updateImage", function (msg){
     }
 
     updatePopupUI();
+});
+
+// process updateResult message (from content script)
+messaging.listen("updateResult", function (msg){
+    if (msg) {
+        updateMessage(msg, message.fromTabId);
+    }
 });
 
 window.addEventListener("load", function(){
