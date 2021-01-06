@@ -30,7 +30,11 @@ const DOMAINS = {
 };
 
 const DEFAULT_ORDER = [];
-for (let k = 0, i = 0; i < 4; i++) for (let j = 0; j < 4; j++) DEFAULT_ORDER[k++] = [i, j];
+for (let k = 0, i = 0; i < 4; i++) {
+    for (let j = 0; j < 4; j++) {
+        DEFAULT_ORDER[k++] = [i, j];
+    }
+}
 
 function decodeScrambleArray(scramble) {
     let decoded = [];
@@ -82,13 +86,12 @@ function getCoordInfoUrl() {
         "/book/coordinateInfo?comici-viewer-id=" + div.getAttribute("comici-viewer-id")
 }
 
-// {  dom: dom, scramble: image.scramble, filename: image.title}
+// {  dom: dom, scramble: image.scramble, filename: image.title, promise: Promise, dataUrl}
 const images = window.yanmagaImages = window.yanmagaImages || [];
 
 function pushToMessage(o, images) {
     for (const image of images) {
         utils.pushIfNew(o.images, {
-            url: image.filename,
             filename: image.filename,
             type: "msg"
         });
@@ -97,23 +100,16 @@ function pushToMessage(o, images) {
 
 function listenOnce() {
     window.getImageUrlListener || messaging.listen("getImageUrl", function (msg, sendResponse) {
-        if (msg.url && msg.filename) {
+        if (msg.filename) {
             images.forEach((image) => {
                 if (image.filename === msg.filename) {
-                    const callback = function (dom) {
-                        let dataUrl = descramble(dom, image.scramble);
+                    image.promise.then(function (dom) {
+                        image.dataUrl = image.dataUrl || descramble(dom, image.scramble);
                         sendResponse({
-                            url: dataUrl,
+                            url: image.dataUrl,
                             filename: msg.filename
                         });
-                    }
-                    if (image.dom.complete) {
-                        callback(image.dom);
-                    } else {
-                        image.onload = function () {
-                            callback(image.dom);
-                        }
-                    }
+                    });
                     return true; // async response
                 }
             });
@@ -140,15 +136,19 @@ const inject = function () {
                         try {
                             const coord = JSON.parse(respText);
                             if (coord && coord.result && coord.result.length > 0) {
-                                let o = require("./return-message.js").init();
                                 for (const image of coord.result) {
                                     let dom = document.createElement("img");
-                                    dom.crossOrigin = "*";
-                                    dom.src = window.location.protocol + image.imageUrl;
                                     images.push({
                                         dom: dom,
                                         scramble: image.scramble,
-                                        filename: image.title
+                                        filename: image.title,
+                                        promise: new Promise(function (resolve) {
+                                            dom.crossOrigin = "*";
+                                            dom.onload = function (){
+                                                resolve(dom);
+                                            };
+                                            dom.src = window.location.protocol + image.imageUrl;
+                                        })
                                     });
                                 }
 
@@ -160,10 +160,11 @@ const inject = function () {
                         }
                     },
                     () => {
-                        messaging.sendToRuntime("updateResult", require("./return-message.js").init());
+                        messaging.sendToRuntime("updateResult", o);
                     }
                 );
             o = require("./return-message.js").loading();
+            o.folder = getFolderName();
         }
     }
 

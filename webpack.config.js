@@ -15,7 +15,6 @@ module.exports = env => {
             "helper/instagram-react": "./src/helper/instagram-react.js",
             "helper/rbbtoday-check-size": "./src/helper/rbbtoday-check-size.js",
             "helper/twitter-react": "./src/helper/twitter-react.js",
-            "helper/yanmaga-cache": "./src/helper/yanmaga-cache.js",
             "google-analytics-bootstrap": "./src/google-analytics-bootstrap.js"
         },
         module: {
