@@ -21,19 +21,55 @@ test("Test scanning page", async () => {
         "yanmaga.jp-gravures-books-%E5%8A%A0%E8%97%A4%E5%B0%8F%E5%A4%8F%E3%80%81%E3%82%B0%E3%83%A9%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8B%E3%81%8B%EF%BC%9F%E3%82%A8%E3%83%A2%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8B%E3%81%8B%EF%BC%9F/",
         [
             {
-                "filename": "2.jpg",
-                "type": "msg",
-                "url": "2.jpg"
-            }
-        ],
-        {
-            preretry: async function (page) {
-                await pageutils.wait(6000);
-                await pageutils.scrollToTop(page);
+                "url": "i_0001_n.jpg",
+                "filename": "i_0001_n.jpg",
+                "type": "msg"
             },
-            sizeMatch: function (expected, actual) {
-                expect(actual).toBeGreaterThan(6);
+            {
+                "url": "i_0002_n.jpg",
+                "filename": "i_0002_n.jpg",
+                "type": "msg"
+            },
+            {
+                "url": "i_0003_n.jpg",
+                "filename": "i_0003_n.jpg",
+                "type": "msg"
+            },
+            {
+                "url": "i_0004_n.jpg",
+                "filename": "i_0004_n.jpg",
+                "type": "msg"
+            },
+            {
+                "url": "i_0005_n.jpg",
+                "filename": "i_0005_n.jpg",
+                "type": "msg"
+            },
+            {
+                "url": "i_0006_n.jpg",
+                "filename": "i_0006_n.jpg",
+                "type": "msg"
+            },
+            {
+                "url": "i_0007_n.jpg",
+                "filename": "i_0007_n.jpg",
+                "type": "msg"
+            },
+            {
+                "url": "i_0008_n.jpg",
+                "filename": "i_0008_n.jpg",
+                "type": "msg"
+            },
+            {
+                "url": "i_0009_n.jpg",
+                "filename": "i_0009_n.jpg",
+                "type": "msg"
+            },
+            {
+                "url": "i_0010_n.jpg",
+                "filename": "i_0010_n.jpg",
+                "type": "msg"
             }
-        }
+        ]
     );
 });

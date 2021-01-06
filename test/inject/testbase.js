@@ -96,7 +96,7 @@ async function emulateInjectWithRetry(page, ops) {
     await runFuncIfDefined(ops && ops['preretry'], [page]);
 
     // emulate retry logic in popup.js
-    if (mid && mid.o && mid.o.retry) {
+    if (mid && mid.o && (mid.o.retry || mid.o.loading)) {
         await pageutils.wait(1000);
         await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
         mid = await executionContext.evaluate("window._mid");

@@ -57,7 +57,7 @@ function descramble(imageDom, scrambleString) {
     let decodedArray = decodeScrambleArray(scrambleString);
     let tileWidth = Math.floor(width / 4);
     let tileHeight = Math.floor(height / 4);
-    for (let k = 0, i = 0; i < 4; i++)  {
+    for (let k = 0, i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
             let x = decodedArray[k][0], y = decodedArray[k][1];
             context.drawImage(imageDom, tileWidth * x, tileHeight * y, tileWidth, tileHeight, tileWidth * i, tileHeight * j, tileWidth, tileHeight);
@@ -137,28 +137,32 @@ const inject = function () {
         if (coordUrl) {
             utils.fetchUrl(coordUrl)
                 .then(respText => {
-                    try {
-                        const coord = JSON.parse(respText);
-                        if (coord && coord.result && coord.result.length > 0) {
-                            let o = require("./return-message.js").init();
-                            for (const image of coord.result) {
-                                let dom = document.createElement("img");
-                                dom.crossOrigin = "*";
-                                dom.src = window.location.protocol + image.imageUrl;
-                                images.push({
-                                    dom: dom,
-                                    scramble: image.scramble,
-                                    filename: image.title
-                                });
-                            }
+                        try {
+                            const coord = JSON.parse(respText);
+                            if (coord && coord.result && coord.result.length > 0) {
+                                let o = require("./return-message.js").init();
+                                for (const image of coord.result) {
+                                    let dom = document.createElement("img");
+                                    dom.crossOrigin = "*";
+                                    dom.src = window.location.protocol + image.imageUrl;
+                                    images.push({
+                                        dom: dom,
+                                        scramble: image.scramble,
+                                        filename: image.title
+                                    });
+                                }
 
-                            pushToMessage(o, images);
-                            messaging.sendToRuntime("updateResult", o);
+                                pushToMessage(o, images);
+                                messaging.sendToRuntime("updateResult", o);
+                            }
+                        } catch (e) {
+                            logger.error("failed to parse JSON", e, respText);
                         }
-                    } catch (e) {
-                        logger.error("failed to parse JSON", e, respText);
+                    },
+                    () => {
+                        messaging.sendToRuntime("updateResult", require("./return-message.js").init());
                     }
-                });
+                );
             o = require("./return-message.js").loading();
         }
     }
