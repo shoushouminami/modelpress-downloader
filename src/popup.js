@@ -1,5 +1,4 @@
 "use strict";
-const sites = require("./inject/sites");
 const ga = require("./google-analytics");
 const downloader = require("./downloader");
 const utils = require("./utils");
@@ -10,6 +9,7 @@ const inject = require("./inject");
 const i18n = require("./i18n");
 const {getWindow, getChrome} = require("./globals");
 const React = require("react");
+const ReactDOM = require("react-dom");
 
 ga.bootstrap();
 i18n.autoBind("popup");
@@ -232,9 +232,16 @@ const ORIGINS = {
 
 const updatePopupUI = function () {
     if (message.supported) {
+        const DownloadButton = require("./components/popup").DownloadButton;
+        ReactDOM.render(
+            <DownloadButton
+                count={message.images && message.images.length}
+                loading={message.loading}
+                onClick={downloadHandler}
+            />,
+            document.getElementById("download-button-react-root")
+        );
         if (message.images && message.images.length) {
-            document.getElementById("download").disabled = false;
-            document.getElementById("buttonText").innerText = chrome.i18n.getMessage("downloadButtonMessage", [message.images.length]);
             if (Object.keys(message.remoteImages).length > 0) {
                 if (!state.canDownloadMobile) {
                     document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");
@@ -265,11 +272,6 @@ const updatePopupUI = function () {
                 }
 
             }
-        } else {
-            document.getElementById("download").disabled = "disabled";
-            if (!message.loading) {
-                document.getElementById("buttonText").innerText = chrome.i18n.getMessage("noImageMessage");
-            }
         }
 
         if (message.scan) {
@@ -292,11 +294,10 @@ const updatePopupUI = function () {
         }
 
     } else {
-        document.getElementById("download").hidden = "hidden";
-        document.getElementById("app-name").innerText = chrome.i18n.getMessage("appName");
-        document.getElementById("supported-sites-title").innerText = chrome.i18n.getMessage("supportedSitesTitle");
-        document.getElementById("supported-sites").hidden = false;
-        document.getElementById("support-request").innerHTML = chrome.i18n.getMessage("supportMessageML");
+        const SupportedSites = require("./components/supported-sites");
+        require("react-dom").render(<SupportedSites sites={require("./inject/sites").all()}/>, document.getElementById("supported-sites-react-root"));
+        //document.getElementById("download").hidden = "hidden";
+        //document.getElementById("supported-sites").hidden = false;
         addClickListenerForLinks(document.getElementById("support-request"), () => {
             ga.trackEvent("support_link", "clicked");
         });
@@ -304,7 +305,7 @@ const updatePopupUI = function () {
     }
 };
 
-document.getElementById("download").addEventListener("click", function () {
+function downloadHandler() {
     let imagesNeedTab = [];
     let downloadInBg = [];
     let downloadWithMsg = [];
@@ -375,7 +376,7 @@ document.getElementById("download").addEventListener("click", function () {
             window.close();
         });
     }
-});
+}
 
 document.getElementById("downloadMobileCheck").addEventListener("click", function (event) {
     let checkBox = document.getElementById("downloadMobileCheck");
@@ -507,15 +508,6 @@ const injectScan = function (tabId) {
     document.getElementById("scan").disabled = "disabled";
 }
 
-document.getElementById("scan").addEventListener("click", function (event) {
-    ga.trackEvent("scan", "clicked", message.host);
-    if (!scan.hasStoredAlwaysScan()) {
-        scan.navigateToConfirmPage(message.host);
-    } else if (message.fromTabId) {
-        injectScan(message.fromTabId);
-    }
-});
-
 // process updateImage message (from scan.js)
 messaging.listen("updateImage", function (msg){
     if (msg.image) {
@@ -539,47 +531,7 @@ messaging.listen("updateResult", function (msg){
 
 window.addEventListener("load", function(){
     let supportedSitesDiv = document.getElementById("supported-sites");
-    // let appendSite = function(iconUrl, siteUrl) {
-    //     let div = document.createElement("div");
-    //     let img = document.createElement("img");
-    //     let a = document.createElement("a");
-    //
-    //     div.appendChild(a);
-    //     // div.appendChild(document.createTextNode(" "));
-    //     div.classList.add("site");
-    //
-    //     img.src = iconUrl;
-    //     img.alt = siteUrl;
-    //     img.title = siteUrl;
-    //     img.classList.add("siteIcon");
-    //
-    //     a.href = siteUrl;
-    //     addClickListenerForLinks(a, () => {
-    //         ga.trackEvent("site_icon", "clicked", siteUrl);
-    //     });
-    //     a.classList.add("siteLink");
-    //     a.appendChild(img);
-    //
-    //     supportedSitesDiv.appendChild(div);
-    // };
-    //
-    // for (const site of sites.all()) {
-    //     let url;
-    //     if (site.url != null) {
-    //         url = new URL(site.url);
-    //     } else if (typeof site.host === "string") {
-    //         url = new URL("https://" + site.host);
-    //     }
-    //
-    //     if (url && !site.hidden) {
-    //         let image = site.image || "../images/" + url.host + ".png";
-    //         appendSite(image, url.toString());
-    //     }
-    // }
 }, false);
-
-const SupportedSites = require("./components/supported-sites");
-require("react-dom").render(<SupportedSites sites={sites.all()}/>, document.getElementById("supported-sites-react-root"));
 
 module.exports = {
     fetchMdprMobileImages: fetchMdprMobileImages

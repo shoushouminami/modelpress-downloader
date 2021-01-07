@@ -2,12 +2,14 @@ const React = require("react");
 const ga = require("../google-analytics");
 const globals = require("../globals");
 const chrome = globals.getChrome();
+const i18n = require("../i18n");
 
 function SupportRequest(props) {
-    return (<div id="support-request" hidden="hidden">
-        You can request support for this website <a
-        href="https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8">here</a>
-    </div>);
+    let inner = {__html: i18n.getText("supportMessageML")};
+    return (
+        <div id="support-request" dangerouslySetInnerHTML={inner}>
+        </div>
+    );
 }
 
 class SupportedSites extends React.Component {
@@ -20,7 +22,7 @@ class SupportedSites extends React.Component {
 
     handleSiteClick(siteUrl) {
         ga.trackEvent("site_icon", "clicked", siteUrl);
-        chrome.tabs.update({url:siteUrl});
+        chrome.tabs.update({url: siteUrl});
     }
 
     render() {
@@ -39,13 +41,13 @@ class SupportedSites extends React.Component {
             });
 
         return (
-            <div id="supported-sites" hidden="hidden">
+            <div id="supported-sites">
                 <div>
-                    <div id="app-name">Modelpress Image Downloader</div>
+                    <div id="app-name">{i18n.getText("appName")}</div>
                 </div>
-                <SupportRequest />
+                <SupportRequest/>
                 <div>
-                    <div id="supported-sites-title">Supported Websites:</div>
+                    <div id="supported-sites-title">{i18n.getText("supportedSitesTitle")}</div>
                 </div>
                 {sitesIcons}
             </div>
