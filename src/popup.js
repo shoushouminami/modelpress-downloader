@@ -9,6 +9,7 @@ const messaging = require("./messaging");
 const inject = require("./inject");
 const i18n = require("./i18n");
 const {getWindow, getChrome} = require("./globals");
+const React = require("react");
 
 ga.bootstrap();
 i18n.autoBind("popup");
@@ -538,47 +539,47 @@ messaging.listen("updateResult", function (msg){
 
 window.addEventListener("load", function(){
     let supportedSitesDiv = document.getElementById("supported-sites");
-    let appendSite = function(iconUrl, siteUrl) {
-        let div = document.createElement("div");
-        let img = document.createElement("img");
-        let a = document.createElement("a");
-
-        div.appendChild(a);
-        // div.appendChild(document.createTextNode(" "));
-        div.classList.add("site");
-
-        img.src = iconUrl;
-        img.alt = siteUrl;
-        img.title = siteUrl;
-        img.classList.add("siteIcon");
-
-        a.href = siteUrl;
-        addClickListenerForLinks(a, () => {
-            ga.trackEvent("site_icon", "clicked", siteUrl);
-        });
-        a.classList.add("siteLink");
-        a.appendChild(img);
-
-        supportedSitesDiv.appendChild(div);
-    };
-
-    for (const site of sites.all()) {
-        let url;
-        if (site.url != null) {
-            url = new URL(site.url);
-        } else if (typeof site.host === "string") {
-            url = new URL("https://" + site.host);
-        }
-
-        if (url && !site.hidden) {
-            let image = site.image || "../images/" + url.host + ".png";
-            appendSite(image, url.toString());
-        }
-    }
+    // let appendSite = function(iconUrl, siteUrl) {
+    //     let div = document.createElement("div");
+    //     let img = document.createElement("img");
+    //     let a = document.createElement("a");
+    //
+    //     div.appendChild(a);
+    //     // div.appendChild(document.createTextNode(" "));
+    //     div.classList.add("site");
+    //
+    //     img.src = iconUrl;
+    //     img.alt = siteUrl;
+    //     img.title = siteUrl;
+    //     img.classList.add("siteIcon");
+    //
+    //     a.href = siteUrl;
+    //     addClickListenerForLinks(a, () => {
+    //         ga.trackEvent("site_icon", "clicked", siteUrl);
+    //     });
+    //     a.classList.add("siteLink");
+    //     a.appendChild(img);
+    //
+    //     supportedSitesDiv.appendChild(div);
+    // };
+    //
+    // for (const site of sites.all()) {
+    //     let url;
+    //     if (site.url != null) {
+    //         url = new URL(site.url);
+    //     } else if (typeof site.host === "string") {
+    //         url = new URL("https://" + site.host);
+    //     }
+    //
+    //     if (url && !site.hidden) {
+    //         let image = site.image || "../images/" + url.host + ".png";
+    //         appendSite(image, url.toString());
+    //     }
+    // }
 }, false);
 
 const SupportedSites = require("./components/supported-sites");
-require("react-dom").render(<SupportedSites />, document.getElementById("supported-sites-react-root"));
+require("react-dom").render(<SupportedSites sites={sites.all()}/>, document.getElementById("supported-sites-react-root"));
 
 module.exports = {
     fetchMdprMobileImages: fetchMdprMobileImages
