@@ -1,4 +1,3 @@
-"use strict";
 const ga = require("./google-analytics");
 const downloader = require("./downloader");
 const utils = require("./utils");
@@ -243,34 +242,55 @@ const updatePopupUI = function () {
         );
         if (message.images && message.images.length) {
             if (Object.keys(message.remoteImages).length > 0) {
-                if (!state.canDownloadMobile) {
-                    document.getElementById("downloadMobileLabel").innerText = chrome.i18n.getMessage("downloadMobileLabel");
-                    document.getElementById("downloadMobileCheck").checked = state.canDownloadMobile;
-                    document.getElementById("downloadMobilePermission").hidden = false;
-                    document.getElementById("downloadMobilePermissionHelpLink").href = chrome.i18n.getMessage("downloadMobileStatusHelpLink");
-                } else {
-                    document.getElementById("downloadMobilePermission").hidden = true;
-                    document.getElementById("downloadMobileStatusHelpLink").hidden = true;
-                    document.getElementById("downloadMobileStatus").hidden = false;
-                    if (state.startedFetchMobile && !state.finishedFetchMobile) {
-                        document.getElementById("downloadMobileStatusText").innerText = chrome.i18n.getMessage("downloadMobileStatusTextInProgress");
-                    } else if (state.finishedFetchMobile) {
-                        switch (state.fetchStatus) {
-                            case 404:
-                                document.getElementById("downloadMobileStatusText").innerText = chrome.i18n.getMessage("downloadMobileStatusTextNotFound");
-                                break;
-                            case 200:
-                                document.getElementById("downloadMobileStatusText").innerText = chrome.i18n.getMessage("downloadMobileStatusTextSuccess", [state.addedCount]);
-                                break;
-                            default:
-                                document.getElementById("downloadMobileStatusText").innerText = chrome.i18n.getMessage("downloadMobileStatusTextFailed");
-                                document.getElementById("downloadMobileStatusHelpLink").href = chrome.i18n.getMessage("downloadMobileStatusFailedHelp");
-                                document.getElementById("downloadMobileStatusHelpLink").hidden = false;
-                                break;
-                        }
+                const DownloadMobilePermission = require("./components/popup").DownloadMobilePermission;
+                ReactDOM.render(
+                    <DownloadMobilePermission
+                        granted={state.canDownloadMobile}
+                        onClick={grantDownloadMobilePermission}
+                    />,
+                    document.getElementById("download-mobile-permission-react-root")
+                );
+
+                const DownloadMobileStatus = require("./components/popup").DownloadMobileStatus;
+                if (state.startedFetchMobile && !state.finishedFetchMobile) {
+                    ReactDOM.render(
+                        <DownloadMobileStatus
+                            granted={state.canDownloadMobile}
+                            status={i18n.getText("downloadMobileStatusTextInProgress")}
+                        />,
+                        document.getElementById("download-mobile-status-react-root")
+                    );
+                } else if (state.finishedFetchMobile) {
+                    switch (state.fetchStatus) {
+                        case 404:
+                            ReactDOM.render(
+                                <DownloadMobileStatus
+                                    granted={state.canDownloadMobile}
+                                    status={i18n.getText("downloadMobileStatusTextNotFound")}
+                                />,
+                                document.getElementById("download-mobile-status-react-root")
+                            );
+                            break;
+                        case 200:
+                            ReactDOM.render(
+                                <DownloadMobileStatus
+                                    granted={state.canDownloadMobile}
+                                    status={i18n.getText("downloadMobileStatusTextSuccess", null, [state.addedCount])}
+                                />,
+                                document.getElementById("download-mobile-status-react-root")
+                            );
+                            break;
+                        default:
+                            ReactDOM.render(
+                                <DownloadMobileStatus
+                                    granted={state.canDownloadMobile}
+                                    status={i18n.getText("downloadMobileStatusTextFailed")}
+                                    helpLink={i18n.getText("downloadMobileStatusFailedHelp")}
+                                />,
+                                document.getElementById("download-mobile-status-react-root")
+                            );
                     }
                 }
-
             }
         }
 
@@ -378,33 +398,21 @@ function downloadHandler() {
     }
 }
 
-document.getElementById("downloadMobileCheck").addEventListener("click", function (event) {
-    let checkBox = document.getElementById("downloadMobileCheck");
-    if (event.target.id === checkBox.id) {
-        if (checkBox.checked) {
-            ga.trackEvent("mdpr_remote", "perm_ask");
-            chrome.permissions.request({
-                origins: ORIGINS["mdpr.jp"]
-            }, function(granted) {
-                state.canDownloadMobile = granted;
-                if (granted) {
-                    ga.trackEvent("mdpr_remote", "perm_grant");
-                    startFetchMdprMobileImages();
-                } else {
-                    ga.trackEvent("mdpr_remote", "perm_deny");
-                }
-                updatePopupUI();
-            });
+function grantDownloadMobilePermission() {
+    ga.trackEvent("mdpr_remote", "perm_ask");
+    chrome.permissions.request({
+        origins: ORIGINS["mdpr.jp"]
+    }, function(granted) {
+        state.canDownloadMobile = granted;
+        if (granted) {
+            ga.trackEvent("mdpr_remote", "perm_grant");
+            startFetchMdprMobileImages();
         } else {
-            chrome.permissions.remove({
-                origins: ORIGINS["mdpr.jp"]
-            }, function(removed) {
-                state.canDownloadMobile = !removed;
-            });
+            ga.trackEvent("mdpr_remote", "perm_deny");
         }
-    }
-
-});
+        updatePopupUI();
+    });
+}
 
 const startFetchMdprMobileImages = function() {
     ga.trackEvent("mdpr_remote", "fetch");

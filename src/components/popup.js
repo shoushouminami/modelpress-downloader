@@ -25,6 +25,32 @@ export function DownloadButton(props) {
     );
 }
 
+export function DownloadMobilePermission(props) {
+    return !props.granted && (
+        <div id="downloadMobilePermission">
+            <label id="downloadMobileLabel" htmlFor="downloadMobileCheck">
+                {i18n.getText("downloadMobileLabel")}
+            </label>
+            <input type="checkbox" id="downloadMobileCheck" name="downloadMobile" onChange={props.onClick}/>
+            <a id="downloadMobilePermissionHelpLink" href={i18n.getText("downloadMobileStatusHelpLink")}>?</a>
+        </div>
+    );
+}
+
+export function DownloadMobileStatus(props) {
+    let helpLink = props.helpLink ?
+        (<a id="downloadMobileStatusHelpLink" href={props.helpLink}>?</a>)
+        : null;
+    return props.granted ? (
+        <div id="downloadMobileStatus">
+            <span id="downloadMobileStatusText">
+                {props.status}
+            </span>
+            {helpLink}
+        </div>
+    ) : null;
+}
+
 class Popup extends React.Component {
 
 }
