@@ -1,7 +1,5 @@
 const React = require("react");
 const ga = require("../google-analytics");
-const globals = require("../globals");
-const chrome = globals.getChrome();
 const i18n = require("../i18n");
 const SupportedSites = require("./supported-sites");
 const logger = require("../logger");
@@ -44,7 +42,6 @@ export function DownloadMobileStatus(props) {
         (<a id="downloadMobileStatusHelpLink" href={i18n.getText("downloadMobileStatusFailedHelp")}>?</a>)
         : null;
     let downloadMobileStatusText;
-    logger.debug("appFetchStatus=", props.appFetchStatus);
     switch (props.appFetchStatus) {
         case "started":
             downloadMobileStatusText = i18n.getText("downloadMobileStatusTextInProgress");
@@ -84,7 +81,6 @@ export class Popup extends React.Component {
         };
         this.permHandler = props.permHandler;
         this.downloadHandler = props.downloadHandler;
-        logger.debug("constructor: appFetchStatus=", props.appFetchStatus);
     }
 
     render() {

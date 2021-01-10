@@ -40,5 +40,6 @@ test: build
 	npm test
 
 vm: build
+	rm -r ~/Documents/shared/build
 	cp -R build ~/Documents/shared/
 
