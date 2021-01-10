@@ -28,7 +28,7 @@ export function DownloadButton(props) {
 }
 
 export function DownloadMobilePermission(props) {
-    return !props.granted && (
+    return (
         <div id="downloadMobilePermission">
             <label id="downloadMobileLabel" htmlFor="downloadMobileCheck">
                 {i18n.getText("downloadMobileLabel")}
@@ -82,6 +82,7 @@ export class Popup extends React.Component {
             appFetchStatus: props.appFetchStatus, // null, "started", "200", "404", "error"
             appImageCount: props.appImageCount,
         };
+        this.permHandler = props.permHandler;
         this.downloadHandler = props.downloadHandler;
         logger.debug("constructor: appFetchStatus=", props.appFetchStatus);
     }
@@ -92,11 +93,9 @@ export class Popup extends React.Component {
             let permOrStatus;
             if (st.hasAppImage) {
                 const appState = this.state.appState;
-                if (st.hasAppPerm) {
+                if (!st.hasAppPerm) {
                     permOrStatus = <DownloadMobilePermission
-                        granted={appState.canDownloadMobile}
-                        //TODO pass down handler func
-                        // onClick={grantDownloadMobilePermission}
+                        onClick={this.permHandler}
                     />;
                 } else {
                     permOrStatus = <DownloadMobileStatus

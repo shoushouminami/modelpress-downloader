@@ -231,6 +231,7 @@ const ORIGINS = {
 };
 
 const Popup = require("./components/popup").Popup;
+let popupKey = 1;
 
 const updatePopupUI = function () {
     let appFetchStatus = null;
@@ -242,8 +243,9 @@ const updatePopupUI = function () {
         appFetchStatus = state.fetchStatus + "";
     }
 
-    const node = ReactDOM.render(
+    ReactDOM.render(
         <Popup
+            key={popupKey++} // just need something unique
             supported={message.supported}
             count={message.images && message.images.length}
             loading={message.loading}
@@ -252,84 +254,10 @@ const updatePopupUI = function () {
             appFetchStatus={appFetchStatus}
             appImageCount={state.addedCount}
             downloadHandler={downloadHandler}
+            permHandler={grantDownloadMobilePermission}
         />,
         document.getElementById("react-root")
     );
-    logger.debug("node=", node);
-    //
-    // if (message.supported) {
-    //     const DownloadButton = require("./components/popup").DownloadButton;
-    //     ReactDOM.render(
-    //         <DownloadButton
-    //             count={message.images && message.images.length}
-    //             loading={message.loading}
-    //             onClick={downloadHandler}
-    //         />,
-    //         document.getElementById("download-button-react-root")
-    //     );
-    //     if (message.images && message.images.length) {
-    //         if (Object.keys(message.remoteImages).length > 0) {
-    //             const DownloadMobilePermission = require("./components/popup").DownloadMobilePermission;
-    //             ReactDOM.render(
-    //                 <DownloadMobilePermission
-    //                     granted={state.canDownloadMobile}
-    //                     onClick={grantDownloadMobilePermission}
-    //                 />,
-    //                 document.getElementById("download-mobile-permission-react-root")
-    //             );
-    //
-    //             const DownloadMobileStatus = require("./components/popup").DownloadMobileStatus;
-    //             if (state.startedFetchMobile && !state.finishedFetchMobile) {
-    //                 ReactDOM.render(
-    //                     <DownloadMobileStatus
-    //                         granted={state.canDownloadMobile}
-    //                         status={i18n.getText("downloadMobileStatusTextInProgress")}
-    //                     />,
-    //                     document.getElementById("download-mobile-status-react-root")
-    //                 );
-    //             } else if (state.finishedFetchMobile) {
-    //                 switch (state.fetchStatus) {
-    //                     case 404:
-    //                         ReactDOM.render(
-    //                             <DownloadMobileStatus
-    //                                 granted={state.canDownloadMobile}
-    //                                 status={i18n.getText("downloadMobileStatusTextNotFound")}
-    //                             />,
-    //                             document.getElementById("download-mobile-status-react-root")
-    //                         );
-    //                         break;
-    //                     case 200:
-    //                         ReactDOM.render(
-    //                             <DownloadMobileStatus
-    //                                 granted={state.canDownloadMobile}
-    //                                 status={i18n.getText("downloadMobileStatusTextSuccess", null, [state.addedCount])}
-    //                             />,
-    //                             document.getElementById("download-mobile-status-react-root")
-    //                         );
-    //                         break;
-    //                     default:
-    //                         ReactDOM.render(
-    //                             <DownloadMobileStatus
-    //                                 granted={state.canDownloadMobile}
-    //                                 status={i18n.getText("downloadMobileStatusTextFailed")}
-    //                                 helpLink={i18n.getText("downloadMobileStatusFailedHelp")}
-    //                             />,
-    //                             document.getElementById("download-mobile-status-react-root")
-    //                         );
-    //                 }
-    //             }
-    //         }
-    //     }
-    // } else {
-    //     const SupportedSites = require("./components/supported-sites");
-    //     require("react-dom").render(<SupportedSites sites={require("./inject/sites").all()}/>, document.getElementById("supported-sites-react-root"));
-    //     //document.getElementById("download").hidden = "hidden";
-    //     //document.getElementById("supported-sites").hidden = false;
-    //     addClickListenerForLinks(document.getElementById("support-request"), () => {
-    //         ga.trackEvent("support_link", "clicked");
-    //     });
-    //     document.getElementById("support-request").hidden = false;
-    // }
 };
 
 function downloadHandler() {
