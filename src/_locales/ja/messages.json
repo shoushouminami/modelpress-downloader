@@ -6,7 +6,7 @@
     "message": "ニュースページに表示されているすべての画像をワンクリックでダウンロードする事が出来るようになります。"
   },
   "downloadButtonMessage": {
-    "message": "$NUMBER$ 枚画像をダウンロードする",
+    "message": "$NUMBER$ 枚の画像をダウンロードする",
     "description": "The text on the button which user clicks to batch download all images",
     "placeholders": {
       "number": {
