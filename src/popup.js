@@ -12,7 +12,6 @@ const ReactDOM = require("react-dom");
 const logger = require("./logger");
 
 ga.bootstrap();
-i18n.autoBind("popup");
 downloader.init();
 
 let getFileName = function(url, ext) {
@@ -27,35 +26,6 @@ let getFileName = function(url, ext) {
     }
 
     return filename;
-};
-
-/**
- * TODO: refactor into {@link downloader.js}
- * @deprecated Only tab download calls this.
- * @param chrome
- * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
- * @param resolve
- * @param error is called when the download started and failed because of server side error, in addition to resolve.
- */
-const download = function (chrome, image, resolve, error) {
-    chrome.downloads.download(
-        {
-            url: image.url,
-            saveAs: false,
-            method: "GET",
-            filename: image.folder + getFileName(image.url, image.ext)
-        }, function (downloadId) {
-            console.log("downloadId=" + downloadId);
-            if (downloadId && typeof error === "function") {
-                downloader.addDownloadCompleteListener(downloadId, undefined, function (){
-                    error();
-                });
-            }
-
-            if (typeof resolve === "function") {
-                resolve();
-            }
-        });
 };
 
 /**
@@ -139,6 +109,7 @@ const fetchMdprMobileImages = function (articleId, callback, domains){
                     ga.trackEvent("mdpr_remote", "failure", xhr.status + "", 1);
                     console.error("Failed loading remote images: " + xhr.status + " " + xhr.statusText);
                     if (domains.length > 0) {
+                        // retry on other domains
                         fetchMdprMobileImages(articleId, callback, domains);
                     } else {
                         callback([]);
@@ -411,20 +382,6 @@ const injectScan = function (tabId) {
         });
     document.getElementById("scan").disabled = "disabled";
 }
-
-// process updateImage message (from scan.js)
-messaging.listen("updateImage", function (msg){
-    if (msg.image) {
-        if (message.images == null) {
-            message.images = [];
-        }
-
-        downloader.downloadWithMsg(chrome, message.fromTabId, message.folder, [msg.image]);
-        utils.pushIfNew(message.images, msg.image);
-    }
-
-    updatePopupUI();
-});
 
 // process updateResult message (from content script)
 messaging.listen("updateResult", function (msg){
