@@ -3,6 +3,8 @@ const ga = require("../google-analytics");
 const globals = require("../globals");
 const chrome = globals.getChrome();
 const i18n = require("../i18n");
+const SupportedSites = require("./supported-sites");
+const logger = require("../logger");
 
 export function DownloadButton(props) {
     let text;
@@ -38,19 +40,88 @@ export function DownloadMobilePermission(props) {
 }
 
 export function DownloadMobileStatus(props) {
-    let helpLink = props.helpLink ?
-        (<a id="downloadMobileStatusHelpLink" href={props.helpLink}>?</a>)
+    let helpLink = props.appFetchStatus === "error" ?
+        (<a id="downloadMobileStatusHelpLink" href={i18n.getText("downloadMobileStatusFailedHelp")}>?</a>)
         : null;
-    return props.granted ? (
+    let downloadMobileStatusText;
+    logger.debug("appFetchStatus=", props.appFetchStatus);
+    switch (props.appFetchStatus) {
+        case "started":
+            downloadMobileStatusText = i18n.getText("downloadMobileStatusTextInProgress");
+            break;
+        case "200":
+            downloadMobileStatusText = i18n.getText("downloadMobileStatusTextSuccess", null, [props.appImageCount])
+            break;
+        case "404":
+            downloadMobileStatusText = i18n.getText("downloadMobileStatusTextNotFound");
+            break;
+        case "error": // fall through to default case
+        default:
+            downloadMobileStatusText = i18n.getText("downloadMobileStatusTextFailed");
+    }
+
+    return (
         <div id="downloadMobileStatus">
             <span id="downloadMobileStatusText">
-                {props.status}
+                {downloadMobileStatusText}
             </span>
             {helpLink}
         </div>
-    ) : null;
+    );
 }
 
-class Popup extends React.Component {
+export class Popup extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            supported: props.supported,
+            count: props.count,
+            loading: props.loading,
+            hasAppImage: props.hasAppImage,
+            hasAppPerm: props.hasAppPerm,
+            appFetchStatus: props.appFetchStatus, // null, "started", "200", "404", "error"
+            appImageCount: props.appImageCount,
+        };
+        this.downloadHandler = props.downloadHandler;
+        logger.debug("constructor: appFetchStatus=", props.appFetchStatus);
+    }
 
+    render() {
+        const st = this.state;
+        if (st.supported) {
+            let permOrStatus;
+            if (st.hasAppImage) {
+                const appState = this.state.appState;
+                if (st.hasAppPerm) {
+                    permOrStatus = <DownloadMobilePermission
+                        granted={appState.canDownloadMobile}
+                        //TODO pass down handler func
+                        // onClick={grantDownloadMobilePermission}
+                    />;
+                } else {
+                    permOrStatus = <DownloadMobileStatus
+                        appFetchStatus={st.appFetchStatus}
+                        appImageCount={st.appImageCount}
+                    />;
+                }
+            }
+
+            return (
+                <div>
+                    <DownloadButton
+                        count={st.count}
+                        loading={st.loading}
+                        onClick={this.downloadHandler}
+                    />
+                    {permOrStatus}
+                </div>
+            );
+        } else {
+            return <SupportedSites sites={require("../inject/sites").all()}/>
+            // TODO double check support link
+            // addClickListenerForLinks(document.getElementById("support-request"), () => {
+            //     ga.trackEvent("support_link", "clicked");
+            // });
+        }
+    }
 }

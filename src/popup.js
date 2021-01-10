@@ -9,6 +9,7 @@ const i18n = require("./i18n");
 const {getWindow, getChrome} = require("./globals");
 const React = require("react");
 const ReactDOM = require("react-dom");
+const logger = require("./logger");
 
 ga.bootstrap();
 i18n.autoBind("popup");
@@ -229,100 +230,106 @@ const ORIGINS = {
     "mdpr.jp": ["https://*.freetls.fastly.net/"]
 };
 
+const Popup = require("./components/popup").Popup;
+
 const updatePopupUI = function () {
-    if (message.supported) {
-        const DownloadButton = require("./components/popup").DownloadButton;
-        ReactDOM.render(
-            <DownloadButton
-                count={message.images && message.images.length}
-                loading={message.loading}
-                onClick={downloadHandler}
-            />,
-            document.getElementById("download-button-react-root")
-        );
-        if (message.images && message.images.length) {
-            if (Object.keys(message.remoteImages).length > 0) {
-                const DownloadMobilePermission = require("./components/popup").DownloadMobilePermission;
-                ReactDOM.render(
-                    <DownloadMobilePermission
-                        granted={state.canDownloadMobile}
-                        onClick={grantDownloadMobilePermission}
-                    />,
-                    document.getElementById("download-mobile-permission-react-root")
-                );
-
-                const DownloadMobileStatus = require("./components/popup").DownloadMobileStatus;
-                if (state.startedFetchMobile && !state.finishedFetchMobile) {
-                    ReactDOM.render(
-                        <DownloadMobileStatus
-                            granted={state.canDownloadMobile}
-                            status={i18n.getText("downloadMobileStatusTextInProgress")}
-                        />,
-                        document.getElementById("download-mobile-status-react-root")
-                    );
-                } else if (state.finishedFetchMobile) {
-                    switch (state.fetchStatus) {
-                        case 404:
-                            ReactDOM.render(
-                                <DownloadMobileStatus
-                                    granted={state.canDownloadMobile}
-                                    status={i18n.getText("downloadMobileStatusTextNotFound")}
-                                />,
-                                document.getElementById("download-mobile-status-react-root")
-                            );
-                            break;
-                        case 200:
-                            ReactDOM.render(
-                                <DownloadMobileStatus
-                                    granted={state.canDownloadMobile}
-                                    status={i18n.getText("downloadMobileStatusTextSuccess", null, [state.addedCount])}
-                                />,
-                                document.getElementById("download-mobile-status-react-root")
-                            );
-                            break;
-                        default:
-                            ReactDOM.render(
-                                <DownloadMobileStatus
-                                    granted={state.canDownloadMobile}
-                                    status={i18n.getText("downloadMobileStatusTextFailed")}
-                                    helpLink={i18n.getText("downloadMobileStatusFailedHelp")}
-                                />,
-                                document.getElementById("download-mobile-status-react-root")
-                            );
-                    }
-                }
-            }
-        }
-
-        if (message.scan) {
-            switch(message.scanState) {
-                case "started":
-                    document.getElementById("download").disabled = "disabled";
-                    document.getElementById("download").hidden = false;
-                    document.getElementById("scan").hidden = true;
-                    break;
-                case "stopped":
-                    document.getElementById("download").disabled = false;
-                    document.getElementById("download").hidden = false;
-                    document.getElementById("scan").hidden = true;
-                    break;
-                default:
-                    // scan hasn't started, show scan button
-                    document.getElementById("download").hidden = true;
-                    document.getElementById("scan").hidden = false;
-            }
-        }
-
-    } else {
-        const SupportedSites = require("./components/supported-sites");
-        require("react-dom").render(<SupportedSites sites={require("./inject/sites").all()}/>, document.getElementById("supported-sites-react-root"));
-        //document.getElementById("download").hidden = "hidden";
-        //document.getElementById("supported-sites").hidden = false;
-        addClickListenerForLinks(document.getElementById("support-request"), () => {
-            ga.trackEvent("support_link", "clicked");
-        });
-        document.getElementById("support-request").hidden = false;
+    let appFetchStatus = null;
+    if (state.startedFetchMobile && !state.finishedFetchMobile) {
+        appFetchStatus = "started";
     }
+
+    if (state.finishedFetchMobile) {
+        appFetchStatus = state.fetchStatus + "";
+    }
+
+    const node = ReactDOM.render(
+        <Popup
+            supported={message.supported}
+            count={message.images && message.images.length}
+            loading={message.loading}
+            hasAppImage={Object.keys(message.remoteImages).length > 0}
+            hasAppPerm={state.canDownloadMobile}
+            appFetchStatus={appFetchStatus}
+            appImageCount={state.addedCount}
+            downloadHandler={downloadHandler}
+        />,
+        document.getElementById("react-root")
+    );
+    logger.debug("node=", node);
+    //
+    // if (message.supported) {
+    //     const DownloadButton = require("./components/popup").DownloadButton;
+    //     ReactDOM.render(
+    //         <DownloadButton
+    //             count={message.images && message.images.length}
+    //             loading={message.loading}
+    //             onClick={downloadHandler}
+    //         />,
+    //         document.getElementById("download-button-react-root")
+    //     );
+    //     if (message.images && message.images.length) {
+    //         if (Object.keys(message.remoteImages).length > 0) {
+    //             const DownloadMobilePermission = require("./components/popup").DownloadMobilePermission;
+    //             ReactDOM.render(
+    //                 <DownloadMobilePermission
+    //                     granted={state.canDownloadMobile}
+    //                     onClick={grantDownloadMobilePermission}
+    //                 />,
+    //                 document.getElementById("download-mobile-permission-react-root")
+    //             );
+    //
+    //             const DownloadMobileStatus = require("./components/popup").DownloadMobileStatus;
+    //             if (state.startedFetchMobile && !state.finishedFetchMobile) {
+    //                 ReactDOM.render(
+    //                     <DownloadMobileStatus
+    //                         granted={state.canDownloadMobile}
+    //                         status={i18n.getText("downloadMobileStatusTextInProgress")}
+    //                     />,
+    //                     document.getElementById("download-mobile-status-react-root")
+    //                 );
+    //             } else if (state.finishedFetchMobile) {
+    //                 switch (state.fetchStatus) {
+    //                     case 404:
+    //                         ReactDOM.render(
+    //                             <DownloadMobileStatus
+    //                                 granted={state.canDownloadMobile}
+    //                                 status={i18n.getText("downloadMobileStatusTextNotFound")}
+    //                             />,
+    //                             document.getElementById("download-mobile-status-react-root")
+    //                         );
+    //                         break;
+    //                     case 200:
+    //                         ReactDOM.render(
+    //                             <DownloadMobileStatus
+    //                                 granted={state.canDownloadMobile}
+    //                                 status={i18n.getText("downloadMobileStatusTextSuccess", null, [state.addedCount])}
+    //                             />,
+    //                             document.getElementById("download-mobile-status-react-root")
+    //                         );
+    //                         break;
+    //                     default:
+    //                         ReactDOM.render(
+    //                             <DownloadMobileStatus
+    //                                 granted={state.canDownloadMobile}
+    //                                 status={i18n.getText("downloadMobileStatusTextFailed")}
+    //                                 helpLink={i18n.getText("downloadMobileStatusFailedHelp")}
+    //                             />,
+    //                             document.getElementById("download-mobile-status-react-root")
+    //                         );
+    //                 }
+    //             }
+    //         }
+    //     }
+    // } else {
+    //     const SupportedSites = require("./components/supported-sites");
+    //     require("react-dom").render(<SupportedSites sites={require("./inject/sites").all()}/>, document.getElementById("supported-sites-react-root"));
+    //     //document.getElementById("download").hidden = "hidden";
+    //     //document.getElementById("supported-sites").hidden = false;
+    //     addClickListenerForLinks(document.getElementById("support-request"), () => {
+    //         ga.trackEvent("support_link", "clicked");
+    //     });
+    //     document.getElementById("support-request").hidden = false;
+    // }
 };
 
 function downloadHandler() {
