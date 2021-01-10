@@ -118,9 +118,7 @@ export class Popup extends React.Component {
         } else {
             return <SupportedSites sites={require("../inject/sites").all()}/>
             // TODO double check support link
-            // addClickListenerForLinks(document.getElementById("support-request"), () => {
-            //     ga.trackEvent("support_link", "clicked");
-            // });
+
         }
     }
 }

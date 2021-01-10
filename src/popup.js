@@ -83,52 +83,6 @@ const startDownloadInBackground = function (chrome) {
     });
 };
 
-const displayInNewTab = function(tabId, url, resolve, error) {
-    chrome.tabs.create({
-        url: url,
-        active: false
-    }, (newTab) => {
-        chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-            if (tabId === newTab.id && changeInfo.status === "complete") {
-                chrome.tabs.remove(newTab.id, () => {
-                    resolve();
-                });
-            }
-        });
-    });
-};
-
-const downloadWithNewTab = function (chrome, image, context, tabId) {
-    if (image.websiteUrl) {
-        context.p = context.p.then(function () {
-            return new Promise(function (resolve) {
-                console.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                displayInNewTab(tabId, image.websiteUrl, function () {
-                    console.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                    download(chrome, {url: image.imageUrl, folder: context.folder} , () => {
-                        context.finishCount++;
-                        if (context.finishCount === context.totalCount) {
-                            if (context.errorCount > 0) {
-                                ga.trackEvent("tab_download", "failure", context.host, context.errorCount);
-                            }
-
-                            if (context.finishCount > context.errorCount) {
-                                ga.trackEvent("tab_download", "success", context.host, context.finishCount - context.errorCount);
-                            }
-                        }
-                        resolve();
-                    }, function () {
-                        console.error("event=download_with_iframe_failed");
-                        context.errorCount++;
-                    });
-                }, function (msg) {
-                    console.error(msg);
-                });
-            });
-        });
-    }
-};
-
 /**
  * get all images from mdpr mobile apis
  * @param callback - the callback function which will receive an array of additional image urls when successful. On
@@ -210,8 +164,10 @@ function addClickListenerForLinks(element, callback) {
         })
     }
 
-    for (const child of element.childNodes) {
-        addClickListenerForLinks(child, callback);
+    if (element && element.childNodes) {
+        for (const child of element.childNodes) {
+            addClickListenerForLinks(child, callback);
+        }
     }
 }
 
@@ -256,7 +212,12 @@ const updatePopupUI = function () {
             downloadHandler={downloadHandler}
             permHandler={grantDownloadMobilePermission}
         />,
-        document.getElementById("react-root")
+        document.getElementById("react-root"),
+        function () {
+            addClickListenerForLinks(document.getElementById("support-request"), () => {
+                ga.trackEvent("support_link", "clicked");
+            });
+        }
     );
 };
 
@@ -324,7 +285,7 @@ function downloadHandler() {
 
         context.totalCount = imagesNeedTab.length;
         for (let image of imagesNeedTab) {
-            downloadWithNewTab(chrome, image, context, message.fromTabId);
+            downloader.downloadWithNewTab(chrome, image, context, message.fromTabId);
         }
         // after download finishes
         context.p = context.p.then(function() {

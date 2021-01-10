@@ -6,37 +6,19 @@ const messaging = require("./messaging");
  * @param failureCallback
  */
 const callbackMap = {}; // downloadId => {successCallback: function, failureCallback: function}
-
 const retryMap = {}; // for keeping retry urls
+const ga = require("./google-analytics");
+const chrome = require("./globals").getChrome();
 
-const addDownloadCompleteListener = function (downloadId, successCallback, failureCallback) {
+export function addDownloadCompleteListener(downloadId, successCallback, failureCallback) {
     callbackMap[downloadId] = {
         success: successCallback,
         failure: failureCallback
     };
 }
 
-// let cancelDownloadIfNotImageCalled = false;
-/**
- * Cancels the ongoing download if it is redirected to download a non-image item, such as HTML
- */
-// const cancelDownloadIfNotImage = function () {
-//     if (!cancelDownloadIfNotImageCalled) {
-//         cancelDownloadIfNotImageCalled = true;
-//         chrome.downloads.onChanged.addListener(downloadDelta => {
-//             if (downloadDelta && downloadDelta.url) {
-//                 let url = downloadDelta.url;
-//                 if (url.previous !== url.current) {
-//                     if (url.current.endsWith(".html")) {
-//                         chrome.downloads.cancel(downloadDelta.id);
-//                     }
-//                 }
-//             }
-//         })
-//     }
-// }
 
-const init = function () {
+export function init(){
     // init listener
     chrome.downloads.onChanged.addListener(function (downloadDelta) {
         let downloadId = downloadDelta.id;
@@ -61,7 +43,7 @@ const init = function () {
     });
 }
 
-const getFileName = function(url, ext, preferedName) {
+export function getFileName(url, ext, preferedName) {
     if (preferedName != null) {
         return preferedName;
     }
@@ -77,7 +59,7 @@ const getFileName = function(url, ext, preferedName) {
     }
 
     return decodeURI(filename);
-};
+}
 
 /**
  * Use Chrome API to download the given image
@@ -85,7 +67,7 @@ const getFileName = function(url, ext, preferedName) {
  * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
  * @param resolve
  */
-const download = function (chrome, image, resolve) {
+export function download(chrome, image, resolve) {
     chrome.downloads.download(
         {
             url: image.url,
@@ -102,7 +84,7 @@ const download = function (chrome, image, resolve) {
                 resolve();
             }
         });
-};
+}
 
 /**
  * First send a message to get the url of the image. Once we have the url, call {@link download} to download the image.
@@ -112,7 +94,7 @@ const download = function (chrome, image, resolve) {
  * @param images {any[]}
  * @param done {function():void} is called when all downloads are initiated in Chrome.
  */
-const downloadWithMsg = function (chrome, tabId, folder, images, done) {
+export function downloadWithMsg(chrome, tabId, folder, images, done) {
     if (images.length > 0) {
         let count = 0;
         for (const image of images) {
@@ -130,7 +112,7 @@ const downloadWithMsg = function (chrome, tabId, folder, images, done) {
     }
 }
 
-const listenForDownloadFailureAndRetry = function () {
+export function listenForDownloadFailureAndRetry() {
     // listen for download failure and retry if possible
     chrome.downloads.onChanged.addListener(function (downloadDelta) {
         if (downloadDelta && downloadDelta.state && retryMap[downloadDelta.id]) {
@@ -147,7 +129,7 @@ const listenForDownloadFailureAndRetry = function () {
     });
 }
 
-const listenForDownloadJob = function(){
+export function listenForDownloadJob(){
     // listen for download message from popup.js
     messaging.listen("download", function (msg, sendResponse){
         console.debug("Received " + message.images.length + " jobs");
@@ -163,14 +145,51 @@ const listenForDownloadJob = function(){
         }
         return true;
     });
-};
+}
+
+export function downloadWithNewTab(chrome, image, context, tabId) {
+    if (image.websiteUrl) {
+        context.p = context.p.then(function () {
+            return new Promise(function (resolve) {
+                console.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
+                displayInNewTab(tabId, image.websiteUrl, function () {
+                    console.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
+                    download(chrome, {url: image.imageUrl, folder: context.folder} , () => {
+                        context.finishCount++;
+                        if (context.finishCount === context.totalCount) {
+                            if (context.errorCount > 0) {
+                                ga.trackEvent("tab_download", "failure", context.host, context.errorCount);
+                            }
+
+                            if (context.finishCount > context.errorCount) {
+                                ga.trackEvent("tab_download", "success", context.host, context.finishCount - context.errorCount);
+                            }
+                        }
+                        resolve();
+                    }, function () {
+                        console.error("event=download_with_iframe_failed");
+                        context.errorCount++;
+                    });
+                }, function (msg) {
+                    console.error(msg);
+                });
+            });
+        });
+    }
+}
 
 
-exports.addDownloadCompleteListener = addDownloadCompleteListener;
-exports.init = init;
-exports.download = download;
-exports.downloadWithMsg = downloadWithMsg;
-exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
-
-
-
+export function displayInNewTab(tabId, url, resolve, error) {
+    chrome.tabs.create({
+        url: url,
+        active: false
+    }, (newTab) => {
+        chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+            if (tabId === newTab.id && changeInfo.status === "complete") {
+                chrome.tabs.remove(newTab.id, () => {
+                    resolve();
+                });
+            }
+        });
+    });
+}
