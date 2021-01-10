@@ -50,11 +50,11 @@ export function fetchMdprMobileImages(articleId, currentImages, callback, domain
         const url = "https://" + domain + "/api/images/dialog/article?index=0&image_id=0&article_id=" + articleId;
         utils.fetchUrl(url)
             .then(function (respText) {
-                logger.debug("Retrieved remote images: ", respText);
                 let resp = undefined;
                 let list = [];
                 try {
                     resp = JSON.parse(respText);
+                    logger.debug("Retrieved remote images count=", resp.list && resp.list.length, resp);
                 } catch (e) {
                     logger.error("Failed parsing JSON: ", e);
                 }
