@@ -38,7 +38,7 @@
     "description": "The text for in progress fetching extra images"
   },
   "downloadMobileStatusTextSuccess": {
-    "message": "✔️ Only on App: $NUMBER$",
+    "message": "\uD83D\uDCF1️ Only on App: $NUMBER$",
     "description": "The text for successfully fetching extra images",
     "placeholders": {
       "number": {

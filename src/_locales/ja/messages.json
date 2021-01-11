@@ -34,7 +34,7 @@
     "description": "The text for in progress fetching extra images"
   },
   "downloadMobileStatusTextSuccess": {
-    "message": "✔️ アプリのみ：$NUMBER$",
+    "message": "\uD83D\uDCF1️ アプリのみの画像：$NUMBER$ 枚",
     "description": "The text for successfully fetching extra images",
     "placeholders": {
       "number": {
@@ -52,7 +52,7 @@
     "description": "The text for failed fetching extra images with any failure other than 404"
   },
   "downloadMobileStatusFailedHelp": {
-    "message": "help/help_en.html",
+    "message": "help/help_ja.html",
     "description": "The link of help page"
   },
   "downloadMobileStatusHelpLink": {

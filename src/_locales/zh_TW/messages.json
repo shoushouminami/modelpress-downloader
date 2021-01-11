@@ -32,7 +32,7 @@
     "description": "The text for in progress fetching extra images"
   },
   "downloadMobileStatusTextSuccess": {
-    "message": "✔️ App專享圖片：$NUMBER$ 張",
+    "message": "\uD83D\uDCF1️ App專享圖片：$NUMBER$ 張",
     "description": "The text for successfully fetching extra images",
     "placeholders": {
       "number": {
