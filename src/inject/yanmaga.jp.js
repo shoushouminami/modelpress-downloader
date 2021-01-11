@@ -190,6 +190,5 @@ module.exports = {
     inject: inject,
     scan: scan,
     host: "yanmaga.jp",
-    hidden: true,
     getImg: getImg
 };

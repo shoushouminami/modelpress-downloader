@@ -3,6 +3,11 @@ const utils = require("./utils");
 const logger = require("./logger");
 
 const getWindow = function () {
+    if (typeof window === "undefined") {
+        // hack for node
+        return global;
+    }
+
     return window;
 }
 

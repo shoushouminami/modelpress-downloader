@@ -92,6 +92,7 @@ const register = function (siteModule) {
     require("./dogatch.jp"),
     require("./www.tvlife.jp"),
     require("./entamenext.com"),
+    require("./yanmaga.jp"),
     require("./nonno.hpplus.jp"),
     require("./cancam.jp"),
     require("./ray-web.jp"),
