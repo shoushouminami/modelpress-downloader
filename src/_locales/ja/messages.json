@@ -26,7 +26,7 @@
     "message": "このサイトはまだサポートされていません。こちらの <a href=\"https://docs.google.com/forms/d/1RJpMZnxmjqbsy5qAvMcwZFKIl9FqYfIrfiXQU901xxM\">Google フォーム</a> でリクエストレポートを送信できます。"
   },
   "downloadMobileLabel": {
-    "message": "アプリのみも検出する",
+    "message": "アプリのみも検出する ",
     "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
   },
   "downloadMobileStatusTextInProgress": {

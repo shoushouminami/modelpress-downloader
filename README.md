@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.0 (2021/01/11)
+* Support Japanese language
+* Support yanmaga.jp
+* UI changes
+
 ###### 2.35 (2020/11/27)
 * Fix on realsound.jp
 
