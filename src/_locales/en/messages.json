@@ -30,7 +30,7 @@
     "description": "Shows the Google form url where the user can file a support request."
   },
   "downloadMobileLabel": {
-    "message": "Check App only images?",
+    "message": "Scan App only images ",
     "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
   },
   "downloadMobileStatusTextInProgress": {

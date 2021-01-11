@@ -19,7 +19,7 @@ export function DownloadButton(props) {
     }
 
     return (
-        <button id="download" disabled={disabled} onClick={props.onClick}>
+        <button id="download" className="row" disabled={disabled} onClick={props.onClick}>
             <span id="buttonText"><span id="count">{text}</span></span>
         </button>
     );
@@ -27,12 +27,15 @@ export function DownloadButton(props) {
 
 export function DownloadMobilePermission(props) {
     return (
-        <div id="downloadMobilePermission">
+        <div id="downloadMobilePermission" className="row">
             <label id="downloadMobileLabel" htmlFor="downloadMobileCheck">
                 {i18n.getText("downloadMobileLabel")}
             </label>
-            <input type="checkbox" id="downloadMobileCheck" name="downloadMobile" onChange={props.onClick}/>
             <a id="downloadMobilePermissionHelpLink" href={i18n.getText("downloadMobileStatusHelpLink")}>?</a>
+            <label className="switch">
+                <input type="checkbox" id="downloadMobileCheck" name="downloadMobile" onChange={props.onClick}/>
+                <span className="slider"/>
+            </label>
         </div>
     );
 }
@@ -58,7 +61,7 @@ export function DownloadMobileStatus(props) {
     }
 
     return (
-        <div id="downloadMobileStatus">
+        <div id="downloadMobileStatus" className="row">
             <span id="downloadMobileStatusText">
                 {downloadMobileStatusText}
             </span>
@@ -114,7 +117,6 @@ export class Popup extends React.Component {
         } else {
             return <SupportedSites sites={require("../inject/sites").all()}/>
             // TODO double check support link
-
         }
     }
 }

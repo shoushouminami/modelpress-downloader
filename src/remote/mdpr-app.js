@@ -140,3 +140,9 @@ export function checkAppPerm(callback) {
         callback(granted);
     });
 }
+
+export function removeAppPerm(callback) {
+    chrome.permissions.remove({
+        origins: ORIGINS
+    }, callback);
+}

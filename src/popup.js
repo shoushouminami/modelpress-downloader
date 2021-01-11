@@ -7,7 +7,7 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const mdprApp = require("./remote/mdpr-app");
 const logger = require("./logger");
-
+const window = require("./globals").getWindow();
 ga.bootstrap();
 downloader.init();
 
@@ -222,3 +222,8 @@ messaging.listen("updateResult", function (msg){
         updateMessage(msg, message.fromTabId);
     }
 });
+
+//for debugging
+if (isDev) {
+    window.removeAppPerm = mdprApp.removeAppPerm;
+}
