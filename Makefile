@@ -18,12 +18,17 @@ webpack-dev: source
 webpack: source
 	npx webpack --mode=development
 
+webpack-prod: source
+	npx webpack --mode=production
+
 # dev mode with watch flag and test config
 watch: clean cp-resources source
 	npx webpack --mode=development --watch --env.NODE_ENV=dev --config test/webpack.config.test.js
 
 cp-resources: images
 	cp -R images build/
+
+docs: clean webpack-prod
 
 # Build package.zip
 mk-package:
@@ -35,6 +40,7 @@ mk-package:
 clean:
 	-rm -rf build
 	-mkdir build
+	-rm -rf docs/*
 
 test: build
 	npm test

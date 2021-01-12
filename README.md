@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.1 (2021/01/11)
+* Bug fix on nikkansports.com
+
 ###### 3.0 (2021/01/11)
 * Support Japanese language
 * Support yanmaga.jp
