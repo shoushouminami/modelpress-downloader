@@ -14,6 +14,18 @@ test("Test columns page", async () => {
     );
 });
 
+test("Test news page", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://yanmaga.jp/columns/articles/344",
+        "yanmaga.jp-columns-articles-344/",
+        [
+            "https://eh96lnrmau.user-space.cdn.idcfcloud.net/uploads/trix_image/path/2700/14be25c4-8b7f-4b69-b863-4a7abaf6009f.jpg"
+        ]
+    );
+});
+
+
 test("Test scanning page", async () => {
     await testDirectDownload(
         getBrowser(),

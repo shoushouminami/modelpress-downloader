@@ -45,22 +45,14 @@ module.exports = env => {
                     transformPath: function (targetPath, absolutePath) {
                         return targetPath.replace("src/", "");
                     }
-                },
-                {
-                    from: 'src/docs/**/*',
-                    to: "../docs/",
-                    ignore: ["*.js"],
-                    transformPath: function (targetPath, absolutePath) {
-                        return targetPath.replace("src/docs/", "");
-                    }
-                },
+                }
             ]),
             new webpack.DefinePlugin({
                 "__GA_PROPERTY__": JSON.stringify(conf.ga_property),
                 "__IS_DEV__": JSON.stringify(conf.is_dev)
             })
         ],
-        devtool: 'eval',
+        devtool: "inline-source-map",
         mode: "development",
     }
 };
