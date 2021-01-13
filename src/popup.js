@@ -60,7 +60,7 @@ const updatePopupUI = function () {
             supported={message.supported}
             count={message.images && message.images.length}
             loading={message.loading}
-            hasAppImage={Object.keys(message.remoteImages).length > 0}
+            hasAppImage={message.remoteImages != null && Object.keys(message.remoteImages).length > 0}
             hasAppPerm={mdprApp.isAppPermGranted()}
             appFetchStatus={mdprApp.getAppFetchStatus()}
             appImageCount={mdprApp.getAddedCount()}
@@ -191,8 +191,9 @@ const updateMessage = function (result, tabId) {
 
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     // inject script with 1 retry.
+    const tabId = tabs[0].id;
     chrome.tabs.executeScript(
-        tabs[0].id,
+        tabId,
         {file: "inject-cs.js", matchAboutBlank: true},
         function (results) {
             if (results && results.length) {
@@ -201,14 +202,14 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                     // retry in 100ms
                     setTimeout(function () {
                         chrome.tabs.executeScript(
-                            tabs[0].id,
+                            tabId,
                             {file: "inject-cs.js", matchAboutBlank: true},
                             function (results) {
-                                updateMessage(results && results[0], tabs[0].id);
+                                updateMessage(results && results[0], tabId);
                             });
                     }, 100);
                 } else {
-                    updateMessage(results[0], tabs[0].id);
+                    updateMessage(results[0], tabId);
                 }
             } else {
                 updateMessage(null, tabs[0].id);

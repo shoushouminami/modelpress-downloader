@@ -2,7 +2,7 @@
 build: clean cp-resources webpack-test
 
 # Build for production release with package.zip
-release: clean cp-resources webpack mk-package
+release: clean cp-resources webpack-mini mk-package
 
 source: src/**/* src/* config/*
 
@@ -18,8 +18,8 @@ webpack-dev: source
 webpack: source
 	npx webpack --mode=development
 
-webpack-prod: source
-	npx webpack --mode=production
+webpack-mini: source
+	npx webpack --mode=production --config webpack.config.mini.js
 
 # dev mode with watch flag and test config
 watch: clean cp-resources source

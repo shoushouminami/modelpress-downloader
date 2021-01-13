@@ -60,7 +60,7 @@ module.exports = env => {
                 "__IS_DEV__": JSON.stringify(conf.is_dev)
             })
         ],
-        devtool: false,
+        devtool: 'eval',
         mode: "development",
     }
 };
