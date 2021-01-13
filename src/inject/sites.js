@@ -108,7 +108,6 @@ const register = function (siteModule) {
     require("./sakurazaka46.com"),
     require("./7gogo.jp"),
     require("./twitter.com"),
-    require("./www.facebook.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
 ]);
