@@ -9,13 +9,6 @@ const inject = function () {
     return o;
 }
 
-const setupMessageRelay = function () {
-    const messaging = require("./messaging");
-    // setup message relaying
-    messaging.relayMsgToPage("getImageUrl");
-    messaging.relayAllMsgsToRuntime("startScan", "stopScan", "updateImage");
-}
-
 /**
  * Returns the module of the current website.
  * @returns {null|{}}
@@ -50,5 +43,4 @@ module.exports = {
     inject: inject,
     getSiteModule: getSiteModule,
     injectInjectScript: injectInjectScript,
-    setupMessageRelay: setupMessageRelay
 }

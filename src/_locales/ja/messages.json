@@ -6,7 +6,7 @@
     "message": "ニュースページに表示されているすべての画像をワンクリックでダウンロードする事が出来るようになります。"
   },
   "downloadButtonMessage": {
-    "message": "$NUMBER$ 枚画像をダウンロードする",
+    "message": "$NUMBER$ 枚の画像をダウンロードする",
     "description": "The text on the button which user clicks to batch download all images",
     "placeholders": {
       "number": {
@@ -26,7 +26,7 @@
     "message": "このサイトはまだサポートされていません。こちらの <a href=\"https://docs.google.com/forms/d/1RJpMZnxmjqbsy5qAvMcwZFKIl9FqYfIrfiXQU901xxM\">Google フォーム</a> でリクエストレポートを送信できます。"
   },
   "downloadMobileLabel": {
-    "message": "アプリのみも検出する",
+    "message": "アプリのみも検出する ",
     "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
   },
   "downloadMobileStatusTextInProgress": {
@@ -34,7 +34,7 @@
     "description": "The text for in progress fetching extra images"
   },
   "downloadMobileStatusTextSuccess": {
-    "message": "✔️ アプリのみ：$NUMBER$",
+    "message": "\uD83D\uDCF1️ アプリのみの画像：$NUMBER$ 枚",
     "description": "The text for successfully fetching extra images",
     "placeholders": {
       "number": {
@@ -52,7 +52,7 @@
     "description": "The text for failed fetching extra images with any failure other than 404"
   },
   "downloadMobileStatusFailedHelp": {
-    "message": "help/help_en.html",
+    "message": "help/help_ja.html",
     "description": "The link of help page"
   },
   "downloadMobileStatusHelpLink": {

@@ -1,5 +1,5 @@
 
-const getScopedName = function (id, scope) {
+function getScopedName(id, scope) {
     if (id != null) {
         if (scope != null) {
             return scope + "_" + id;
@@ -11,18 +11,18 @@ const getScopedName = function (id, scope) {
     return null;
 }
 
-exports.AUTO_BIND_CLASS = "i18n-auto-bind";
+export const AUTO_BIND_CLASS = "i18n-auto-bind";
 
-exports.bindDomTextById = function (dom, scope) {
-    let text = chrome.i18n.getMessage(getScopedName(dom.id, scope));
-    if (!text) {
-        text = chrome.i18n.getMessage(getScopedName(dom.id, null));
-    }
-
-    dom.innerText = text;
+export function getText(id, scope, substitution) {
+    return (chrome.i18n.getMessage(getScopedName(id, scope), substitution) ||
+        chrome.i18n.getMessage(getScopedName(id, null), substitution));
 }
 
-exports.autoBind = function (scope) {
+export function bindDomTextById(dom, scope) {
+    dom.innerText = getText(dom.id, scope);
+}
+
+export function autoBind(scope){
     document.querySelectorAll("." + this.AUTO_BIND_CLASS).forEach(
         dom => {
             if (dom.id != null) {

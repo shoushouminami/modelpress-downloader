@@ -24,7 +24,7 @@
     "message": "暫不支援该網頁。你可以通過 <a href=\"https://docs.google.com/forms/d/1it_kUTKcBH8MUT_wA7lvngOF6Ro-p4MQdN4xzyG8DFA\">這個Google 表單</a> 報告來提醒作者。"
   },
   "downloadMobileLabel": {
-    "message": "檢測App專享圖片：",
+    "message": "檢測App專享圖片 ",
     "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
   },
   "downloadMobileStatusTextInProgress": {
@@ -32,7 +32,7 @@
     "description": "The text for in progress fetching extra images"
   },
   "downloadMobileStatusTextSuccess": {
-    "message": "✔️ App專享圖片：$NUMBER$ 張",
+    "message": "\uD83D\uDCF1️ App專享圖片：$NUMBER$ 張",
     "description": "The text for successfully fetching extra images",
     "placeholders": {
       "number": {

@@ -3,10 +3,14 @@ const globals = require("../globals");
 const getLargeImg = function (url) {
     if (url != null) {
         if (url.startsWith("/")) {
-            return globals.getWindow().location.origin + url;
+            url = globals.getWindow().location.origin + url;
         }
 
-        return utils.removeDataUrl(url);
+        url = utils.removeDataUrl(url);
+
+        if (url) {
+            return {url: utils.removeTrailingResolutionNumbers(url), retries: [url]};
+        }
     }
 
     return url;

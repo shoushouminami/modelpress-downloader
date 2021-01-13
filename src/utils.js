@@ -326,6 +326,24 @@ const utils = {
     },
     getSearchParam: function (url){
         return (new URL(url)).searchParams;
+    },
+
+    fetchUrl: function (url) {
+        return new Promise(function (resolve, reject) {
+            let xhr = new XMLHttpRequest();
+            let respText;
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status / 100 === 2) {
+                        resolve(xhr.responseText);
+                    } else {
+                        reject(xhr.status, xhr.statusText);
+                    }
+                }
+            };
+            xhr.send();
+        });
     }
 };
 

@@ -1,4 +1,4 @@
-# Modelpress Image Downloader [![Build Status](https://travis-ci.com/shoushouminami/modelpress-downloader.svg?branch=master)](https://travis-ci.com/shoushouminami/modelpress-downloader)
+# Modelpress Image Downloader [![shoushouminami](https://circleci.com/gh/shoushouminami/modelpress-downloader.svg?style=svg)](https://app.circleci.com/pipelines/github/shoushouminami/modelpress-downloader)
 
 One click to batch download the best resolution images from the current news article. A [list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) are supported including ModelPress (mdpr.jp), Abema Times (times.abema.tv),
 Dwango News (news.dwango.jp), and more, and is still growing! 
@@ -18,6 +18,14 @@ If you have additional websites that you want this extension to support, please 
 You can report bugs and issues by [posting on issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
 
 ### Change Logs
+
+###### 3.1 (2021/01/11)
+* Bug fix on nikkansports.com
+
+###### 3.0 (2021/01/11)
+* Support Japanese language
+* Support yanmaga.jp
+* UI changes
 
 ###### 2.35 (2020/11/27)
 * Fix on realsound.jp

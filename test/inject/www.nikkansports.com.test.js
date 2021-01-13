@@ -113,3 +113,31 @@ test("Test news image page 2", async () => {
     );
 });
 
+test("Test news image page 3", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.nikkansports.com/entertainment/column/sakamichi/photonews/photonews_nsInc_202101120000038-0.html",
+        "www.nikkansports.com-entertainment-column-sakamichi-photonews-photonews_nsInc_202101120000038-0.html/",
+        [
+            {
+                "retries": [
+                    "https://www.nikkansports.com/entertainment/column/sakamichi/news/img/202101120000038-w200_0.jpg"
+                ],
+                "url": "https://www.nikkansports.com/entertainment/column/sakamichi/news/img/202101120000038-w1300_0.jpg"
+            },
+            {
+                "retries": [
+                    "https://www.nikkansports.com/entertainment/column/sakamichi/news/img/202101120000038-w200_1.jpg"
+                ],
+                "url": "https://www.nikkansports.com/entertainment/column/sakamichi/news/img/202101120000038-w1300_1.jpg"
+            },
+            {
+                "retries": [
+                    "https://www.nikkansports.com/entertainment/column/sakamichi/news/img/202101120000038-w200_2.jpg"
+                ],
+                "url": "https://www.nikkansports.com/entertainment/column/sakamichi/news/img/202101120000038-w1300_2.jpg"
+            }
+        ]
+    );
+});
+

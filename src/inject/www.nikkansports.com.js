@@ -1,5 +1,5 @@
 const utils = require("../utils.js");
-const re = /^https:\/\/www\.nikkansports\.com\/.*(-w\d+_)\d\.(jpg|jpeg|png)$/i;
+const re = /^(https:\/\/www\.nikkansports\.com)?\/.*(-w\d+_)\d\.(jpg|jpeg|png)$/i;
 const getLargeImgFromDom = function (imgDom) {
     let url = utils.getDomBackgroundImage(imgDom);
     if (url) {
@@ -16,7 +16,10 @@ const getLargeImg = function (url) {
 
     let m = url.match(re);
     if (m) {
-        return {url: url.replace(m[1], "-w1300_"), retries: [url]}
+        if (url.startsWith("/")) {
+            url = window.location.origin + url;
+        }
+        return {url: url.replace(m[2], "-w1300_"), retries: [url]}
     }
 
     return url;

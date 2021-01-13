@@ -1,7 +1,7 @@
-
+const window = require("./globals").getWindow();
 const isRuntime = window.chrome && window.chrome.extension != null;
 const isPage = !isRuntime;
-const isCS = isPage && window.chrome.runtime && window.chrome.runtime.getManifest != null;
+const isCS = isPage && window.chrome && window.chrome.runtime && window.chrome.runtime.getManifest != null;
 const thisSender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
 let msgCount = 0; // id of message == (sender + msgCount)
 const inDebug = false; // require("./is-dev");

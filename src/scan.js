@@ -14,7 +14,6 @@ exports.navigateToConfirmPage = function (module) {
 exports.scanContentScript = function () {
     const site = inject.getSiteModule();
     if (site != null && site.scan) {
-        inject.setupMessageRelay();
         let o = site.scan();
         o.scan = true;
         o.scanState = "started";

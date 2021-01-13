@@ -16,13 +16,21 @@ module.exports = {
             remoteImages: {}, // for example {"mdpr.jp": "1234567"}
             ext: undefined,
             folder: window.location.host + window.location.pathname.replace(/\//g, "-") + "/",
-            fromTabId: null //
+            fromTabId: null, // tabId,
+            loading: false //  tells the runtime to show an in progress icon indicating images are loading
         };
     },
 
     notSupported: function () {
         let o = this.init();
         o.supported = false;
+
+        return o;
+    },
+
+    loading: function () {
+        let o = this.init();
+        o.loading = true;
 
         return o;
     }

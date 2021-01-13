@@ -22,7 +22,7 @@
     "description": "The text on the button when there is no image found to download"
   },
   "supportedSitesTitle": {
-    "message": "Currently Works On:",
+    "message": "Currently works on:",
     "description": "The title of a list of supported websites shown when the active tab is not supported"
   },
   "supportMessageML": {
@@ -30,7 +30,7 @@
     "description": "Shows the Google form url where the user can file a support request."
   },
   "downloadMobileLabel": {
-    "message": "Check App only images?",
+    "message": "Scan App only images ",
     "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
   },
   "downloadMobileStatusTextInProgress": {
@@ -38,7 +38,7 @@
     "description": "The text for in progress fetching extra images"
   },
   "downloadMobileStatusTextSuccess": {
-    "message": "✔️ Only on App: $NUMBER$",
+    "message": "\uD83D\uDCF1️ Only on App: $NUMBER$",
     "description": "The text for successfully fetching extra images",
     "placeholders": {
       "number": {
