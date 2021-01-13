@@ -16,7 +16,7 @@ module.exports = env => {
             "helper/rbbtoday-check-size": "./src/helper/rbbtoday-check-size.js",
             "helper/twitter-react": "./src/helper/twitter-react.js",
             "google-analytics-bootstrap": "./src/google-analytics-bootstrap.js",
-            "../docs/sites": "./src/docs/sites.js"
+            // "../docs/sites": "./src/docs/sites.js"
         },
         module: {
             rules: [
