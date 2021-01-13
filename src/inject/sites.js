@@ -97,6 +97,7 @@ const register = function (siteModule) {
     require("./cancam.jp"),
     require("./ray-web.jp"),
     require("./bisweb.jp"),
+    require("./ar-mag.jp"),
     require("./ananweb.jp"),
     require("./www.fashion-press.net"),
     require("./bltweb.jp"),
