@@ -11,19 +11,19 @@ test("Test photo page", async () => {
         [
             {
                 "retries": [
-                    "https://arweb.ismcdn.jp/mwimgs/a/5/650mw/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
+                    "https://arweb.ismcdn.jp/mwimgs/a/5/790wm/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
                 ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/a/5/-/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
             },
             {
                 "retries": [
-                    "https://arweb.ismcdn.jp/mwimgs/0/1/120mw/img_0102e7705851a33c5b9ba14ee44d83bc84952.jpg"
+                    "https://arweb.ismcdn.jp/mwimgs/0/1/120wm/img_0102e7705851a33c5b9ba14ee44d83bc84952.jpg"
                 ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/0/1/-/img_0102e7705851a33c5b9ba14ee44d83bc84952.jpg"
             },
             {
                 "retries": [
-                    "https://arweb.ismcdn.jp/mwimgs/0/6/120mw/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
+                    "https://arweb.ismcdn.jp/mwimgs/0/6/120wm/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
                 ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/0/6/-/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
             }
@@ -49,12 +49,14 @@ test("Test article page", async () => {
                 "url": "https://arweb.ismcdn.jp/mwimgs/0/1/-/img_0102e7705851a33c5b9ba14ee44d83bc84952.jpg"
             },
             {
-                "retries": [],
+                "retries": [
+                    "https://arweb.ismcdn.jp/mwimgs/a/5/790wm/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
+                ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/a/5/-/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
             },
             {
                 "retries": [
-                    "https://arweb.ismcdn.jp/mwimgs/0/6/120mw/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
+                    "https://arweb.ismcdn.jp/mwimgs/0/6/100wm/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
                 ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/0/6/-/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
             }
