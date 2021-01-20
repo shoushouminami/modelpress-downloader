@@ -101,6 +101,7 @@ const register = function (siteModule) {
     require("./ananweb.jp"),
     require("./www.fashion-press.net"),
     require("./bltweb.jp"),
+    require("./hustlepress.co.jp"),
     require("./www.crank-in.net"),
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
