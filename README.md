@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.2 (2021/01/20)
+* Support jj-jj.net
+* Support hustlepress.co.jp
+* Support ar-mag.jp
+
 ###### 3.1 (2021/01/11)
 * Bug fix on nikkansports.com
 
