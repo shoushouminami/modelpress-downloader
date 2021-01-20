@@ -94,6 +94,7 @@ const register = function (siteModule) {
     require("./entamenext.com"),
     require("./yanmaga.jp"),
     require("./nonno.hpplus.jp"),
+    require("./jj-jj.net"),
     require("./cancam.jp"),
     require("./ray-web.jp"),
     require("./bisweb.jp"),
