@@ -76,11 +76,12 @@ const updatePopupUI = function () {
     );
 };
 
-function downloadHandler() {
-    let imagesNeedTab = [];
-    let downloadInBg = [];
-    let downloadWithMsg = [];
-    let images = message.images.slice(0, message.images.length);
+function downloadHandler(resolve) {
+    const imagesNeedTab = [];
+    const downloadInBg = [];
+    const downloadWithMsg = [];
+    const images = message.images.slice(0, message.images.length);
+
     ga.trackDownload(message.host, images.length);
     document.getElementById("download").disabled = true;
     let i = 0;

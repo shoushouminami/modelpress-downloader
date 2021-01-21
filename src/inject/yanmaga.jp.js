@@ -100,11 +100,16 @@ function pushToMessage(o, images) {
 
 function listenOnce() {
     window.getImageUrlListener || messaging.listen("getImageUrl", function (msg, sendResponse) {
+        // logger.debug("received getImageUrl message filename=", msg.filename);
         if (msg.filename) {
-            images.forEach((image) => {
+            for (const image of images) {
                 if (image.filename === msg.filename) {
+                    // logger.debug("found image filename=", msg.filename);
                     image.promise.then(function (dom) {
+                        // logger.debug("loaded image filename=", image.filename);
                         image.dataUrl = image.dataUrl || descramble(dom, image.scramble);
+                        // logger.debug("sending getImageUrl response image.filename=", image.filename,
+                        //     "msg.filename=", msg.filename);
                         sendResponse({
                             url: image.dataUrl,
                             filename: msg.filename
@@ -112,7 +117,8 @@ function listenOnce() {
                     });
                     return true; // async response
                 }
-            });
+            }
+            logger.error("image not found filename=", msg.filename);
         }
     });
 

@@ -5,6 +5,7 @@ const isCS = isPage && window.chrome && window.chrome.runtime && window.chrome.r
 const thisSender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
 let msgCount = 0; // id of message == (sender + msgCount)
 const inDebug = false; // require("./is-dev");
+const logger = require("./logger");
 
 const path = function (obj, ...path) {
     for (const p of path) {
@@ -26,7 +27,7 @@ path(window, "_mid_", "messaging").listenerMap = listenerMap;
 
 const debug = function (funcName, key, msg, ...anyMsg) {
     if (inDebug) {
-        console.debug("[%s] %s key=%s msg=%o otherArgs=%o", thisSender, funcName, key, msg, anyMsg);
+        logger.debug("[%s] %s key=%s msg=%o otherArgs=%o", thisSender, funcName, key, msg, anyMsg);
     }
 }
 

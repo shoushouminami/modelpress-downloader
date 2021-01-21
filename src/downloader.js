@@ -9,6 +9,7 @@ const callbackMap = {}; // downloadId => {successCallback: function, failureCall
 const retryMap = {}; // for keeping retry urls
 const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
+const logger = require("./logger");
 
 export function addDownloadCompleteListener(downloadId, successCallback, failureCallback) {
     callbackMap[downloadId] = {
@@ -75,7 +76,7 @@ export function download(chrome, image, resolve) {
             method: "GET",
             filename: decodeURI(image.folder) + getFileName(image.url, image.ext, image.filename)
         }, function (downloadId) {
-            console.log("downloadId=" + downloadId);
+            logger.debug("downloadId=" + downloadId);
             if (downloadId && image.retries && image.retries.length > 0) {
                 retryMap[downloadId] = image;
             }
@@ -97,12 +98,18 @@ export function download(chrome, image, resolve) {
 export function downloadWithMsg(chrome, tabId, folder, images, done) {
     if (images.length > 0) {
         let count = 0;
+        logger.debug("downloadWithMsg images.length=", images.length);
         for (const image of images) {
+            // logger.debug("sending getImageUrl message to cs filename=", image.filename);
             messaging.sendToCS(tabId, "getImageUrl", image, function (imageWithUrl) {
+                // logger.debug("received getImageUrl message filename=", image.filename, " imageWithUrl=",
+                //     imageWithUrl);
                 if (imageWithUrl) {
                     imageWithUrl.folder = folder;
+                    // logger.debug("downloading filename=", image.filename);
                     download(chrome, imageWithUrl, function () {
                         if (++count === images.length && done instanceof Function) {
+                            // logger.debug("downloadWithMsg done count=", count);
                             done();
                         }
                     });
@@ -120,7 +127,7 @@ export function listenForDownloadFailureAndRetry() {
                 let image = retryMap[downloadDelta.id];
                 delete retryMap[downloadDelta.id];
                 if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === "SERVER_BAD_CONTENT") {
-                    console.log("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
+                    logger.debug("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
                     image.url = image.retries.shift();
                     download(chrome, image);
                 }
@@ -132,11 +139,11 @@ export function listenForDownloadFailureAndRetry() {
 export function listenForDownloadJob(){
     // listen for download message from popup.js
     messaging.listen("download", function (msg, sendResponse){
-        console.debug("Received " + message.images.length + " jobs");
+        logger.debug("Received " + message.images.length + " jobs");
         let count = 0;
         for (const image of message.images) {
             download(chrome, image, function () {
-                console.debug("Started job #" + count);
+                logger.debug("Started job #" + count);
                 count++;
                 if (count === message.images.length) {
                     sendResponse({what: "done", images: message.images});
@@ -151,9 +158,9 @@ export function downloadWithNewTab(chrome, image, context, tabId) {
     if (image.websiteUrl) {
         context.p = context.p.then(function () {
             return new Promise(function (resolve) {
-                console.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
+                logger.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
                 displayInNewTab(tabId, image.websiteUrl, function () {
-                    console.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
+                    logger.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
                     download(chrome, {url: image.imageUrl, folder: context.folder} , () => {
                         context.finishCount++;
                         if (context.finishCount === context.totalCount) {
