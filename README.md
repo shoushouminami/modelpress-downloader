@@ -20,6 +20,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 ### Change Logs
 
 ###### 3.2 (2021/01/20)
+* Bug fix on yanmaga.jp
+
+###### 3.2 (2021/01/20)
 * Support jj-jj.net
 * Support hustlepress.co.jp
 * Support ar-mag.jp
