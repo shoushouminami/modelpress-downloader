@@ -83,7 +83,6 @@ function downloadHandler(resolve) {
     const images = message.images.slice(0, message.images.length);
 
     ga.trackDownload(message.host, images.length);
-    document.getElementById("download").disabled = true;
     let i = 0;
     for (const image of images) {
         if (typeof image === "string") {
@@ -99,7 +98,7 @@ function downloadHandler(resolve) {
                 downloader.download(chrome, image, function () {
                     i++;
                     if (i === message.images.length) {
-                        window.close();
+                        resolve();
                     }
                 });
             } else {
@@ -113,7 +112,7 @@ function downloadHandler(resolve) {
     if (downloadWithMsg.length > 0) {
         downloader.downloadWithMsg(chrome, message.fromTabId, message.folder, downloadWithMsg, function () {
             if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
-                window.close();
+                resolve();
             }
         });
     }
@@ -121,7 +120,7 @@ function downloadHandler(resolve) {
     if (downloadInBg.length > 0) {
         downloadInBackground(chrome, downloadInBg, function () {
             if (imagesNeedTab.length === 0) {
-                window.close();
+                resolve();
             }
         });
     }
@@ -144,9 +143,7 @@ function downloadHandler(resolve) {
             downloader.downloadWithNewTab(chrome, image, context, message.fromTabId);
         }
         // after download finishes
-        context.p = context.p.then(function() {
-            window.close();
-        });
+        context.p = context.p.then(resolve);
     }
 }
 

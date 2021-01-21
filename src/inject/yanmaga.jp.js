@@ -99,7 +99,7 @@ function pushToMessage(o, images) {
 }
 
 function listenOnce() {
-    window.getImageUrlListener || messaging.listen("getImageUrl", function (msg, sendResponse) {
+    messaging.listenOnRuntime("getImageUrl", function (msg, sendResponse) {
         // logger.debug("received getImageUrl message filename=", msg.filename);
         if (msg.filename) {
             for (const image of images) {
@@ -121,8 +121,6 @@ function listenOnce() {
             logger.error("image not found filename=", msg.filename);
         }
     });
-
-    window.getImageUrlListener = true;
 }
 
 

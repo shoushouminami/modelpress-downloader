@@ -3,10 +3,11 @@ const ga = require("../google-analytics");
 const i18n = require("../i18n");
 const SupportedSites = require("./supported-sites");
 const logger = require("../logger");
+const window = require("../globals").getWindow();
 
 export function DownloadButton(props) {
     let text;
-    let disabled;
+    let disabled = props.disabled;
     if (props.count) {
         text = i18n.getText("downloadButtonMessage", null, [props.count]);
     } else {
@@ -81,9 +82,20 @@ export class Popup extends React.Component {
             hasAppPerm: props.hasAppPerm,
             appFetchStatus: props.appFetchStatus, // null, "started", "200", "404", "error"
             appImageCount: props.appImageCount,
+            downloadDisabled: false,
         };
         this.permHandler = props.permHandler;
         this.downloadHandler = props.downloadHandler;
+        this.downloadClicked = this.downloadClicked.bind(this);
+    }
+
+    downloadClicked() {
+        this.setState({
+            downloadDisabled: true
+        });
+        this.downloadHandler(function (){
+            window.close();
+        });
     }
 
     render() {
@@ -109,7 +121,8 @@ export class Popup extends React.Component {
                     <DownloadButton
                         count={st.count}
                         loading={st.loading}
-                        onClick={this.downloadHandler}
+                        onClick={this.downloadClicked}
+                        disabled={this.state.downloadDisabled ? "disabled": null}
                     />
                     {permOrStatus}
                 </div>

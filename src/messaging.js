@@ -3,11 +3,12 @@ const isRuntime = window.chrome && window.chrome.extension != null;
 const isPage = !isRuntime;
 const isCS = isPage && window.chrome && window.chrome.runtime && window.chrome.runtime.getManifest != null;
 const thisSender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
-let msgCount = 0; // id of message == (sender + msgCount)
-const inDebug = false; // require("./is-dev");
+const inDebug = true; // require("./is-dev");
 const logger = require("./logger");
 
-const path = function (obj, ...path) {
+let msgCount = 0; // id of message == (sender + msgCount)
+
+function path(obj, ...path) {
     for (const p of path) {
         if (!obj[p]) {
             obj[p] = {}
@@ -24,14 +25,13 @@ const path = function (obj, ...path) {
 const listenerMap = path(window, "_mid_", "messaging").listenerMap || {};
 path(window, "_mid_", "messaging").listenerMap = listenerMap;
 
-
-const debug = function (funcName, key, msg, ...anyMsg) {
+function debug(funcName, key, msg, ...anyMsg) {
     if (inDebug) {
         logger.debug("[%s] %s key=%s msg=%o otherArgs=%o", thisSender, funcName, key, msg, anyMsg);
     }
 }
 
-const nextMsgId = function(){
+function nextMsgId(){
     return thisSender + "-" + (msgCount++);
 }
 
@@ -39,7 +39,7 @@ const nextMsgId = function(){
  * Returns true if the key is not listened before. Upon true is returned, the key is then assumed listened on.
  * Subsequent calls will return false.
  */
-const tryAndListenOnKey = function (key) {
+function tryAndListenOnKey(key) {
     if (listenerMap[key] === undefined) {
         return listenerMap[key] = true;
     }
@@ -53,10 +53,10 @@ const tryAndListenOnKey = function (key) {
  * @param msg
  * @param onResponse
  */
-exports.sendToPage = function (key, msg, onResponse) {
+function sendToPage(key, msg, onResponse) {
     const replyKey = nextMsgId(); // get unique key for reply
     if (onResponse instanceof Function) {
-        exports.listenOnPage(replyKey, onResponse); // setup async reply channel
+        listenOnPage(replyKey, onResponse); // setup async reply channel
     }
     debug("sendToPage", key, msg);
     window.postMessage({
@@ -71,7 +71,7 @@ exports.sendToPage = function (key, msg, onResponse) {
  * Content script sends messages to extension runtime (popup or background),
  * or extension runtime sends to extension runtime.
  */
-exports.sendToRuntime = function (key, msg, onResponse) {
+function sendToRuntime(key, msg, onResponse) {
     debug("sendToRuntime", key, msg);
     chrome.runtime.sendMessage({
         what: key,
@@ -83,7 +83,7 @@ exports.sendToRuntime = function (key, msg, onResponse) {
 /**
  * Extension runtime (popup or background) sends messages to content script.
  */
-exports.sendToCS = function (tabId, key, msg, onResponse) {
+function sendToCS(tabId, key, msg, onResponse) {
     debug("sendToCS", key, msg);
     chrome.tabs.sendMessage(tabId, {
         what: key,
@@ -95,8 +95,8 @@ exports.sendToCS = function (tabId, key, msg, onResponse) {
 /**
  * Content script relays the message from page to extension runtime (popup or background).
  */
-exports.relayMsgToRuntime = function (key, transformerFunc) {
-    exports.listenOnPage(key, function (msg){
+function relayMsgToRuntime(key, transformerFunc) {
+    listenOnPage(key, function (msg){
         if (transformerFunc instanceof Function) {
             let newMsg = transformerFunc(msg);
             if (newMsg != null) {
@@ -104,15 +104,15 @@ exports.relayMsgToRuntime = function (key, transformerFunc) {
             }
         }
         debug("relayMsgToRuntime", key, msg);
-        exports.sendToRuntime(key, msg); // won't send response to page
+        sendToRuntime(key, msg); // won't send response to page
     });
 }
 
 /**
  * Content script relays the message from extension runtime (popup or background) to page.
  */
-exports.relayMsgToPage = function (key, transformerFunc) {
-    exports.listenOnRuntime(key, function (msg, sendResponse) {
+function relayMsgToPage(key, transformerFunc) {
+    listenOnRuntime(key, function (msg, sendResponse) {
         if (transformerFunc instanceof Function) {
             let newMsg = transformerFunc(msg);
             if (newMsg != null) {
@@ -120,21 +120,23 @@ exports.relayMsgToPage = function (key, transformerFunc) {
             }
         }
         debug("relayMsgToPage", key, msg);
-        exports.sendToPage(key, msg, sendResponse);
+        sendToPage(key, msg, sendResponse);
         return true; // always enable async response
     });
 }
 
-exports.relayAllMsgsToRuntime = function (...keys) {
+function relayAllMsgsToRuntime(...keys) {
     keys.forEach(key => {
-        exports.relayMsgToRuntime(key);
+        relayMsgToRuntime(key);
     })
 }
 
 /**
- * Listens for a message from page, or content script (to page)
+ * Listens for a message from page, or content script (sent vis window.send)
+ * @param {string} key A unique key for selecting messages.
+ * @param {function(Object, function)} callback
  */
-exports.listenOnPage = function (key, callback) {
+function listenOnPage(key, callback) {
     if (tryAndListenOnKey(key)) {
         debug("listeningOnPage", key);
         window.addEventListener("message", function(event) {
@@ -145,7 +147,7 @@ exports.listenOnPage = function (key, callback) {
             if (event.data.what && (event.data.what === key) && event.data.sender !== thisSender) {
                 debug("Received on page", key, event.data.msg, event.data);
                 callback(event.data.msg, function (respMsg) {
-                    exports.sendToPage(event.data.replyKey, respMsg);
+                    sendToPage(event.data.replyKey, respMsg);
                 });
             }
         }, false);
@@ -156,7 +158,16 @@ exports.listenOnPage = function (key, callback) {
     }
 }
 
-exports.listenOnRuntime = function (key, callback) {
+/**
+ * Listen messages on runtime (sent via chrome.runtime.sendMessage() or chrome.tabs.sendMessage()).
+ * Each key can only be registered once for listening (for each window).
+ * Subsequent calls for the same key are no-op.
+ * @param key {string} A unique key for selecting messages.
+ * @param callback {function(Object, string, function)} callback being called when a message is received on this key.
+ *                                                      Return true from the callback to enable async reply.
+ * @return {boolean} Returns true if it was successful to listen on the key, otherwise false.
+ */
+function listenOnRuntime(key, callback) {
     if (tryAndListenOnKey(key)) {
         debug("listeningOnRuntime", key);
         chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
@@ -170,36 +181,51 @@ exports.listenOnRuntime = function (key, callback) {
     } else {
         return false;
     }
-
 }
 
 /**
  * unified send method.
  */
-exports.send = function (key, msg, onResponse) {
+function send(key, msg, onResponse) {
     if (isPage) {
-        exports.sendToPage(key, msg, onResponse);
+        sendToPage(key, msg, onResponse);
         if (isCS) {
-            exports.sendToRuntime(key, msg, onResponse);
+            sendToRuntime(key, msg, onResponse);
         }
     } else {
-        exports.sendToRuntime(key, msg, onResponse);
+        sendToRuntime(key, msg, onResponse);
     }
 }
 
 /**
- * unified listen method.
+ * Unified listen method. Each key can only be listened on once (for each window).
+ * Subsequent calls for the same key are no-op.
  * @param key {string} Message key
  * @param callback {function(msg: any, sendResponse: function)}
+ * @return {boolean} Returns true if it was successful to listen on the key, otherwise false.
  */
-exports.listen = function (key, callback) {
+function listen(key, callback) {
+    let ret;
     if (isPage) {
-        exports.listenOnPage(key, callback);
+        ret = listenOnPage(key, callback);
         if (isCS) {
-            exports.listenOnRuntime(key, callback);
+            ret = listenOnRuntime(key, callback);
         }
+
     } else {
-        exports.listenOnRuntime(key, callback);
+        ret = listenOnRuntime(key, callback);
     }
+
+    return ret;
 }
 
+exports.listenOnRuntime = listenOnRuntime;
+exports.listen = listen;
+exports.send = send;
+exports.listenOnPage = listenOnPage;
+exports.relayAllMsgsToRuntime = relayAllMsgsToRuntime;
+exports.relayMsgToPage = relayMsgToPage;
+exports.relayMsgToRuntime = relayMsgToRuntime;
+exports.sendToCS = sendToCS;
+exports.sendToRuntime = sendToRuntime;
+exports.sendToPage = sendToPage;
