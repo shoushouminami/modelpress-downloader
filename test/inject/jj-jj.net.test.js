@@ -11,6 +11,12 @@ test("Test fashion page", async () => {
         [
             {
                 "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/11093859/DMA-%E8%BF%91%E8%97%A4%E5%92%8C%E8%B2%B4%E5%AD%90_mono-e1610201401500.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/11093859/DMA-%E8%BF%91%E8%97%A4%E5%92%8C%E8%B2%B4%E5%AD%90_mono.jpg"
+            },
+            {
+                "retries": [
                     "https://img.jj-jj.net/wp-content/uploads/2021/01/11094410/DMA-_L0A5678_noPath-683x1024.jpg"
                 ],
                 "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/11094410/DMA-_L0A5678_noPath.jpg"
@@ -98,6 +104,12 @@ test("Test beauty page", async () => {
         [
             {
                 "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2020/12/22230144/S__54640646.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2020/12/22230144/S__54640646.jpg"
+            },
+            {
+                "retries": [
                     "https://img.jj-jj.net/wp-content/uploads/2020/12/22230113/S__54640648-e1608639148415.jpg"
                 ],
                 "url": "https://img.jj-jj.net/wp-content/uploads/2020/12/22230113/S__54640648.jpg"
@@ -131,6 +143,12 @@ test("Test beauty page", async () => {
                     "https://img.jj-jj.net/wp-content/uploads/2020/12/22230037/S__54640650-e1608641735711.jpg"
                 ],
                 "url": "https://img.jj-jj.net/wp-content/uploads/2020/12/22230037/S__54640650.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2020/12/22225834/S__54640658.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2020/12/22225834/S__54640658.jpg"
             },
             {
                 "retries": [
@@ -281,6 +299,92 @@ test("Test lifestyle page 3", async () => {
                     "https://img.jj-jj.net/wp-content/uploads/2020/12/25173504/dma-%E2%91%A1%E6%A8%8B%E5%8F%A3%E6%97%A5%E5%A5%88.jpg"
                 ],
                 "url": "https://img.jj-jj.net/wp-content/uploads/2020/12/25173504/dma-%E2%91%A1%E6%A8%8B%E5%8F%A3%E6%97%A5%E5%A5%88.jpg"
+            }
+        ]
+    );
+});
+
+test("Test weekly jjnet article", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://jj-jj.net/weekly-jjnet/no017-03/",
+        "jj-jj.net-weekly-jjnet-no017-03-/",
+        [
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210449/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210449/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210430/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF2.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210430/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF2.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210409/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF3.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210409/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF3.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210350/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF4.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210350/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF4.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210332/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF5.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210332/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF5.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210312/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF6.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210312/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF6.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/14203721/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF0114.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/14203721/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF0114.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210232/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF8.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210232/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF8.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210213/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF9.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210213/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF9.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/07210154/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF10.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/07210154/JJnet2001_best-cosme%E3%82%B3%E3%82%B9%E3%83%A1_%E3%83%A1%E3%82%A4%E3%82%AF10.jpg"
+            }
+        ]
+    );
+});
+
+test("Test weekly jjnet article", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://jj-jj.net/weekly-jjnet/weekly_jjnet_category/no016/",
+        "jj-jj.net-weekly-jjnet-weekly_jjnet_category-no016-/",
+        [
+            {
+                "retries": [
+                    "https://img.jj-jj.net/wp-content/uploads/2020/12/25102103/JJnet016_h1.jpg"
+                ],
+                "url": "https://img.jj-jj.net/wp-content/uploads/2020/12/25102103/JJnet016_h1.jpg"
             }
         ]
     );

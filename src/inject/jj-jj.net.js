@@ -1,14 +1,14 @@
 const utils = require("../utils.js");
-const re = /^https:\/\/.*\/[0-9A-Z-_]+(-e\d+)\.(jpg|png|jpeg)$/i;
+const re = /^https:\/\/.*\/.*(-e\d{13})\.(jpg|png|jpeg)$/i;
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         utils.pushArray(o.images,
             utils.findDomsWithCssSelector(document,
                 [
-                    "#content #main article .page-content > img", // article page images
-                    "#content #main article .page-content .box img", // article page images
-                    "#content #main article .page-content .slider-content .slides img", // slider images
+                    "#content #main article .page-content img", // article page images
+                    "#main #kv img", // weekly jjnet top image
+                    "#main #postContent .c_image img", // weekly jjnet top image
                 ].join(","),
                 function (imgDom) {
                     let url;
