@@ -12,21 +12,33 @@ afterAll(async () => {
 test("Test dogatch.jp image page", async () => {
     await testDirectDownload(
         browser,
-        "https://dogatch.jp/news/nhk/73943/photo/0/",
-        "dogatch.jp-news-nhk-73943-photo-0-/",
-        ["https://dogatch.jp/prod/kanren_news/20200124/2529ace9ef979fcb49bdd7fc0cb2fe9f.jpg",
-            "https://dogatch.jp/prod/kanren_news/20200124/77735540dd66bf9a751bc2c6202b1263.jpg",
-            "https://dogatch.jp/prod/kanren_news/20200124/501576501292ebadb052e4a9d9a657d3.jpg"]);
+        "https://dogatch.jp/news/ntv/91924/photo/0/",
+        "dogatch.jp-news-ntv-91924-photo-0-/",
+        [
+            "https://dogatch.jp/prod/kanren_news/20210126/8a1590c06209fa0d05c7a7c5f4eb6758.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/7dfe419f60efb7a099bebc9fb3f6af0a.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/83d56d4b637f9d87bd85e233a05f2ae9.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/32e1b86eff82a8321c3688dfb37ccf96.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/5981aa146208618f22c3d568325c4dc2.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/ae790fd3aa5556f7ee6e96afd80278bd.jpg"
+        ]
+    );
 });
 
 test("Test dogatch.jp detail page", async () => {
     await testDirectDownload(
         browser,
-        "https://dogatch.jp/news/nhk/73943/detail/",
-        "dogatch.jp-news-nhk-73943-detail-/",
-        ["https://dogatch.jp/prod/kanren_news/20200124/2529ace9ef979fcb49bdd7fc0cb2fe9f.jpg",
-            "https://dogatch.jp/prod/kanren_news/20200124/77735540dd66bf9a751bc2c6202b1263.jpg",
-            "https://dogatch.jp/prod/kanren_news/20200124/501576501292ebadb052e4a9d9a657d3.jpg"]);
+        "https://dogatch.jp/news/ntv/91924/detail/",
+        "dogatch.jp-news-ntv-91924-detail-/",
+        [
+            "https://dogatch.jp/prod/kanren_news/20210126/32e1b86eff82a8321c3688dfb37ccf96.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/5981aa146208618f22c3d568325c4dc2.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/ae790fd3aa5556f7ee6e96afd80278bd.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/8a1590c06209fa0d05c7a7c5f4eb6758.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/7dfe419f60efb7a099bebc9fb3f6af0a.jpg",
+            "https://dogatch.jp/prod/kanren_news/20210126/83d56d4b637f9d87bd85e233a05f2ae9.jpg"
+        ]
+    );
 });
 
 test("Test dogatch.jp article page", async () => {
@@ -43,7 +55,10 @@ test("Test dogatch.jp article page", async () => {
 test("Test dogatch.jp single image article", async () => {
     await testDirectDownload(
         browser,
-        "https://dogatch.jp/news/nhk/73941/detail/",
-        "dogatch.jp-news-nhk-73941-detail-/",
-        ["https://dogatch.jp/prod/kanren_news/20200124/b3d4f1b0e973c0c707f8f7a1ca28f6cb.jpg"]);
+        "https://dogatch.jp/news/ntv/91917/detail/",
+        "dogatch.jp-news-ntv-91917-detail-/",
+        [
+            "https://dogatch.jp/prod/kanren_news/20210126/ac8b8a37f5fd304f227ec2a949ac213d.jpg"
+        ]
+    );
 });
