@@ -42,9 +42,12 @@ test("Test thetv.jp article page", async () => {
 test("Test talent.thetv.jp single image", async () => {
     await testDirectDownload(
         browser,
-        "https://talent.thetv.jp/person/1000031439/",
-        "talent.thetv.jp-person-1000031439-/",
-        ["https://thetv.jp/i/tl/100/0031/1000031439_r.jpg"]);
+        "https://thetv.jp/person/1000031439/",
+        "thetv.jp-person-1000031439-/",
+        [
+            "https://thetv.jp/i/tl/100/0031/1000031439_r.jpg"
+        ]
+    );
 });
 
 test("Test thetv.jp program home page", async () => {
