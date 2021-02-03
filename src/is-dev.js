@@ -5,9 +5,10 @@ if (typeof __IS_DEV__ === 'undefined') {
     isDev = global.isDev || false; // nodejs
     console.log("nodejs: isDev: ", isDev);
 } else {
-    isDev = __IS_DEV__; //webpack
+    isDev = __IS_DEV__ || ("true" === require("./storage").sessionGet("isDev")); //webpack
     if (isDev) {
         console.log("webpack: isDev: ", isDev);
     }
 }
+
 module.exports = isDev;

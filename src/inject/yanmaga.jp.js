@@ -100,16 +100,17 @@ function pushToMessage(o, images) {
 
 function listenOnce() {
     messaging.listenOnRuntime("getImageUrl", function (msg, sendResponse) {
-        // logger.debug("received getImageUrl message filename=", msg.filename);
+        logger.debug("received getImageUrl message filename=", msg.filename);
         if (msg.filename) {
             for (const image of images) {
                 if (image.filename === msg.filename) {
-                    // logger.debug("found image filename=", msg.filename);
+                    logger.debug("found image filename=", msg.filename);
                     image.promise.then(function (dom) {
-                        // logger.debug("loaded image filename=", image.filename);
+                        logger.debug("loaded image filename=", image.filename);
                         image.dataUrl = image.dataUrl || descramble(dom, image.scramble);
-                        // logger.debug("sending getImageUrl response image.filename=", image.filename,
-                        //     "msg.filename=", msg.filename);
+                        logger.debug("sending getImageUrl response image.filename=", image.filename,
+                            "msg.filename=", msg.filename,
+                            "image.dataUrl.length=", image.dataUrl && image.dataUrl.length);
                         sendResponse({
                             url: image.dataUrl,
                             filename: msg.filename

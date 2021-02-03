@@ -1,4 +1,5 @@
 const messaging = require("./messaging");
+const {wait} = require("./utils/async-utils");
 /**
  * Adds listener functions for a downloadId during download completion
  * @param downloadId
@@ -90,32 +91,59 @@ export function download(chrome, image, resolve) {
 /**
  * First send a message to get the url of the image. Once we have the url, call {@link download} to download the image.
  * @param chrome
- * @param tabId {number}
- * @param folder {string}
+ * @param context {{tabId:number, folder:string, host:string}}
  * @param images {any[]}
  * @param done {function():void} is called when all downloads are initiated in Chrome.
  */
-export function downloadWithMsg(chrome, tabId, folder, images, done) {
+export function downloadWithMsg(chrome, context, images, done) {
     if (images.length > 0) {
         let count = 0;
+        let startMs = new Date().getTime();
         logger.debug("downloadWithMsg images.length=", images.length);
         for (const image of images) {
             // logger.debug("sending getImageUrl message to cs filename=", image.filename);
-            messaging.sendToCS(tabId, "getImageUrl", image, function (imageWithUrl) {
+            messaging.sendToCS(context.tabId, "getImageUrl", image, function (imageWithUrl) {
                 // logger.debug("received getImageUrl message filename=", image.filename, " imageWithUrl=",
                 //     imageWithUrl);
-                if (imageWithUrl) {
-                    imageWithUrl.folder = folder;
+                let completed = ++count === images.length;
+                if (imageWithUrl && imageWithUrl.url) {
+                    imageWithUrl.folder = context.folder;
                     // logger.debug("downloading filename=", image.filename);
                     download(chrome, imageWithUrl, function () {
-                        if (++count === images.length && done instanceof Function) {
+                        if (completed) {
                             // logger.debug("downloadWithMsg done count=", count);
-                            done();
+                            ga.trackEvent("msg_download",
+                                "comp",
+                                context.host,
+                                images.length);
+                            ga.trackEvent("msg_download",
+                                "comp_latency_s",
+                                context.host,
+                                Math.round((new Date().getTime() - startMs) / 1000.0));
+                            if (done instanceof Function) {
+                                wait(500).then(done);
+                            }
                         }
                     });
+                } else {
+                    ga.trackEvent("msg_download", "null", context.host, 1);
                 }
             })
         }
+
+        wait(5000)
+            .then(() => {
+                if (count < images.length) {
+                    ga.trackEvent("msg_download", "incomp_5s", context.host, images.length - count);
+                    wait(5000)
+                        .then(() => {
+                            ga.trackEvent("msg_download",
+                                count < images.length ? "incomp_10s" : "comp_10s",
+                                context.host,
+                                count < images.length ? (images.length - count) : images.length);
+                        })
+                }
+            });
     }
 }
 

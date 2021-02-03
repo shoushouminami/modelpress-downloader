@@ -8,6 +8,7 @@ const ReactDOM = require("react-dom");
 const mdprApp = require("./remote/mdpr-app");
 const logger = require("./logger");
 const window = require("./globals").getWindow();
+const asyncUtils = require("./utils/async-utils");
 ga.bootstrap();
 downloader.init();
 
@@ -110,11 +111,17 @@ function downloadHandler(resolve) {
     }
 
     if (downloadWithMsg.length > 0) {
-        downloader.downloadWithMsg(chrome, message.fromTabId, message.folder, downloadWithMsg, function () {
-            if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
-                resolve();
-            }
-        });
+        downloader.downloadWithMsg(chrome,
+            {
+                tabId: message.fromTabId,
+                folder: message.folder,
+                host: message.host
+            },
+            downloadWithMsg, function () {
+                if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
+                    resolve();
+                }
+            });
     }
 
     if (downloadInBg.length > 0) {
@@ -198,14 +205,16 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 let result = results[0];
                 if (result.retry) {
                     // retry in 100ms
-                    setTimeout(function () {
-                        chrome.tabs.executeScript(
-                            tabId,
-                            {file: "inject-cs.js", matchAboutBlank: true},
-                            function (results) {
-                                updateMessage(results && results[0], tabId);
-                            });
-                    }, 100);
+                    asyncUtils
+                        .wait(100)
+                        .then(() => {
+                            chrome.tabs.executeScript(
+                                tabId,
+                                {file: "inject-cs.js", matchAboutBlank: true},
+                                function (results) {
+                                    updateMessage(results && results[0], tabId);
+                                });
+                        });
                 } else {
                     updateMessage(results[0], tabId);
                 }

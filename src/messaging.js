@@ -3,7 +3,6 @@ const isRuntime = window.chrome && window.chrome.extension != null;
 const isPage = !isRuntime;
 const isCS = isPage && window.chrome && window.chrome.runtime && window.chrome.runtime.getManifest != null;
 const thisSender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
-const inDebug = true; // require("./is-dev");
 const logger = require("./logger");
 
 let msgCount = 0; // id of message == (sender + msgCount)
@@ -26,9 +25,7 @@ const listenerMap = path(window, "_mid_", "messaging").listenerMap || {};
 path(window, "_mid_", "messaging").listenerMap = listenerMap;
 
 function debug(funcName, key, msg, ...anyMsg) {
-    if (inDebug) {
-        logger.debug("[%s] %s key=%s msg=%o otherArgs=%o", thisSender, funcName, key, msg, anyMsg);
-    }
+    logger.debug("[%s] %s key=%s msg=%o otherArgs=%o", thisSender, funcName, key, msg, anyMsg);
 }
 
 function nextMsgId(){
