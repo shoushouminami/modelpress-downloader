@@ -19,6 +19,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.4 (2021/02/04)
+* Add www.dispatch.co.kr
+* Add exweb.jp
+* Add www.mina.ne.jp
+* Fix moviewalker.jp
+
 ###### 3.3 (2021/01/20)
 * Bug fix on yanmaga.jp
 
