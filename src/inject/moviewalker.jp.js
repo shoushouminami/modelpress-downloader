@@ -53,6 +53,6 @@ module.exports = {
         o.ext = "jpg";
         return o;
     },
-    host: "movie.walkerplus.com",
+    host: "moviewalker.jp",
     getLargeImg: getLargeImg
 };

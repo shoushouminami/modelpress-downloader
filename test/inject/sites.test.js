@@ -63,7 +63,7 @@ test("Test sites.all", () => {
     expect(hosts).toContain("www.fashion-press.net");
     expect(hosts).toContain("lp.p.pia.jp");
     expect(hosts).toContain("sakurazaka46.com");
-    expect(hosts).toContain("movie.walkerplus.com");
+    expect(hosts).toContain("moviewalker.jp");
     expect(hosts).toContain("www.tokyoheadline.com");
     expect(hosts).toContain("girlsnews.tv");
     expect(hosts).toContain("www.astage-ent.com");
