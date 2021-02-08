@@ -208,7 +208,6 @@ function listen(key, callback) {
         if (isCS) {
             ret = listenOnRuntime(key, callback);
         }
-
     } else {
         ret = listenOnRuntime(key, callback);
     }

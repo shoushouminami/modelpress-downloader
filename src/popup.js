@@ -9,21 +9,19 @@ const mdprApp = require("./remote/mdpr-app");
 const logger = require("./logger");
 const window = require("./globals").getWindow();
 const asyncUtils = require("./utils/async-utils");
+
 ga.bootstrap();
-downloader.init();
 
 /**
  * @param chrome
- * @param images a list of objects: <code> {url: "", folder: "abc/", ext: "jpg"} </code>
+ * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg"}}
  * @param resolve Invoked when all download jobs are started (not necessarily finished)
  */
-const downloadInBackground = function (chrome, images, resolve) {
-    chrome.runtime.sendMessage({what: "download", images: images}, function (response) {
-        if (response.what === "done") {
-            logger.debug("Done: " + images.length + " images");
-            if (resolve instanceof Function) {
-                resolve();
-            }
+const downloadInBackground = function (chrome, job, resolve) {
+    messaging.sendToRuntime("download", job, function () {
+        logger.debug("Done: " + job.images.length + " images");
+        if (resolve instanceof Function) {
+            resolve();
         }
     });
 };
@@ -90,34 +88,34 @@ function downloadHandler(resolve) {
             downloadInBg.push({url: image, folder: message.folder, ext: message.ext});
         } else if (typeof image === "object" && image.type === "tab") {
             imagesNeedTab.push(image);
-        } else if (typeof image === "object" && image.type === "msg") {
-            downloadWithMsg.push(image);
-        } else if (typeof image === "object" && image.url) {
+        } else if (typeof image === "object" && (image.url != null || image.type === "msg")) {
             image.folder = message.folder;
             image.ext = message.ext;
-            if (image.url.startsWith("data:")) {
-                downloader.download(chrome, image, function () {
-                    i++;
-                    if (i === message.images.length) {
-                        resolve();
-                    }
-                });
+
+            if (image.type === "msg") {
+                image.tabId = message.fromTabId;
+                image.host = message.host;
+                downloadWithMsg.push(image);
             } else {
                 downloadInBg.push(image);
             }
         } else {
-            console.error("event=unknown_type image=" + JSON.stringify(image));
+            logger.error("event=unknown_type image=" + JSON.stringify(image));
         }
     }
 
     if (downloadWithMsg.length > 0) {
-        downloader.downloadWithMsg(chrome,
+        downloadInBackground(chrome,
             {
-                tabId: message.fromTabId,
-                folder: message.folder,
-                host: message.host
+                images: downloadWithMsg,
+                type: "msg",
+                context: {
+                    tabId: message.fromTabId,
+                    folder: message.folder,
+                    host: message.host
+                }
             },
-            downloadWithMsg, function () {
+            function () {
                 if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
                     resolve();
                 }
@@ -125,7 +123,17 @@ function downloadHandler(resolve) {
     }
 
     if (downloadInBg.length > 0) {
-        downloadInBackground(chrome, downloadInBg, function () {
+        downloadInBackground(chrome,
+            {
+                images: downloadInBg,
+                type: "reg",
+                context: {
+                    tabId: message.fromTabId,
+                    folder: message.folder,
+                    host: message.host
+                }
+            },
+            function () {
             if (imagesNeedTab.length === 0) {
                 resolve();
             }

@@ -11,7 +11,7 @@ export function DownloadButton(props) {
     if (props.count) {
         text = i18n.getText("downloadButtonMessage", null, [props.count]);
     } else {
-        disabled = "disabled";
+        disabled = true;
         if (props.loading) {
             text = "⌛";
         } else {
@@ -20,7 +20,7 @@ export function DownloadButton(props) {
     }
 
     return (
-        <button id="download" className="row" disabled={disabled} onClick={props.onClick}>
+        <button id="download" className="row" disabled={disabled ? "disabled": null} onClick={props.onClick}>
             <span id="buttonText"><span id="count">{text}</span></span>
         </button>
     );
@@ -122,7 +122,7 @@ export class Popup extends React.Component {
                         count={st.count}
                         loading={st.loading}
                         onClick={this.downloadClicked}
-                        disabled={this.state.downloadDisabled ? "disabled": null}
+                        disabled={this.state.downloadDisabled}
                     />
                     {permOrStatus}
                 </div>

@@ -6,46 +6,12 @@ const {wait} = require("./utils/async-utils");
  * @param successCallback
  * @param failureCallback
  */
-const callbackMap = {}; // downloadId => {successCallback: function, failureCallback: function}
 const retryMap = {}; // for keeping retry urls
 const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger");
 
-export function addDownloadCompleteListener(downloadId, successCallback, failureCallback) {
-    callbackMap[downloadId] = {
-        success: successCallback,
-        failure: failureCallback
-    };
-}
-
-
-export function init(){
-    // init listener
-    chrome.downloads.onChanged.addListener(function (downloadDelta) {
-        let downloadId = downloadDelta.id;
-        if (callbackMap[downloadId] && downloadDelta && downloadDelta.state) {
-            let state = downloadDelta.state;
-            if (state.previous === "in_progress" && state.current === "complete") {
-                if (typeof callbackMap[downloadId]["success"] === "function") {
-                    callbackMap[downloadId]["success"]();
-                    delete callbackMap[downloadId];
-                }
-            }
-
-            if (state.previous === "in_progress" && state.current === "interrupted") {
-                if (downloadDelta.error.current === "SERVER_BAD_CONTENT") {
-                    if (typeof callbackMap[downloadId]["failure"] === "function") {
-                        callbackMap[downloadId]["failure"]();
-                        delete callbackMap[downloadId];
-                    }
-                }
-            }
-        }
-    });
-}
-
-export function getFileName(url, ext, preferedName) {
+function getFileName(url, ext, preferedName) {
     if (preferedName != null) {
         return preferedName;
     }
@@ -69,23 +35,27 @@ export function getFileName(url, ext, preferedName) {
  * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
  * @param resolve
  */
-export function download(chrome, image, resolve) {
-    chrome.downloads.download(
-        {
-            url: image.url,
-            saveAs: false,
-            method: "GET",
-            filename: decodeURI(image.folder) + getFileName(image.url, image.ext, image.filename)
-        }, function (downloadId) {
-            logger.debug("downloadId=" + downloadId);
-            if (downloadId && image.retries && image.retries.length > 0) {
-                retryMap[downloadId] = image;
-            }
+function download(chrome, image, resolve) {
+    if (typeof image === "object" && image.type === "msg") {
+        downloadWithMsg();
+    } else {
+        chrome.downloads.download(
+            {
+                url: image.url,
+                saveAs: false,
+                method: "GET",
+                filename: decodeURI(image.folder) + getFileName(image.url, image.ext, image.filename)
+            }, function (downloadId) {
+                logger.debug("downloadId=" + downloadId);
+                if (downloadId && image.retries && image.retries.length > 0) {
+                    retryMap[downloadId] = image;
+                }
 
-            if (resolve instanceof Function) {
-                resolve();
-            }
-        });
+                if (resolve instanceof Function) {
+                    resolve();
+                }
+            });
+    }
 }
 
 /**
@@ -95,7 +65,7 @@ export function download(chrome, image, resolve) {
  * @param images {any[]}
  * @param done {function():void} is called when all downloads are initiated in Chrome.
  */
-export function downloadWithMsg(chrome, context, images, done) {
+function downloadWithMsg(chrome, context, images, done) {
     if (images.length > 0) {
         let count = 0;
         let startMs = new Date().getTime();
@@ -121,7 +91,7 @@ export function downloadWithMsg(chrome, context, images, done) {
                                 context.host,
                                 Math.round((new Date().getTime() - startMs) / 1000.0));
                             if (done instanceof Function) {
-                                wait(500).then(done);
+                                wait(1000).then(done);
                             }
                         }
                     });
@@ -147,7 +117,10 @@ export function downloadWithMsg(chrome, context, images, done) {
     }
 }
 
-export function listenForDownloadFailureAndRetry() {
+/**
+ * Register chrome download change listener that retries on failed download with the first url from retries array.
+ */
+function listenForDownloadFailureAndRetry() {
     // listen for download failure and retry if possible
     chrome.downloads.onChanged.addListener(function (downloadDelta) {
         if (downloadDelta && downloadDelta.state && retryMap[downloadDelta.id]) {
@@ -164,25 +137,7 @@ export function listenForDownloadFailureAndRetry() {
     });
 }
 
-export function listenForDownloadJob(){
-    // listen for download message from popup.js
-    messaging.listen("download", function (msg, sendResponse){
-        logger.debug("Received " + message.images.length + " jobs");
-        let count = 0;
-        for (const image of message.images) {
-            download(chrome, image, function () {
-                logger.debug("Started job #" + count);
-                count++;
-                if (count === message.images.length) {
-                    sendResponse({what: "done", images: message.images});
-                }
-            });
-        }
-        return true;
-    });
-}
-
-export function downloadWithNewTab(chrome, image, context, tabId) {
+function downloadWithNewTab(chrome, image, context, tabId) {
     if (image.websiteUrl) {
         context.p = context.p.then(function () {
             return new Promise(function (resolve) {
@@ -213,8 +168,7 @@ export function downloadWithNewTab(chrome, image, context, tabId) {
     }
 }
 
-
-export function displayInNewTab(tabId, url, resolve, error) {
+function displayInNewTab(tabId, url, resolve, error) {
     chrome.tabs.create({
         url: url,
         active: false
@@ -228,3 +182,27 @@ export function displayInNewTab(tabId, url, resolve, error) {
         });
     });
 }
+
+function downloadJob(job, sendResponse) {
+    logger.debug("Received " + job.images.length + " jobs");
+    if (job.type && job.type === "msg") {
+        downloadWithMsg(chrome, job.context, job.images, sendResponse);
+    } else {
+        let count = 0;
+        for (const image of job.images) {
+            download(chrome, image, function () {
+                logger.debug("Started job #" + count);
+                if (++count === job.images.length) {
+                    sendResponse();
+                }
+            });
+        }
+    }
+}
+
+exports.download = download;
+exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
+exports.downloadWithNewTab = downloadWithNewTab;
+exports.displayInNewTab = displayInNewTab;
+exports.getFileName = getFileName;
+exports.downloadJob = downloadJob;

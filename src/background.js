@@ -1,100 +1,17 @@
-"use strict";
 const ga = require("./google-analytics");
 const downloader = require("./downloader");
-const retryMap = {}; // {downloadId: image}
-const downloadQueue = []; // Queue for regular downloads
-const inProgressMap = {};
-const CONCURRENT_LIMIT = 5;
-let inProgress = 0;
-let downloadPaused = false;
+const messaging = require("./messaging");
+const logger = require("./logger");
 
 // inits
 ga.bootstrap();
 downloader.listenForDownloadFailureAndRetry();
 
-const getFileName = function(url, ext, preferredFilename) {
-    if (preferredFilename != null) {
-        return preferredFilename;
-    }
-
-    let filename = url.split("?")[0].split("/");
-    filename = filename[filename.length - 1];
-    if (filename.indexOf(":") > -1) {
-        filename = filename.split(":")[0];
-    }
-
-    if (ext) {
-        return filename + "." + ext;
-    }
-
-    return decodeURI(filename);
-};
-
-const addToDownloadQueue = function (chrome, image, resolve) {
-    downloadQueue.push({image: image, resolve: resolve});
-    //while (continueDownload(chrome)) {}
-};
-
-/**
- * Continues downloading all the jobs from the queue.
- * @param chrome
- */
-const continueDownload = function (chrome) {
-    updateBadge(getJobCount());
-    if (!downloadPaused && inProgress < CONCURRENT_LIMIT && downloadQueue.length > 0) {
-        inProgress++;
-        let nextItem = downloadQueue.shift(); // get from the head of queue
-        let image = nextItem.image;
-        chrome.downloads.download(
-            {
-                url: image.url,
-                saveAs: false,
-                method: "GET",
-                filename: image.folder + getFileName(image.url, image.ext, image.filename)
-            }, function (downloadId) {
-                if (downloadId) {
-                    inProgressMap[downloadId] = nextItem;
-                } else {
-                    // Download failed.
-                    inProgress--;
-                    while (continueDownload(chrome)) {}
-                }
-            });
-        updateBadge(getJobCount());
-        return true;
-    } else {
-        return false;
-    }
-};
-
-
-/**
- * Number of download jobs that are pending (downloading or in the queue)
- */
-const getJobCount = function () {
-    return downloadQueue.length + inProgress;
-};
-
-const updateBadge = function (count){
-    chrome.browserAction.setBadgeText({text: count === 0 ? "" : ("" + count)});
-};
-
 // listen for download message from popup.js
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    if (message.what === "download") {
-        console.debug("Received " + message.images.length + " jobs");
-        let count = 0;
-        for (const image of message.images) {
-            downloader.download(chrome, image, function () {
-                console.debug("Started job #" + count);
-                count++;
-                if (count === message.images.length) {
-                    sendResponse({what: "done", images: message.images});
-                }
-            });
-        }
-        return true;
-    }
+messaging.listen("download", function (job, sendResponse) {
+    downloader.downloadJob(job, sendResponse);
+    // async response
+    return true;
 });
 
 // track installation

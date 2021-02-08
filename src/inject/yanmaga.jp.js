@@ -2,6 +2,7 @@ const utils = require("../utils");
 const messaging = require("../messaging");
 const globals = require("../globals");
 const logger = require("../logger");
+const {wait} = require("../utils/async-utils");
 
 const document = globals.getDocument();
 const window = globals.getWindow();
