@@ -1,5 +1,6 @@
 const messaging = require("./messaging");
-const {wait} = require("./utils/async-utils");
+const {wait, every} = require("./utils/async-utils");
+const globals = require("./globals");
 /**
  * Adds listener functions for a downloadId during download completion
  * @param downloadId
@@ -84,19 +85,20 @@ function downloadWithMsg(chrome, context, images, done) {
                             // logger.debug("downloadWithMsg done count=", count);
                             ga.trackEvent("msg_download",
                                 "comp",
-                                context.host,
+                                globals.getExtensionVersion(),
                                 images.length);
                             ga.trackEvent("msg_download",
                                 "comp_latency_s",
-                                context.host,
+                                globals.getExtensionVersion(),
                                 Math.round((new Date().getTime() - startMs) / 1000.0));
+                            logger.debug("globals.getExtensionVersion()", globals.getExtensionVersion())
                             if (done instanceof Function) {
                                 wait(1000).then(done);
                             }
                         }
                     });
                 } else {
-                    ga.trackEvent("msg_download", "null", context.host, 1);
+                    ga.trackEvent("msg_download", "null", globals.getExtensionVersion(), 1);
                 }
             })
         }
@@ -104,14 +106,26 @@ function downloadWithMsg(chrome, context, images, done) {
         wait(5000)
             .then(() => {
                 if (count < images.length) {
-                    ga.trackEvent("msg_download", "incomp_5s", context.host, images.length - count);
-                    wait(5000)
+                    ga.trackEvent("msg_download", "incomp_5s", globals.getExtensionVersion(), images.length);
+                    every(1000)
                         .then(() => {
-                            ga.trackEvent("msg_download",
-                                count < images.length ? "incomp_10s" : "comp_10s",
-                                context.host,
-                                count < images.length ? (images.length - count) : images.length);
-                        })
+                            const sec = Math.round((new Date().getTime() - startMs) / 1000.0);
+                            if (count === images.length) {
+                                ga.trackEvent("msg_download",
+                                    "comp_" + sec + "s",
+                                    globals.getExtensionVersion(),
+                                    images.length);
+                                return true;
+                            } else {
+                                if (sec >= 20) {
+                                    ga.trackEvent("msg_download",
+                                        "incomp_20s",
+                                        globals.getExtensionVersion(),
+                                        images.length);
+                                    return true;
+                                }
+                            }
+                        });
                 }
             });
     }

@@ -1,18 +1,10 @@
-const {testDirectDownload, launchBrowser, dummyItems} = require("./testbase");
-//const pageutils = require("../pageutils");
-
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
+const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const pageutils = require("../pageutils");
+let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test fashion article", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://ananweb.jp/news/303125/",
         "ananweb.jp-news-303125-/",
         [
@@ -46,12 +38,16 @@ test("Test fashion article", async () => {
                 ],
                 "url": "https://img.ananweb.jp/2020/08/01100809/6.jpg"
             }
-        ]);
+        ], {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page,  50);
+            }
+        });
 });
 
 test("Test beauty article", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://ananweb.jp/news/304729/",
         "ananweb.jp-news-304729-/",
         [
@@ -91,12 +87,17 @@ test("Test beauty article", async () => {
                 ],
                 "url": "https://img.ananweb.jp/2020/08/17170617/10-1.jpg"
             }
-        ]);
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page,  50);
+            }
+        });
 });
 
 test("Test entame article", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://ananweb.jp/news/305621/",
         "ananweb.jp-news-305621-/",
         [
@@ -106,6 +107,11 @@ test("Test entame article", async () => {
                 ],
                 "url": "https://img.ananweb.jp/2020/08/23112913/2214-takayama.jpg"
             }
-        ]);
+        ],
+        {
+        preinject: async function (page) {
+            await pageutils.scrollTo(page,  50);
+        }
+    });
 });
 

@@ -107,6 +107,8 @@ function listenOnce() {
                 if (image.filename === msg.filename) {
                     logger.debug("found image filename=", msg.filename);
                     image.promise.then(function (dom) {
+                        // wait(6000)
+                        //     .then(() => {})
                         logger.debug("loaded image filename=", image.filename);
                         image.dataUrl = image.dataUrl || descramble(dom, image.scramble);
                         logger.debug("sending getImageUrl response image.filename=", image.filename,

@@ -1,7 +1,6 @@
-
 const utils = require("./utils");
 
-const getWindow = function () {
+function getWindow() {
     if (typeof window === "undefined") {
         // hack for node
         return global;
@@ -10,25 +9,34 @@ const getWindow = function () {
     return window;
 }
 
-const getChrome = function () {
+function getChrome() {
     return chrome;
 }
 
-const getDocument = function () {
+function getDocument() {
     return getWindow().document;
 }
 
-const getSearchParamValue = function (key) {
+function getSearchParamValue(key) {
     try {
         return utils.getSearchParam(getWindow().location).get(key);
     } catch (e) {
         require("./logger").error(e);
         return null;
     }
-};
+}
+
+let VER = null;
+/**
+ * @return {string}
+ */
+function getExtensionVersion() {
+    VER = VER || getChrome().runtime.getManifest().version;
+    return VER;
+}
 
 exports.getWindow = getWindow;
 exports.getChrome = getChrome;
 exports.getDocument = getDocument;
 exports.getSearchParamValue = getSearchParamValue;
-
+exports.getExtensionVersion = getExtensionVersion;
