@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.5 (2021/02/08)
+* Refactor download module for yamaga.jp
+
 ###### 3.4 (2021/02/04)
 * Add www.dispatch.co.kr
 * Add exweb.jp
