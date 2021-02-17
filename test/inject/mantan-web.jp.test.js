@@ -228,3 +228,63 @@ test("Test getLargeImg function", () => {
         "url": "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200031000c/001_size10.jpg",
     });
 })
+
+test("Test mantan-web.jp page", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://mantan-web.jp/article/20191228dog00m200028000c.html",
+        "mantan-web.jp-article-20191228dog00m200028000c.html/",
+        [
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size6.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size5.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size4.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size3.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/002_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size6.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size5.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size4.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size3.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/003_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size6.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size5.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size4.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size3.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/004_size10.jpg"
+            }
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 50);
+            }
+        }
+    );
+});
