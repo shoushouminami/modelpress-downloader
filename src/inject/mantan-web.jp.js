@@ -4,12 +4,25 @@ const getLargeImg = utils.getSizeGuessingFunc(10);
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        // article with more than 1 image
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "article .newsbody__thumblist li img", getLargeImg));
-        // image gallery
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "article .photo__photolist li img", getLargeImg));
-        // article with 1 image
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "article .newsbody__img img", getLargeImg));
+        utils.pushArray(o.images,
+            utils.findImagesWithCssSelector(
+                document,
+                [
+                    ".article__wrap .article__photolist img", // article image gallery
+                    ".article__wrap .photo__photo img",  // article top image
+                    ".photo__wrap .photo__photo img", // photo page top image
+                    ".photo__wrap .photo__photolist .thumb-item img", // photo page top image
+                ].join(","),
+                function (url) {
+                    if (url.endsWith("/clear.gif")) {
+                        return null;
+                    }
+
+                    return getLargeImg(url);
+                }
+            )
+        );
+
         return o;
     },
     host: "mantan-web.jp",

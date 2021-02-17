@@ -209,7 +209,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         tabId,
         {file: "inject-cs.js", matchAboutBlank: true},
         function (results) {
-            if (results && results.length) {
+            if (results && results.length > 0) {
                 let result = results[0];
                 if (result.retry) {
                     // retry in 100ms
