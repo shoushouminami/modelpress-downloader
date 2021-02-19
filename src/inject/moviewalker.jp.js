@@ -1,5 +1,9 @@
 const utils = require("../utils.js");
 const getLargeImg = function (url) {
+    if (utils.removeQuery(url).endsWith("/temporaryImage.png")) {
+        return null;
+    }
+
     if (url) {
         url = utils.removeQuery(url) + "?w=2048";
     }

@@ -117,9 +117,9 @@ function downloadWithMsg(chrome, context, images, done) {
                                     images.length);
                                 return true;
                             } else {
-                                if (sec >= 20) {
+                                if (sec >= 30) {
                                     ga.trackEvent("msg_download",
-                                        "incomp_20s",
+                                        "incomp_30s",
                                         globals.getExtensionVersion(),
                                         images.length);
                                     return true;

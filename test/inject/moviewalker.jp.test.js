@@ -1,4 +1,6 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const pageutils = require("../pageutils");
+
 let browserFactory = getBrowserFactory(beforeAll, afterAll);
 
 test("Test news article", async () => {
@@ -12,12 +14,13 @@ test("Test news article", async () => {
             "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082527?w=2048",
             "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082533?w=2048",
             "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082528?w=2048",
-            "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082534?w=2048",
-            "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082529?w=2048",
-            "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082530?w=2048",
-            "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082535?w=2048",
-            "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082536?w=2048"
-        ]
+            "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082534?w=2048"
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 60);
+            }
+        }
     );
 });
 
@@ -41,7 +44,12 @@ test("Test news article images", async () => {
             "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082538?w=2048",
             "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082539?w=2048",
             "https://moviewalker.jp/api/resizeimage/news/article/1009954/10082531?w=2048"
-        ]
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 60);
+            }
+        }
     );
 });
 
