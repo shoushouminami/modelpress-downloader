@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.6 (2021/02/19)
+* Fix mantan-web.jp
+
 ###### 3.5 (2021/02/08)
 * Refactor download module for yamaga.jp
 
