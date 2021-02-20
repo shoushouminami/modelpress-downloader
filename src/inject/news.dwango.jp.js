@@ -1,5 +1,7 @@
 const utils = require("../utils.js");
 const getOriginalImg = function(url) {
+    url = utils.removeQuery(url);
+
     var slash = url.lastIndexOf("/");
     if (slash > -1) {
         let smallFile = url.substring(slash + 1);
