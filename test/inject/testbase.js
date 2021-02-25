@@ -15,7 +15,9 @@ const getBrowserFactory = function(beforeAll, afterAll) {
     });
 
     afterAll(async () => {
-        await browser.close();
+        if (browser) {
+            await browser.close();
+        }
     });
 
     return function (){
@@ -31,7 +33,8 @@ const launchBrowser = async function () {
             "--load-extension=" + resolvePath("../../build"),
             "--lang=zh-CN,zh",
             "--no-sandbox",
-            "--window-size=" + WINDOW_WIDTH + "," + WINDOW_HEIGHT
+            "--window-size=" + WINDOW_WIDTH + "," + WINDOW_HEIGHT,
+            "--disable-dev-shm-usage"
         ],
         defaultViewport: {width: WINDOW_WIDTH, height: WINDOW_HEIGHT}
     });
