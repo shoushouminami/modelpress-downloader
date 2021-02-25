@@ -1,15 +1,7 @@
-const {testDirectDownload, launchBrowser, dummyItems} = require("./testbase");
+const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const {getLargeImg} = require("../../src/inject/www.walkerplus.com");
-const pageutils = require("../pageutils");
 
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
+let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test getLargeImg function ", () => {
     expect(getLargeImg("https://news.walkerplus.com/article/1005180/10036741_615.jpg"))
@@ -22,9 +14,9 @@ test("Test getLargeImg function ", () => {
 
 test("Test news article gallery", async () => {
     await testDirectDownload(
-        browser,
-        "https://www.walkerplus.com/article/1005180/image10036743.html",
-        "www.walkerplus.com-article-1005180-image10036743.html/",
+        getBrowser(),
+        "https://www.walkerplus.com/trend/matome/article/1005180/image10036743.html",
+        "www.walkerplus.com-trend-matome-article-1005180-image10036743.html/",
         [
             {
                 "retries": [
@@ -80,12 +72,13 @@ test("Test news article gallery", async () => {
                 ],
                 "url": "https://news.walkerplus.com/article/1005180/10036741.jpg"
             }
-        ]);
+        ]
+    );
 });
 
 test("Test news article 2 images", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://www.walkerplus.com/article/227986/",
         "www.walkerplus.com-article-227986-/",
         [
