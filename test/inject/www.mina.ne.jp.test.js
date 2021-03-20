@@ -26,7 +26,7 @@ test("Test fashion page", async () => {
         "www.mina.ne.jp-fashion-4605-/",
         [
             "https://www.mina.ne.jp/wp-content/uploads/2021/01/DMA-60.jpg",
-            "https://www.mina.ne.jp/wp-content/uploads/2021/01/DMA-868-1.jpg",
+            "https://www.mina.ne.jp/wp-content/uploads/2021/01/DMA-868.jpg",
             "https://www.mina.ne.jp/wp-content/uploads/2021/01/LACOSTE.jpg",
             "https://www.mina.ne.jp/wp-content/uploads/2021/01/APC.jpg",
             "https://www.mina.ne.jp/wp-content/uploads/2021/01/DMA-374.jpg",
