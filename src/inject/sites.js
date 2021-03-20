@@ -91,6 +91,7 @@ const register = function (siteModule) {
     require("./e-talentbank.co.jp"),
     require("./dogatch.jp"),
     require("./www.tvlife.jp"),
+    require("./sumabo.jp"),
     require("./entamenext.com"),
     require("./exweb.jp"),
     require("./yanmaga.jp"),
