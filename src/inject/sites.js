@@ -103,6 +103,7 @@ const register = function (siteModule) {
     require("./ar-mag.jp"),
     require("./ananweb.jp"),
     require("./www.fashion-press.net"),
+    require("./i-voce.jp"),
     require("./bltweb.jp"),
     require("./hustlepress.co.jp"),
     require("./www.crank-in.net"),
