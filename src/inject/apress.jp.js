@@ -4,10 +4,19 @@ const getLargeImg = (url) => {
 };
 const inject = function () {
     let o = require("./return-message.js").init();
-    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#main-content figure.gallery-item img", getLargeImg));
-    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#main-content div.entry-content figure.entry-thumbnail img", getLargeImg));
-    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#main-content div.entry-content p img[class*=wp-image]", getLargeImg));
-    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div#main-content article div.entry-content div.img div.img__item img", getLargeImg));
+    utils.pushArray(o.images,
+        utils.findImagesWithCssSelector(
+            document,
+            [
+                "#main-content .gallery-item img",
+                "#main-content .entry-content .entry-thumbnail img",
+                "#main-content .entry-content .blocks-gallery-item figure img",
+                "#main-content .entry-content p img[class*=wp-image]",
+                "#main-content article .entry-content div.img div.img__item img"
+            ].join(","),
+            getLargeImg
+        )
+    );
     return o;
 };
 
