@@ -22,6 +22,27 @@ module.exports = {
                 getLargeImg)
         );
 
+        //special page images
+        utils.pushArray(o.images,
+            utils.findImagesWithCssSelector(
+                document,
+                [
+                    "main section .style-inner__head img",
+                    "main section .style-img img"
+                ].join(","),
+                getLargeImg)
+        );
+
+        //magazine page
+        utils.pushArray(o.images,
+            utils.findImagesWithCssSelector(
+                document,
+                [
+                    "#mainContent #preview li img",
+                ].join(","),
+                getLargeImg)
+        );
+
         return o;
     },
     host: "spur.hpplus.jp",
