@@ -19,6 +19,16 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.7 (2021/03/23)
+* Support spur.hpplus.jp
+* Support taishu.jp
+* Support i-voce.jp
+* Support sumabo.jp  
+* Fix natalie.mu
+* Fix apress.jp
+* Fix www.crank-in.net
+* Fix news.dwango.jp
+
 ###### 3.6 (2021/02/19)
 * Fix mantan-web.jp
 
