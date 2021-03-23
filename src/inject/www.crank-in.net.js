@@ -28,7 +28,10 @@ module.exports = {
         // image in slide show
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document,
-                "#content main article figure img", getLargeImg)
+                [
+                    "#content main article figure img",
+                    "#content main article .top_news_all img"
+                ].join(","), getLargeImg)
         );
 
         // guess images on gallery page
