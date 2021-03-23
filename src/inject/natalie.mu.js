@@ -19,6 +19,19 @@ const inject = function () {
     // new layout 2020-05-15
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main .NA_article_body .NA_article_img a .NA_article_img_thumb img", getLargeImg));
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main .NA_article_body .NA_article_gallery .NA_imglist li img", getLargeImg));
+
+    // missing pp special page
+    utils.pushArray(o.images,
+        utils.findImagesWithCssSelector(
+            document,
+            [
+                "main .PP_container .PP_main img",
+                "main .PP_container .PP_header img"
+            ].join(","),
+            getLargeImg
+        )
+    );
+
     return o;
 };
 

@@ -48,3 +48,18 @@ test("Test natalie.mu single image page", async () => {
         "natalie.mu-eiga-news-363866/",
         ["https://ogre.natalie.mu/media/news/eiga/2020/0120/Mujica_202001_01.jpg?imtype="]);
 });
+
+test("Test pp page", async () => {
+    await testDirectDownload(
+        browser,
+        "https://natalie.mu/music/pp/kashiwagiyuki02/page/3",
+        "natalie.mu-music-pp-kashiwagiyuki02-page-3/",
+        [
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/pc_header_min.jpg?imtype=",
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo08s.jpg?imtype=",
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo09s.jpg?imtype=",
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo10s.jpg?imtype=",
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo11.jpg?imtype="
+        ]
+    );
+});
