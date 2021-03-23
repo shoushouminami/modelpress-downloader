@@ -1,4 +1,4 @@
-const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
+const {testDirectDownload, getBrowserFactory} = require("./testbase");
 
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
