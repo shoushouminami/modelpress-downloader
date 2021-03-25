@@ -1,7 +1,4 @@
 const utils = require("../utils.js");
-const getLargeImg = function (url) {
-    return url;
-}
 
 module.exports = {
     inject: function () {
@@ -10,16 +7,14 @@ module.exports = {
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(
                 document,
-                "#mainContent .main-area .main-image-area img",
-                getLargeImg)
+                "#mainContent .main-area .main-image-area img")
         );
 
         // article images
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(
                 document,
-                "#mainContent .main-area .txt-related img",
-                getLargeImg)
+                "#mainContent .main-area .txt-related img")
         );
 
         //special page images
@@ -29,8 +24,7 @@ module.exports = {
                 [
                     "main section .style-inner__head img",
                     "main section .style-img img"
-                ].join(","),
-                getLargeImg)
+                ].join(","))
         );
 
         //magazine page
@@ -39,8 +33,7 @@ module.exports = {
                 document,
                 [
                     "#mainContent #preview li img",
-                ].join(","),
-                getLargeImg)
+                ].join(","))
         );
 
         return o;
