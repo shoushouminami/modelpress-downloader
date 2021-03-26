@@ -51,6 +51,7 @@ const register = function (siteModule) {
     }
 })([
     require("./mdpr.jp"),
+    require("./style.nikkei.com"),
     require("./times.abema.tv"),
     require("./www.rbbtoday.com"),
     require("./www.nikkansports.com"),
