@@ -21,7 +21,7 @@ exports.check = function (location) {
     }
 
     if (host.endsWith(".wowkorea.jp")) {
-        return "kt.wowkorea.jp";
+        return "www.wowkorea.jp";
     }
 
     return host;

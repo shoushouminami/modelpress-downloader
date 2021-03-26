@@ -112,6 +112,7 @@ const register = function (siteModule) {
     require("./spur.hpplus.jp"),
     require("./trilltrill.jp"),
     require("./www.vivi.tv"),
+    require("./domani.shogakukan.co.jp"),
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),

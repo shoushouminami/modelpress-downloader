@@ -23,5 +23,5 @@ module.exports = {
 
         return o;
     },
-    host: "kt.wowkorea.jp",
+    host: "www.wowkorea.jp",
 };
