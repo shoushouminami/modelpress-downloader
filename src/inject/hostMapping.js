@@ -20,5 +20,9 @@ exports.check = function (location) {
         return "thetv.jp"
     }
 
+    if (host.endsWith(".wowkorea.jp")) {
+        return "kt.wowkorea.jp";
+    }
+
     return host;
 };
