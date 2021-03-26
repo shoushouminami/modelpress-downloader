@@ -19,6 +19,13 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.8 (2021/03/26)
+* Support style.nikkei.com
+* Support domani.shogakukan.co.jp
+* Support www.vivi.tv
+* Support smart-flash.jp
+* Support trilltrill.jp
+
 ###### 3.7 (2021/03/23)
 * Support spur.hpplus.jp
 * Support taishu.jp
