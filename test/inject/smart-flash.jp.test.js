@@ -20,7 +20,9 @@ test("Test lifemoney page", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://smart-flash.jp/lifemoney/136298/image/0",
-        "smart-flash.jp-lifemoney-136298-image-0/",
+        function (folder) {
+            expect(folder.startsWith("smart-flash.jp-lifemoney-136298-image-")).toBe(true);
+        },
         [
             "https://data.smart-flash.jp/wp-content/uploads/2021/03/23134352/quiz4_41.jpg",
             "https://data.smart-flash.jp/wp-content/uploads/2021/03/23134345/quiz1_1_thumb2.jpg",

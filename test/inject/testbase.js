@@ -171,7 +171,12 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
         }
     }
 
-    expect(mid['o']['folder']).toBe(folder);
+    if (folder instanceof String) {
+        expect(mid['o']['folder']).toBe(folder);
+    } else if (folder instanceof Function) {
+        expect(folder(mid['o']['folder']));
+    }
+
 
     await page.close();
     return mid;
