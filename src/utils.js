@@ -162,6 +162,7 @@ const utils = {
         iframe.width = 1;
         iframe.style.cssText = 'visibility: hidden;';
         document.body.appendChild(iframe);
+        return iframe;
     },
 
     /**
