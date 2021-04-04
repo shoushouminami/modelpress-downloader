@@ -51,7 +51,7 @@ function descramble(imageDom, scrambleString) {
     let width = imageDom.width;
     let height = imageDom.height;
 
-    if (width === 1365) {
+    if (width % 4 === 1) {
         width--;
     }
 
