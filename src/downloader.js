@@ -71,6 +71,7 @@ function downloadWithMsg(chrome, context, images, done) {
         let count = 0;
         let startMs = new Date().getTime();
         logger.debug("downloadWithMsg images.length=", images.length);
+        ga.trackEvent("msg_download", "start", context.host, images.length);
         for (const image of images) {
             // logger.debug("sending getImageUrl message to cs filename=", image.filename);
             messaging.sendToCS(context.tabId, "getImageUrl", image, function (imageWithUrl) {
@@ -85,42 +86,41 @@ function downloadWithMsg(chrome, context, images, done) {
                             // logger.debug("downloadWithMsg done count=", count);
                             ga.trackEvent("msg_download",
                                 "comp",
-                                globals.getExtensionVersion(),
+                                context.host,
                                 images.length);
                             ga.trackEvent("msg_download",
                                 "comp_latency_s",
-                                globals.getExtensionVersion(),
+                                context.host,
                                 Math.round((new Date().getTime() - startMs) / 1000.0));
-                            logger.debug("globals.getExtensionVersion()", globals.getExtensionVersion())
                             if (done instanceof Function) {
                                 wait(1000).then(done);
                             }
                         }
                     });
                 } else {
-                    ga.trackEvent("msg_download", "null", globals.getExtensionVersion(), 1);
+                    ga.trackEvent("msg_download", "null", context.host, 1);
                 }
             })
         }
 
-        wait(5000)
+        wait(15_000)
             .then(() => {
                 if (count < images.length) {
-                    ga.trackEvent("msg_download", "incomp_5s", globals.getExtensionVersion(), images.length);
-                    every(1000)
+                    ga.trackEvent("msg_download", "incomp_15s", context.host, images.length);
+                    every(2000)
                         .then(() => {
                             const sec = Math.round((new Date().getTime() - startMs) / 1000.0);
                             if (count === images.length) {
                                 ga.trackEvent("msg_download",
                                     "comp_" + sec + "s",
-                                    globals.getExtensionVersion(),
+                                    context.host,
                                     images.length);
                                 return true;
                             } else {
-                                if (sec >= 30) {
+                                if (sec >= 40) {
                                     ga.trackEvent("msg_download",
-                                        "incomp_30s",
-                                        globals.getExtensionVersion(),
+                                        "incomp_40s",
+                                        context.host,
                                         images.length);
                                     return true;
                                 }
