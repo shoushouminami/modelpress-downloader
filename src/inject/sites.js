@@ -56,7 +56,6 @@ const register = function (siteModule) {
     require("./www.rbbtoday.com"),
     require("./www.nikkansports.com"),
     require("./news.mynavi.jp"),
-    require("./teens.mynavi.jp"),
     require("./www.fujitv-view.jp"),
     require("./tokyo.whatsin.jp"),
     require("./tokyopopline.com"),
