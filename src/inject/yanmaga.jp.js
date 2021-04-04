@@ -51,6 +51,10 @@ function descramble(imageDom, scrambleString) {
     let width = imageDom.width;
     let height = imageDom.height;
 
+    if (width === 1365) {
+        width--;
+    }
+
     let canvas = document.createElement("canvas")
     canvas.width = width;
     canvas.height = height;
