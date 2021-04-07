@@ -103,7 +103,7 @@ function downloadWithMsg(chrome, context, images, done) {
             })
         }
 
-        wait(15_000)
+        wait(15000)
             .then(() => {
                 if (count < images.length) {
                     ga.trackEvent("msg_download", "incomp_15s", context.host, images.length);
