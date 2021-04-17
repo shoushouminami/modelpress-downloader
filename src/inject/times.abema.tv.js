@@ -5,7 +5,10 @@ const getLargeImg = (url) => {
     let webpPattern = /^(https?:\/\/.*)\/files\/rcms_conv_webp\/files\/topics\/(.*)_[\d]{10,}.webp/i; // webp pattern e.g. https://d13krdvwknzmgv.cloudfront.net/files/rcms_conv_webp/files/topics/7006935_ext_col_03_11_1560759726.webp
     if (url.match(webpPattern)) {
         let m = url.match(webpPattern);
-        url = m[1] + "/files/topics/" + m[2] + ".jpg";
+        url = m[1] + "/files/topics/" + m[2];
+        if (!url.endsWith(".jpg")) {
+            url += ".jpg";
+        }
     }
 
     let pattern = /.*(\.w[0-9]+\.v[0-9]+).jpg$/i; // jpg pattern with width and timestamp, e.g. https://hayabusa.io/abema/programs/89-42_s0_p156158/thumb001.w800.v1559579567.jpg

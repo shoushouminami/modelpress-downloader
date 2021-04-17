@@ -20,7 +20,7 @@ function getLargeImg(url) {
             }
         }
 
-        return {url: url, retries: [original]}
+        return {url: utils.removeTrailingResolutionNumbers(url), retries: [original]}
     }
 
     try {

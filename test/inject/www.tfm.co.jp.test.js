@@ -1,7 +1,7 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test nogizaka46 page", async () => {
+test.skip("Test nogizaka46 page", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://www.tfm.co.jp/lock/nogizaka46/",

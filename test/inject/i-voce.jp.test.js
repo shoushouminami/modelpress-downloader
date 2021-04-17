@@ -124,51 +124,99 @@ test("Test magazine feed article", async () => {
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image06-640x404.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-15-500x640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image06-640x404.jpg"
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-15.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image07-640x404.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-14-500x640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image07-640x404.jpg"
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-14.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image01-1-640x404.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-7-500x640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image01-1-640x404.jpg"
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-7.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image02-640x404.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-6-500x640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image02-640x404.jpg"
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-6.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image03-640x404.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-7-500x640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image03-640x404.jpg"
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-7.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image05-640x404.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-6-500x640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image05-640x404.jpg"
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-6.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image04-1-640x404.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-1-500x640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image04-1-640x404.jpg"
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-1.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image08-640x404.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-0-500x640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/magazine_image08-640x404.jpg"
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-0.jpg"
+            },
+            {
+                "retries": [
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-5-500x640.jpg"
+                ],
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-5.jpg"
+            },
+            {
+                "retries": [
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-4-500x640.jpg"
+                ],
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-4.jpg"
+            },
+            {
+                "retries": [
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-5-500x640.jpg"
+                ],
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-5.jpg"
+            },
+            {
+                "retries": [
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-4-500x640.jpg"
+                ],
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-4.jpg"
+            },
+            {
+                "retries": [
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-0-500x640.jpg"
+                ],
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-0.jpg"
+            },
+            {
+                "retries": [
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-1-500x640.jpg"
+                ],
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-3-500x640.jpg"
+                ],
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-3.jpg"
+            },
+            {
+                "retries": [
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-2-500x640.jpg"
+                ],
+                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-2.jpg"
             }
         ]
     );
