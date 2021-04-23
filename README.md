@@ -3,7 +3,8 @@
 One click to batch download the best resolution images from the current news article. A [list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) are supported including ModelPress (mdpr.jp), Abema Times (times.abema.tv),
 Dwango News (news.dwango.jp), and more, and is still growing! 
 
-This extension is different from other image downloaders as it is custom made for the supported websites and it can search on the current  page for images
+This extensi
+on is different from other image downloaders as it is custom made for the supported websites and it can search on the current  page for images
 only related to the news article, and ignores the other irrelevant images such as ads and logos. Further more, it downloads images that are the best possible resolution.
 
 How to: 
@@ -18,6 +19,11 @@ If you have additional websites that you want this extension to support, please 
 You can report bugs and issues by [posting on issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
 
 ### Change Logs
+
+###### 3.10 (2021/04/22)
+* Support encount.press
+* Fix thetv.jp
+* Add www.tfm.co.jp/lock
 
 ###### 3.9 (2021/04/04)
 * Fix black edge in image (yanmaga.jp)
