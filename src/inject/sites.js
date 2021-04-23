@@ -72,6 +72,7 @@ const register = function (siteModule) {
     require("./www.wws-channel.com"),
     require("./lp.p.pia.jp"),
     require("./apress.jp"),
+    require("./encount.press"),
     require("./girlsnews.tv"),
     require("./hustlepress.co.jp"),
     require("./www.crank-in.net"),
