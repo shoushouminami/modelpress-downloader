@@ -2,7 +2,6 @@ const utils = require("../utils");
 const messaging = require("../messaging");
 const globals = require("../globals");
 const logger = require("../logger");
-const {wait} = require("../utils/async-utils");
 
 const document = globals.getDocument();
 const window = globals.getWindow();
@@ -51,21 +50,18 @@ function descramble(imageDom, scrambleString) {
     let width = imageDom.width;
     let height = imageDom.height;
 
-    if (width % 4 === 1) {
-        width--;
-    }
+    let tileWidth = Math.floor(width / 4);
+    let tileHeight = Math.floor(height / 4);
 
     let canvas = document.createElement("canvas")
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = tileWidth * 4;
+    canvas.height = tileHeight * 4;
 
     let context = canvas.getContext("2d");
     context.imageSmoothingQuality = "high";
     context.imageSmoothingEnabled = true;
 
     let decodedArray = decodeScrambleArray(scrambleString);
-    let tileWidth = Math.floor(width / 4);
-    let tileHeight = Math.floor(height / 4);
     for (let k = 0, i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
             let x = decodedArray[k][0], y = decodedArray[k][1];
@@ -91,7 +87,7 @@ function getCoordInfoUrl() {
         "/book/coordinateInfo?comici-viewer-id=" + div.getAttribute("comici-viewer-id")
 }
 
-// {  dom: dom, scramble: image.scramble, filename: image.title, promise: Promise, dataUrl}
+// array of { dom: dom, scramble: image.scramble, filename: image.title, promise: Promise, dataUrl: string }
 const images = window.yanmagaImages = window.yanmagaImages || [];
 
 function pushToMessage(o, images) {
@@ -142,11 +138,13 @@ const inject = function () {
         pushToMessage(o, images);
     } else {
         let coordUrl = getCoordInfoUrl();
+        logger.debug("coordUrl=", coordUrl)
         if (coordUrl) {
             utils.fetchUrl(coordUrl)
                 .then(respText => {
                         try {
                             const coord = JSON.parse(respText);
+                            logger.debug("coord=", coord)
                             if (coord && coord.result && coord.result.length > 0) {
                                 for (const image of coord.result) {
                                     let dom = document.createElement("img");
@@ -189,18 +187,8 @@ const inject = function () {
     return o;
 };
 
-/**
- * Runs in content script
- */
-const scan = function () {
-    let o = inject();
-    utils.injectScriptDOM(chrome.runtime.getURL("helper/yanmaga-cache.js"));
-    return o;
-}
-
 module.exports = {
     inject: inject,
-    scan: scan,
     host: "yanmaga.jp",
     getImg: getImg
 };
