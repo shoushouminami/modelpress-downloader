@@ -85,7 +85,7 @@ test("Test news article with slider", async () => {
         [
             {
                 "retries": [
-                    "https://realsound.jp/wp-content/uploads/2020/09/20200905-watanaberisa-950x633.jpg"
+                    "https://realsound.jp/wp-content/uploads/2020/09/20200905-watanaberisa.jpg"
                 ],
                 "url": "https://realsound.jp/wp-content/uploads/2020/09/20200905-watanaberisa.jpg"
             },
@@ -119,7 +119,8 @@ test("Test news article with slider", async () => {
                 ],
                 "url": "https://realsound.jp/wp-content/uploads/2020/09/20200905_keyaki_movie7.jpg"
             }
-        ]);
+        ]
+    );
 });
 
 test("Test movie special post", async () => {

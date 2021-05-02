@@ -4,24 +4,25 @@ let getBrowser = getBrowserFactory(beforeAll, afterAll);
 test("Test news article with 1 image", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.musicvoice.jp/news/202009120163313/",
-        "www.musicvoice.jp-news-202009120163313-/",
+        "https://www.musicvoice.jp/music/188192/",
+        "www.musicvoice.jp-music-188192-/",
         [
-                "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200806-K026.jpg"
-        ]);
+            "https://www.musicvoice.jp/wp-content/uploads/2021/05/pmu210501-m104.jpg"
+        ]
+    );
 });
 
-test("Test news article with 4 images", async () => {
+test("Test news article with 3 images", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.musicvoice.jp/news/202008190160451/",
-        "www.musicvoice.jp-news-202008190160451-/",
+        "https://www.musicvoice.jp/music/188223/",
+        "www.musicvoice.jp-music-188223-/",
         [
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K011.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K009.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K010.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K012.jpg"
-        ]);
+            "https://www.musicvoice.jp/wp-content/uploads/2021/05/pmu210501-m110-e1619923928808.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2021/05/pmu210501-m111.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2021/05/pmu210501-m110.jpg"
+        ]
+    );
 });
 
 test("Test news article single image view", async () => {
@@ -37,19 +38,15 @@ test("Test news article single image view", async () => {
 test("Test news interview article", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.musicvoice.jp/news/202009110163179/",
-        "www.musicvoice.jp-news-202009110163179-/",
+        "https://www.musicvoice.jp/interview/entame-interview/187897/",
+        "www.musicvoice.jp-interview-entame-interview-187897-/",
         [
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K026.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K028.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K024.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K032.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K022.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K023.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K025.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K027.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K029.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K030.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/09/P200911-K031.jpg"
-        ]);
+            "https://www.musicvoice.jp/wp-content/uploads/2021/04/pen210428-k022.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2021/04/pen210428-k023.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2021/04/pen210428-k024.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2021/04/pen210428-k025.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2021/04/pen210428-k020.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2021/04/pen210428-k021.jpg"
+        ]
+    );
 });
