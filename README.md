@@ -20,6 +20,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.11 (2021/05/02)
+* yanmaga.jp: fix one more case causing black edge
+
 ###### 3.10 (2021/04/22)
 * Support encount.press
 * Fix thetv.jp
