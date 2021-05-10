@@ -1,6 +1,15 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const pageutils = require("../pageutils");
+const {getLargeImg} = require("../../src/inject/www.vogue.co.jp");
+
 let browserFactory = getBrowserFactory(beforeAll, afterAll);
+
+test("Test getLargeImg func", () => {
+    expect(getLargeImg("https://media.vogue.co.jp/photos/608473999cee8adc4325f26b/master/w_100%2cc_limit/pb_1.jpg"))
+        .toBe("https://media.vogue.co.jp/photos/608473999cee8adc4325f26b/master/pb_1.jpg");
+    expect(getLargeImg("https://media.vogue.co.jp/photos/608473b49cee8adc4325f26d/master/w_100%2cc_limit/pb_2.jpeg"))
+        .toBe("https://media.vogue.co.jp/photos/608473b49cee8adc4325f26d/master/pb_2.jpeg");
+});
 
 test("Test feature audi article", async () => {
     await testDirectDownload(
@@ -68,6 +77,23 @@ test("Test feature perfume forevermark", async () => {
             "https://www.vogue.co.jp/uploads/media/2021/04/05/details_02.jpg",
             "https://www.vogue.co.jp/uploads/media/2021/04/05/details_03.jpg",
             "https://www.vogue.co.jp/uploads/media/2021/04/08/details_05.jpg"
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 70, 500);
+            }
+        }
+    );
+});
+
+test("Test fashion article", async () => {
+    await testDirectDownload(
+        browserFactory(),
+        "https://www.vogue.co.jp/fashion/article/2021-05-10-petit-bateau",
+        "www.vogue.co.jp-fashion-article-2021-05-10-petit-bateau/",
+        [
+            "https://media.vogue.co.jp/photos/608473999cee8adc4325f26b/master/pb_1.jpg",
+            "https://media.vogue.co.jp/photos/608473b49cee8adc4325f26d/master/pb_2.jpeg"
         ],
         {
             preinject: async function (page) {

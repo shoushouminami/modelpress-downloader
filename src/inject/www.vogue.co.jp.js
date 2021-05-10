@@ -1,7 +1,8 @@
 const utils = require("../utils.js");
 function getLargeImg(url) {
-    if (url == null) {
-        return null;
+    let m = url.match(/^https:\/\/.*\/(w_\d+%2cc_limit\/).*\.(jpg|jpeg|png)$/i);
+    if (m) {
+        return url.replace(m[1], "");
     }
 
     return url;
@@ -16,9 +17,8 @@ const inject = function() {
                 "#mainArea .article-content .single__body__media img", // news article
                 "main .article-content .cs2__mainvisual img", // feature page top image
                 "main .article-content .single__body__media img", // feature page article images
-                "main section[data-test-id='ArticleBodyContent'] div[data-test-id='PictureWrapper'] img",
-            ]
-                .join(","),
+                "section[data-test-id=\"ArticleBodyContent\"] div[data-test-id=\"PictureWrapper\"] img",
+            ].join(","),
             getLargeImg)
     );
 
@@ -28,4 +28,5 @@ const inject = function() {
 module.exports = {
     inject: inject,
     host: "www.vogue.co.jp",
+    getLargeImg: getLargeImg
 };

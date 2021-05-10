@@ -1,3 +1,5 @@
+const logger = require("./logger");
+
 const utils = {
     /**
      * First get a list of DOMs belonging to the given CSS class.
@@ -196,6 +198,7 @@ const utils = {
     findDomsWithCssSelector: function(rootDom, cssSelector, filterFunc) {
         let ret = [];
         let doms = rootDom.querySelectorAll(cssSelector);
+        logger.debug("[utils.js] cssSelector=", cssSelector, " doms.length=" + doms.length);
         if (doms && doms.length) {
             for (const dom of doms) {
                 if (typeof filterFunc === "function") {
