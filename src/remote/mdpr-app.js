@@ -2,6 +2,7 @@ const ga = require("../google-analytics");
 const utils = require("../utils.js");
 // const utils = require("../utils/utils-mock");
 const logger = require("../logger");
+const getLargeImg = require("../inject/mdpr.jp").getLargeImg
 
 let state = {
     canDownloadMobile: false,
@@ -68,10 +69,11 @@ export function fetchMdprMobileImages(articleId, currentImages, callback, domain
                 state.addedCount = 0;
 
                 let added = [];
-                list.filter(image => currentImages.indexOf(image.url) === -1)
-                    .forEach(image => {
+                list.map(image => getLargeImg(image.url))
+                    .filter(url => currentImages.indexOf(url) === -1)
+                    .forEach(url => {
                         state.addedCount++;
-                        added.push(image.url);
+                        added.push(url);
                     });
 
                 state.fetchStatus = 200;

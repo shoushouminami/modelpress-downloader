@@ -16,12 +16,13 @@ test("Test https://mdpr.jp/news/detail/1844622", async () => {
         "https://mdpr.jp/news/detail/1844622",
         "mdpr.jp-news-detail-1844622/",
         [
-            "https://img-mdpr.freetls.fastly.net/article/QZD7/wm/QZD7dhbnlwCDvX1PEOiZej8mAZZhZ9LHy0I9rzdFVRE.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/zIM_/wm/zIM_-fR9nAoFFqTa6sY-qPO36tg8URuHhMr5eJ6A5nw.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/mP08/wm/mP083mIIbfNJKuaF7g68RIPQlQAh9CGGX4E91BrtC-c.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/a2dA/wm/a2dADq2nRw44R-VCTCAy5bZGZzviIvhDjUyC5e6GDek.jpg"
-        ]);
+            "https://img-mdpr.freetls.fastly.net/article/QZD7/wm/QZD7dhbnlwCDvX1PEOiZej8mAZZhZ9LHy0I9rzdFVRE.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/zIM_/wm/zIM_-fR9nAoFFqTa6sY-qPO36tg8URuHhMr5eJ6A5nw.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/mP08/wm/mP083mIIbfNJKuaF7g68RIPQlQAh9CGGX4E91BrtC-c.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/a2dA/wm/a2dADq2nRw44R-VCTCAy5bZGZzviIvhDjUyC5e6GDek.jpg?quality=100"
+        ]
+    );
 });
 
 test("Test https://mdpr.jp/photo/detail/6942679", async () => {
@@ -30,12 +31,13 @@ test("Test https://mdpr.jp/photo/detail/6942679", async () => {
         "https://mdpr.jp/photo/detail/6942679",
         "mdpr.jp-photo-detail-6942679/",
         [
-            "https://img-mdpr.freetls.fastly.net/article/QZD7/wm/QZD7dhbnlwCDvX1PEOiZej8mAZZhZ9LHy0I9rzdFVRE.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/zIM_/wm/zIM_-fR9nAoFFqTa6sY-qPO36tg8URuHhMr5eJ6A5nw.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/mP08/wm/mP083mIIbfNJKuaF7g68RIPQlQAh9CGGX4E91BrtC-c.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg",
-            "https://img-mdpr.freetls.fastly.net/article/a2dA/wm/a2dADq2nRw44R-VCTCAy5bZGZzviIvhDjUyC5e6GDek.jpg"
-        ]);
+            "https://img-mdpr.freetls.fastly.net/article/QZD7/wm/QZD7dhbnlwCDvX1PEOiZej8mAZZhZ9LHy0I9rzdFVRE.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/zIM_/wm/zIM_-fR9nAoFFqTa6sY-qPO36tg8URuHhMr5eJ6A5nw.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/mP08/wm/mP083mIIbfNJKuaF7g68RIPQlQAh9CGGX4E91BrtC-c.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/a2dA/wm/a2dADq2nRw44R-VCTCAy5bZGZzviIvhDjUyC5e6GDek.jpg?quality=100"
+        ]
+    );
 });
 
 test("Test apparel.mdpr.jp news", async () => {
