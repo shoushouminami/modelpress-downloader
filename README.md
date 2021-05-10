@@ -20,6 +20,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.12 (2021/05/09)
+* Add vogue.co.jp
+* Add anna-media.jp
+* Better image quality on mdpr.jp
+
 ###### 3.11 (2021/05/02)
 * yanmaga.jp: fix one more case causing black edge
 
