@@ -109,6 +109,7 @@ const register = function (siteModule) {
     require("./bisweb.jp"),
     require("./ar-mag.jp"),
     require("./ananweb.jp"),
+    require("./anna-media.jp"),
     require("./www.fashion-press.net"),
     require("./i-voce.jp"),
     require("./spur.hpplus.jp"),
