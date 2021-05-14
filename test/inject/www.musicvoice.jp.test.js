@@ -25,16 +25,6 @@ test("Test news article with 3 images", async () => {
     );
 });
 
-test("Test news article single image view", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://www.musicvoice.jp/news/202008190160451/p200819-k012/",
-        "www.musicvoice.jp-news-202008190160451-p200819-k012-/",
-        [
-            "https://www.musicvoice.jp/wp-content/uploads/2020/08/P200819-K012.jpg"
-        ]);
-});
-
 test("Test news interview article", async () => {
     await testDirectDownload(
         getBrowser(),

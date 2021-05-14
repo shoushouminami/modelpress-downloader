@@ -1,6 +1,7 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const {pattern} = require("../../src/inject/www.rbbtoday.com");
 const pageutils = require("../pageutils");
+const retries = require("../utils/retries");
 
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
@@ -19,108 +20,113 @@ test("Test regex pattern", () => {
 });
 
 test("Test news article gallery", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://www.rbbtoday.com/article/img/2020/09/02/181791/676764.html",
-        "www.rbbtoday.com-article-img-2020-09-02-181791-676764.html/",
-        [
+    retries(3, async () => {
+        await testDirectDownload(
+            getBrowser(),
+            "https://www.rbbtoday.com/article/img/2020/09/02/181791/676764.html",
+            "www.rbbtoday.com-article-img-2020-09-02-181791-676764.html/",
+            [
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/zoom/676764.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676764.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676764.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676760.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676760.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/zoom/676760.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/zoom/676761.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676761.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676761.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/zoom/676762.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676762.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676762.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/zoom/676763.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676763.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676763.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676758.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676758.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/zoom/676758.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/zoom/676765.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676765.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676765.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/zoom/676759.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676759.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676759.jpg"
+                }
+            ],
             {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/676764.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676764.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676764.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676760.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676760.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/zoom/676760.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/676761.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676761.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676761.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/676762.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676762.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676762.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/676763.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676763.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676763.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676758.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676758.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/zoom/676758.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/676765.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676765.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676765.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/676759.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676759.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/676759.jpg"
+                preinject: async function (page) {
+                    await pageutils.scrollTo(page, 50, 1000);
+                    await pageutils.wait(1000);
+                }
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 50, 1000);
-                await pageutils.wait(1000);
-            }
-        }
-    );
+        );
+    });
+
 });
 
 test("Test news article images", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://www.rbbtoday.com/article/2020/08/21/181450.html",
-        "www.rbbtoday.com-article-2020-08-21-181450.html/",
-        [
+    retries(3, async () => {
+        await testDirectDownload(
+            getBrowser(),
+            "https://www.rbbtoday.com/article/2020/08/21/181450.html",
+            "www.rbbtoday.com-article-2020-08-21-181450.html/",
+            [
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675748.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675748.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/zoom/675748.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/zoom/675749.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675749.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675749.jpg"
+                },
+                {
+                    "retries": [
+                        "https://www.rbbtoday.com/imgs/zoom/675750.jpg",
+                        "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675750.jpg"
+                    ],
+                    "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675750.jpg"
+                }
+            ],
             {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675748.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675748.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/zoom/675748.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/675749.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675749.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675749.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/675750.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675750.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675750.jpg"
-            }
-        ],
-        {
-            sizeMatch: function (expectedSize, actualSize) {
-                expect(actualSize).toBeGreaterThanOrEqual(expectedSize);
-            }
-        });
+                sizeMatch: function (expectedSize, actualSize) {
+                    expect(actualSize).toBeGreaterThanOrEqual(expectedSize);
+                }
+            });
+    });
 });

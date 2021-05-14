@@ -1,4 +1,4 @@
-const {wait, every} = require("../../src/utils/async-utils");
+const {wait, every} = require("../src/utils/async-utils");
 
 test("Test waited", async (resolve) => {
     let count = 0;
