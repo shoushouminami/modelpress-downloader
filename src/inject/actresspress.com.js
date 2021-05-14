@@ -15,8 +15,8 @@ module.exports = {
             utils.findImagesWithCssSelector(
                 document,
                 [
-                    "#container #content #main figure img", // news article top image
-                    "#container #content #main section img", // news article top image
+                    "#container #content #main article figure img", // news article top image
+                    "#container #content #main article section img", // news article top image
                 ].join(","),
                 getLargeImg
             )
