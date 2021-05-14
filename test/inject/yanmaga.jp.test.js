@@ -1,6 +1,4 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-const pageutils = require("../pageutils");
-
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test columns page", async () => {
@@ -25,12 +23,11 @@ test("Test news page", async () => {
     );
 });
 
-
 test("Test gravures page", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://yanmaga.jp/gravures/books/%E5%A4%8F%E7%9B%AE%E7%B6%BE%E3%81%8C%E6%92%AE%E3%82%8B%EF%BC%81%E3%83%8A%E3%83%84%E3%83%A1%E3%82%AB%E3%83%A1%E3%83%A9%E7%AC%AC5%E5%9B%9E_%E3%82%B2%E3%82%B9%E3%83%88_%E8%B1%8A%E7%94%B0%E3%83%AB%E3%83%8A/dba3540a411fd05896acbf42b6fca012",
-        "yanmaga.jp-gravures-books-%E5%A4%8F%E7%9B%AE%E7%B6%BE%E3%81%8C%E6%92%AE%E3%82%8B%EF%BC%81%E3%83%8A%E3%83%84%E3%83%A1%E3%82%AB%E3%83%A1%E3%83%A9%E7%AC%AC5%E5%9B%9E_%E3%82%B2%E3%82%B9%E3%83%88_%E8%B1%8A%E7%94%B0%E3%83%AB%E3%83%8A/",
+        "https://yanmaga.jp/gravures/books/%E6%96%B0%E4%BA%95%E9%81%A5_%E3%83%9F%E3%82%B9%E3%83%9E%E3%82%AC%E3%82%AE%E3%83%A3%E3%83%AB%E5%8C%96%E8%A8%88%E7%94%BB01/f1997f48680074f37c2131e1cbee1aae",
+        "yanmaga.jp-gravures-books-%E6%96%B0%E4%BA%95%E9%81%A5_%E3%83%9F%E3%82%B9%E3%83%9E%E3%82%AC%E3%82%AE%E3%83%A3%E3%83%AB%E5%8C%96%E8%A8%88%E7%94%BB01/",
         [
             {
                 "filename": "i_0001.jpg",

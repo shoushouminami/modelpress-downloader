@@ -15,7 +15,10 @@ test("Test mantan-web.jp article with 4 images", async () => {
                     "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size9.jpg",
                     "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size8.jpg",
                     "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size7.jpg",
-                    "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size6.jpg"
+                    "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size6.jpg",
+                    "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size5.jpg",
+                    "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size4.jpg",
+                    "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size3.jpg"
                 ],
                 "url": "https://storage.mantan-web.jp/images/2020/08/14/20200814dog00m200101000c/001_size10.jpg"
             },
@@ -58,7 +61,7 @@ test("Test mantan-web.jp article with 4 images", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.scrollTo(page, 50);
+                await pageutils.scrollTo(page, 70);
             }
         }
     );
@@ -240,7 +243,10 @@ test("Test mantan-web.jp page", async () => {
                     "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size9.jpg",
                     "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size8.jpg",
                     "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size7.jpg",
-                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size6.jpg"
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size6.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size5.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size4.jpg",
+                    "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size3.jpg"
                 ],
                 "url": "https://storage.mantan-web.jp/images/2019/12/28/20191228dog00m200028000c/001_size10.jpg"
             },
