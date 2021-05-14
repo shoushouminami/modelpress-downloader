@@ -6,9 +6,10 @@ const utils = {
      * @returns {*|a}
      */
     findImagesOfClass: function (clazz) {
-        var dom = document.getElementsByClassName(clazz);
-        var list = this.findImageUrlsFromDOMList(dom && dom.length && dom);
-        console.debug("Found " + list.length + " images of class " + clazz);
+        let logger = require("./logger");
+        let dom = document.getElementsByClassName(clazz);
+        let list = this.findImageUrlsFromDOMList(dom && dom.length && dom);
+        logger.debug("Found " + list.length + " images of class " + clazz);
         return list;
     },
     /**
@@ -18,14 +19,15 @@ const utils = {
      * @returns {*}
      */
     findImagesOfContainerClass: function (clazz) {
-        var list = [];
-        var dom = document.getElementsByClassName(clazz);
+        let logger = require("./logger");
+        let list = [];
+        let dom = document.getElementsByClassName(clazz);
         if (dom && dom.length) {
             for (var i = 0; i < dom.length; i++) {
                 list = list.concat(this.findImagesFromContainerDOM(dom[i]));
             }
         }
-        console.debug("Found " + list.length + " images of container class " + clazz);
+        logger.debug("Found " + list.length + " images of container class " + clazz);
         return list;
     },
     /**
@@ -194,9 +196,10 @@ const utils = {
      * @returns {[]}
      */
     findDomsWithCssSelector: function(rootDom, cssSelector, filterFunc) {
+        let logger = require("./logger");
         let ret = [];
         let doms = rootDom.querySelectorAll(cssSelector);
-        // logger.debug("[utils.js]","doms.length=", doms.length, "cssSelector=", cssSelector, );
+        logger.debug("[utils.js]","doms.length=", doms.length, "cssSelector=", cssSelector, );
         if (doms && doms.length) {
             for (const dom of doms) {
                 if (typeof filterFunc === "function") {

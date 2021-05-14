@@ -177,7 +177,6 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
         expect(folder(mid['o']['folder']));
     }
 
-
     await page.close();
     return mid;
 };

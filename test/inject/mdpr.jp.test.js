@@ -1,48 +1,11 @@
-const {testDirectDownload, launchBrowser} = require("./testbase");
+const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const pageutils = require("../pageutils");
-
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
-
-test("Test https://mdpr.jp/news/detail/1844622", async () => {
-    await testDirectDownload(
-        browser,
-        "https://mdpr.jp/news/detail/1844622",
-        "mdpr.jp-news-detail-1844622/",
-        [
-            "https://img-mdpr.freetls.fastly.net/article/QZD7/wm/QZD7dhbnlwCDvX1PEOiZej8mAZZhZ9LHy0I9rzdFVRE.jpg?quality=100",
-            "https://img-mdpr.freetls.fastly.net/article/zIM_/wm/zIM_-fR9nAoFFqTa6sY-qPO36tg8URuHhMr5eJ6A5nw.jpg?quality=100",
-            "https://img-mdpr.freetls.fastly.net/article/mP08/wm/mP083mIIbfNJKuaF7g68RIPQlQAh9CGGX4E91BrtC-c.jpg?quality=100",
-            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg?quality=100",
-            "https://img-mdpr.freetls.fastly.net/article/a2dA/wm/a2dADq2nRw44R-VCTCAy5bZGZzviIvhDjUyC5e6GDek.jpg?quality=100"
-        ]
-    );
-});
-
-test("Test https://mdpr.jp/photo/detail/6942679", async () => {
-    await testDirectDownload(
-        browser,
-        "https://mdpr.jp/photo/detail/6942679",
-        "mdpr.jp-photo-detail-6942679/",
-        [
-            "https://img-mdpr.freetls.fastly.net/article/QZD7/wm/QZD7dhbnlwCDvX1PEOiZej8mAZZhZ9LHy0I9rzdFVRE.jpg?quality=100",
-            "https://img-mdpr.freetls.fastly.net/article/zIM_/wm/zIM_-fR9nAoFFqTa6sY-qPO36tg8URuHhMr5eJ6A5nw.jpg?quality=100",
-            "https://img-mdpr.freetls.fastly.net/article/mP08/wm/mP083mIIbfNJKuaF7g68RIPQlQAh9CGGX4E91BrtC-c.jpg?quality=100",
-            "https://img-mdpr.freetls.fastly.net/article/lzgJ/wm/lzgJUm1lLDNd7K-xGOoxVSoamvYWnCMwDH_v2-qGgz4.jpg?quality=100",
-            "https://img-mdpr.freetls.fastly.net/article/a2dA/wm/a2dADq2nRw44R-VCTCAy5bZGZzviIvhDjUyC5e6GDek.jpg?quality=100"
-        ]
-    );
-});
+const https = require("https");
+const browser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test apparel.mdpr.jp news", async () => {
     await testDirectDownload(
-        browser,
+        browser(),
         "https://apparel.mdpr.jp/column/fashion_news/12057",
         "apparel.mdpr.jp-column-fashion_news-12057/",
         [
@@ -67,7 +30,7 @@ test("Test apparel.mdpr.jp news", async () => {
 
 test("Test apparel.mdpr.jp photo page", async () => {
     await testDirectDownload(
-        browser,
+        browser(),
         "https://apparel.mdpr.jp/photo/12057",
         "apparel.mdpr.jp-photo-12057/",
         [
@@ -88,4 +51,187 @@ test("Test apparel.mdpr.jp photo page", async () => {
                 await pageutils.scrollTo(page, 80);
             }
         });
+});
+
+test("Test music news page", async () => {
+    await testDirectDownload(
+        browser(),
+        "https://mdpr.jp/music/detail/2576015",
+        "mdpr.jp-music-detail-2576015/",
+        [
+            "https://img-mdpr.freetls.fastly.net/article/1OVO/nm/1OVOzqxHTRK7Nav0IFEzAhinilPC7xlkPLvCJ5QoB7w.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/8WMM/nm/8WMMJ8b4pw-esuoBYFukI5hHdlTA6LCwj6gaJTeTMAY.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/IBIX/nm/IBIXimmJzEjUcRMussBuX7clvchroC937lvMrD4JFhc.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/cPm6/nm/cPm6v2HjgpM0qStzVypXhxcXH4mHhWupF3vLB57Ff88.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/Kfnk/nm/KfnkT1qOqXhYuLgbBe2Jc5ymIKXuKuc6dAM0Ww9VaNo.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/JTsC/nm/JTsCOCIeH_2HJjjur9sMWfNkre6MF6GAZdswAho92jk.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/WNRf/nm/WNRffGd7IiW2VWA1foPzRs7JlRBpVYZ44V9dM2U-2lI.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/7O4m/nm/7O4mFnpAB07jEpDv9z0U-oYGI-p18CjzFbtRzcp6XKk.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/Tu8j/nm/Tu8jkguMPRF3Q9bUGJlhS00YlFDahnvN5rmJyzOCjNM.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/dmDc/nm/dmDciNMGu3f27l4Py8GSxtqlXjd_w577uNcfYyQ7Xhk.jpg?quality=100"
+        ]);
+});
+
+test("Test music news photo detail page", async () => {
+    await testDirectDownload(
+        browser(),
+        "https://mdpr.jp/photo/detail/9877215",
+        "mdpr.jp-photo-detail-9877215/",
+        [
+            "https://img-mdpr.freetls.fastly.net/article/IBIX/nm/IBIXimmJzEjUcRMussBuX7clvchroC937lvMrD4JFhc.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/1OVO/nm/1OVOzqxHTRK7Nav0IFEzAhinilPC7xlkPLvCJ5QoB7w.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/8WMM/nm/8WMMJ8b4pw-esuoBYFukI5hHdlTA6LCwj6gaJTeTMAY.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/WNRf/nm/WNRffGd7IiW2VWA1foPzRs7JlRBpVYZ44V9dM2U-2lI.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/7O4m/nm/7O4mFnpAB07jEpDv9z0U-oYGI-p18CjzFbtRzcp6XKk.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/Tu8j/nm/Tu8jkguMPRF3Q9bUGJlhS00YlFDahnvN5rmJyzOCjNM.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/dmDc/nm/dmDciNMGu3f27l4Py8GSxtqlXjd_w577uNcfYyQ7Xhk.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/cPm6/nm/cPm6v2HjgpM0qStzVypXhxcXH4mHhWupF3vLB57Ff88.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/Kfnk/nm/KfnkT1qOqXhYuLgbBe2Jc5ymIKXuKuc6dAM0Ww9VaNo.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/JTsC/nm/JTsCOCIeH_2HJjjur9sMWfNkre6MF6GAZdswAho92jk.jpg?quality=100"
+        ]
+    );
+});
+
+test("Test photo detail page with app photo", async () => {
+    let data = await testDirectDownload(
+        browser(),
+        "https://mdpr.jp/photo/detail/9835727",
+        "mdpr.jp-photo-detail-9835727/",
+        [
+            "https://img-mdpr.freetls.fastly.net/article/M49t/hm/M49t_28oigLBGCFwxeWjTquwXb7k8WmHtO_Wr9tW2Q4.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/p_L0/wm/p_L0QFlqr2wb1b-wAVMSlfRN9EwuygfkInQdoJ1hJUs.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/1cqN/hm/1cqNwY42v9Ezw6f7Mi26TtKJWA9_RqyO6VWnuKX6h04.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/ozR4/hm/ozR4kCux_us3aWXVqiFJeOOqphBmb2bgB-Dj8wz3HdM.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/Eos_/hm/Eos_z2MNlS4Po_u2haKLfuyDGyZdRPRKCpUyccNtl6M.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/ft9F/hm/ft9F921G9ktLqsP9huc2Tcup7W7Nmn-zTovhEQMils0.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/Kyou/hm/KyouC1n4ctU5ub8DPhjf4LCoXggkeV4Wjpyg3BELtdA.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/nFRO/wm/nFROuJ3atQTOwxgJYEbd7OvsizAwVozQpZQF-p-wm6w.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/AvLT/nm/AvLTtlxtaqGHkkXQn46DCzPkh_pSvrzJ-TIblDW5xME.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/_55G/nm/_55GPwLPM7mG8O86I39HejcZQlrLq77hEVA4S1E4GPI.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/N0Tv/hm/N0Tv36zbBehqlwBm-wr3HMnpn-NQ59eErC1UKCNYah8.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/6Oo7/wm/6Oo7GBlT-gmPXAaLh_Xph29ggQC_JcV1-1kxqUtjLFc.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/0W4P/nm/0W4PZp-QJ92yVFpyWjoYh3yuEmecPnxwTqc1ihczSg4.jpg?quality=100"
+        ]
+    );
+
+    expect(data["o"]["remoteImages"]).toStrictEqual({
+        "mdpr.jp": "2563180"
+    });
+});
+
+test("Test news article page with app photo", async () => {
+    let data = await testDirectDownload(
+        browser(),
+        "https://mdpr.jp/interview/detail/2563180",
+        "mdpr.jp-interview-detail-2563180/",
+        [
+            "https://img-mdpr.freetls.fastly.net/article/M49t/hm/M49t_28oigLBGCFwxeWjTquwXb7k8WmHtO_Wr9tW2Q4.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/p_L0/wm/p_L0QFlqr2wb1b-wAVMSlfRN9EwuygfkInQdoJ1hJUs.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/1cqN/hm/1cqNwY42v9Ezw6f7Mi26TtKJWA9_RqyO6VWnuKX6h04.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/ozR4/hm/ozR4kCux_us3aWXVqiFJeOOqphBmb2bgB-Dj8wz3HdM.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/Eos_/hm/Eos_z2MNlS4Po_u2haKLfuyDGyZdRPRKCpUyccNtl6M.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/ft9F/hm/ft9F921G9ktLqsP9huc2Tcup7W7Nmn-zTovhEQMils0.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/Kyou/hm/KyouC1n4ctU5ub8DPhjf4LCoXggkeV4Wjpyg3BELtdA.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/nFRO/wm/nFROuJ3atQTOwxgJYEbd7OvsizAwVozQpZQF-p-wm6w.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/AvLT/nm/AvLTtlxtaqGHkkXQn46DCzPkh_pSvrzJ-TIblDW5xME.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/_55G/nm/_55GPwLPM7mG8O86I39HejcZQlrLq77hEVA4S1E4GPI.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/N0Tv/hm/N0Tv36zbBehqlwBm-wr3HMnpn-NQ59eErC1UKCNYah8.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/6Oo7/wm/6Oo7GBlT-gmPXAaLh_Xph29ggQC_JcV1-1kxqUtjLFc.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/0W4P/nm/0W4PZp-QJ92yVFpyWjoYh3yuEmecPnxwTqc1ihczSg4.jpg?quality=100"
+        ]
+    );
+
+    expect(data["o"]["remoteImages"]).toStrictEqual({
+        "mdpr.jp": "2563180"
+    });
+});
+
+test("Test mdpr App API on app2-mdpr.freetls.fastly.net", async (resolve, error) => {
+    https.get("https://app2-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            let list = [];
+            let payload;
+            try {
+                payload = JSON.parse(data);
+            } catch (e) {
+                console.error("Failed parsing JSON: " + e);
+            }
+
+            if (payload && payload.list && payload.list.length) {
+                for (const item of payload.list) {
+                    list.push(item.url);
+                }
+            }
+
+            expect(list.length).toBe(24);
+            resolve();
+        });
+
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        error();
+    });
+});
+
+test("Test mdpr App API on app-mdpr.freetls.fastly.net should fail", done => {
+    https.get("https://app-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            let list = [];
+            let payload;
+            try {
+                payload = JSON.parse(data);
+            } catch (e) {
+                console.error("Failed parsing JSON: " + e);
+                done();
+            }
+
+            if (payload) {
+                done("Should fail to parse JSON");
+            }
+        });
+
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        done("should not err");
+    });
+});
+
+test("Test mdpr App API on app1-mdpr.freetls.fastly.net", done => {
+    https.get("https://app1-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            let list = [];
+            let payload;
+            try {
+                payload = JSON.parse(data);
+            } catch (e) {
+                console.error("Failed parsing JSON: " + e);
+                done();
+            }
+
+            if (payload) {
+                done("Should fail to parse JSON");
+            }
+        });
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        done("should not err");
+    });
 });
