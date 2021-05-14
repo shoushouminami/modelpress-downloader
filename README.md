@@ -20,6 +20,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.13 (2021/05/14)
+* Support new UI on mdpr.jp
+
 ###### 3.12 (2021/05/09)
 * Add vogue.co.jp
 * Add anna-media.jp
