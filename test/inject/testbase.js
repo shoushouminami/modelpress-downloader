@@ -2,12 +2,13 @@ const puppeteer = require("puppeteer");
 const WINDOW_WIDTH = 1080;
 const WINDOW_HEIGHT = 800;
 const pageutils = require("../pageutils");
+const retries = require("../utils/retries");
 
 /**
  * Returns a function which will return a browser instance for unit tests.
  * @returns {Function}
  */
-const getBrowserFactory = function(beforeAll, afterAll) {
+function getBrowserFactory(beforeAll, afterAll) {
     let browser;
 
     beforeAll(async () => {
@@ -23,9 +24,9 @@ const getBrowserFactory = function(beforeAll, afterAll) {
     return function (){
         return browser;
     };
-};
+}
 
-const launchBrowser = async function () {
+async function launchBrowser() {
     return await puppeteer.launch({
         headless: false, // extension are allowed only in head-full mode
         args: [
@@ -38,12 +39,12 @@ const launchBrowser = async function () {
         ],
         defaultViewport: {width: WINDOW_WIDTH, height: WINDOW_HEIGHT}
     });
-};
+}
 
 /**
  * Run the function {@code func} if it is of type function, with the given arguments
  */
-const runFuncIfDefined = async function(func, args) {
+async function runFuncIfDefined(func, args) {
     if (func && func instanceof Function && func['call'] && func['call'] instanceof Function) {
         if (func.constructor.name === "AsyncFunction") {
             await func.apply(undefined, args);
@@ -51,25 +52,25 @@ const runFuncIfDefined = async function(func, args) {
             func.apply(undefined, args);
         }
     }
-};
+}
 
 /**
  *
  * @param relativePath relative path to this folder (test/inject)
  * @returns {string}
  */
-const resolvePath = function (relativePath) {
+function resolvePath(relativePath) {
     return __dirname + "/./" + relativePath;
-};
+}
 
-const dummyItems = function (count) {
+function dummyItems (count) {
     let ret = [];
     for (let i = 0 ; i < count; i++) {
         ret.push({});
     }
 
     return ret;
-};
+}
 
 /**
  * Emulates popup.js and injects "inject-cs.js" with retry
@@ -118,7 +119,7 @@ async function emulateInjectWithRetry(page, ops) {
  *              An object with callbacks for customized browser action before assertion or customized assertion
  * @returns {Promise<Object>}
  */
-const testDirectDownload = async function (browser, url, folder, images, ops= {}) {
+async function testDirectDownload(browser, url, folder, images, ops= {}) {
     const page = await browser.newPage();
     page.setBypassCSP(true);
 
@@ -179,9 +180,15 @@ const testDirectDownload = async function (browser, url, folder, images, ops= {}
 
     await page.close();
     return mid;
-};
+}
 
-exports.testDirectDownload = testDirectDownload;
+async function testDirectDownloadWithRetry(browser, url, folder, images, ops= {}) {
+    return await retries(3, async () => {
+        return await testDirectDownload(browser, url, folder, images, ops);
+    });
+}
+
+exports.testDirectDownload = testDirectDownloadWithRetry;
 exports.resolvePath = resolvePath;
 exports.launchBrowser = launchBrowser;
 exports.dummyItems = dummyItems;
