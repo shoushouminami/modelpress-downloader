@@ -24,4 +24,8 @@ workflows:
       - build
   commit:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - master
