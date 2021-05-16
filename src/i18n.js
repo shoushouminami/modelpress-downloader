@@ -1,3 +1,6 @@
+const globals = require("./globals");
+const isExt = globals.isChromeExtension();
+// const logger = require("./logger");
 
 function getScopedName(id, scope) {
     if (id != null) {
@@ -14,8 +17,8 @@ function getScopedName(id, scope) {
 export const AUTO_BIND_CLASS = "i18n-auto-bind";
 
 export function getText(id, scope, substitution) {
-    return (chrome.i18n.getMessage(getScopedName(id, scope), substitution) ||
-        chrome.i18n.getMessage(getScopedName(id, null), substitution));
+    return (getMessage(getScopedName(id, scope), substitution) ||
+        getMessage(getScopedName(id, null), substitution));
 }
 
 export function bindDomTextById(dom, scope) {
@@ -30,6 +33,33 @@ export function autoBind(scope){
             }
         }
     )
+}
+
+function getMessage(messageName, substitutions) {
+    if (isExt) {
+        return chrome.i18n.getMessage(messageName, substitutions);
+    } else {
+        // not in chrome extension website.
+        // no substitution support
+        let lang = globals.getWindow().navigator.language.toLowerCase();
+        if (lang === "en" || lang.startsWith("en-")) {
+            lang = "en";
+        } else if (lang === "ja" || lang.startsWith("ja-")) {
+            lang = "ja";
+        } else if(lang === "zh" || lang === "zh-cn" || lang === "zh_cn") {
+            lang = "zh_CN";
+        } else if (lang === "zh-tw" || lang === "zh_tw") {
+            lang = "zh_TW";
+        } else {
+            lang = "en";
+        }
+
+        let message = require("./_locales/" + lang + "/messages.json");
+        // logger.debug("messages=", message);
+        if (message) {
+            return message[messageName]["message"];
+        }
+    }
 }
 
 

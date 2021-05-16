@@ -10,7 +10,7 @@ function getWindow() {
 }
 
 function getChrome() {
-    return chrome;
+    return getWindow().chrome || {};
 }
 
 function getDocument() {
@@ -35,8 +35,13 @@ function getExtensionVersion() {
     return VER;
 }
 
+function isChromeExtension() {
+    return getChrome() != null && getChrome().runtime != null;
+}
+
 exports.getWindow = getWindow;
 exports.getChrome = getChrome;
 exports.getDocument = getDocument;
 exports.getSearchParamValue = getSearchParamValue;
 exports.getExtensionVersion = getExtensionVersion;
+exports.isChromeExtension = isChromeExtension;

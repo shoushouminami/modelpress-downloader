@@ -22,7 +22,9 @@ class SupportedSites extends React.Component {
 
     handleSiteClick(siteUrl) {
         ga.trackEvent("site_icon", "clicked", siteUrl);
-        chrome.tabs.update({url: siteUrl});
+        if (globals.isChromeExtension()) {
+            chrome.tabs.update({url: siteUrl});
+        }
     }
 
     render() {

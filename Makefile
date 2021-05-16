@@ -28,8 +28,6 @@ watch: clean cp-resources source
 cp-resources: images
 	cp -R images build/
 
-docs: clean webpack-prod
-
 # Build package.zip
 mk-package:
 	cd build && zip -r package.zip * -x package.zip && ls *.zip
@@ -49,3 +47,8 @@ vm: build
 	rm -r ~/Documents/shared/build
 	cp -R build ~/Documents/shared/
 
+docs: build
+	mkdir -p docs/github-pages
+	cp build/github-pages/* docs/github-pages/
+	cp build/popup.css docs/
+	cp -R build/images docs/
