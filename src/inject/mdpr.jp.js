@@ -3,10 +3,22 @@ function getLargeImg(url) {
     if (url == null) {
         return null;
     }
+
+    // return instagram url as is
+    if (url.startsWith("https://scontent.cdninstagram.com/")) {
+        return url;
+    }
+
     url = utils.removeTrailingResolutionNumbers(utils.removeQuery(url));
+
+    if (url.endsWith("app/icon/embed_instagram.png")) {
+        return null;
+    }
+
     if (url.startsWith("https://img-mdpr.freetls.fastly.net/")) {
         url += "?quality=100";
     }
+
     return utils.removeDataUrl(url);
 }
 
