@@ -3,6 +3,96 @@ const pageutils = require("../pageutils");
 const https = require("https");
 const browser = getBrowserFactory(beforeAll, afterAll);
 
+test("Test mdpr App API on app2-mdpr.freetls.fastly.net", async (resolve, error) => {
+    https.get("https://app2-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            let list = [];
+            let payload;
+            try {
+                payload = JSON.parse(data);
+            } catch (e) {
+                console.error("Failed parsing JSON: " + e);
+            }
+
+            if (payload && payload.list && payload.list.length) {
+                for (const item of payload.list) {
+                    list.push(item.url);
+                }
+            }
+
+            expect(list.length).toBe(24);
+            resolve();
+        });
+
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        error();
+    });
+});
+
+test("Test mdpr App API on app-mdpr.freetls.fastly.net should fail", done => {
+    https.get("https://app-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            let list = [];
+            let payload;
+            try {
+                payload = JSON.parse(data);
+            } catch (e) {
+                console.error("Failed parsing JSON: " + e);
+                done();
+            }
+
+            if (payload) {
+                done("Should fail to parse JSON");
+            }
+        });
+
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        done("should not err");
+    });
+});
+
+test("Test mdpr App API on app1-mdpr.freetls.fastly.net", done => {
+    https.get("https://app1-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            let list = [];
+            let payload;
+            try {
+                payload = JSON.parse(data);
+            } catch (e) {
+                console.error("Failed parsing JSON: " + e);
+                done();
+            }
+
+            if (payload) {
+                done("Should fail to parse JSON");
+            }
+        });
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        done("should not err");
+    });
+});
+
 test("Test apparel.mdpr.jp news", async () => {
     await testDirectDownload(
         browser(),
@@ -146,92 +236,20 @@ test("Test news article page with app photo", async () => {
     });
 });
 
-test("Test mdpr App API on app2-mdpr.freetls.fastly.net", async (resolve, error) => {
-    https.get("https://app2-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
-        let data = '';
-
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        resp.on('end', () => {
-            let list = [];
-            let payload;
-            try {
-                payload = JSON.parse(data);
-            } catch (e) {
-                console.error("Failed parsing JSON: " + e);
-            }
-
-            if (payload && payload.list && payload.list.length) {
-                for (const item of payload.list) {
-                    list.push(item.url);
-                }
-            }
-
-            expect(list.length).toBe(24);
-            resolve();
-        });
-
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-        error();
-    });
-});
-
-test("Test mdpr App API on app-mdpr.freetls.fastly.net should fail", done => {
-    https.get("https://app-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
-        let data = '';
-
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        resp.on('end', () => {
-            let list = [];
-            let payload;
-            try {
-                payload = JSON.parse(data);
-            } catch (e) {
-                console.error("Failed parsing JSON: " + e);
-                done();
-            }
-
-            if (payload) {
-                done("Should fail to parse JSON");
-            }
-        });
-
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-        done("should not err");
-    });
-});
-
-test("Test mdpr App API on app1-mdpr.freetls.fastly.net", done => {
-    https.get("https://app1-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
-        let data = '';
-
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        resp.on('end', () => {
-            let list = [];
-            let payload;
-            try {
-                payload = JSON.parse(data);
-            } catch (e) {
-                console.error("Failed parsing JSON: " + e);
-                done();
-            }
-
-            if (payload) {
-                done("Should fail to parse JSON");
-            }
-        });
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-        done("should not err");
-    });
+test("Test news article page with instagram photos", async () => {
+    let data = await testDirectDownload(
+        browser(),
+        "https://mdpr.jp/news/detail/2587451",
+        "mdpr.jp-news-detail-2587451/",
+        [
+            "https://scontent.cdninstagram.com/v/t51.2885-15/e35/s480x480/188131714_4488409557839768_2718379691644857371_n.jpg?tp=1&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=-X93ZntREBkAX_GLX-S&edm=AMO9-JQAAAAA&ccb=7-4&oh=acfc086aa0ede341681df01a3f06ff8b&oe=60ADECAC&_nc_sid=b9f2ee",
+            "https://scontent.cdninstagram.com/v/t51.2885-15/e35/s480x480/189090037_380077196631949_443156786077998043_n.jpg?tp=1&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=sb37axAtFP4AX9b9DDg&edm=AMO9-JQAAAAA&ccb=7-4&oh=eed41693acd404de8a93e0558da1de8d&oe=60AEFB55&_nc_sid=b9f2ee",
+            "https://scontent.cdninstagram.com/v/t51.2885-15/e35/p480x480/188325269_2834027283530585_5016862394668132274_n.jpg?tp=1&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=-ywxdGmc5C4AX8K-gaT&edm=AMO9-JQAAAAA&ccb=7-4&oh=8abe8694e02d519519d109bf6859def1&oe=60ADE7B5&_nc_sid=b9f2ee",
+            "https://img-mdpr.freetls.fastly.net/article/tyJU/wm/tyJUVAtLPKFIyc6Q-yyf-w395mRFXcZxexrdBWf2EME.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/KO5E/nm/KO5EYh54YA0ydjFEBgshPZb0wr9-o0r8w4SrONMZM_E.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/5n0s/wm/5n0sBCFvkGSiW5J1S26R0-GU_usVGL_RYLAJwEPei4I.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/M0DI/hm/M0DI4VlYIXFSrf4qhVc5R726xdT7G2CIWHUj_mD6gII.jpg?quality=100",
+            "https://img-mdpr.freetls.fastly.net/article/8csb/wm/8csbx2G96VxNFJkf_pUvJXRPFS7_-8xQFqq1FewzC4E.jpg?quality=100"
+        ]
+    );
 });

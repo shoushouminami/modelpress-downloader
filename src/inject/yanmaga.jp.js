@@ -54,12 +54,15 @@ function descramble(imageDom, scrambleString) {
     let tileHeight = Math.floor(height / 4);
 
     let canvas = document.createElement("canvas")
-    canvas.width = tileWidth * 4;
-    canvas.height = tileHeight * 4;
+    canvas.width = width;
+    canvas.height = height;
 
     let context = canvas.getContext("2d");
     context.imageSmoothingQuality = "high";
     context.imageSmoothingEnabled = true;
+
+    // when any dimension is not multiple of 4, the remaining pixels are also valid.
+    context.drawImage(imageDom, 0, 0);
 
     let decodedArray = decodeScrambleArray(scrambleString);
     for (let k = 0, i = 0; i < 4; i++) {
