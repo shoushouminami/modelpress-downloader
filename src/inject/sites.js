@@ -106,6 +106,7 @@ const register = function (siteModule) {
     require("./yanmaga.jp"),
     require("./www.vogue.co.jp"),
     require("./nonno.hpplus.jp"),
+    require("./www.mensnonno.jp"),
     require("./jj-jj.net"),
     require("./cancam.jp"),
     require("./ray-web.jp"),
