@@ -20,6 +20,13 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.14 (2021/05/29)
+* Add news.merumo.ne.jp
+* Add www.lvtimes.net
+* Add popnroll.tv
+* Add mensnonno.jp
+* Fix missing pixels on yanmaga.jp
+
 ###### 3.13 (2021/05/14)
 * Support new UI on mdpr.jp
 
