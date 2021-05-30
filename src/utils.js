@@ -261,8 +261,19 @@ const utils = {
      */
     getDomBackgroundImage: function (dom) {
         const pattern = /url\(['"]?((https?:\/)?\/[^'"]*(\.(jpg|jpeg|webp|png))?(\?[^'"]*)?)['"]?\);?$/i;
-        if (dom && dom.style && dom.style.backgroundImage && dom.style.backgroundImage.match(pattern)) {
-            return dom.style.backgroundImage.match(pattern)[1];
+        if (dom && dom.style && dom.style.backgroundImage) {
+            return this.getBackgroundImage(dom.style.backgroundImage)
+        }
+
+        return null;
+    },
+    /**
+     * Returns the background image url from the background-image string.
+     */
+    getBackgroundImage: function (backgroundImageString) {
+        const pattern = /url\(['"]?((https?:\/)?\/[^'"]*(\.(jpg|jpeg|webp|png))?(\?[^'"]*)?)['"]?\);?$/i;
+        if (backgroundImageString && backgroundImageString.match(pattern)) {
+            return backgroundImageString.match(pattern)[1];
         }
 
         return null;

@@ -39,6 +39,12 @@ test("Test getDomBackgroundImage", () => {
         .toBe("/wp-content/uploads/2020/08/20200805-yodayuuki-sub2.jpeg");
 });
 
+test("Test getBackgroundImage", () => {
+    expect(utils.getBackgroundImage(null)).toBeNull();
+    expect(utils.getBackgroundImage("url(\"https://img.popnroll.tv/uploads/news_item/image/17304/thumb_A-sha_S.jpg\")"))
+        .toBe("https://img.popnroll.tv/uploads/news_item/image/17304/thumb_A-sha_S.jpg");
+});
+
 test("Test removeTrailingResolutionNumbers", () => {
     expect(utils.removeTrailingResolutionNumbers("http://popwave.jp/wp-content/uploads/2019/08/collage-1024x683.jpg"))
         .toBe("http://popwave.jp/wp-content/uploads/2019/08/collage.jpg");
