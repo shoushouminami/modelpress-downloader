@@ -1,12 +1,10 @@
 const inject = function () {
-    let o = require("./inject/return-message.js").init();
     const site = getSiteModule();
     if (site != null) {
-        o = site.inject();
+        return site.inject();
     } else {
-        o.supported = false;
+        return require("./inject/return-message.js").notSupported();
     }
-    return o;
 }
 
 /**

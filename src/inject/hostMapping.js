@@ -28,5 +28,9 @@ exports.check = function (location) {
         return "www.comic-valkyrie.com";
     }
 
+    if (host === "plus.ananweb.jp") {
+        return "ananweb.jp";
+    }
+
     return host;
 };

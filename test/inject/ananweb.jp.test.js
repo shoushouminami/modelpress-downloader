@@ -1,5 +1,4 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-const pageutils = require("../pageutils");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test fashion article", async () => {
@@ -38,11 +37,8 @@ test("Test fashion article", async () => {
                 ],
                 "url": "https://img.ananweb.jp/2020/08/01100809/6.jpg"
             }
-        ], {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page,  50);
-            }
-        });
+        ]
+    );
 });
 
 test("Test beauty article", async () => {
@@ -87,12 +83,8 @@ test("Test beauty article", async () => {
                 ],
                 "url": "https://img.ananweb.jp/2020/08/17170617/10-1.jpg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page,  50);
-            }
-        });
+        ]
+    );
 });
 
 test("Test entame article", async () => {
@@ -107,11 +99,59 @@ test("Test entame article", async () => {
                 ],
                 "url": "https://img.ananweb.jp/2020/08/23112913/2214-takayama.jpg"
             }
-        ],
-        {
-        preinject: async function (page) {
-            await pageutils.scrollTo(page,  50);
-        }
-    });
+        ]
+    );
+});
+
+test("Test plus.ananweb.jp article", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://plus.ananweb.jp/beauty/yukirin/16590/",
+        "plus.ananweb.jp-beauty-yukirin-16590-/",
+        [
+            {
+                "retries": [
+                    "https://img.ananweb.jp/anan-plus/2021/05/25134236/2247.2.97374-1024x683.jpg"
+                ],
+                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134236/2247.2.97374.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.ananweb.jp/anan-plus/2021/05/25134303/2247.2.97360-1024x683.jpg"
+                ],
+                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134303/2247.2.97360.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.ananweb.jp/anan-plus/2021/05/25134301/2247.2.97335-1024x683.jpg"
+                ],
+                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134301/2247.2.97335.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.ananweb.jp/anan-plus/2021/05/25134305/2247.2.97371-1024x683.jpg"
+                ],
+                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134305/2247.2.97371.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.ananweb.jp/anan-plus/2021/05/25134307/2247.2.97473-1024x683.jpg"
+                ],
+                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134307/2247.2.97473.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.ananweb.jp/anan-plus/2021/05/27233013/2247.2.97478-1-1024x682.jpg"
+                ],
+                "url": "https://img.ananweb.jp/anan-plus/2021/05/27233013/2247.2.97478-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.ananweb.jp/anan-plus/2021/05/25134259/2247.2.97225-1-683x1024.jpg"
+                ],
+                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134259/2247.2.97225-1.jpg"
+            }
+        ]
+    );
 });
 
