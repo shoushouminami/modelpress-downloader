@@ -32,5 +32,9 @@ exports.check = function (location) {
         return "ananweb.jp";
     }
 
+    if (host === "tfm.co.jp") {
+        return "www.tfm.co.jp";
+    }
+
     return host;
 };
