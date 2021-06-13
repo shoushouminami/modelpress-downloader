@@ -28,6 +28,10 @@ exports.check = function (location) {
         return "www.comic-valkyrie.com";
     }
 
+    if (host === "comic-days.com") {
+        return "tonarinoyj.jp";
+    }
+
     if (host === "plus.ananweb.jp") {
         return "ananweb.jp";
     }

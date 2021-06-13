@@ -136,7 +136,7 @@ function relayAllMsgsToRuntime(...keys) {
 function listenOnPage(key, callback) {
     if (tryAndListenOnKey(key)) {
         debug("listeningOnPage", key);
-        window.addEventListener("message", function(event) {
+        let listener = function(event) {
             if (event.source !== window || event.origin !== window.origin) {
                 return;
             }
@@ -147,8 +147,9 @@ function listenOnPage(key, callback) {
                     sendToPage(event.data.replyKey, respMsg);
                 });
             }
-        }, false);
-
+        };
+        window.addEventListener("message", listener, false);
+        listenerMap[key] = listener;
         return true;
     } else {
         return false;
@@ -167,13 +168,15 @@ function listenOnPage(key, callback) {
 function listenOnRuntime(key, callback) {
     if (tryAndListenOnKey(key)) {
         debug("listeningOnRuntime", key);
-        chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
+        let listener = function(data, sender, sendResponse) {
             if (data && data.what && data.what === key && data.sender !== thisSender) {
                 debug("Received on runtime", data.what, data.msg, sendResponse);
                 // if callback returns true, async replying mode is enabled and calling sendResponse can reply
                 return callback(data.msg, sendResponse);
             }
-        });
+        }
+        chrome.runtime.onMessage.addListener(listener);
+        listenerMap[key] = listener;
         return true;
     } else {
         return false;
@@ -215,6 +218,25 @@ function listen(key, callback) {
     return ret;
 }
 
+/**
+ * Removes the previous registered listener on runtime of the given key. Since a key is unique across runtime, content script and page,
+ * there is only one method to unregister a key.
+ * @param key {string} Message key
+ */
+function clear(key) {
+    if (typeof listenerMap[key] === "function") {
+        let listener = listenerMap[key];
+        if (isPage) {
+            window.removeEventListener("message", listener);
+        }
+        if (!isPage || (isPage && isCS)) {
+            chrome.runtime.onMessage.removeListener(listener);
+        }
+    }
+
+    delete listenerMap[key];
+}
+
 exports.listenOnRuntime = listenOnRuntime;
 exports.listen = listen;
 exports.send = send;
@@ -225,3 +247,4 @@ exports.relayMsgToRuntime = relayMsgToRuntime;
 exports.sendToCS = sendToCS;
 exports.sendToRuntime = sendToRuntime;
 exports.sendToPage = sendToPage;
+exports.clear = clear;

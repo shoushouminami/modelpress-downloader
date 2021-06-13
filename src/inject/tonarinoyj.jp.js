@@ -37,8 +37,8 @@ function descramble(imageDom, scrambleString) {
     let width = imageDom.width;
     let height = imageDom.height;
 
-    let tileWidth = Math.floor(width / 4);
-    let tileHeight = 280;
+    let tileWidth = Math.floor(width / 32) * 8
+    let tileHeight = Math.floor(height / 32) * 8;
 
     let canvas = document.createElement("canvas")
     canvas.width = width;
@@ -76,7 +76,7 @@ function getCoordInfoUrl() {
 }
 
 // array of { dom: dom, scramble: image.scramble, filename: image.title, promise: Promise, dataUrl: string }
-const images = window.cachedImages = window.cachedImages || [];
+const images = [];
 
 function pushToMessage(o, images) {
     for (const image of images) {
@@ -87,7 +87,8 @@ function pushToMessage(o, images) {
     }
 }
 
-function listenOnce() {
+function registerOrOverwriteListener() {
+    messaging.clear("getImageUrl");
     messaging.listenOnRuntime("getImageUrl", function (msg, sendResponse) {
         logger.debug("received getImageUrl message filename=", msg.filename);
         if (msg.filename) {
@@ -117,12 +118,14 @@ function listenOnce() {
 
 
 const inject = function () {
-    listenOnce();
+    images.splice(0, images.length);
+    registerOrOverwriteListener();
 
     let o = require("./return-message.js").init();
     o.folder = getFolderName();
 
     if (images.length > 0) {
+        logger.debug("retrieved from pagecache images=", images);
         pushToMessage(o, images);
     } else {
         let jsonUrl = getCoordInfoUrl();
@@ -130,6 +133,7 @@ const inject = function () {
         if (jsonUrl) {
             utils.fetchUrl(jsonUrl)
                 .then(respText => {
+                        o = require("./return-message.js").init();
                         try {
                             const coord = JSON.parse(respText);
                             logger.debug("coord=", coord)
@@ -154,15 +158,17 @@ const inject = function () {
                                                 };
                                                 dom.src = image.src;
                                             })
-                                        });
+                                        })
+
                                     }
                                 }
+
                                 pushToMessage(o, images);
-                                messaging.sendToRuntime("updateResult", o);
                             }
                         } catch (e) {
                             logger.error("failed to parse JSON", e, respText);
                         }
+                        messaging.sendToRuntime("updateResult", o);
                     },
                     () => {
                         messaging.sendToRuntime("updateResult", o);
@@ -178,5 +184,5 @@ const inject = function () {
 
 module.exports = {
     inject: inject,
-    host: "yanmaga.jp",
+    host: "tonarinoyj.jp",
 };

@@ -12,5 +12,6 @@ function error(msgStr, arg1, arg2, arg3, ...otherArgs) {
     }
 }
 
+
 exports.debug = debug;
 exports.error = error;

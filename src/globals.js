@@ -1,4 +1,3 @@
-const utils = require("./utils");
 
 function getWindow() {
     if (typeof window === "undefined") {
@@ -19,7 +18,7 @@ function getDocument() {
 
 function getSearchParamValue(key) {
     try {
-        return utils.getSearchParam(getWindow().location).get(key);
+        return require("./utils").getSearchParam(getWindow().location).get(key);
     } catch (e) {
         require("./logger").error(e);
         return null;
