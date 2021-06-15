@@ -20,6 +20,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.15 (2021/06/15)
+* Add plus.ananweb.jp
+* Fix for tfm.co.jp/lock
+
 ###### 3.14 (2021/05/29)
 * Add news.merumo.ne.jp
 * Add www.lvtimes.net
