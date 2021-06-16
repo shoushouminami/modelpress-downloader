@@ -5,7 +5,7 @@ test("Test getOrSet", () => {
     expect(o).toStrictEqual([]);
     o.push("a");
     expect(o).toStrictEqual(["a"]);
-    expect(pagecache.get()).toStrictEqual([]);
+    expect(pagecache.get()).toStrictEqual(["a"]);
     expect(pagecache.set(o)).toStrictEqual(["a"]);
     expect(pagecache.set("abc")).toStrictEqual("abc");
     expect(pagecache.get()).toStrictEqual("abc");
