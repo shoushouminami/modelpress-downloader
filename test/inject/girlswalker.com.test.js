@@ -13,10 +13,13 @@ afterAll(async () => {
 test("Test girlswalker.com article page", async () => {
     await testDirectDownload(
         browser,
-        "https://girlswalker.com/archives/238732/",
-        "girlswalker.com-archives-238732-/",
-        ["https://girlswalker.com/wp-content/uploads/2020/01/0d40a5e4a645fc6b96e767d64ac0878e-6.jpg",
-            "https://girlswalker.com/wp-content/uploads/2020/01/384b71410a13f6e7eb9fbe615a00b656.jpg"],
+        "https://girlswalker.com/archives/279372/",
+        "girlswalker.com-archives-279372-/",
+        [
+            "https://img.girlswalker.com/wp-content/uploads/2021/06/997b784b25f98ab4bd763a8356bcf795.jpg",
+            "https://img.girlswalker.com/wp-content/uploads/2021/06/4f771f815eefbd8fdf7ca9c686a24bb2.jpg",
+            "https://img.girlswalker.com/wp-content/uploads/2021/06/kanojyo.png"
+        ],
         {
             preinject: async function (page) {
                 await pageutils.scrollToBottom(page);
@@ -29,8 +32,10 @@ test("Test girlswalker.com gallery page", async () => {
         browser,
         "https://girlswalker.com/archives/238732/%e7%84%a1%e9%a1%8c-48/",
         "girlswalker.com-archives-238732-%e7%84%a1%e9%a1%8c-48-/",
-        ["https://girlswalker.com/wp-content/uploads/2020/01/0d40a5e4a645fc6b96e767d64ac0878e-6.jpg",
-            "https://girlswalker.com/wp-content/uploads/2020/01/384b71410a13f6e7eb9fbe615a00b656.jpg"],
+        [
+            "https://img.girlswalker.com/wp-content/uploads/2020/01/0d40a5e4a645fc6b96e767d64ac0878e-6.jpg",
+            "https://img.girlswalker.com/wp-content/uploads/2020/01/384b71410a13f6e7eb9fbe615a00b656.jpg"
+        ],
         {
             preinject: async function (page) {
                 await pageutils.scrollToBottom(page);

@@ -262,7 +262,7 @@ const utils = {
     getDomBackgroundImage: function (dom) {
         const pattern = /url\(['"]?((https?:\/)?\/[^'"]*(\.(jpg|jpeg|webp|png))?(\?[^'"]*)?)['"]?\);?$/i;
         if (dom && dom.style && dom.style.backgroundImage) {
-            return this.getBackgroundImage(dom.style.backgroundImage)
+            return utils.getBackgroundImage(dom.style.backgroundImage)
         }
 
         return null;

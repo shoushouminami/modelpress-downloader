@@ -16,6 +16,12 @@ const inject = function () {
             getLargeImg)
     );
 
+    utils.pushArray(o.images,
+        utils.findImagesWithCssSelector(document,
+            "article section .gw-content__entry-article span img",
+            getLargeImg)
+    );
+
     // thumbnail list at the end of article
     utils.pushArray(o.images,
         utils.findDomsWithCssSelector(document,
