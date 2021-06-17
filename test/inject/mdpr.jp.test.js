@@ -228,8 +228,14 @@ test("Test news article page with app photo", async () => {
             "https://img-mdpr.freetls.fastly.net/article/N0Tv/hm/N0Tv36zbBehqlwBm-wr3HMnpn-NQ59eErC1UKCNYah8.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/6Oo7/wm/6Oo7GBlT-gmPXAaLh_Xph29ggQC_JcV1-1kxqUtjLFc.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/0W4P/nm/0W4PZp-QJ92yVFpyWjoYh3yuEmecPnxwTqc1ihczSg4.jpg?quality=100"
-        ]
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 90);
+            }
+        }
     );
+
 
     expect(data["o"]["remoteImages"]).toStrictEqual({
         "mdpr.jp": "2563180"

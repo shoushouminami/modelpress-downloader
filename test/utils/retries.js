@@ -7,18 +7,20 @@ async function retries(count, testFunc) {
         throw new Error("Invalid test function: " + testFunc);
     }
 
-    try {
-        if (testFunc.constructor.name === "AsyncFunction") {
-            return await testFunc();
-        } else {
-            return testFunc();
-        }
-    } catch (e) {
-        if (count <= 0) {
-            throw e;
-        }
+    while (true) {
+        try {
+            if (testFunc.constructor.name === "AsyncFunction") {
+                return await testFunc();
+            } else {
+                return testFunc();
+            }
+        } catch (e) {
+            if (count <= 0) {
+                throw e;
+            }
 
-        count--;
+            count--;
+        }
     }
 }
 
