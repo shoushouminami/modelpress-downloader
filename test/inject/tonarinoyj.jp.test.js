@@ -1,5 +1,6 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
+const pageutils = require("../pageutils");
 
 test("Test manga page 1", async () => {
     await testDirectDownload(
@@ -55,7 +56,13 @@ test("Test manga page 1", async () => {
                 "filename": "12.jpg",
                 "type": "msg"
             }
-        ]
+        ],
+        {
+            preinject: async function (page) {
+                // await pageutils.wait(10000);
+                await pageutils.scrollTo(page, 80);
+            }
+        }
     );
 });
 

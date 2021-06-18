@@ -26,8 +26,8 @@ test("Test news page", async () => {
 test("Test gravures page", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://yanmaga.jp/gravures/books/%E6%96%B0%E4%BA%95%E9%81%A5_%E3%83%9F%E3%82%B9%E3%83%9E%E3%82%AC%E3%82%AE%E3%83%A3%E3%83%AB%E5%8C%96%E8%A8%88%E7%94%BB01/f1997f48680074f37c2131e1cbee1aae",
-        "yanmaga.jp-gravures-books-%E6%96%B0%E4%BA%95%E9%81%A5_%E3%83%9F%E3%82%B9%E3%83%9E%E3%82%AC%E3%82%AE%E3%83%A3%E3%83%AB%E5%8C%96%E8%A8%88%E7%94%BB01/",
+        "https://yanmaga.jp/gravures/books/%E9%87%8E%E7%94%B0%E3%81%99%E3%81%BF%E3%82%8C_%E3%83%A4%E3%83%B3%E3%83%9E%E3%82%AC%E3%82%A2%E3%82%B6%E3%83%BC%E3%81%A3%E3%81%99%EF%BC%81YM2021%E5%B9%B429%E5%8F%B7/deae139a33d133e2526123e14a9cf62d",
+        "yanmaga.jp-gravures-books-%E9%87%8E%E7%94%B0%E3%81%99%E3%81%BF%E3%82%8C_%E3%83%A4%E3%83%B3%E3%83%9E%E3%82%AC%E3%82%A2%E3%82%B6%E3%83%BC%E3%81%A3%E3%81%99%EF%BC%81YM2021%E5%B9%B429%E5%8F%B7/",
         [
             {
                 "filename": "i_0001.jpg",

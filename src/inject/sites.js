@@ -85,7 +85,7 @@ const register = function (siteModule) {
     require("./www.astage-ent.com"),
     require("./www.cinematoday.jp"),
     require("./www.news-postseven.com"),
-    require("./diet.news-postseven.com"),
+    require("./8760.news-postseven.com"),
     require("./popwave.jp"),
     require("./popnroll.tv"),
     require("./spice.eplus.jp"),
