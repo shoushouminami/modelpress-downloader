@@ -63,7 +63,7 @@ function resolvePath(relativePath) {
     return __dirname + "/./" + relativePath;
 }
 
-function dummyItems (count) {
+function dummyItems(count) {
     let ret = [];
     for (let i = 0 ; i < count; i++) {
         ret.push({});
@@ -72,14 +72,20 @@ function dummyItems (count) {
     return ret;
 }
 
+async function injectScript(page, scriptPath) {
+    return await page.addScriptTag({path: scriptPath});
+    // return await page.evaluate(require("fs").readFileSync(scriptPath, 'utf8'));
+}
+
+
 /**
  * Emulates popup.js and injects "inject-cs.js" with retry
  * @param page
  * @returns {Promise<{o}|*>}
  */
 async function emulateInjectWithRetry(page, ops) {
-    await page.addScriptTag({path: resolvePath("./mock-chrome-api.js")});
-    await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
+    await injectScript(page, resolvePath("./mock-chrome-api.js"));
+    await injectScript(page, resolvePath("../../build/test-inject.js"));
     const executionContext = await page.mainFrame().executionContext();
     // check for helper script and inject using puppeteer API
     let filepaths = await executionContext.evaluate(() => {
@@ -91,7 +97,7 @@ async function emulateInjectWithRetry(page, ops) {
     });
     for (const filepath of filepaths) {
         console.log("injecting helper script", filepath);
-        await page.addScriptTag({path: resolvePath(filepath)});
+        await injectScript(page, resolvePath(filepath));
     }
 
     let mid = await executionContext.evaluate("window._mid");
@@ -102,7 +108,8 @@ async function emulateInjectWithRetry(page, ops) {
     // emulate retry logic in popup.js
     if (mid && mid.o && (mid.o.retry || mid.o.loading)) {
         await pageutils.wait(1000);
-        await page.addScriptTag({path: resolvePath("../../build/test-inject.js")});
+        await injectScript(page, resolvePath("../../build/test-inject.js"));
+        await pageutils.wait(1000);
         mid = await executionContext.evaluate("window._mid");
     }
 
@@ -121,7 +128,7 @@ async function emulateInjectWithRetry(page, ops) {
  */
 async function testDirectDownload(browser, url, folder, images, ops= {}) {
     const page = await browser.newPage();
-    page.setBypassCSP(true);
+    await page.setBypassCSP(true);
 
     // callback hook to customize action before going to the url. (Such as disable CSP enforcements)
     await runFuncIfDefined(ops && ops['prenavigate'], [page]);
@@ -159,14 +166,22 @@ async function testDirectDownload(browser, url, folder, images, ops= {}) {
         } else if (typeof image === "object") {
             if (image.regex) {
                 let count = image.count || 1;
-                mid['o']['images'].forEach((image) =>{
-                    if (typeof image == "string" && image.match(image.regex)) {
+                mid['o']['images'].forEach((m) => {
+                    if (typeof m === "string" && m.match(image.regex)) {
                         count--;
                     }
-                })
+                });
                 expect(count).toBe(0);
             } else if (image.url) {
                 expect(mid['o']['images']).toContainEqual(image);
+            } else if (image.prefix) {
+                let count = 1;
+                mid['o']['images'].forEach((m) => {
+                    if (typeof m === "string" && m.startsWith(image.prefix)) {
+                        count--;
+                    }
+                });
+                expect(count).toBe(0);
             }
             // empty object for dummy item
         }

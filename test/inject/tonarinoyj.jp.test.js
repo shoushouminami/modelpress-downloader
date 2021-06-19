@@ -56,13 +56,7 @@ test("Test manga page 1", async () => {
                 "filename": "12.jpg",
                 "type": "msg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                // await pageutils.wait(10000);
-                await pageutils.scrollTo(page, 80);
-            }
-        }
+        ]
     );
 });
 

@@ -133,7 +133,8 @@ const inject = function () {
         if (jsonUrl) {
             utils.fetchUrl(jsonUrl)
                 .then(respText => {
-                        o = require("./return-message.js").init();
+                        require("./return-message.js").init(o);
+                        o.folder = getFolderName();
                         try {
                             const coord = JSON.parse(respText);
                             logger.debug("coord=", coord)
@@ -166,7 +167,8 @@ const inject = function () {
                                 pushToMessage(o, images);
                             }
                         } catch (e) {
-                            logger.error("failed to parse JSON", e, respText);
+                            logger.error("failed to parse JSON with error", e);
+                            logger.error("failed to parse JSON", respText);
                         }
                         messaging.sendToRuntime("updateResult", o);
                     },
@@ -174,8 +176,7 @@ const inject = function () {
                         messaging.sendToRuntime("updateResult", o);
                     }
                 );
-            o = require("./return-message.js").loading();
-            o.folder = getFolderName();
+            require("./return-message.js").loading(o);
         }
     }
 

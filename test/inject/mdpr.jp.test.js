@@ -159,7 +159,12 @@ test("Test music news page", async () => {
             "https://img-mdpr.freetls.fastly.net/article/7O4m/nm/7O4mFnpAB07jEpDv9z0U-oYGI-p18CjzFbtRzcp6XKk.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/Tu8j/nm/Tu8jkguMPRF3Q9bUGJlhS00YlFDahnvN5rmJyzOCjNM.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/dmDc/nm/dmDciNMGu3f27l4Py8GSxtqlXjd_w577uNcfYyQ7Xhk.jpg?quality=100"
-        ]);
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 80);
+            }
+        });
 });
 
 test("Test music news photo detail page", async () => {
@@ -243,19 +248,30 @@ test("Test news article page with app photo", async () => {
 });
 
 test("Test news article page with instagram photos", async () => {
-    let data = await testDirectDownload(
+    await testDirectDownload(
         browser(),
         "https://mdpr.jp/news/detail/2587451",
         "mdpr.jp-news-detail-2587451/",
         [
-            "https://scontent.cdninstagram.com/v/t51.2885-15/e35/s480x480/188131714_4488409557839768_2718379691644857371_n.jpg?tp=1&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=-X93ZntREBkAX_GLX-S&edm=AMO9-JQAAAAA&ccb=7-4&oh=acfc086aa0ede341681df01a3f06ff8b&oe=60ADECAC&_nc_sid=b9f2ee",
-            "https://scontent.cdninstagram.com/v/t51.2885-15/e35/s480x480/189090037_380077196631949_443156786077998043_n.jpg?tp=1&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=sb37axAtFP4AX9b9DDg&edm=AMO9-JQAAAAA&ccb=7-4&oh=eed41693acd404de8a93e0558da1de8d&oe=60AEFB55&_nc_sid=b9f2ee",
-            "https://scontent.cdninstagram.com/v/t51.2885-15/e35/p480x480/188325269_2834027283530585_5016862394668132274_n.jpg?tp=1&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=-ywxdGmc5C4AX8K-gaT&edm=AMO9-JQAAAAA&ccb=7-4&oh=8abe8694e02d519519d109bf6859def1&oe=60ADE7B5&_nc_sid=b9f2ee",
+            {
+                prefix: "https://scontent.cdninstagram.com/v/t51.2885-15/e35/s480x480/188131714_4488409557839768_2718379691644857371_n.jpg"
+            },
+            {
+                prefix: "https://scontent.cdninstagram.com/v/t51.2885-15/e35/s480x480/189090037_380077196631949_443156786077998043_n.jpg"
+            },
+            {
+                prefix: "https://scontent.cdninstagram.com/v/t51.2885-15/e35/p480x480/188325269_2834027283530585_5016862394668132274_n.jpg"
+            },
             "https://img-mdpr.freetls.fastly.net/article/tyJU/wm/tyJUVAtLPKFIyc6Q-yyf-w395mRFXcZxexrdBWf2EME.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/KO5E/nm/KO5EYh54YA0ydjFEBgshPZb0wr9-o0r8w4SrONMZM_E.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/5n0s/wm/5n0sBCFvkGSiW5J1S26R0-GU_usVGL_RYLAJwEPei4I.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/M0DI/hm/M0DI4VlYIXFSrf4qhVc5R726xdT7G2CIWHUj_mD6gII.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/8csb/wm/8csbx2G96VxNFJkf_pUvJXRPFS7_-8xQFqq1FewzC4E.jpg?quality=100"
-        ]
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 90);
+            }
+        }
     );
 });
