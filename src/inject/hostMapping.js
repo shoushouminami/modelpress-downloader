@@ -28,7 +28,7 @@ exports.check = function (location) {
         return "www.comic-valkyrie.com";
     }
 
-    if (host === "comic-days.com") {
+    if (host === "comic-days.com" || host === "shonenjumpplus.com") {
         return "tonarinoyj.jp";
     }
 
