@@ -46,7 +46,7 @@ test("Test sites.all", () => {
     expect(hosts).toContain("fineboys-online.jp");
     expect(hosts).toContain("www.wws-channel.com");
     expect(hosts).toContain("www.news-postseven.com");
-    expect(hosts).toContain("diet.news-postseven.com");
+    expect(hosts).toContain("8760.news-postseven.com");
     expect(hosts).toContain("hominis.media");
     expect(hosts).toContain("www.edgeline-tokyo.com");
     expect(hosts).toContain("realsound.jp");
