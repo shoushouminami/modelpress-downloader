@@ -1,5 +1,6 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const {getLargeImgFromDom} = require("../../src/inject/www.nikkansports.com");
+const retries = require("../utils/retries");
 
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
@@ -114,7 +115,8 @@ test("Test news image page 2", async () => {
 });
 
 test("Test news image page 3", async () => {
-    await testDirectDownload(
+    await retries(3,  () => {
+        testDirectDownload(
         getBrowser(),
         "https://www.nikkansports.com/entertainment/column/sakamichi/photonews/photonews_nsInc_202101120000038-0.html",
         "www.nikkansports.com-entertainment-column-sakamichi-photonews-photonews_nsInc_202101120000038-0.html/",
@@ -138,6 +140,7 @@ test("Test news image page 3", async () => {
                 "url": "https://www.nikkansports.com/entertainment/column/sakamichi/news/img/202101120000038-w1300_2.jpg"
             }
         ]
-    );
+    )
+    });
 });
 
