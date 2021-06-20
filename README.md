@@ -20,6 +20,13 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.16 (2021/06/20)
+* Add mer-web.jp
+* Add moment.nikkan-gendai.com
+* Add nordot.app
+* Domain change diet.news-postseven.com -> 8760.news-postseven.com
+* Fix on girlswalker.com
+
 ###### 3.15 (2021/06/15)
 * Add plus.ananweb.jp
 * Fix for tfm.co.jp/lock
