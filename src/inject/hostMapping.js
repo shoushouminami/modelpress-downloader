@@ -40,5 +40,9 @@ exports.check = function (location) {
         return "www.tfm.co.jp";
     }
 
+    if (host === "nordot.app") {
+        return "this.kiji.is";
+    }
+
     return host;
 };
