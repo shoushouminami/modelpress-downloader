@@ -31,6 +31,10 @@ function guessFolderPath() {
 }
 
 function getLargeImg(url) {
+    if (url.indexOf("trackimp.ad") !== -1) {
+        return null;
+    }
+
     let m = url.match(re);
     if (m && m[1]) {
         let folder = guessFolderPath();

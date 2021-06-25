@@ -217,9 +217,7 @@ test("Test thumbnail page", async () => {
                 ],
                 "url": "https://moment.nikkan-gendai.com/wp-content/uploads/2021/06/36-20210616144055U0003.jpg"
             },
-            {
-                "url": "https://moment.nikkan-gendai.com/wp-content/uploads/2021/06/000.jpg"
-            }
+            "https://moment.nikkan-gendai.com/wp-content/uploads/2021/06/000.jpg"
         ]
     );
 });
