@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --testTimeout=${TEST_TIMEOUT:-30000} --maxWorkers=${TEST_WORKERS:-4} --silent",
+    "test": "jest --testTimeout=${TEST_TIMEOUT:-30000} --maxWorkers=${TEST_WORKERS:-4} --silent --ci --reporters=jest-junit",
     "build": "make"
   },
   "jest": {
@@ -16,6 +16,11 @@
     "modulePathIgnorePatterns": [
       "webpack.config.test.js"
     ]
+  },
+  "jest-junit": {
+    "suiteName": "jest tests",
+    "outputDirectory": "./build/reports/jest",
+    "outputName": "results.xml"
   },
   "repository": {
     "type": "git",
@@ -34,6 +39,7 @@
     "copy-webpack-plugin": "^5.1.2",
     "jasmine": "^3.7.0",
     "jest": "^24.9.0",
+    "jest-junit": "^12.2.0",
     "jest-puppeteer": "^4.3.0",
     "mocha": "^6.2.3",
     "node": "^12.22.1",
