@@ -22,8 +22,8 @@
     "outputDirectory": "./build/reports/jest",
     "outputName": "results.xml",
     "suiteNameTemplate": "{filename}",
-    "classNameTemplate": "{classname}",
-    "titleTemplate": "{title}",
+    "classNameTemplate": "{filename} - {classname}",
+    "titleTemplate": "{filename} - {title}",
     "ancestorSeparator": " › "
   },
   "repository": {
