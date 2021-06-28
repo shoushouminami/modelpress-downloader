@@ -20,7 +20,11 @@
   "jest-junit": {
     "suiteName": "jest tests",
     "outputDirectory": "./build/reports/jest",
-    "outputName": "results.xml"
+    "outputName": "results.xml",
+    "suiteNameTemplate": "{filename}",
+    "classNameTemplate": "{classname}",
+    "titleTemplate": "{title}",
+    "ancestorSeparator": " › "
   },
   "repository": {
     "type": "git",
