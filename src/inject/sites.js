@@ -58,7 +58,7 @@ const register = function (siteModule) {
     require("./moment.nikkan-gendai.com"),
     require("./news.mynavi.jp"),
     require("./www.fujitv-view.jp"),
-    require("./tokyo.whatsin.jp"),
+    require("./friday.kodansha.co.jp"),
     require("./tokyopopline.com"),
     require("./www.tokyoheadline.com"),
     require("./news.dwango.jp"),

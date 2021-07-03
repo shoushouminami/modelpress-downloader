@@ -58,7 +58,7 @@ test("Test sites.all", () => {
     expect(hosts).toContain("actresspress.com");
     expect(hosts).toContain("seigura.com");
     expect(hosts).toContain("www.fujitv-view.jp");
-    expect(hosts).toContain("tokyo.whatsin.jp");
+    expect(hosts).toContain("friday.kodansha.co.jp");
     expect(hosts).toContain("www.fashion-press.net");
     expect(hosts).toContain("lp.p.pia.jp");
     expect(hosts).toContain("sakurazaka46.com");
