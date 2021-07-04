@@ -20,6 +20,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.17 (2021/07/04)
+* Add www.daily.co.jp
+* Add friday.kodansha.co.jp
+* Remove tokyo.whatsin.jp
+
 ###### 3.16 (2021/06/20)
 * Add mer-web.jp
 * Add moment.nikkan-gendai.com
