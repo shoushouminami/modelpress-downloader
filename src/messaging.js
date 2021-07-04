@@ -3,7 +3,7 @@ const isRuntime = window.chrome && window.chrome.extension != null;
 const isPage = !isRuntime;
 const isCS = isPage && window.chrome && window.chrome.runtime && window.chrome.runtime.getManifest != null;
 const thisSender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
-const logger = require("./logger");
+const logger = require("./logger2")(thisSender);
 
 let msgCount = 0; // id of message == (sender + msgCount)
 
@@ -23,10 +23,6 @@ function path(obj, ...path) {
 // bootstrap listenerMap by checking the property on window object
 const listenerMap = path(window, "_mid_", "messaging").listenerMap || {};
 path(window, "_mid_", "messaging").listenerMap = listenerMap;
-
-function debug(funcName, key, msg, ...anyMsg) {
-    logger.debug("[%s] %s key=%s msg=%o otherArgs=%o", thisSender, funcName, key, msg, anyMsg);
-}
 
 function nextMsgId(){
     return thisSender + "-" + (msgCount++);
@@ -55,7 +51,7 @@ function sendToPage(key, msg, onResponse) {
     if (onResponse instanceof Function) {
         listenOnPage(replyKey, onResponse); // setup async reply channel
     }
-    debug("sendToPage", key, msg);
+    logger.debug("sendToPage", key, msg);
     window.postMessage({
         what: key,
         sender: thisSender,
@@ -69,7 +65,7 @@ function sendToPage(key, msg, onResponse) {
  * or extension runtime sends to extension runtime.
  */
 function sendToRuntime(key, msg, onResponse) {
-    debug("sendToRuntime", key, msg);
+    logger.debug("sendToRuntime", key, msg);
     chrome.runtime.sendMessage({
         what: key,
         sender: thisSender,
@@ -81,7 +77,7 @@ function sendToRuntime(key, msg, onResponse) {
  * Extension runtime (popup or background) sends messages to content script.
  */
 function sendToCS(tabId, key, msg, onResponse) {
-    debug("sendToCS", key, msg);
+    logger.debug("sendToCS", key, msg);
     chrome.tabs.sendMessage(tabId, {
         what: key,
         sender: thisSender,
@@ -100,7 +96,7 @@ function relayMsgToRuntime(key, transformerFunc) {
                 msg = newMsg;
             }
         }
-        debug("relayMsgToRuntime", key, msg);
+        logger.debug("relayMsgToRuntime", key, msg);
         sendToRuntime(key, msg); // won't send response to page
     });
 }
@@ -116,7 +112,7 @@ function relayMsgToPage(key, transformerFunc) {
                 msg = newMsg;
             }
         }
-        debug("relayMsgToPage", key, msg);
+        logger.debug("relayMsgToPage", key, msg);
         sendToPage(key, msg, sendResponse);
         return true; // always enable async response
     });
@@ -135,14 +131,14 @@ function relayAllMsgsToRuntime(...keys) {
  */
 function listenOnPage(key, callback) {
     if (tryAndListenOnKey(key)) {
-        debug("listeningOnPage", key);
+        logger.debug("listeningOnPage", key);
         let listener = function(event) {
             if (event.source !== window || event.origin !== window.origin) {
                 return;
             }
 
             if (event.data.what && (event.data.what === key) && event.data.sender !== thisSender) {
-                debug("Received on page", key, event.data.msg, event.data);
+                logger.debug("Received on page", key, event.data.msg, event.data);
                 callback(event.data.msg, function (respMsg) {
                     sendToPage(event.data.replyKey, respMsg);
                 });
@@ -167,10 +163,10 @@ function listenOnPage(key, callback) {
  */
 function listenOnRuntime(key, callback) {
     if (tryAndListenOnKey(key)) {
-        debug("listeningOnRuntime", key);
+        logger.debug("listeningOnRuntime", key);
         let listener = function(data, sender, sendResponse) {
             if (data && data.what && data.what === key && data.sender !== thisSender) {
-                debug("Received on runtime", data.what, data.msg, sendResponse);
+                logger.debug("Received on runtime", data.what, data.msg, sendResponse);
                 // if callback returns true, async replying mode is enabled and calling sendResponse can reply
                 return callback(data.msg, sendResponse);
             }
