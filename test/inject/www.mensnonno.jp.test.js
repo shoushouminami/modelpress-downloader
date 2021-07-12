@@ -4,12 +4,12 @@ let getBrowser = getBrowserFactory(beforeAll, afterAll);
 test("Test fashion article", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.mensnonno.jp/post/97973/",
-        "www.mensnonno.jp-post-97973-/",
+        "https://www.mensnonno.jp/post/104803/",
+        "www.mensnonno.jp-post-104803-/",
         [
-                "https://www.mensnonno.jp/wp-content/uploads/2021/06/MN2107-AsukaSaito-eyecatch.jpg",
-                "https://www.mensnonno.jp/wp-content/uploads/2021/06/MN2107-AsukaSaito-m1.jpg",
-                "https://www.mensnonno.jp/wp-content/uploads/2021/06/MN2107-AsukaSaito-m2.jpg"
+            "https://www.mensnonno.jp/wp-content/uploads/2121/07/MN2108-09-AsukaSaito-eyecatch.jpg",
+            "https://www.mensnonno.jp/wp-content/uploads/2121/07/MN2108-09-AsukaSaito-m1.jpg",
+            "https://www.mensnonno.jp/wp-content/uploads/2121/07/MN2108-09-AsukaSaito-m2.jpg"
         ]
     );
 });
