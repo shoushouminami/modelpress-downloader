@@ -237,7 +237,7 @@ test("Test makeup article", async () => {
             },
             {
                 "retries": [
-                    "https://wp.i-voce.jp/wp-content/uploads/2021/03/154640160_910008549851097_6091848284446566452_n-400x400.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154640160_910008549851097_6091848284446566452_n-400x400.jpg"
                 ],
                 "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154640160_910008549851097_6091848284446566452_n.jpg"
             },
@@ -249,7 +249,7 @@ test("Test makeup article", async () => {
             },
             {
                 "retries": [
-                    "https://wp.i-voce.jp/wp-content/uploads/2021/03/154280690_718079558862875_5684868594846573803_n-400x400.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154280690_718079558862875_5684868594846573803_n-400x400.jpg"
                 ],
                 "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154280690_718079558862875_5684868594846573803_n.jpg"
             },
@@ -261,7 +261,7 @@ test("Test makeup article", async () => {
             },
             {
                 "retries": [
-                    "https://wp.i-voce.jp/wp-content/uploads/2021/03/154661058_466259101061514_5414266187772980127_n-400x400.jpg"
+                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154661058_466259101061514_5414266187772980127_n-400x400.jpg"
                 ],
                 "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154661058_466259101061514_5414266187772980127_n.jpg"
             },

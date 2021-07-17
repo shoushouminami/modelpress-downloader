@@ -4,8 +4,9 @@
  * @type {{init: (function(): {ext: undefined, images: [], folder: string, host: string, remoteImages: {}, retry: boolean, supported: boolean})}}
  */
 module.exports = {
-    init: function () {
-        return {
+    init: function (message) {
+        let o = message || {};
+        Object.assign(o, {
             href: window.location.href,
             host: window.location.host,
             supported: true,
@@ -18,18 +19,20 @@ module.exports = {
             folder: window.location.host + window.location.pathname.replace(/\//g, "-") + "/",
             fromTabId: 0, // tabId,
             loading: false //  tells the runtime to show an in progress icon indicating images are loading
-        };
+        });
+
+        return o;
     },
 
-    notSupported: function () {
-        let o = this.init();
+    notSupported: function (message) {
+        let o = message || this.init();
         o.supported = false;
 
         return o;
     },
 
-    loading: function () {
-        let o = this.init();
+    loading: function (message) {
+        let o = message || this.init();
         o.loading = true;
 
         return o;

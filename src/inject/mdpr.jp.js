@@ -48,6 +48,8 @@ function inject() {
         "main .pg-articleDetail__body figure img", // in article images
         "main #js-webImageList .c-webImageList__item img", // article end thumbnail images
         "main .pg-photo__body .pg-photo__webImageListItem img",
+        "main .images_article figure img",
+        "main .list_photo figure img", // apparel photo list
     ]) {
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document, selector, getLargeImg)

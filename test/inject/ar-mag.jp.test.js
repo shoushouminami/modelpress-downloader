@@ -50,7 +50,7 @@ test("Test article page", async () => {
             },
             {
                 "retries": [
-                    "https://arweb.ismcdn.jp/mwimgs/a/5/790wm/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
+                    "https://arweb.ismcdn.jp/mwimgs/a/5/100wm/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
                 ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/a/5/-/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
             },

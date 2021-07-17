@@ -4,16 +4,16 @@ const inject = function () {
     // article images
     utils.pushArray(o.images,
         utils.findImagesWithCssSelector(document,
-            "#content #main article .entry-content .wp-caption img")
+            "main article .wp-caption img")
     );
     utils.pushArray(o.images,
         utils.findImagesWithCssSelector(document,
-            "#content #main article .entry-content p img")
+            "main article p img")
     );
     return o;
 };
 
 module.exports = {
-    host: "diet.news-postseven.com",
+    host: "8760.news-postseven.com",
     inject: inject,
 };

@@ -20,5 +20,6 @@ module.exports = {
         );
         return o;
     },
-    host: "tokyo.whatsin.jp"
+    host: "tokyo.whatsin.jp",
+    hidden: true
 };
