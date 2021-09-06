@@ -7,6 +7,7 @@ module.exports = {
             "main .post-head .card-image img", // head image
             "main .post-body figure.wp-block-image img",//post image
             "main .post-body .snap-image img",//snap image
+            "main .post-body .swiper-wrapper .swiper-slide img"
         ]) {
             utils.pushArray(o.images,
                 utils.findImagesWithCssSelector(document, selector, utils.removeTrailingResolutionNumbers)
