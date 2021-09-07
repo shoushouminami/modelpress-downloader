@@ -122,6 +122,7 @@ const register = function (siteModule) {
     require("./www.vivi.tv"),
     require("./domani.shogakukan.co.jp"),
     require("./mer-web.jp"),
+    require("./seventeen-web.jp"),
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),

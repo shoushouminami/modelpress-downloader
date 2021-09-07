@@ -1,4 +1,5 @@
 const utils = require("../utils");
+const logger = require("../logger2")(module.id);
 const id = "_mid-images_";
 
 exports.getOrCreateDataDiv = function () {
@@ -62,7 +63,7 @@ exports.saveImagesInDataDiv = function (images) {
 exports.saveImageInDataDiv = function (url) {
     let div = exports.getOrCreateDataDiv();
     let s = div.dataset["images"] || "";
-    console.log("s=", s);
+    logger.debug("s=", s);
     s += encodeURIComponent(url) + ";";
     div.dataset["images"] = s;
 }

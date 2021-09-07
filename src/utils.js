@@ -187,6 +187,28 @@ const utils = {
     },
 
     /**
+     * Similar to {@link #findImagesWithCssSelector} but checks for dom.dataset["src"] first for lazy loaded images.
+     * @param rootDom
+     * @param cssSelector
+     * @param filterFunc a function to transform the found src to another object. Input is the found IMG.src.
+     * @returns {[]}
+     */
+    findLazyImagesWithCssSelector: function (rootDom, cssSelector, filterFunc) {
+        return utils.findDomsWithCssSelector(rootDom, cssSelector, function (dom) {
+            let src = dom.src;
+            if (dom.dataset["src"]) {
+                src = dom.dataset["src"];
+            }
+
+            if (typeof filterFunc === "function") {
+                return filterFunc(src, dom.width, dom.height);
+            } else {
+                return src;
+            }
+        });
+    },
+
+    /**
      * Uses the css selector to find children doms from the given root dom. Apply the filter function if given.
      * A list of objects is returned. The type of the object will be the dom if filter function is not supplied.
      * If the filter function is supplied, the type of the object will be the return type of the filter function.

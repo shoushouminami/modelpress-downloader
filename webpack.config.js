@@ -15,6 +15,7 @@ module.exports = env => {
             "helper/instagram-react": "./src/helper/instagram-react.js",
             "helper/rbbtoday-check-size": "./src/helper/rbbtoday-check-size.js",
             "helper/twitter-react": "./src/helper/twitter-react.js",
+            "helper/my.ebook5.net-helper": "./src/helper/my.ebook5.net-helper.js",
             "google-analytics-bootstrap": "./src/google-analytics-bootstrap.js",
             "github-pages/sites-html": "./src/github-pages/sites-html.js",
         },
