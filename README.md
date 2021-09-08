@@ -20,6 +20,13 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.18 (2021/09/07)
+* Add seventeen-web.jp
+* Add withonline.jp
+* Add entameclip.com
+* Add cmnow.jp
+* Remove tokyopopline.com
+
 ###### 3.17 (2021/07/04)
 * Add www.daily.co.jp
 * Add friday.kodansha.co.jp
