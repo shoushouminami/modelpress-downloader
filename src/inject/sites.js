@@ -100,6 +100,7 @@ const register = function (siteModule) {
     require("./www.tvlife.jp"),
     require("./sumabo.jp"),
     require("./entamenext.com"),
+    require("./entameclip.com"),
     require("./exweb.jp"),
     require("./bltweb.jp"),
     require("./taishu.jp"),
