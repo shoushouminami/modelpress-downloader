@@ -94,7 +94,7 @@ test("Test special gallery page", async () => {
         getBrowser(),
         "https://www.crank-in.net/gallery/special/77136/2",
         "www.crank-in.net-gallery-special-77136-2/",
-        [w
+        [
             {
                 "retries": [
                     "https://www.crank-in.net/img/db/1397174_650.jpg",
