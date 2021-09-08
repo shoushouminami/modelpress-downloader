@@ -123,6 +123,7 @@ const register = function (siteModule) {
     require("./domani.shogakukan.co.jp"),
     require("./mer-web.jp"),
     require("./seventeen-web.jp"),
+    require("./withonline.jp"),
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),
