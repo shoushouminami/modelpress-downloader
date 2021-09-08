@@ -125,6 +125,7 @@ const register = function (siteModule) {
     require("./mer-web.jp"),
     require("./seventeen-web.jp"),
     require("./withonline.jp"),
+    require("./cmnow.jp"),
     require("./blog.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),

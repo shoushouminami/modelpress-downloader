@@ -1,5 +1,4 @@
 const {testDirectDownload, launchBrowser} = require("./testbase");
-const pageutils = require("../pageutils");
 
 let browser;
 beforeAll(async () => {
