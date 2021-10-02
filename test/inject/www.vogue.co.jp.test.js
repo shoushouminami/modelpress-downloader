@@ -14,7 +14,7 @@ test("Test getLargeImg func", () => {
 test("Test feature audi article", async () => {
     await testDirectDownload(
         browserFactory(),
-        "https://www.vogue.co.jp/change/feature/2021-04/15/audi/page/6",
+        "https://www.vogue.co.jp/change/feature/2021-04/15/audi/",
         "www.vogue.co.jp-change-feature-2021-04-15-audi-page-6/",
         [
             "https://www.vogue.co.jp/uploads/media/2021/04/15/audi_01.jpg",

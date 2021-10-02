@@ -9,18 +9,22 @@ function getLargeImg(url) {
 }
 const inject = function() {
     let o = require("./return-message.js").init();
-    utils.pushArray(
-        o.images,
-        utils.findImagesWithCssSelector(
-            document,
-            [
-                "#mainArea .article-content .single__body__media img", // news article
-                "main .article-content .cs2__mainvisual img", // feature page top image
-                "main .article-content .single__body__media img", // feature page article images
-                "section[data-test-id=\"ArticleBodyContent\"] div[data-test-id=\"PictureWrapper\"] img",
-            ].join(","),
+    for (const selector of [
+        "#mainArea .article-content .single__body__media img", // news article
+        "main .article-content .cs2__mainvisual img", // feature page top image
+        "main .article-content .single__body__media img", // feature page article images
+        "section[data-test-id=\"ArticleBodyContent\"] div[data-test-id=\"PictureWrapper\"] img",
+        "main article figure picture img"
+    ]) {
+        utils.pushArray(
+            o.images,
+            utils.findImagesWithCssSelector(
+                document,
+                selector,
             getLargeImg)
     );
+    }
+
 
     return o;
 };
