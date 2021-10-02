@@ -16,23 +16,6 @@ test("Test blogs article", async () => {
     );
 });
 
-test("Test beauty article", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://seventeen-web.jp/news/14269",
-        "seventeen-web.jp-news-14269/",
-        [
-            "https://cdn-st-news-image.st-channel.jp/4ca5a839-370c-48a9-af97-b233fa86bd39.jpg",
-            "https://cdn-st-news-image.st-channel.jp/e2d81daa-4a5b-43cf-8a55-98bf3b138afb.png",
-            "https://cdn-st-news-image.st-channel.jp/d27f4368-bca2-4aa6-9bc4-44320afded2f.png",
-            "https://cdn-st-news-image.st-channel.jp/36d1e937-b489-4837-b9a2-ae9d8aa285f3.png",
-            "https://cdn-st-news-image.st-channel.jp/bcbf84ed-88a9-423b-bfac-569bce4cab86.png",
-            "https://cdn-st-news-image.st-channel.jp/2780901f-821a-48b9-888f-23b003ea8c00.jpg",
-            "https://cdn-st-news-image.st-channel.jp/c4e85d34-f385-49f4-9074-2d1614447c2d.png"
-        ]
-    );
-});
-
 test("Test news article", async () => {
     await testDirectDownload(
         getBrowser(),
@@ -51,27 +34,29 @@ test("Test news article", async () => {
 test("Test magazine", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://my.ebook5.net/stchannel/202110/",
-        "my.ebook5.net-stchannel-202110-/",
+        "https://my.ebook5.net/stchannel/202109/",
+        "my.ebook5.net-stchannel-202109-/",
         [
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0001.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0002.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0003.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0004.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0005.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0006.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0007.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0008.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0009.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0010.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0011.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0012.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0013.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0014.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0015.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0016.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0017.jpg",
-            "https://img01.ebook5.net/stchannel/202110/contents/image/book/large/image-0018.jpg"
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0001.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0002.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0003.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0004.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0005.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0006.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0007.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0008.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0009.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0010.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0011.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0012.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0013.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0014.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0015.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0016.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0017.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0018.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0019.jpg",
+            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0020.jpg"
         ]
     );
 });

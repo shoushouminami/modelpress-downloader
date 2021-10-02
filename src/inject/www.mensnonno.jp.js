@@ -5,7 +5,7 @@ module.exports = {
 
         for (const selector of [
             "main .post-head .card-image img", // head image
-            "main .post-body figure.wp-block-image img",//post image
+            "main .post-body figure img",//post image
             "main .post-body .snap-image img",//snap image
             "main .post-body .swiper-wrapper .swiper-slide img"
         ]) {
