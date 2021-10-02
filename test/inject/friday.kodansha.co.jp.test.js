@@ -8,44 +8,64 @@ test("Test article images", async () => {
         "friday.kodansha.co.jp-article-190349/",
         [
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--Ww2Rb_nB--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770351/_DSF0486_vcieu1.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/6448905e3399ab1d10067c8b0376a7a3.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/6448905e3399ab1d10067c8b0376a7a3.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--6RGRomou--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770349/01-323_resize2_1_cwqnme.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/5cff6c30ddcea3af6c23f0bc1881b881.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/5cff6c30ddcea3af6c23f0bc1881b881.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--3wuIs_6x--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770354/0304_02-0068_tff1ee.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/deca694e42348797dcc876235830fd68.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/deca694e42348797dcc876235830fd68.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--QiMinETL--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770352/06-0932_B_lrnois.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/cadbae7b57b0783c5768b9a1b56bb2a6.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/cadbae7b57b0783c5768b9a1b56bb2a6.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--U1JFixJF--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770354/021_czfbys.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/f4945e74f818251ed52070fb6023ecf8.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/f4945e74f818251ed52070fb6023ecf8.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--2yEKVSeD--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770348/_DSF0474_qorrbd.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/bfc9c0c79ba15fc513aa5d50f3bb889f.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/bfc9c0c79ba15fc513aa5d50f3bb889f.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--s0RwMhDw--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770357/046_omugyq.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/8b031ba6998ad31d6e53a9db00a4fadd.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/8b031ba6998ad31d6e53a9db00a4fadd.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--YORn_fH9--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770357/024_mmfeoq.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/8b4df83a318e2d1a2e63d0660fe603f1.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/8b4df83a318e2d1a2e63d0660fe603f1.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--jR519LAQ--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770352/003_pxpprq.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/3f51193b068d624e69737c3719b7200d.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/3f51193b068d624e69737c3719b7200d.jpg"
             },
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--OG0mrbtv--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770354/052_fmeblz.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/b157313e42be315b59e706a86e34450e.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/b157313e42be315b59e706a86e34450e.jpg"
             }
         ]
     );
@@ -54,66 +74,68 @@ test("Test article images", async () => {
 test("Test photo page images", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://friday.kodansha.co.jp/article/190349/photo/565aab5f",
-        "friday.kodansha.co.jp-article-190349-photo-565aab5f/",
+        "https://friday.kodansha.co.jp/article/190349/photo/d6f250bf",
+        "friday.kodansha.co.jp-article-190349-photo-d6f250bf/",
         [
             {
-                "retries": [],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--Ww2Rb_nB--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770351/_DSF0486_vcieu1.jpg"
+                "retries": [
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image,w_664/wpmedia/2021/06/6448905e3399ab1d10067c8b0376a7a3.jpg"
+                ],
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/6448905e3399ab1d10067c8b0376a7a3.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--U1JFixJF--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770354/021_czfbys.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/f4945e74f818251ed52070fb6023ecf8.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--U1JFixJF--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770354/021_czfbys.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/f4945e74f818251ed52070fb6023ecf8.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--2yEKVSeD--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770348/_DSF0474_qorrbd.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/bfc9c0c79ba15fc513aa5d50f3bb889f.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--2yEKVSeD--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770348/_DSF0474_qorrbd.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/bfc9c0c79ba15fc513aa5d50f3bb889f.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--s0RwMhDw--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770357/046_omugyq.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/8b031ba6998ad31d6e53a9db00a4fadd.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--s0RwMhDw--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770357/046_omugyq.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/8b031ba6998ad31d6e53a9db00a4fadd.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--YORn_fH9--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770357/024_mmfeoq.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/8b4df83a318e2d1a2e63d0660fe603f1.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--YORn_fH9--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770357/024_mmfeoq.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/8b4df83a318e2d1a2e63d0660fe603f1.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--jR519LAQ--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770352/003_pxpprq.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/3f51193b068d624e69737c3719b7200d.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--jR519LAQ--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770352/003_pxpprq.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/3f51193b068d624e69737c3719b7200d.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--OG0mrbtv--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770354/052_fmeblz.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/b157313e42be315b59e706a86e34450e.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--OG0mrbtv--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770354/052_fmeblz.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/b157313e42be315b59e706a86e34450e.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--6RGRomou--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770349/01-323_resize2_1_cwqnme.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/5cff6c30ddcea3af6c23f0bc1881b881.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--6RGRomou--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770349/01-323_resize2_1_cwqnme.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/5cff6c30ddcea3af6c23f0bc1881b881.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--3wuIs_6x--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770354/0304_02-0068_tff1ee.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/deca694e42348797dcc876235830fd68.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--3wuIs_6x--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770354/0304_02-0068_tff1ee.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/deca694e42348797dcc876235830fd68.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--QiMinETL--/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/v1624770352/06-0932_B_lrnois.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2021/06/cadbae7b57b0783c5768b9a1b56bb2a6.jpg"
                 ],
-                "url": "https://res.cloudinary.com/gsjebzejhjubm/image/private/s--QiMinETL--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1624770352/06-0932_B_lrnois.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2021/06/cadbae7b57b0783c5768b9a1b56bb2a6.jpg"
             }
         ]
     );

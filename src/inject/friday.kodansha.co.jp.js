@@ -1,21 +1,25 @@
 const utils = require("../utils.js");
+
 function getLargeImg(url) {
+    let original = url;
     if (url.indexOf(",t_thumb_square") > -1) {
-        let original = url;
         url = url.replace(",t_thumb_square", ",t_article_image");
-        if (url.indexOf(",w_110") > -1) {
-            url = url.replace(",w_110", ",w_664");
-        }
-        if (url.indexOf(",w_72") > -1) {
-            url = url.replace(",w_72", ",w_664");
-        }
-        if (url.indexOf(",dpr_2.0") > -1) {
-            url = url.replace(",dpr_2.0", ",dpr_2");
-        }
-        return {
-            url: url,
-            retries: [original]
-        }
+    }
+    if (url.indexOf(",w_110") > -1) {
+        url = url.replace(",w_110", "");
+    }
+    if (url.indexOf(",w_72") > -1) {
+        url = url.replace(",w_72", "");
+    }
+    if (url.indexOf(",w_664") > -1) {
+        url = url.replace(",w_664", "");
+    }
+    if (url.indexOf(",dpr_2.0") > -1) {
+        url = url.replace(",dpr_2.0", ",dpr_2");
+    }
+    return {
+        url: url,
+        retries: [original]
     }
 
     return {url: url, retries: []};
