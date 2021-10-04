@@ -159,7 +159,8 @@ async function testDirectDownload(browser, url, folder, images, ops= {}) {
     // matches images array
     // 1. literals: ["url1", "url2", ...]
     // 2. regex: [{regex: /regex/, count: 1}, ...]
-    // 3. object match: [{url: "url1", retries: ["retry_url1", "retry_url2", ...]}, ... ]
+    // 3. object match: [{url: "url1", retries: ["retry_url1", "retry_url2", ...]}, ...]
+    // 4. prefix match:  [{prefix: "prefix-string", count: 1}, ...]
     for (const image of images) {
         if (image instanceof String || typeof image === "string") {
             expect(mid['o']['images']).toContain(image);

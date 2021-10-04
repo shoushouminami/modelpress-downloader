@@ -19,35 +19,31 @@ test("Test http://blog.nogizaka46.com/fourth/2019/06/051125.php", async () => {
 test("Image url is in href of parent A node and hosted on awalker.jp", async () => {
     await testDirectDownload(
         browserFactory(),
-        "http://blog.nogizaka46.com/momoko.oozono/2019/09/052573.php",
-        "blog.nogizaka46.com-momoko.oozono-2019-09-052573.php/",
+        "https://blog.nogizaka46.com/erika.ikuta/2021/04/061054.php",
+        "blog.nogizaka46.com-erika.ikuta-2021-04-061054.php/",
         [
             {
-                "imageUrl": "http://dcimg.awalker.jp/i/u1BqxJJaaxkjkAMcdEU97MfbBTk2A2XjqaaybSYRa9ip7eopy8cbYMgyhjDfqeh1S1JGrrUoxEppPhHwTSKwkwOUfbxDbR01Dch7eTwQZb5hCBAef26EkfsraR9ay4pp5yqPwMdynaNpEg01d2BDEvlwehVUJ28ysKzOJ05mFbDOe9XqOzpLvMoISmQ5Abjhvopn37cD.jpg",
+                "imageUrl": "http://dcimg.awalker.jp/i/lAU4raXVPj4N7VrNg57DP7FrirQcQGq5mep4w2rPnB6qC0vmgO3AWJKDaDlJMiXCXEdTi59c6lss4ZJCULa2plncqPk2Np8s9B4Ma5W3ieDTmtFzfQ1Qi1POu0HAhxPRoEOnugRaBhj0ZyIbAqJ18O7FrzbQLasRACq9ymeoaOYhYA5QZdTvne6qgNWQTGDxJHGBpILn.jpg",
                 "type": "tab",
-                "websiteUrl": "http://dcimg.awalker.jp/v/u1BqxJJaaxkjkAMcdEU97MfbBTk2A2XjqaaybSYRa9ip7eopy8cbYMgyhjDfqeh1S1JGrrUoxEppPhHwTSKwkwOUfbxDbR01Dch7eTwQZb5hCBAef26EkfsraR9ay4pp5yqPwMdynaNpEg01d2BDEvlwehVUJ28ysKzOJ05mFbDOe9XqOzpLvMoISmQ5Abjhvopn37cD"
+                "websiteUrl": "http://dcimg.awalker.jp/v/lAU4raXVPj4N7VrNg57DP7FrirQcQGq5mep4w2rPnB6qC0vmgO3AWJKDaDlJMiXCXEdTi59c6lss4ZJCULa2plncqPk2Np8s9B4Ma5W3ieDTmtFzfQ1Qi1POu0HAhxPRoEOnugRaBhj0ZyIbAqJ18O7FrzbQLasRACq9ymeoaOYhYA5QZdTvne6qgNWQTGDxJHGBpILn"
             },
             {
-                "imageUrl": "http://dcimg.awalker.jp/i/9XEddMCIbeDOFsOgi6sbGbT58dNEqRmjhXNSlTv1lYUWUnv2qjleuVo0NswVMJBHdJugxnuHFJprItnlU77ZQpLe3hoW1dBkpRJRHKqH1BJLQGBXQJ7DRLBgiliDP1btzX2sDTnjT6fO7cMJj5uLdHq9JrRTuP0evi2FJXmAtLagf9wjTqnL55Fdsoghgd8o5FrP3x7a.jpg",
+                "imageUrl": "http://dcimg.awalker.jp/i/nIaLsaNoPOrJO88UpoYy4M2kxCWYHPRnqkHPPp5KPKWrwZE8YHpblKALgkDJ8Gvlr3sdljB3lAN86zg3NnzIeUWeDenLuFlq6jyUk0XuGnyII7ShtnQlOIjP8hb1V2aQfQW4qKXYwgiMrBg3uDSfYRqO30YgoU9HmKqK6sJqBCJ8Doxo72v33rowith7I72roznqVnzM.jpg",
                 "type": "tab",
-                "websiteUrl": "http://dcimg.awalker.jp/v/9XEddMCIbeDOFsOgi6sbGbT58dNEqRmjhXNSlTv1lYUWUnv2qjleuVo0NswVMJBHdJugxnuHFJprItnlU77ZQpLe3hoW1dBkpRJRHKqH1BJLQGBXQJ7DRLBgiliDP1btzX2sDTnjT6fO7cMJj5uLdHq9JrRTuP0evi2FJXmAtLagf9wjTqnL55Fdsoghgd8o5FrP3x7a"
+                "websiteUrl": "http://dcimg.awalker.jp/v/nIaLsaNoPOrJO88UpoYy4M2kxCWYHPRnqkHPPp5KPKWrwZE8YHpblKALgkDJ8Gvlr3sdljB3lAN86zg3NnzIeUWeDenLuFlq6jyUk0XuGnyII7ShtnQlOIjP8hb1V2aQfQW4qKXYwgiMrBg3uDSfYRqO30YgoU9HmKqK6sJqBCJ8Doxo72v33rowith7I72roznqVnzM"
             },
             {
-                "imageUrl": "http://dcimg.awalker.jp/i/8T9Qmc5X0CyeWDlvzEqIpTWJlez38N2wUvguE9wGHH8PuuYRSY7OOS5VGA0zXzGQQvtTDDQienpuuXveSKdiJPTJQOnpHsKtCHuvuHwEtYBTLHVR3A1eNXYXRtXHSE3xvWcOhMJ7J1fDw9pQ1SIqbvm7IAazkhS8qguZfdzkM1YUFPbCzs3bdWDtPi7T0dR2E7Q9qmib.jpg",
+                "imageUrl": "http://dcimg.awalker.jp/i/0Ijhi2puixhLTfXmc6LE0TlUKpOCoFBtD93UjNOJZhckZ4Dfdqed1FUhkoGdVAjU4AkSbmqWNYyiulFVvveDr3bN39ZdPwEMdHCdaPMPPdVydmTtpLqpHhvEhxGa95FUsrPh7v1yiqNU0TX3QwvnDw6GJT8Y64uiMdHwRFFhdQNxH3IjNXKlnITjE07e2Xjjo5jCIEgd.jpg",
                 "type": "tab",
-                "websiteUrl": "http://dcimg.awalker.jp/v/8T9Qmc5X0CyeWDlvzEqIpTWJlez38N2wUvguE9wGHH8PuuYRSY7OOS5VGA0zXzGQQvtTDDQienpuuXveSKdiJPTJQOnpHsKtCHuvuHwEtYBTLHVR3A1eNXYXRtXHSE3xvWcOhMJ7J1fDw9pQ1SIqbvm7IAazkhS8qguZfdzkM1YUFPbCzs3bdWDtPi7T0dR2E7Q9qmib"
+                "websiteUrl": "http://dcimg.awalker.jp/v/0Ijhi2puixhLTfXmc6LE0TlUKpOCoFBtD93UjNOJZhckZ4Dfdqed1FUhkoGdVAjU4AkSbmqWNYyiulFVvveDr3bN39ZdPwEMdHCdaPMPPdVydmTtpLqpHhvEhxGa95FUsrPh7v1yiqNU0TX3QwvnDw6GJT8Y64uiMdHwRFFhdQNxH3IjNXKlnITjE07e2Xjjo5jCIEgd"
             },
             {
-                "imageUrl": "http://dcimg.awalker.jp/i/92eJ8Z35MYIjbMvBAOGkVJWJXZfXxdSp90F8puOnjnm5TatnFvYPtEHw44ETT2wvpDsSF4FSgm1CjpRB1ApJnKhQmxHTb2pa6fbSB2rgADPHi5dNRDYV1fibI7FYI6zsCZ3Hxb4crdYN0eGPCjc9kd8eS5e8KvqDa8PFqTFgIJetyNTrEDRWfrr0WfUitAImmFI8FaIw.jpg",
+                "imageUrl": "http://dcimg.awalker.jp/i/cr7DdpFuCZ1x6UcKiiXyfxuw2aAEpDhaHvNkpphe0EDNbt38agUcKPV3CZhM7iVLKqcM7sEH3mEmqM7D8w0aUBR5MTKw6WaIZi4bGoH5gJZamFjMXv7VoT9KcO8YpuNwMTYeQldOvJWW67TUxL5LJtR3GS8DpqSp5llXF0BptBCoJJsLnMcdySqxHkN1r3QV4aKPLajk.jpg",
                 "type": "tab",
-                "websiteUrl": "http://dcimg.awalker.jp/v/92eJ8Z35MYIjbMvBAOGkVJWJXZfXxdSp90F8puOnjnm5TatnFvYPtEHw44ETT2wvpDsSF4FSgm1CjpRB1ApJnKhQmxHTb2pa6fbSB2rgADPHi5dNRDYV1fibI7FYI6zsCZ3Hxb4crdYN0eGPCjc9kd8eS5e8KvqDa8PFqTFgIJetyNTrEDRWfrr0WfUitAImmFI8FaIw"
-            },
-            {
-                "imageUrl": "http://dcimg.awalker.jp/i/3CvZf6wkU5yK3wTaOBmvoQtMrQqBpXpUyxnuoNSf8jQplLsJBDm4CzgqV1PGUuI2MhGHqHxxnABhGAHxKt0C701PLlFbKsPGcxuLSYwouJAyWcXVUCTvS8ACIdi13tfuinmnf235Y72xhwTnTAZRrhE6686QPmrhTpAP930N5cZqpFIWsw06PSEDWWhacqCp5nyztw22.jpg",
-                "type": "tab",
-                "websiteUrl": "http://dcimg.awalker.jp/v/3CvZf6wkU5yK3wTaOBmvoQtMrQqBpXpUyxnuoNSf8jQplLsJBDm4CzgqV1PGUuI2MhGHqHxxnABhGAHxKt0C701PLlFbKsPGcxuLSYwouJAyWcXVUCTvS8ACIdi13tfuinmnf235Y72xhwTnTAZRrhE6686QPmrhTpAP930N5cZqpFIWsw06PSEDWWhacqCp5nyztw22"
+                "websiteUrl": "http://dcimg.awalker.jp/v/cr7DdpFuCZ1x6UcKiiXyfxuw2aAEpDhaHvNkpphe0EDNbt38agUcKPV3CZhM7iVLKqcM7sEH3mEmqM7D8w0aUBR5MTKw6WaIZi4bGoH5gJZamFjMXv7VoT9KcO8YpuNwMTYeQldOvJWW67TUxL5LJtR3GS8DpqSp5llXF0BptBCoJJsLnMcdySqxHkN1r3QV4aKPLajk"
             }
-        ]);
+        ]
+    );
 });
 
 test("Image url is in src of IMG node", async () => {

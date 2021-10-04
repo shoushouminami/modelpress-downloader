@@ -196,6 +196,11 @@ const utils = {
     findLazyImagesWithCssSelector: function (rootDom, cssSelector, filterFunc) {
         return utils.findDomsWithCssSelector(rootDom, cssSelector, function (dom) {
             let src = dom.src;
+
+            if (dom.dataset["lazySrc"]) {
+                src = dom.dataset["lazySrc"];
+            }
+
             if (dom.dataset["src"]) {
                 src = dom.dataset["src"];
             }
