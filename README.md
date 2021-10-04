@@ -20,6 +20,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.19 (2021/10/03)
+* Better resolution on friday.kodansha.co.jp
+* Add www.thefirsttimes.jp
+* Add hanako.tokyo
+
 ###### 3.18 (2021/09/07)
 * Add seventeen-web.jp
 * Add withonline.jp
