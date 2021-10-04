@@ -62,6 +62,7 @@ const register = function (siteModule) {
     require("./www.daily.co.jp"),
     require("./www.tokyoheadline.com"),
     require("./news.dwango.jp"),
+    require("./www.thefirsttimes.jp"),
     require("./mantan-web.jp"),
     require("./mainichikirei.jp"),
     require("./news.merumo.ne.jp"),
