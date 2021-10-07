@@ -8,8 +8,7 @@ module.exports = {
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(document, selector, function (url) {
-                    let original = url;
-                    url = utils.removeTrailingResolutionNumbers(url);
+                    url = utils.removeTrailingResolutionNumbers(utils.removeQuery(url));
                     let dotPos = url.lastIndexOf(".");
                     let ext = "";
                     if (dotPos > -1) {
