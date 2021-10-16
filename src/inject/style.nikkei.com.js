@@ -5,7 +5,7 @@ module.exports = {
         let o = require("./return-message.js").init();
         // article top image
         utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(
+            utils.findLazyImagesWithCssSelector(
                 document,
                 [
                     "#main-contents > div > div > div > div > div > img",
@@ -28,7 +28,9 @@ module.exports = {
                     "#main-contents .article-div-for-image img",
                 ].join(","),
                 function (img) {
-                    if (img.src && img.src.match(/^.*\/img\/pc\/detail\/btn\d+\.png$/)) {
+                    let src = img.src || img.dataset["src"];
+
+                    if (src && src.match(/^.*\/img\/pc\/detail\/btn\d+\.png$/)) {
                         return null;
                     }
 
@@ -39,7 +41,7 @@ module.exports = {
                         return img.parentElement.href;
                     }
 
-                    return img.src;
+                    return src;
                 }
             )
         );
