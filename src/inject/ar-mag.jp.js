@@ -22,7 +22,7 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(
+            utils.findLazyImagesWithCssSelector(
                 document,
                 [
                     ".top-column .top-column__img", // top image on home page

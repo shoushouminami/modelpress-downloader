@@ -11,28 +11,23 @@ test("Test photo page", async () => {
         [
             {
                 "retries": [
+                    "https://arweb.ismcdn.jp/mwimgs/0/6/790wm/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
+                ],
+                "url": "https://arweb.ismcdn.jp/mwimgs/0/6/-/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
+            },
+            {
+                "retries": [
                     "https://arweb.ismcdn.jp/mwimgs/a/5/790wm/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
                 ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/a/5/-/img_a51243ea92baaa94cd74edae5642ac25191202.jpg"
             },
             {
                 "retries": [
-                    "https://arweb.ismcdn.jp/mwimgs/0/1/120wm/img_0102e7705851a33c5b9ba14ee44d83bc84952.jpg"
+                    "https://arweb.ismcdn.jp/mwimgs/0/1/790wm/img_0102e7705851a33c5b9ba14ee44d83bc84952.jpg"
                 ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/0/1/-/img_0102e7705851a33c5b9ba14ee44d83bc84952.jpg"
-            },
-            {
-                "retries": [
-                    "https://arweb.ismcdn.jp/mwimgs/0/6/120wm/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
-                ],
-                "url": "https://arweb.ismcdn.jp/mwimgs/0/6/-/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 70, 500);
-            }
-        }
+        ]
     );
 });
 
@@ -60,12 +55,7 @@ test("Test article page", async () => {
                 ],
                 "url": "https://arweb.ismcdn.jp/mwimgs/0/6/-/img_064541828047ebf8f20f896e7ec90b0b96007.jpg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 70, 500);
-            }
-        }
+        ]
     );
 });
 
@@ -87,11 +77,6 @@ test("Test article page 2", async () => {
                 "retries": [],
                 "url": "https://arweb.ismcdn.jp/mwimgs/0/f/-/img_0f56b5b85eb126e419485dc0bb71d592261906.png"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 70, 500);
-            }
-        }
+        ]
     );
 });
