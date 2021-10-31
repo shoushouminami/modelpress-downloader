@@ -7,17 +7,18 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         // special top image
-        utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(
-                document,
-                [
-                    "#main .text img",
-                    "#main .slick-track img",
-                    "#main .pageTag img"
-                ].join(","),
-                getLargeImg)
-        );
-
+        for (const selector of [
+            "#main .text img",
+            "#main .slick-track > .slick-slide > img",
+            "#main .pageTag img"
+        ]) {
+            utils.pushArray(o.images,
+                utils.findImagesWithCssSelector(
+                    document,
+                    selector,
+                    getLargeImg)
+            );
+        }
         return o;
     },
     host: "smart-flash.jp",
