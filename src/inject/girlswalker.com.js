@@ -1,23 +1,32 @@
 const utils = require("../utils.js");
 const getLargeImg = function (url){
+    if (url == null) {
+        return null;
+    }
+
     if (url.endsWith("/1x1.trans.gif")) {
         return null;
     }
 
-    return utils.removeTrailingResolutionNumbers(url);
+    url = utils.removeTrailingResolutionNumbers(url);
+    if (url.indexOf("://img.girlswalker.com/") > -1) {
+        url = url.replace("://img.girlswalker.com/", "://girlswalker.com/");
+    }
+
+    return url;
 };
 
 const inject = function () {
     let o = require("./return-message").init();
     // in article images
     utils.pushArray(o.images,
-        utils.findImagesWithCssSelector(document,
+        utils.findLazyImagesWithCssSelector(document,
             "article section .gw-content__entry-article p img",
             getLargeImg)
     );
 
     utils.pushArray(o.images,
-        utils.findImagesWithCssSelector(document,
+        utils.findLazyImagesWithCssSelector(document,
             "article section .gw-content__entry-article span img",
             getLargeImg)
     );
@@ -26,7 +35,9 @@ const inject = function () {
     utils.pushArray(o.images,
         utils.findDomsWithCssSelector(document,
             "article.gw-content-wrap ul.gw-content__entry-thumbnail-list a div.gw-content__entry-thumbnail-list__item-image",
-            utils.getDomBackgroundImage)
+            function (dom){
+                return getLargeImg(utils.getDomBackgroundImage(dom));
+            })
     );
     return o;
 };
