@@ -1,6 +1,6 @@
 const utils = require("../utils.js");
 const messaging = require("../messaging");
-const logger = require("../logger");
+const logger = require("../logger2")(module.id);
 
 // cache
 const data = window.midData = window.midData || [];
@@ -61,6 +61,7 @@ function addToDataIfNew(dom) {
                     });
             })
         };
+        logger.debug(item);
         data.push(item);
     }
 
