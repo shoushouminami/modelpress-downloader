@@ -19,7 +19,7 @@ const inject = function () {
     utils.pushArray(o.images, utils.findDomsWithCssSelector(document, "main article#post div.thumb_list ul img", getLargeImgFromDom));
 
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main article#post div.top_photo img", getLargeImg));
-    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main article#post div.post_cont .pic_media img", getLargeImg));
+    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main article#post div.post_cont .pic_media.scale_full img", getLargeImg));
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#post .post_cont .wp-block-image img", getLargeImg));
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#post .post_cont #item_slide .slider img", getLargeImg));
     return o;
