@@ -45,20 +45,19 @@ test("Test ray-web.jp article 2 ", async () => {
     );
 });
 
-test("Test ray-web.jp photos gallery page ", async () => {
+test("Test ray-web.jp new layout article", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://ray-web.jp/56094/photos/fd38c0d5064661a4955e09ea180f5125ddef48be",
-        "ray-web.jp-56094-photos-fd38c0d5064661a4955e09ea180f5125ddef48be/",
+        "https://ray-web.jp/142819",
+        "ray-web.jp-142819/",
         [
-            "https://ray-web.jp/wp-content/uploads/2020/09/fd38c0d5064661a4955e09ea180f5125ddef48be.jpg",
-            "https://ray-web.jp/wp-content/uploads/2020/09/c89ebb4c459f19271c27722f52a7ca6736b1fa4e.jpg",
-            "https://ray-web.jp/wp-content/uploads/2020/09/d34914720f8049d91a97daba707a5ca55efbc041.jpg",
-            "https://ray-web.jp/wp-content/uploads/2020/09/504319d299628734789ec83c8943659bc443bd46.jpg",
-            "https://ray-web.jp/wp-content/uploads/2020/09/439e98ad441496e6881207794a49a749fd896426.jpg",
-            "https://ray-web.jp/wp-content/uploads/2020/09/d43cdc3f1ddbb7d11d4c982e88ae7cc9ea947f5b.jpg",
-            "https://ray-web.jp/wp-content/uploads/2020/09/b6b436245fd99a225f1e4e4b8746677205145c66.jpg",
-            "https://ray-web.jp/wp-content/uploads/2020/09/35b9e921677f62337be8890a866a93dc77895072.jpg"
+            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-19.jpg",
+            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-13.jpg",
+            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-18.jpg",
+            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-17.jpg",
+            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-16.jpg",
+            "https://ray-web.jp/wp-content/uploads/2021/11/DMA-ray_1583.jpg",
+            "https://ray-web.jp/wp-content/uploads/2021/11/DMA-ray_1585.jpg"
         ]
     );
 });

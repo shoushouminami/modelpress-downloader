@@ -67,15 +67,15 @@ test("Test article page 2", async () => {
         [
             {
                 "retries": [],
-                "url": "https://arweb.ismcdn.jp/mwimgs/2/4/-/img_243424df8bf8404884229a19cb4a6608201613.png"
+                "url": "https://ar-mag.jp/mwimgs/2/4/-/img_243424df8bf8404884229a19cb4a6608201613.png"
             },
             {
                 "retries": [],
-                "url": "https://arweb.ismcdn.jp/mwimgs/1/9/-/img_193ecfa3ade2f6fa9ca64c9a521145ef284015.png"
+                "url": "https://ar-mag.jp/mwimgs/1/9/-/img_193ecfa3ade2f6fa9ca64c9a521145ef284015.png"
             },
             {
                 "retries": [],
-                "url": "https://arweb.ismcdn.jp/mwimgs/0/f/-/img_0f56b5b85eb126e419485dc0bb71d592261906.png"
+                "url": "https://ar-mag.jp/mwimgs/0/f/-/img_0f56b5b85eb126e419485dc0bb71d592261906.png"
             }
         ]
     );
