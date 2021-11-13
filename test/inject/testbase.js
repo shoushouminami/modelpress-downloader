@@ -84,7 +84,7 @@ async function injectScript(page, scriptPath) {
  * @returns {Promise<{o}|*>}
  */
 async function emulateInjectWithRetry(page, ops) {
-    await injectScript(page, resolvePath("./mock-chrome-api.js"));
+    await injectScript(page, resolvePath("../mock/mock-chrome-api.js"));
     await injectScript(page, resolvePath("../../build/test-inject.js"));
     const executionContext = await page.mainFrame().executionContext();
     // check for helper script and inject using puppeteer API

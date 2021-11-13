@@ -2,7 +2,7 @@ const rewiremock = require("./rewiremock");
 const utils = require("../../src/utils");
 
 utils.injectScriptDOM = function (filepath) {
-    let span = document.createElement('span');
+    let span = document.createElement("span");
     // unit test looks at this value and injects the script using puppeteer API
     // since browser side won't have permission to get a local file
     span.classList.add("_mid-helper_");
@@ -14,8 +14,5 @@ rewiremock(() => require("../../src/utils")).with(utils);
 rewiremock.enable();
 
 let o = require("../../src/inject-cs");
-if (o.scan) {
-    o = require("../../src/scan-cs");
-    o.retry = true;
-}
-window._mid = {o: o};
+window._mid = window._mid || {};
+window._mid.o = o;

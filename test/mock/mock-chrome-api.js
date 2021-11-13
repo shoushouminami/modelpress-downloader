@@ -8,8 +8,7 @@ window.chrome = {
             // bridges from "test/inject" to "build/"
             return "../../build/" + filepath;
         },
-        sendMessage: function () {
-
+        sendMessage: function (payload, onResponse) {
         }
     }
 };
