@@ -27,10 +27,6 @@ ImageLoader.prototype.initCanvas = function (width, height, n) {
     }
 }
 
-// context = this.canvas.getContext("2d");
-// context.imageSmoothingQuality = "high";
-// context.imageSmoothingEnabled = true;
-
 ImageLoader.prototype.drawImage = function (canvasPart, imageMeta) {
     if (this.fix.length > 0) {
         this.y += this.fix.shift();
