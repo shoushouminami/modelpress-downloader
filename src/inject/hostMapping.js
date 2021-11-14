@@ -24,7 +24,7 @@ exports.check = function (location) {
         return "www.wowkorea.jp";
     }
 
-    if (host === "comic-brise.com" || host === "comic-meteor.jp") {
+    if (host === "comic-brise.com" || host === "comic-meteor.jp" || host === "comic-polaris.jp") {
         return "www.comic-valkyrie.com";
     }
 
