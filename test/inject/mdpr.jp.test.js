@@ -3,7 +3,7 @@ const pageutils = require("../pageutils");
 const https = require("https");
 const browser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test mdpr App API on app2-mdpr.freetls.fastly.net", async (resolve, error) => {
+test("Test mdpr App API on app2-mdpr.freetls.fastly.net", (resolve, error) => {
     https.get("https://app2-mdpr.freetls.fastly.net/api/images/dialog/article?index=0&image_id=0&article_id=1927015", (resp) => {
         let data = '';
 

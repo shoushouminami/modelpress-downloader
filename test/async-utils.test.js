@@ -1,6 +1,6 @@
 const {wait, every} = require("../src/utils/async-utils");
 
-test("Test waited", async (resolve) => {
+test("Test waited", (resolve) => {
     let count = 0;
     wait(500).then(() => {
         count++;
@@ -15,7 +15,7 @@ test("Test waited", async (resolve) => {
     }, 1000);
 });
 
-test("Test wait too short", async (resolve) => {
+test("Test wait too short", (resolve) => {
     let count = 0;
     wait(500).then(() => {
         count++;
@@ -30,7 +30,7 @@ test("Test wait too short", async (resolve) => {
     }, 100);
 });
 
-test("Test every", async (resolve) => {
+test("Test every", (resolve) => {
     let count = 0;
     every(200).then((c) => {
         count++
