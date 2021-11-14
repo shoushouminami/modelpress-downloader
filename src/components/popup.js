@@ -1,8 +1,7 @@
 const React = require("react");
-const ga = require("../google-analytics");
 const i18n = require("../i18n");
 const SupportedSites = require("./supported-sites");
-const logger = require("../logger");
+const logger = require("../logger2")(module.id);
 const window = require("../globals").getWindow();
 
 export function DownloadButton(props) {

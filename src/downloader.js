@@ -10,7 +10,7 @@ const globals = require("./globals");
 const retryMap = {}; // for keeping retry urls
 const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
-const logger = require("./logger");
+const logger = require("./logger2")(module.id);
 
 function getFileName(url, ext, preferedName) {
     if (preferedName != null) {
@@ -23,8 +23,11 @@ function getFileName(url, ext, preferedName) {
         filename = filename.split(":")[0];
     }
 
-    if (ext) {
-        return filename + "." + ext;
+    if (ext && !filename.endsWith(ext)) {
+        if (!filename.endsWith(".")){
+            filename += ".";
+        }
+        filename += ext;
     }
 
     return decodeURI(filename);
@@ -138,6 +141,7 @@ function listenForDownloadFailureAndRetry() {
     // listen for download failure and retry if possible
     chrome.downloads.onChanged.addListener(function (downloadDelta) {
         if (downloadDelta && downloadDelta.state && retryMap[downloadDelta.id]) {
+            logger.debug("e=onchange downloadId=",downloadDelta.id, "state=", downloadDelta.state);
             if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
                 let image = retryMap[downloadDelta.id];
                 delete retryMap[downloadDelta.id];
