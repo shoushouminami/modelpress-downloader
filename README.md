@@ -20,6 +20,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.20 (2021/11/14)
+* Add okmusic.jp
+* Fix on smart-flash.jp
+* Fix on ray-web.jp
+* Fix on girlswalker.com
+
 ###### 3.19 (2021/10/03)
 * Better resolution on friday.kodansha.co.jp
 * Add www.thefirsttimes.jp
