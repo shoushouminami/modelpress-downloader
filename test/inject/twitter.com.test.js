@@ -1,43 +1,38 @@
 const { testDirectDownload, getBrowserFactory } = require("./testbase");
 const pageutils = require("../pageutils");
-const retries = require("../utils/retries");
 
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test 1 image", async () => {
-    await retries(3, async () => {
-        await testDirectDownload(
-            getBrowser(),
-            "https://twitter.com/mai_westcoast/status/1312721916520587264",
-            "twitter.com-mai_westcoast-status-1312721916520587264/",
-            [
-                "https://pbs.twimg.com/media/Eje5n-FUcAEFvc3?format=jpg&name=large"
-            ],
-            {
-                preinject: async function (page) {
-                    await pageutils.wait(1500);
-                }
-            });
-    })
+    await testDirectDownload(
+        getBrowser(),
+        "https://twitter.com/mai_westcoast/status/1312721916520587264",
+        "twitter.com-mai_westcoast-status-1312721916520587264/",
+        [
+            "https://pbs.twimg.com/media/Eje5n-FUcAEFvc3?format=jpg&name=large"
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.wait(1500);
+            }
+        });
 });
 
 test("Test 3 images", async () => {
-    await retries(3, async () => {
-        await testDirectDownload(
-            getBrowser(),
-            "https://twitter.com/nogizaka46/status/1312658348064428032",
-            "twitter.com-nogizaka46-status-1312658348064428032/",
-            [
-                "https://pbs.twimg.com/media/Ejd_zkyVoAAAWxK?format=jpg&name=large",
-                "https://pbs.twimg.com/media/Ejd_zkwU0AAvYze?format=jpg&name=large",
-                "https://pbs.twimg.com/media/Ejd_zkwVoAEBXmV?format=jpg&name=large"
-            ],
-            {
-                preinject: async function (page) {
-                    await pageutils.wait(1500);
-                }
-            });
-    });
+    await testDirectDownload(
+        getBrowser(),
+        "https://twitter.com/nogizaka46/status/1312658348064428032",
+        "twitter.com-nogizaka46-status-1312658348064428032/",
+        [
+            "https://pbs.twimg.com/media/Ejd_zkyVoAAAWxK?format=jpg&name=large",
+            "https://pbs.twimg.com/media/Ejd_zkwU0AAvYze?format=jpg&name=large",
+            "https://pbs.twimg.com/media/Ejd_zkwVoAEBXmV?format=jpg&name=large"
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.wait(1500);
+            }
+        });
 });
 
 test.skip("Test 1 image slide show", async () => {

@@ -1,5 +1,5 @@
 const utils = require("../utils.js");
-const pattern = /^https:\/\/www.crank-in.net\/.*(_\d{3}).(jpg|jpeg|png)$/;
+const pattern = /^https:\/\/www.crank-in.net\/.*(_\d{3,}).(jpg|jpeg|png)$/;
 const getLargeImg = function (url) {
     let m = url.match(pattern);
     if (m && m[1]) {

@@ -1,21 +1,16 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-const pageutils = require("../pageutils");
-const retries = require("../utils/retries");
-
 const browser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test thetv.jp image page", async () => {
-    retries(3, async () => {
-        await testDirectDownload(
-            browser(),
-            "https://thetv.jp/news/detail/204813/1245284/",
-            "thetv.jp-news-detail-204813-1245284-/",
-            ["https://thetv.jp/i/nw/204813/1245283.jpg",
-                "https://thetv.jp/i/nw/204813/1245284.jpg",
-                "https://thetv.jp/i/nw/204813/1245285.jpg",
-                "https://thetv.jp/i/nw/204813/1245286.jpg",
-                "https://thetv.jp/i/nw/204813/1245287.jpg"]);
-    });
+    await testDirectDownload(
+        browser(),
+        "https://thetv.jp/news/detail/204813/1245284/",
+        "thetv.jp-news-detail-204813-1245284-/",
+        ["https://thetv.jp/i/nw/204813/1245283.jpg",
+            "https://thetv.jp/i/nw/204813/1245284.jpg",
+            "https://thetv.jp/i/nw/204813/1245285.jpg",
+            "https://thetv.jp/i/nw/204813/1245286.jpg",
+            "https://thetv.jp/i/nw/204813/1245287.jpg"]);
 });
 
 test("Test thetv.jp article page", async () => {
@@ -27,12 +22,7 @@ test("Test thetv.jp article page", async () => {
             "https://thetv.jp/i/nw/204813/1245284.jpg",
             "https://thetv.jp/i/nw/204813/1245285.jpg",
             "https://thetv.jp/i/nw/204813/1245286.jpg",
-            "https://thetv.jp/i/nw/204813/1245287.jpg"],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
-            }
-        });
+            "https://thetv.jp/i/nw/204813/1245287.jpg"]);
 });
 
 test("Test talent.thetv.jp single image", async () => {
@@ -55,11 +45,7 @@ test("Test thetv.jp program home page", async () => {
             "https://thetv.jp/i/nw/235367/1475224.jpg",
             "https://thetv.jp/i/nw/235367/1475226.jpg",
             "https://thetv.jp/i/nw/235367/1475227.jpg"
-        ],{
-            preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
-            }
-        });
+        ]);
 });
 
 test("Test thetv.jp matome home page", async () => {
@@ -74,15 +60,17 @@ test("Test thetv.jp matome home page", async () => {
 });
 
 test("Test thetv.jp program anime", async () => {
-    retries(3, async () => {
-        await testDirectDownload(
-            browser(),
-            "https://thetv.jp/program/0000987893/",
-            "thetv.jp-program-0000987893-/",
-            [
-                "https://thetv.jp/i/pg/series_images/0000752843_v.jpg"
-            ]
-        );
-    });
+    await testDirectDownload(
+        browser(),
+        "https://thetv.jp/program/0000987893/",
+        "thetv.jp-program-0000987893-/",
+        [
+            "https://thetv.jp/i/nw/1042731/10395543.jpg",
+            "https://thetv.jp/i/nw/1041484/10382192.jpg",
+            "https://thetv.jp/i/nw/1036270/10328742.jpg",
+            "https://thetv.jp/i/nw/1033199/10299200.jpg",
+            "https://thetv.jp/i/pg/program_images/0000752843_19_v.jpg"
+        ]
+    );
 });
 
