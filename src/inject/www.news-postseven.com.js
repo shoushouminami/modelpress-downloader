@@ -16,6 +16,20 @@ const inject = function () {
         utils.findImagesWithCssSelector(document,
             "#contents #main main section .detailSec ul.img5 li a img")
     );
+
+    // Updated UI 2021-11-28
+    for (const selector of [
+        "main article .c-PhotoImage img", //image page
+        "main article .c-Figure img", //article images
+    ]) {
+        utils.pushArray(o.images,
+            utils.findLazyImagesWithCssSelector(
+                document,
+                selector,
+                utils.removeTrailingResolutionNumbers)
+        );
+    }
+
     return o;
 };
 
