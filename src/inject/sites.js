@@ -124,6 +124,7 @@ const register = function (siteModule) {
     require("./www.fashion-press.net"),
     require("./i-voce.jp"),
     require("./spur.hpplus.jp"),
+    require("./more.hpplus.jp"),
     require("./trilltrill.jp"),
     require("./www.vivi.tv"),
     require("./domani.shogakukan.co.jp"),
