@@ -86,6 +86,7 @@ const register = function (siteModule) {
     require("./www.musicvoice.jp"),
     require("./okmusic.jp"),
     require("./seigura.com"),
+    require("./25jigen.jp"),
     require("./www.astage-ent.com"),
     require("./www.cinematoday.jp"),
     require("./www.cinemacafe.net"),
