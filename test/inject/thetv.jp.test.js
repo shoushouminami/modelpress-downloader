@@ -69,7 +69,7 @@ test("Test thetv.jp program anime", async () => {
             "https://thetv.jp/i/nw/1041484/10382192.jpg",
             "https://thetv.jp/i/nw/1036270/10328742.jpg",
             "https://thetv.jp/i/nw/1033199/10299200.jpg",
-            "https://thetv.jp/i/pg/program_images/0000752843_19_v.jpg"
+            "https://thetv.jp/i/pg/program_images/0000752843_20_v.jpg"
         ]
     );
 });
