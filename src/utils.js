@@ -389,6 +389,9 @@ const utils = {
             };
             xhr.send();
         });
+    },
+    replaceSpecialChars: function (s, replacement) {
+        return s.replace(/[~!@#$%^&*+?<>]/g, replacement || "-");
     }
 };
 

@@ -88,8 +88,15 @@ test("Test pushIfNew", () => {
     expect(l).toStrictEqual([0, {url: "abc"}]);
 });
 
-
 test("test getSearchParams", function (){
     expect(utils.getSearchParam("http://example.com?a=1").get("a")).toBe("1");
     expect(utils.getSearchParam("http://example.com?a=1").get("b")).toBeNull();
+});
+
+test("test replaceSpecialChars", function (){
+    expect(utils.replaceSpecialChars("*")).toBe("-");
+    expect(utils.replaceSpecialChars("*", "bla")).toBe("bla");
+    expect(utils.replaceSpecialChars("~+*")).toBe("---");
+    expect(utils.replaceSpecialChars("~!@#$%^&*+?<>")).toBe("-------------");
+    expect(utils.replaceSpecialChars("e66b04_f13c1935704043c8b12098e40a8cc2ed~mv2.jpg")).toBe("e66b04_f13c1935704043c8b12098e40a8cc2ed-mv2.jpg");
 });

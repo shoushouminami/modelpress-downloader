@@ -1,6 +1,6 @@
 const messaging = require("./messaging");
 const {wait, every} = require("./utils/async-utils");
-const globals = require("./globals");
+const utils = require("./utils");
 /**
  * Adds listener functions for a downloadId during download completion
  * @param downloadId
@@ -12,9 +12,9 @@ const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 
-function getFileName(url, ext, preferedName) {
-    if (preferedName != null) {
-        return preferedName;
+function getFileName(url, ext, preferredName) {
+    if (preferredName != null) {
+        return utils.replaceSpecialChars(preferredName);
     }
 
     let filename = url.split("?")[0].split("/");
@@ -30,7 +30,7 @@ function getFileName(url, ext, preferedName) {
         filename += ext;
     }
 
-    return decodeURI(filename);
+    return utils.replaceSpecialChars(decodeURI(filename));
 }
 
 /**
@@ -48,7 +48,9 @@ function download(chrome, image, resolve) {
                 url: image.url,
                 saveAs: false,
                 method: "GET",
-                filename: decodeURI(image.folder) + getFileName(image.url, image.ext, image.filename)
+                filename: decodeURI(image.folder)
+                    + (image.folder.endsWith("/") ? "" : "/")
+                    + getFileName(image.url, image.ext, image.filename)
             }, function (downloadId) {
                 logger.debug("downloadId=" + downloadId);
                 if (downloadId && image.retries && image.retries.length > 0) {
