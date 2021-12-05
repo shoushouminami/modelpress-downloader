@@ -67,6 +67,7 @@ const register = function (siteModule) {
     require("./mantan-web.jp"),
     require("./mainichikirei.jp"),
     require("./news.merumo.ne.jp"),
+    require("./www.excite.co.jp"),
     require("./natalie.mu"),
     require("./actresspress.com"),
     require("./hominis.media"),
