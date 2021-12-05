@@ -20,6 +20,16 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.21 (2021/12/05)
+* Add www.cinemacafe.net
+* Add 25jigen.jp
+* Add more.hpplus.jp
+* Add www.loveteen.jp
+* Add www.excite.co.jp
+* Fix on thetv.jp
+* Fix on www.news-postseven.com
+* Fix on withonline.jp
+
 ###### 3.20 (2021/11/14)
 * Add okmusic.jp
 * Fix on smart-flash.jp
