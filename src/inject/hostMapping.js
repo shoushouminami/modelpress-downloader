@@ -28,7 +28,8 @@ exports.check = function (location) {
         return "www.comic-valkyrie.com";
     }
 
-    if (host === "comic-days.com" || host === "shonenjumpplus.com" || host === "pocket.shonenmagazine.com") {
+    if (host === "comic-days.com" || host === "shonenjumpplus.com" || host === "pocket.shonenmagazine.com"
+        || host === "www.sunday-webry.com" || host === "comic-gardo.com") {
         return "tonarinoyj.jp";
     }
 

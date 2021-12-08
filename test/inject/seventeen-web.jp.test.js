@@ -30,33 +30,3 @@ test("Test news article", async () => {
         ]
     );
 });
-
-test("Test magazine", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://my.ebook5.net/stchannel/202109/",
-        "my.ebook5.net-stchannel-202109-/",
-        [
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0001.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0002.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0003.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0004.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0005.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0006.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0007.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0008.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0009.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0010.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0011.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0012.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0013.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0014.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0015.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0016.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0017.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0018.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0019.jpg",
-            "https://img01.ebook5.net/stchannel/202109/contents/image/book/large/image-0020.jpg"
-        ]
-    );
-});
