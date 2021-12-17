@@ -1,7 +1,7 @@
 const utils = require("../utils");
 const messaging = require("../messaging");
 const globals = require("../globals");
-const logger = require("../logger");
+const logger = require("../logger2")(module.id);
 
 const document = globals.getDocument();
 const window = globals.getWindow();
@@ -90,6 +90,21 @@ function getCoordInfoUrl() {
         "/book/coordinateInfo?comici-viewer-id=" + div.getAttribute("comici-viewer-id")
 }
 
+function getContentInfoUrl(len) {
+    let div = document.getElementById("comici-viewer");
+    if (div == null ||
+        div.getAttribute("comici-viewer-id") == null ||
+        div.getAttribute("api-domain") == null ||
+        div.getAttribute("data-member-jwt") == null
+    ) {
+        return null;
+    }
+
+    return `https://${(DOMAINS[div.getAttribute("api-domain")] || DOMAINS["yanmaga2"])}` +
+        `/book/contentsInfo?comici-viewer-id=${div.getAttribute("comici-viewer-id")}` +
+        `&user-id=${div.getAttribute("data-member-jwt")}&page-from=0&page-to=${len}`;
+}
+
 // array of { dom: dom, scramble: image.scramble, filename: image.title, promise: Promise, dataUrl: string }
 const images = window.yanmagaImages = window.yanmagaImages || [];
 
@@ -147,26 +162,33 @@ const inject = function () {
                 .then(respText => {
                         try {
                             const coord = JSON.parse(respText);
-                            logger.debug("coord=", coord)
+                            logger.debug("coord=", coord);
                             if (coord && coord.result && coord.result.length > 0) {
-                                for (const image of coord.result) {
-                                    let dom = document.createElement("img");
-                                    images.push({
-                                        dom: dom,
-                                        scramble: image.scramble,
-                                        filename: image.title,
-                                        promise: new Promise(function (resolve) {
-                                            dom.crossOrigin = "*";
-                                            dom.onload = function (){
-                                                resolve(dom);
-                                            };
-                                            dom.src = window.location.protocol + image.imageUrl;
-                                        })
-                                    });
-                                }
+                                let contentUrl = getContentInfoUrl(coord.result.length);
+                                utils.fetchUrl(contentUrl).then(function (respText) {
+                                    const content = JSON.parse(respText);
+                                    logger.debug("content=", content);
+                                    if (content && content.result && content.result.length > 0) {
+                                        for (const image of content.result) {
+                                            let dom = document.createElement("img");
+                                            images.push({
+                                                dom: dom,
+                                                scramble: image.scramble,
+                                                filename: utils.getFileName(image.imageUrl),
+                                                promise: new Promise(function (resolve) {
+                                                    dom.crossOrigin = "";
+                                                    dom.onload = function (){
+                                                        resolve(dom);
+                                                    };
+                                                    dom.src = image.imageUrl;
+                                                })
+                                            });
+                                        }
+                                        pushToMessage(o, images);
+                                        messaging.sendToRuntime("updateResult", o);
+                                    }
+                                });
 
-                                pushToMessage(o, images);
-                                messaging.sendToRuntime("updateResult", o);
                             }
                         } catch (e) {
                             logger.error("failed to parse JSON", e, respText);

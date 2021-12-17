@@ -392,6 +392,26 @@ const utils = {
     },
     replaceSpecialChars: function (s, replacement) {
         return s.replace(/[~!@#$%^&*+?<>]/g, replacement || "-");
+    },
+    getFileName: function (url, ext, preferredName) {
+        if (preferredName != null) {
+            return this.replaceSpecialChars(preferredName);
+        }
+
+        let filename = url.split("?")[0].split("/");
+        filename = filename[filename.length - 1];
+        if (filename.indexOf(":") > -1) {
+            filename = filename.split(":")[0];
+        }
+
+        if (ext && !filename.endsWith(ext)) {
+            if (!filename.endsWith(".")) {
+                filename += ".";
+            }
+            filename += ext;
+        }
+
+        return this.replaceSpecialChars(decodeURI(filename));
     }
 };
 

@@ -12,27 +12,6 @@ const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 
-function getFileName(url, ext, preferredName) {
-    if (preferredName != null) {
-        return utils.replaceSpecialChars(preferredName);
-    }
-
-    let filename = url.split("?")[0].split("/");
-    filename = filename[filename.length - 1];
-    if (filename.indexOf(":") > -1) {
-        filename = filename.split(":")[0];
-    }
-
-    if (ext && !filename.endsWith(ext)) {
-        if (!filename.endsWith(".")){
-            filename += ".";
-        }
-        filename += ext;
-    }
-
-    return utils.replaceSpecialChars(decodeURI(filename));
-}
-
 /**
  * Use Chrome API to download the given image
  * @param chrome
@@ -50,7 +29,7 @@ function download(chrome, image, resolve) {
                 method: "GET",
                 filename: decodeURI(image.folder)
                     + (image.folder.endsWith("/") ? "" : "/")
-                    + getFileName(image.url, image.ext, image.filename)
+                    + utils.getFileName(image.url, image.ext, image.filename)
             }, function (downloadId) {
                 logger.debug("downloadId=" + downloadId);
                 if (downloadId && image.retries && image.retries.length > 0) {
@@ -224,5 +203,4 @@ exports.download = download;
 exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
 exports.downloadWithNewTab = downloadWithNewTab;
 exports.displayInNewTab = displayInNewTab;
-exports.getFileName = getFileName;
 exports.downloadJob = downloadJob;
