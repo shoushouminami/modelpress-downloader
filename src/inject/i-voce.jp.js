@@ -41,17 +41,19 @@ function getLargeImg(url) {
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        // in article images
-        utils.pushArray(
-            o.images,
-            utils.findImagesWithCssSelector(
-                document,
-                [
-                    ".VcPageContent div[class^='main_'] img",
-                ].join(","),
-                getLargeImg
-            )
-        );
+        for (const selector of [
+            ".VcPageContent div[class^='main_'] img",
+            "div[class^='VcGallerySwiper_'] .swiper-slide img[class^='image_'] "
+        ]) {
+            utils.pushArray(
+                o.images,
+                utils.findImagesWithCssSelector(
+                    document,
+                    selector,
+                    getLargeImg
+                )
+            );
+        }
         return o;
     },
     host: "i-voce.jp",

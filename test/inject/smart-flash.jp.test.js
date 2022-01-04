@@ -35,10 +35,10 @@ test("Test lifemoney page", async () => {
 test("Test gravure page", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://smart-flash.jp/gravure/162097//image/9",
-        "smart-flash.jp-gravure-162097--image-9/",
+        "https://smart-flash.jp/gravure/162097/image/11",
+        "smart-flash.jp-gravure-162097-image-11/",
         [
-            "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214433/oowadanana11_1.jpg",
+            "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214346/oowadanana13_1.jpg",
             "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214653/oowadanana2_1_thumb.jpg",
             "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214703/oowadanana1_1.jpg",
             "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214643/oowadanana3_1.jpg",
@@ -47,7 +47,9 @@ test("Test gravure page", async () => {
             "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214606/oowadanana7_1.jpg",
             "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214554/oowadanana8_1.jpg",
             "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214542/oowadanana9_1.jpg",
-            "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214517/oowadanana10_1.jpg"
+            "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214517/oowadanana10_1.jpg",
+            "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214433/oowadanana11_1.jpg",
+            "https://data.smart-flash.jp/wp-content/uploads/2021/10/29214358/oowadanana12_1.jpg"
         ]
     );
 });
