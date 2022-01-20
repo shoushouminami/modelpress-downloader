@@ -17,14 +17,14 @@ ga.bootstrap();
  * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg"}}
  * @param resolve Invoked when all download jobs are started (not necessarily finished)
  */
-const downloadInBackground = function (chrome, job, resolve) {
+function downloadInBackground (chrome, job, resolve) {
     messaging.sendToRuntime("download", job, function () {
         logger.debug("Done: " + job.images.length + " images");
         if (resolve instanceof Function) {
             resolve();
         }
     });
-};
+}
 
 /**
  * Recursively enhance A element so a click on the element would update the active chrome tab.
@@ -82,15 +82,17 @@ function downloadHandler(resolve) {
     const images = message.images.slice(0, message.images.length);
 
     ga.trackDownload(message.host, images.length);
-    let i = 0;
+    let jobId = 1;
     for (const image of images) {
         if (typeof image === "string") {
-            downloadInBg.push({url: image, folder: message.folder, ext: message.ext});
+            downloadInBg.push({url: image, folder: message.folder, ext: message.ext, jobId: jobId});
         } else if (typeof image === "object" && image.type === "tab") {
+            image.jobId = jobId;
             imagesNeedTab.push(image);
         } else if (typeof image === "object" && (image.url != null || image.type === "msg")) {
             image.folder = message.folder;
             image.ext = message.ext;
+            image.jobId = jobId;
 
             if (image.type === "msg") {
                 image.tabId = message.fromTabId;
@@ -102,6 +104,8 @@ function downloadHandler(resolve) {
         } else {
             logger.error("event=unknown_type image=" + JSON.stringify(image));
         }
+
+        jobId++;
     }
 
     if (downloadWithMsg.length > 0) {

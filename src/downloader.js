@@ -13,9 +13,18 @@ const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 
 /**
+ * @param image {{url: "", folder: "abc/", ext: "jpg", jobId: 123}}
+ */
+function getFilename(image) {
+    return decodeURI(image.folder)
+        + (image.folder.endsWith("/") ? "" : "/")
+        + (image.jobId != null ?  image.jobId + "-" : "")
+        + utils.getFileName(image.url, image.ext, image.filename)
+}
+/**
  * Use Chrome API to download the given image
  * @param chrome
- * @param image <code> {url: "", folder: "abc/", ext: "jpg"} </code>
+ * @param image {{url: "", folder: "abc/", ext: "jpg", jobId: 123}}
  * @param resolve
  */
 function download(chrome, image, resolve) {
@@ -27,9 +36,7 @@ function download(chrome, image, resolve) {
                 url: image.url,
                 saveAs: false,
                 method: "GET",
-                filename: decodeURI(image.folder)
-                    + (image.folder.endsWith("/") ? "" : "/")
-                    + utils.getFileName(image.url, image.ext, image.filename)
+                filename: getFilename(image)
             }, function (downloadId) {
                 logger.debug("downloadId=" + downloadId);
                 if (downloadId && image.retries && image.retries.length > 0) {
@@ -64,6 +71,7 @@ function downloadWithMsg(chrome, context, images, done) {
                 let completed = ++count === images.length;
                 if (imageWithUrl && imageWithUrl.url) {
                     imageWithUrl.folder = context.folder;
+                    imageWithUrl.jobId = image.jobId;
                     // logger.debug("downloading filename=", image.filename);
                     download(chrome, imageWithUrl, function () {
                         if (completed) {
@@ -143,7 +151,7 @@ function downloadWithNewTab(chrome, image, context, tabId) {
                 logger.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
                 displayInNewTab(tabId, image.websiteUrl, function () {
                     logger.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                    download(chrome, {url: image.imageUrl, folder: context.folder} , () => {
+                    download(chrome, {url: image.imageUrl, folder: context.folder, jobId: image.jobId} , () => {
                         context.finishCount++;
                         if (context.finishCount === context.totalCount) {
                             if (context.errorCount > 0) {
