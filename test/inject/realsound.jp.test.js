@@ -28,12 +28,6 @@ test("Test movie news article with slider", async () => {
                 },
                 {
                     "retries": [
-                        "https://realsound.jp/wp-content/uploads/2020/08/20200805-yodayuuki-cheki-598x468.jpg"
-                    ],
-                    "url": "https://realsound.jp/wp-content/uploads/2020/08/20200805-yodayuuki-cheki.jpg"
-                },
-                {
-                    "retries": [
                         "https://realsound.jp/wp-content/uploads/2020/08/20200805-yodayuuki-sub2.jpeg"
                     ],
                     "url": "https://realsound.jp/wp-content/uploads/2020/08/20200805-yodayuuki-sub2.jpeg"
@@ -73,8 +67,39 @@ test("Test movie news article with slider", async () => {
                         "https://realsound.jp/wp-content/uploads/2020/08/20200805-yodayuuki-sub3.jpeg"
                     ],
                     "url": "https://realsound.jp/wp-content/uploads/2020/08/20200805-yodayuuki-sub3.jpeg"
+                },
+                {
+                    "retries": [
+                        "https://realsound.jp/wp-content/uploads/2020/08/20200805-yodayuuki-cheki-598x468.jpg"
+                    ],
+                    "url": "https://realsound.jp/wp-content/uploads/2020/08/20200805-yodayuuki-cheki.jpg"
+                },
+                {
+                    "retries": [
+                        "https://realsound.jp/wp-content/uploads/2020/08/20200803-grandblue-main-702x394.jpg"
+                    ],
+                    "url": "https://realsound.jp/wp-content/uploads/2020/08/20200803-grandblue-main.jpg"
+                },
+                {
+                    "retries": [
+                        "https://realsound.jp/wp-content/uploads/2020/02/20200223-grandblue-369x468.jpg"
+                    ],
+                    "url": "https://realsound.jp/wp-content/uploads/2020/02/20200223-grandblue.jpg"
+                },
+                {
+                    "retries": [
+                        "https://realsound.jp/wp-content/uploads/2020/07/20200715-unsung-1-702x465.jpg"
+                    ],
+                    "url": "https://realsound.jp/wp-content/uploads/2020/07/20200715-unsung-1.jpg"
+                },
+                {
+                    "retries": [
+                        "https://realsound.jp/wp-content/uploads/2020/03/20200327_nogizaka46_main-702x468.jpg"
+                    ],
+                    "url": "https://realsound.jp/wp-content/uploads/2020/03/20200327_nogizaka46_main.jpg"
                 }
-            ]);
+            ]
+        );
 });
 
 test("Test news article with slider", async () => {
@@ -88,12 +113,6 @@ test("Test news article with slider", async () => {
                     "https://realsound.jp/wp-content/uploads/2020/09/20200905-watanaberisa.jpg"
                 ],
                 "url": "https://realsound.jp/wp-content/uploads/2020/09/20200905-watanaberisa.jpg"
-            },
-            {
-                "retries": [
-                    "https://realsound.jp/wp-content/uploads/2020/09/20200905_keyaki_movie1.jpg"
-                ],
-                "url": "https://realsound.jp/wp-content/uploads/2020/09/20200905_keyaki_movie1.jpg"
             },
             {
                 "retries": [
@@ -118,6 +137,30 @@ test("Test news article with slider", async () => {
                     "https://realsound.jp/wp-content/uploads/2020/09/20200905_keyaki_movie7.jpg"
                 ],
                 "url": "https://realsound.jp/wp-content/uploads/2020/09/20200905_keyaki_movie7.jpg"
+            },
+            {
+                "retries": [
+                    "https://realsound.jp/wp-content/uploads/2020/09/20200905_keyaki_movie1.jpg"
+                ],
+                "url": "https://realsound.jp/wp-content/uploads/2020/09/20200905_keyaki_movie1.jpg"
+            },
+            {
+                "retries": [
+                    "https://realsound.jp/wp-content/uploads/2019/04/watanabe-jkjk.jpg"
+                ],
+                "url": "https://realsound.jp/wp-content/uploads/2019/04/watanabe-jkjk.jpg"
+            },
+            {
+                "retries": [
+                    "https://realsound.jp/wp-content/uploads/2020/08/20200825-hirate.jpg"
+                ],
+                "url": "https://realsound.jp/wp-content/uploads/2020/08/20200825-hirate.jpg"
+            },
+            {
+                "retries": [
+                    "https://realsound.jp/wp-content/uploads/2020/07/20200721-1500_.jpg"
+                ],
+                "url": "https://realsound.jp/wp-content/uploads/2020/07/20200721-1500_.jpg"
             }
         ]
     );
