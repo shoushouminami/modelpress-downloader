@@ -83,7 +83,6 @@ const register = function (siteModule) {
     require("./hustlepress.co.jp"),
     require("./www.crank-in.net"),
     require("./realsound.jp"),
-    require("./www.m-on-music.jp"),
     require("./www.musicvoice.jp"),
     require("./okmusic.jp"),
     require("./seigura.com"),
