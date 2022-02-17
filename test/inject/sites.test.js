@@ -35,7 +35,7 @@ test("Test sites.all", () => {
     expect(hosts).toContain("bisweb.jp");
     expect(hosts).toContain("bltweb.jp");
     expect(hosts).toContain("ananweb.jp");
-    expect(hosts).toContain("blog.nogizaka46.com");
+    expect(hosts).toContain("www.nogizaka46.com");
     expect(hosts).toContain("www.hinatazaka46.com");
     expect(hosts).toContain("twitter.com");
     expect(hosts).toContain("www.instagram.com");
