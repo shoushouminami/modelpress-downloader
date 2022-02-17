@@ -5,8 +5,8 @@ const pageutils = require("../pageutils");
 test("Test manga page 1", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://tonarinoyj.jp/episode/3269754496522113450",
-        "tonarinoyj.jp-episode-3269754496349630852/",
+        "https://tonarinoyj.jp/episode/3269754496746013840",
+        "tonarinoyj.jp-episode-3269754496746013840/",
         [
             {
                 "filename": "1.jpg",

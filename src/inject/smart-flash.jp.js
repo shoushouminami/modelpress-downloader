@@ -10,6 +10,7 @@ module.exports = {
         for (const selector of [
             "#main .text img",
             "#main .slick-track > .slick-slide > img",
+            "#main .slick-track > .slick-slide > div > img",
             "#main .pageTag img"
         ]) {
             utils.pushArray(o.images,
