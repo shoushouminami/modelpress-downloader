@@ -21,6 +21,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.23 (2022/02/16)
+* Fix blog on nogizaka46.com
+* Add yorozoonews.jp
+* Remove www.m-on-music.jp
+* Add sequence number to file name
+
 ###### 3.22 (2021/12/16)
 * Fix on yanmaga.jp
 
