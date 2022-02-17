@@ -100,7 +100,8 @@ test("Test sites.all", () => {
     expect(hosts).toContain("more.hpplus.jp");
     expect(hosts).toContain("www.loveteen.jp");
     expect(hosts).toContain("www.excite.co.jp");
-
+    expect(hosts).toContain("yorozoonews.jp");
+    
     expect(urls).toContain("https://www.bilibili.com/read/home");
     expect(urls).toContain("https://mdpr.jp");
     expect(urls).toContain("https://thetv.jp");

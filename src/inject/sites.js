@@ -64,6 +64,7 @@ const register = function (siteModule) {
     require("./news.dwango.jp"),
     require("./www.thefirsttimes.jp"),
     require("./hanako.tokyo"),
+    require("./yorozoonews.jp"),
     require("./mantan-web.jp"),
     require("./mainichikirei.jp"),
     require("./news.merumo.ne.jp"),
