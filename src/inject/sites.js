@@ -133,7 +133,7 @@ const register = function (siteModule) {
     require("./withonline.jp"),
     require("./cmnow.jp"),
     require("./www.loveteen.jp"),
-    require("./blog.nogizaka46.com"),
+    require("./www.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),
     require("./sakurazaka46.com"),

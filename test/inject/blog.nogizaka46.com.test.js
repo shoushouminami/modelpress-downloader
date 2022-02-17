@@ -2,30 +2,26 @@ const {testDirectDownload, getBrowserFactory, launchBrowser, dummyItems} = requi
 
 let browserFactory = getBrowserFactory(beforeAll, afterAll);
 
-test("Test http://blog.nogizaka46.com/fourth/2019/06/051125.php", async () => {
-    await testDirectDownload(
-        browserFactory(),
-        "http://blog.nogizaka46.com/fourth/2019/06/051125.php",
-        "blog.nogizaka46.com-fourth-2019-06-051125.php/",
-        [
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/11/5225339/0004.jpg",
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/11/5225339/0001.jpg",
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/11/5225339/0002.jpg",
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/11/5225339/0003.jpg",
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/11/5225339/0000.jpg"
-        ]);
-});
-
 test("Image url is in href of parent A node and hosted on awalker.jp", async () => {
     await testDirectDownload(
         browserFactory(),
-        "https://blog.nogizaka46.com/asuka.saito/2021/08/062748.php",
-        "blog.nogizaka46.com-asuka.saito-2021-08-062748.php/",
+        "https://www.nogizaka46.com/s/n46/diary/detail/59749?ima=4135&cd=MEMBER",
+        "www.nogizaka46.com-s-n46-diary-detail-59749/",
         [
             {
-                "imageUrl": "http://dcimg.awalker.jp/i/HLq5KFoTQ5uH5zlXr52sfdmriDj2gBP1eFKIiiOlcseL24MBzFKAnNPTINbwNEH86QBi2dubQO4bs9ZoCjlOWeGfRQt4MreYlitCTCJcTIrFQalOHVrqRwynLSTXMHT1iRdTCAFqtW2m11M79P6aJmSbHrdGYlOqvCbInZUVoMVvksufeEmnxdqsXydpRaCDrSh40JLW.jpg",
+                "imageUrl": "http://dcimg.awalker.jp/i/hJHudPkiiKXSExaZJEII6FiYDVVyEtK0EggU8SCnkAdmRFkSEcVes8WPLTaPy26PI3UUTGkouTH0Cz2FOPEjh4TSUqQJky0cPqGGDAjG0QO35KH86jts1sIbZRXKAlKhviWDwkeSAwp49arBsPgMIiv9kNWBZMCC4cYJAOSWWICiGixjtcuID73DhI1t7XAZSVCPHmCN.jpg",
                 "type": "tab",
-                "websiteUrl": "http://dcimg.awalker.jp/v/HLq5KFoTQ5uH5zlXr52sfdmriDj2gBP1eFKIiiOlcseL24MBzFKAnNPTINbwNEH86QBi2dubQO4bs9ZoCjlOWeGfRQt4MreYlitCTCJcTIrFQalOHVrqRwynLSTXMHT1iRdTCAFqtW2m11M79P6aJmSbHrdGYlOqvCbInZUVoMVvksufeEmnxdqsXydpRaCDrSh40JLW"
+                "websiteUrl": "http://dcimg.awalker.jp/v/hJHudPkiiKXSExaZJEII6FiYDVVyEtK0EggU8SCnkAdmRFkSEcVes8WPLTaPy26PI3UUTGkouTH0Cz2FOPEjh4TSUqQJky0cPqGGDAjG0QO35KH86jts1sIbZRXKAlKhviWDwkeSAwp49arBsPgMIiv9kNWBZMCC4cYJAOSWWICiGixjtcuID73DhI1t7XAZSVCPHmCN"
+            },
+            {
+                "imageUrl": "http://dcimg.awalker.jp/i/MT8nEr6x1kiBJPvXHvl7oaybw1enUNXrT1SHAHAjQZlfEfk9MFFgBJNPL1dp3LDywyMWL5cdLaBhOW9vOCrhUb4mEB9EwFPaAPVtnKo3p8Sp7uQU4JZqvcQ2yFDSgm5vIcrNtSh7AxJPTl2nLiCP1slKASGqlcz8LHdG4VWE48q5UnDzjGemOMpSvIA5byRchSu7KgWf.jpg",
+                "type": "tab",
+                "websiteUrl": "http://dcimg.awalker.jp/v/MT8nEr6x1kiBJPvXHvl7oaybw1enUNXrT1SHAHAjQZlfEfk9MFFgBJNPL1dp3LDywyMWL5cdLaBhOW9vOCrhUb4mEB9EwFPaAPVtnKo3p8Sp7uQU4JZqvcQ2yFDSgm5vIcrNtSh7AxJPTl2nLiCP1slKASGqlcz8LHdG4VWE48q5UnDzjGemOMpSvIA5byRchSu7KgWf"
+            },
+            {
+                "imageUrl": "http://dcimg.awalker.jp/i/UKMonHR3vITF0wEtTyHL2N7wvrdaFI2sHfN208KFYst8E0wLpVy00YAYgftYnvRzvsUHUxe9cyhHgbRxm0glf6er06KTbRQwqnC6HkTTqb5wKS8KF49xjbPSdVWyh7lQjyLDdOFGBvMyFNMDoWZmWDng2ssLWcmJHdNUZjaPtyjCLEC3oLNfrjE9LQRz7Z7d9ffhMUNe.jpg",
+                "type": "tab",
+                "websiteUrl": "http://dcimg.awalker.jp/v/UKMonHR3vITF0wEtTyHL2N7wvrdaFI2sHfN208KFYst8E0wLpVy00YAYgftYnvRzvsUHUxe9cyhHgbRxm0glf6er06KTbRQwqnC6HkTTqb5wKS8KF49xjbPSdVWyh7lQjyLDdOFGBvMyFNMDoWZmWDng2ssLWcmJHdNUZjaPtyjCLEC3oLNfrjE9LQRz7Z7d9ffhMUNe"
             }
         ]
     );
@@ -34,37 +30,10 @@ test("Image url is in href of parent A node and hosted on awalker.jp", async () 
 test("Image url is in src of IMG node", async () => {
     await testDirectDownload(
         browserFactory(),
-        "http://blog.nogizaka46.com/fourth/2019/06/051238.php",
-        "blog.nogizaka46.com-fourth-2019-06-051238.php/",
+        "https://www.nogizaka46.com/s/n46/diary/detail/65304?ima=0131",
+        "www.nogizaka46.com-s-n46-diary-detail-65304/",
         [
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/19/3478686/0003.jpg",
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/19/3478686/0004.jpg",
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/19/3478686/0000.jpg",
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/19/3478686/0001.jpg",
-            "https://img.nogizaka46.com/blog/fourth/img/2019/06/19/3478686/0002.jpg"
-        ]);
-});
-
-test("Image url is in href of parent A node but hosted on blog.nogizaka46.com", async () => {
-    await testDirectDownload(
-        browserFactory(),
-        "http://blog.nogizaka46.com/fourth/2019/12/053960.php",
-        "blog.nogizaka46.com-fourth-2019-12-053960.php/",
-        [
-            "http://img.nogizaka46.com/blog/fourth/img/2019/12/15/1576384354682.jpg",
-            "http://img.nogizaka46.com/blog/fourth/img/2019/12/15/1576384536971.jpg",
-            "http://img.nogizaka46.com/blog/fourth/img/2019/12/15/1576384538742.jpg",
-            "http://img.nogizaka46.com/blog/fourth/img/2019/12/15/1576384540660.jpg"
-        ]);
-});
-
-test("Image url is in href of parent A node but hosted on blog.nogizaka46.com", async () => {
-    await testDirectDownload(
-        browserFactory(),
-        "http://blog.nogizaka46.com/staff/2017/07/039636.php",
-        "blog.nogizaka46.com-staff-2017-07-039636.php/",
-        [
-            "http://img.nogizaka46.com/blog/staff/img/2017/07/05/%E2%91%A0%E9%A3%9B%E9%B3%A5.JPG",
-            "http://img.nogizaka46.com/blog/staff/img/2017/07/05/%E2%91%A1%E4%BA%95%E4%B8%8A.JPG",
-        ].concat(dummyItems(21)));
+            "https://www.nogizaka46.com/files/46/diary/n46/MEMBER/0000%20%281%29_2.jpeg"
+        ]
+    );
 });
