@@ -26,7 +26,9 @@ function getFolderName() {
 
 const DOMAINS = {
     yanmaga: "api-yanmaga.comici.jp",
-    yanmaga2: "api2-yanmaga.comici.jp"
+    yanmaga2: "api2-yanmaga.comici.jp",
+    "api-yanmaga.comici.jp": "api-yanmaga.comici.jp",
+    "api2-yanmaga.comici.jp": "api2-yanmaga.comici.jp"
 };
 
 const DEFAULT_ORDER = [];
@@ -78,31 +80,34 @@ function descramble(imageDom, scrambleString) {
 
 function getCoordInfoUrl() {
     let div = document.getElementById("comici-viewer");
+
     if (div == null ||
-        div.getAttribute("comici-viewer-id") == null ||
-        div.getAttribute("api-domain") == null
+        div.getAttribute("comici-viewer-id") == null
     ) {
         return null;
     }
 
+    let apiDomain = div.dataset["apiDomain"] || div.getAttribute("api-domain");
     return "https://" +
-        (DOMAINS[div.getAttribute("api-domain")] || DOMAINS["yanmaga2"]) +
+        (DOMAINS[apiDomain] || DOMAINS["yanmaga2"]) +
         "/book/coordinateInfo?comici-viewer-id=" + div.getAttribute("comici-viewer-id")
 }
 
 function getContentInfoUrl(len) {
     let div = document.getElementById("comici-viewer");
     if (div == null ||
-        div.getAttribute("comici-viewer-id") == null ||
-        div.getAttribute("api-domain") == null ||
-        div.getAttribute("data-member-jwt") == null
+        div.getAttribute("comici-viewer-id") == null
     ) {
         return null;
     }
 
-    return `https://${(DOMAINS[div.getAttribute("api-domain")] || DOMAINS["yanmaga2"])}` +
+    // div.getAttribute("api-domain") == null ||
+    // div.getAttribute("data-member-jwt") == null
+    let apiDomain = div.dataset["apiDomain"] || div.getAttribute("api-domain");
+    let jwt =  div.dataset["memberJwt"]
+    return `https://${(DOMAINS[apiDomain] || DOMAINS["yanmaga2"])}` +
         `/book/contentsInfo?comici-viewer-id=${div.getAttribute("comici-viewer-id")}` +
-        `&user-id=${div.getAttribute("data-member-jwt")}&page-from=0&page-to=${len}`;
+        `&user-id=${jwt}&page-from=0&page-to=${len}`;
 }
 
 // array of { dom: dom, scramble: image.scramble, filename: image.title, promise: Promise, dataUrl: string }
@@ -177,7 +182,7 @@ const inject = function () {
                                                 filename: utils.getFileName(image.imageUrl),
                                                 promise: new Promise(function (resolve) {
                                                     dom.crossOrigin = "";
-                                                    dom.onload = function (){
+                                                    dom.onload = function () {
                                                         resolve(dom);
                                                     };
                                                     dom.src = image.imageUrl;
