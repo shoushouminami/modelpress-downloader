@@ -21,6 +21,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.24 (2022/03/07)
+* Minor fixes
+
 ###### 3.23 (2022/02/16)
 * Fix blog on nogizaka46.com
 * Add yorozoonews.jp
