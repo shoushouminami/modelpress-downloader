@@ -159,87 +159,87 @@ test("Test lifestyle article", async () => {
         [
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120359/01fbf2d5b291d25b24bed06ad8d7af24-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/01fbf2d5b291d25b24bed06ad8d7af24-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120359/01fbf2d5b291d25b24bed06ad8d7af24.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/01fbf2d5b291d25b24bed06ad8d7af24.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120345/7bbdbf8a4818a939369e20ab47c79f15-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/7bbdbf8a4818a939369e20ab47c79f15-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120345/7bbdbf8a4818a939369e20ab47c79f15.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/7bbdbf8a4818a939369e20ab47c79f15.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120328/80d93773730ba9937b6fd5907d82fdfe-1-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/80d93773730ba9937b6fd5907d82fdfe-1-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120328/80d93773730ba9937b6fd5907d82fdfe-1.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/80d93773730ba9937b6fd5907d82fdfe-1.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120312/DDDhotel-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/DDDhotel-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120312/DDDhotel.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/DDDhotel.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120255/DDDhotel-2-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/DDDhotel-2-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120255/DDDhotel-2.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/DDDhotel-2.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120238/DDDhotel3-598x596.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/DDDhotel3-598x596.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120238/DDDhotel3.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/DDDhotel3.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120221/c4783ea74965a00986c684dd0ad74290-598x449.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/c4783ea74965a00986c684dd0ad74290-598x449.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120221/c4783ea74965a00986c684dd0ad74290.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/c4783ea74965a00986c684dd0ad74290.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120203/27bc421099f71d760cae616bfee93446-598x449.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/27bc421099f71d760cae616bfee93446-598x449.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120203/27bc421099f71d760cae616bfee93446.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/27bc421099f71d760cae616bfee93446.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120145/80b9a2bc48bf1587dd8952118ee24396-598x450.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/80b9a2bc48bf1587dd8952118ee24396-598x450.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120145/80b9a2bc48bf1587dd8952118ee24396.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/80b9a2bc48bf1587dd8952118ee24396.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13120128/ae88fa1fa31f91998863d7c6396f4631-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/ae88fa1fa31f91998863d7c6396f4631-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13120128/ae88fa1fa31f91998863d7c6396f4631.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/ae88fa1fa31f91998863d7c6396f4631.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13125943/940bed8d9b6d1d475516f7f2c35893e3-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/940bed8d9b6d1d475516f7f2c35893e3-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13125943/940bed8d9b6d1d475516f7f2c35893e3.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/940bed8d9b6d1d475516f7f2c35893e3.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13123242/8c84ba7dfae59003cc87f647eede9661-1-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/8c84ba7dfae59003cc87f647eede9661-1-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13123242/8c84ba7dfae59003cc87f647eede9661-1.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/8c84ba7dfae59003cc87f647eede9661-1.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13123228/24786345617fc87951b068adbc0afab0-1-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/24786345617fc87951b068adbc0afab0-1-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13123228/24786345617fc87951b068adbc0afab0-1.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/24786345617fc87951b068adbc0afab0-1.jpg"
             },
             {
                 "retries": [
-                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13123214/2db18f26a70513ca89a664db3a234559-1-598x598.jpg"
+                    "https://bisweb.jp/wp-content/uploads/2020/08/2db18f26a70513ca89a664db3a234559-1-598x598.jpg"
                 ],
-                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13123214/2db18f26a70513ca89a664db3a234559-1.jpg"
+                "url": "https://bisweb.jp/wp-content/uploads/2020/08/2db18f26a70513ca89a664db3a234559-1.jpg"
             }
         ],
         {
