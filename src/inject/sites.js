@@ -126,6 +126,7 @@ const register = function (siteModule) {
     require("./i-voce.jp"),
     require("./spur.hpplus.jp"),
     require("./more.hpplus.jp"),
+    require("./baila.hpplus.jp"),
     require("./trilltrill.jp"),
     require("./www.vivi.tv"),
     require("./domani.shogakukan.co.jp"),
