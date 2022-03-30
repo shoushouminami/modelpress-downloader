@@ -37,6 +37,13 @@ test("Test getDomBackgroundImage", () => {
             }
         }))
         .toBe("/wp-content/uploads/2020/08/20200805-yodayuuki-sub2.jpeg");
+    expect(utils.getDomBackgroundImage(
+        {
+            style: {
+                backgroundImage: "url(\"content/images/_gravure-style/2022ym17cover01_oyeitHAsBTLG.jpg\")"
+            }
+        }))
+        .toBe("content/images/_gravure-style/2022ym17cover01_oyeitHAsBTLG.jpg");
 });
 
 test("Test getBackgroundImage", () => {
