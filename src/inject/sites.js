@@ -101,6 +101,7 @@ const register = function (siteModule) {
     require("./www.walkerplus.com"),
     require("./moviewalker.jp"),
     require("./mikan-incomplete.com"),
+    require("./sirabee.com"),
     require("./e-talentbank.co.jp"),
     require("./dogatch.jp"),
     require("./www.tvlife.jp"),
