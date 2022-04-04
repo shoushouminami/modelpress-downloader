@@ -21,6 +21,13 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.25 (2022/04/03)
+* Add magazine.yanmaga.jp
+* Add baila.hpplus.jp
+* Add sirabee.com
+* Add www.animatetimes.com
+* Add plus.tver.jp
+
 ###### 3.24 (2022/03/07)
 * Minor fixes
 
