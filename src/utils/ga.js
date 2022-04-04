@@ -1,0 +1,1 @@
+require("./ga.module").run();

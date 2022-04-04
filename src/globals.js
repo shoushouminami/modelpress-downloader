@@ -1,4 +1,3 @@
-
 function getWindow() {
     if (typeof window === "undefined") {
         // hack for node

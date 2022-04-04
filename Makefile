@@ -43,9 +43,8 @@ clean:
 test: build
 	npm test
 
-vm: build
-	rm -r ~/Documents/shared/build
-	cp -R build ~/Documents/shared/
+share-build: build mk-package
+	python3 -m http.server --directory build
 
 docs: build
 	mkdir -p docs/github-pages

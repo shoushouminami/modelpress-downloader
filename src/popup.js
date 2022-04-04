@@ -6,7 +6,7 @@ const messaging = require("./messaging");
 const React = require("react");
 const ReactDOM = require("react-dom");
 const mdprApp = require("./remote/mdpr-app");
-const logger = require("./logger");
+const logger = require("./logger2")(module.id);
 const window = require("./globals").getWindow();
 const asyncUtils = require("./utils/async-utils");
 
@@ -52,7 +52,8 @@ let message = require("./inject/return-message").notSupported();
 const Popup = require("./components/popup").Popup;
 let popupKey = 1;
 
-const updatePopupUI = function () {
+function updatePopupUI() {
+    logger.debug("update popup UI", "message=", message);
     ReactDOM.render(
         <Popup
             key={popupKey++} // just need something unique
@@ -64,7 +65,6 @@ const updatePopupUI = function () {
             appFetchStatus={mdprApp.getAppFetchStatus()}
             appImageCount={mdprApp.getAddedCount()}
             downloadHandler={downloadHandler}
-            permHandler={grantDownloadMobilePermission}
         />,
         document.getElementById("react-root"),
         function () {
@@ -184,13 +184,9 @@ function startFetchMdprMobileImages(articleId) {
 }
 
 const updateMessage = function (result, tabId) {
-    if (isDev) {
-        console.debug(result);
-    }
+    logger.debug(result);
     if (result) {
-        if (isDev) {
-            console.debug(utils.printTestAssertion(result));
-        }
+        logger.debug(utils.printTestAssertion(result));
         message = result;
         message.fromTabId = tabId;
         if (message.remoteImages && message.remoteImages["mdpr.jp"]) {
@@ -209,9 +205,11 @@ const updateMessage = function (result, tabId) {
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     // inject script with 1 retry.
     const tabId = tabs[0].id;
-    chrome.tabs.executeScript(
-        tabId,
-        {file: "inject-cs.js", matchAboutBlank: true},
+    chrome.scripting.executeScript(
+        {
+            target: {"tabId": tabId},
+            files: ["inject-cs.js"]
+        },
         function (results) {
             if (results && results.length > 0) {
                 let result = results[0];
@@ -220,15 +218,17 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                     asyncUtils
                         .wait(100)
                         .then(() => {
-                            chrome.tabs.executeScript(
-                                tabId,
-                                {file: "inject-cs.js", matchAboutBlank: true},
+                            chrome.scripting.executeScript(
+                                {
+                                    target: {"tabId": tabId},
+                                    files: ["inject-cs.js"]
+                                },
                                 function (results) {
-                                    updateMessage(results && results[0], tabId);
+                                    updateMessage(results && results[0].result, tabId);
                                 });
                         });
                 } else {
-                    updateMessage(results[0], tabId);
+                    updateMessage(results[0].result, tabId);
                 }
             } else {
                 updateMessage(null, tabs[0].id);
@@ -239,11 +239,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
 // process updateResult message (from content script)
 messaging.listen("updateResult", function (msg){
     if (msg) {
+        logger.debug("updating message", msg);
         updateMessage(msg, message.fromTabId);
     }
 });
-
-//for debugging
-if (isDev) {
-    window.removeAppPerm = mdprApp.removeAppPerm;
-}

@@ -20,7 +20,7 @@ let state = {
  *                  failure it will receive an empty array.
  * @param domains {[String]?}- The domains to try in order
  */
-export function fetchMdprMobileImages(articleId, currentImages, callback, domains){
+function fetchMdprMobileImages(articleId, currentImages, callback, domains){
     if (!articleId || !articleId.match(/^\d+$/) || !callback || !(callback instanceof Function)) {
         console.error("Invalid article id: " + articleId + " or callback " + callback);
         callback([]);
@@ -97,7 +97,7 @@ export function fetchMdprMobileImages(articleId, currentImages, callback, domain
 // Used in Chrome permission request
 const ORIGINS = ["https://*.freetls.fastly.net/"];
 
-export function requestAppPerm(callback) {
+function requestAppPerm(callback) {
     ga.trackEvent("mdpr_remote", "perm_ask");
     chrome.permissions.request({
         origins: ORIGINS
@@ -108,7 +108,7 @@ export function requestAppPerm(callback) {
     });
 }
 
-export function getAppFetchStatus() {
+function getAppFetchStatus() {
     if (state.startedFetchMobile && !state.finishedFetchMobile) {
         return "started";
     }
@@ -122,11 +122,11 @@ export function getAppFetchStatus() {
     }
 }
 
-export function isAppPermGranted() {
+function isAppPermGranted() {
     return state.canDownloadMobile;
 }
 
-export function getAddedCount() {
+function getAddedCount() {
     return state.addedCount;
 }
 
@@ -134,7 +134,7 @@ export function getAddedCount() {
  * Checks if app permission is granted and calls the callback function with `granted`
  * @param callback {function(granted:boolean)}
  */
-export function checkAppPerm(callback) {
+function checkAppPerm(callback) {
     chrome.permissions.contains({
         origins: ORIGINS
     }, function (granted) {
@@ -143,8 +143,9 @@ export function checkAppPerm(callback) {
     });
 }
 
-export function removeAppPerm(callback) {
-    chrome.permissions.remove({
-        origins: ORIGINS
-    }, callback);
-}
+exports.fetchMdprMobileImages = fetchMdprMobileImages;
+exports.requestAppPerm = requestAppPerm;
+exports.getAppFetchStatus = getAppFetchStatus;
+exports.isAppPermGranted = isAppPermGranted;
+exports.getAddedCount = getAddedCount;
+exports.checkAppPerm = checkAppPerm;

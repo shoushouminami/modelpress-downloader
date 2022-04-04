@@ -31,10 +31,15 @@ const getSiteModule = function () {
  * @param callback {function(results, tabId)}
  */
 const injectInjectScript = function (chrome, tabId, callback) {
-    chrome.tabs.executeScript(
-        tabId,
-        {file: "inject-cs.js", matchAboutBlank: true},
-        results => callback(results, tabId));
+
+    chrome.scripting.executeScript(
+        {
+            target: {tabId: tabId},
+            files: ["inject-cs.js"],
+            matchAboutBlank: true
+        },
+        results => callback(results, tabId)
+    );
 };
 
 module.exports = {

@@ -5,6 +5,8 @@ const isCS = isPage && window.chrome && window.chrome.runtime && window.chrome.r
 const thisSender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
 const logger = require("./logger2")(thisSender);
 
+logger.debug("isRuntime", isRuntime, "isPage", isPage, "isCS", isCS);
+
 let msgCount = 0; // id of message == (sender + msgCount)
 
 function path(obj, ...path) {
@@ -157,7 +159,7 @@ function listenOnPage(key, callback) {
  * Each key can only be registered once for listening (for each window).
  * Subsequent calls for the same key are no-op.
  * @param key {string} A unique key for selecting messages.
- * @param callback {function(Object, string, function)} callback being called when a message is received on this key.
+ * @param callback {function(Object, function)} callback being called when a message is received on this key.
  *                                                      Return true from the callback to enable async reply.
  * @return {boolean} Returns true if it was successful to listen on the key, otherwise false.
  */

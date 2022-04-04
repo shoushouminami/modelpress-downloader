@@ -1,13 +1,14 @@
 const ga = require("./google-analytics");
 const downloader = require("./downloader");
 const messaging = require("./messaging");
-const logger = require("./logger");
+const logger = require("./logger2")(module.id);
 const globals = require("./globals");
 
 // inits
 ga.bootstrap();
 downloader.listenForDownloadFailureAndRetry();
 
+logger.debug("listening for download message.")
 // listen for download message from popup.js
 messaging.listen("download", function (job, sendResponse) {
     downloader.downloadJob(job, sendResponse);
@@ -15,6 +16,7 @@ messaging.listen("download", function (job, sendResponse) {
     return true;
 });
 
+logger.debug("listening for onInstalled event.")
 // track installation
 chrome.runtime.onInstalled.addListener(function(details) {
     if (details.reason === "install") {

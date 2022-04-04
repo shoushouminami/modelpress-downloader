@@ -8,15 +8,14 @@ module.exports = env => {
         entry: {
             inject: "./src/inject.js",
             "inject-cs": "./src/inject-cs.js",
-            "scan-cs": "./src/scan-cs.js",
             background: "./src/background.js",
             popup: "./src/popup.js",
-            "scan-confirm": "./src/scan-confirm.js",
             "helper/instagram-react": "./src/helper/instagram-react.js",
             "helper/rbbtoday-check-size": "./src/helper/rbbtoday-check-size.js",
             "helper/twitter-react": "./src/helper/twitter-react.js",
             "helper/my.ebook5.net-helper": "./src/helper/my.ebook5.net-helper.js",
             "google-analytics-bootstrap": "./src/google-analytics-bootstrap.js",
+            "ga": "./src/utils/ga.js",
             "github-pages/sites-html": "./src/github-pages/sites-html.js",
         },
         module: {
@@ -36,11 +35,12 @@ module.exports = env => {
         output: {
             filename: '[name].js',
             path: path.resolve(__dirname, 'build'),
+            globalObject: 'this'
         },
         plugins: [
             new CopyPlugin([
                 {
-                    from: 'src/**/*',
+                    from: "src/**/*",
                     to: "./",
                     ignore: ["*.js", "src/docs/*"],
                     transformPath: function (targetPath, absolutePath) {

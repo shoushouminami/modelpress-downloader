@@ -1,10 +1,11 @@
 const React = require("react");
 const i18n = require("../i18n");
 const SupportedSites = require("./supported-sites");
+const ga = require("../google-analytics");
 const logger = require("../logger2")(module.id);
 const window = require("../globals").getWindow();
 
-export function DownloadButton(props) {
+function DownloadButton(props) {
     let text;
     let disabled = props.disabled;
     if (props.count) {
@@ -25,22 +26,7 @@ export function DownloadButton(props) {
     );
 }
 
-export function DownloadMobilePermission(props) {
-    return (
-        <div id="downloadMobilePermission" className="row">
-            <label id="downloadMobileLabel" htmlFor="downloadMobileCheck">
-                {i18n.getText("downloadMobileLabel")}
-            </label>
-            <a id="downloadMobilePermissionHelpLink" href={i18n.getText("downloadMobileStatusHelpLink")}>?</a>
-            <label className="switch">
-                <input type="checkbox" id="downloadMobileCheck" name="downloadMobile" onChange={props.onClick}/>
-                <span className="slider"/>
-            </label>
-        </div>
-    );
-}
-
-export function DownloadMobileStatus(props) {
+function DownloadMobileStatus(props) {
     let helpLink = props.appFetchStatus === "error" ?
         (<a id="downloadMobileStatusHelpLink" href={i18n.getText("downloadMobileStatusFailedHelp")}>?</a>)
         : null;
@@ -70,9 +56,10 @@ export function DownloadMobileStatus(props) {
     );
 }
 
-export class Popup extends React.Component {
+class Popup extends React.Component {
     constructor(props) {
         super(props);
+        logger.debug("initializing with props", props);
         this.state = {
             supported: props.supported,
             count: props.count,
@@ -83,7 +70,6 @@ export class Popup extends React.Component {
             appImageCount: props.appImageCount,
             downloadDisabled: false,
         };
-        this.permHandler = props.permHandler;
         this.downloadHandler = props.downloadHandler;
         this.downloadClicked = this.downloadClicked.bind(this);
     }
@@ -98,14 +84,14 @@ export class Popup extends React.Component {
     }
 
     render() {
-        const st = this.state;
+        let st = this.state;
         if (st.supported) {
             let permOrStatus;
             if (st.hasAppImage) {
-                const appState = this.state.appState;
                 if (!st.hasAppPerm) {
-                    permOrStatus = <DownloadMobilePermission
-                        onClick={this.permHandler}
+                    permOrStatus = <DownloadMobileStatus
+                        appFetchStatus="error"
+                        appImageCount={st.appImageCount}
                     />;
                 } else {
                     permOrStatus = <DownloadMobileStatus
@@ -132,3 +118,7 @@ export class Popup extends React.Component {
         }
     }
 }
+
+exports.DownloadButton = DownloadButton;
+exports.DownloadMobileStatus = DownloadMobileStatus;
+exports.Popup = Popup;
