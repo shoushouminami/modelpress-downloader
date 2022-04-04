@@ -113,6 +113,7 @@ const register = function (siteModule) {
     require("./taishu.jp"),
     require("./smart-flash.jp"),
     require("./yanmaga.jp"),
+    require("./www.animatetimes.com"),
     require("./www.vogue.co.jp"),
     require("./nonno.hpplus.jp"),
     require("./www.mensnonno.jp"),
