@@ -28,7 +28,7 @@ test("Test sites.all", () => {
     expect(hosts).toContain("www.walkerplus.com");
     expect(hosts).toContain("mikan-incomplete.com");
     expect(hosts).toContain("e-talentbank.co.jp");
-    expect(hosts).toContain("dogatch.jp");
+    expect(hosts).toContain("plus.tver.jp");
     expect(hosts).toContain("entamenext.com");
     expect(hosts).toContain("cancam.jp");
     expect(hosts).toContain("ray-web.jp");

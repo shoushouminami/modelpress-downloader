@@ -103,7 +103,7 @@ const register = function (siteModule) {
     require("./mikan-incomplete.com"),
     require("./sirabee.com"),
     require("./e-talentbank.co.jp"),
-    require("./dogatch.jp"),
+    require("./plus.tver.jp"),
     require("./www.tvlife.jp"),
     require("./sumabo.jp"),
     require("./entamenext.com"),
