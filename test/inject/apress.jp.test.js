@@ -14,8 +14,11 @@ test("Test apress.jp article with only embeded image", async () => {
         browser,
         "https://apress.jp/archives/10032",
         "apress.jp-archives-10032/",
-        ["https://apress.jp/wp-content/uploads/2020/01/unnamed-file-1-3622492935-1578220996437.jpg",
-            "https://apress.jp/wp-content/uploads/2020/01/unnamed-file.jpg"]);
+        [
+            "https://apress.jp/wp-content/uploads/2020/01/unnamed-file-1-3622492935-1578220996437.jpg",
+            "https://apress.jp/wp-content/uploads/2020/01/unnamed-file.jpg"
+        ]
+    );
 });
 
 test("Test apress.jp article with image gallery", async () => {

@@ -22,9 +22,11 @@ test("Test cancam.jp magzine main page", async () => {
 test("Test cancam.jp itgirl home page", async () => {
     await testDirectDownload(
         browser,
-        "https://cancam.jp/archives/category/itgirl/marikokaji",
-        "cancam.jp-archives-category-itgirl-marikokaji/",
-        ["https://cancam.jp/uploads/2018/06/8573e8996cd2d1d57663c8b10ed9a8a2-20191219175830.png"]
+        "https://cancam.jp/archives/category/itgirl/rinokotanigawa",
+        "cancam.jp-archives-category-itgirl-rinokotanigawa/",
+        [
+            "https://cancam.jp/uploads/2021/12/03/e4cdb12f8c08c0ad9a800b7837f00ed3.jpg"
+        ]
     );
 });
 
@@ -34,26 +36,6 @@ test("Test cancam.jp archive article", async () => {
         "https://cancam.jp/archives/711412",
         "cancam.jp-archives-711412/",
         ["https://cancam.jp/uploads/2019/09/01-20190920150029.jpg","https://cancam.jp/uploads/2019/09/02-20190920150031.jpg","https://cancam.jp/uploads/2019/09/03-20190920150033.jpg","https://cancam.jp/uploads/2019/09/abbfcb00ca660382d990baad8261f55b-20190920150035.jpg"]
-    );
-});
-
-test("Test cancam.jp model home page", async () => {
-    await testDirectDownload(
-        browser,
-        "https://cancam.jp/archives/category/model/sayurimatsumura",
-        "cancam.jp-archives-category-model-sayurimatsumura/",
-        [
-            "https://cancam.jp/uploads/2017/02/0ff87d29781c0b487703d1637e6dbb7e-20190620182123.jpg",
-            "https://cancam.jp/uploads/2017/11/DM4jzwIUEAAjm0C-20171107135337.jpg",
-            "https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_1-20170301184924.jpg",
-            "https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_2-20170301184925.jpg",
-            "https://cancam.jp/uploads/2017/02/sayurimatsumura_profile_gedan_3-20170301184925.jpg"
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 50);
-            }
-        }
     );
 });
 

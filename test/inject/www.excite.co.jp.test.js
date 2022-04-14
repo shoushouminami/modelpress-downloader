@@ -4,10 +4,10 @@ let getBrowser = getBrowserFactory(beforeAll, afterAll);
 test("Test image page", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.excite.co.jp/news/article/Mdpr_interview3039989/image/1/",
-        "www.excite.co.jp-news-article-Mdpr_interview3039989-image-1-/",
+        "https://www.excite.co.jp/news/article/Narinari_20220415_71431/image/1/",
+        "www.excite.co.jp-news-article-Narinari_20220415_71431-image-1-/",
         [
-            "https://s.eximg.jp/exnews/feed/Mdpr/f0/Mdpr_interview3039989/Mdpr_interview3039989_1.jpg"
+            "https://s.eximg.jp/exnews/feed/Narinari/cf/Narinari_20220415_71431/Narinari_20220415_71431_1.jpg"
         ]
     );
 });
