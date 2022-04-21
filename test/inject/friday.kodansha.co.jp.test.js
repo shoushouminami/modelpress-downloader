@@ -85,33 +85,27 @@ test("Test photo page images", async () => {
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ7470_r.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ5838.jpg"
                 ],
-                "url": "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ7470_r.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ5838.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ5838.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ6030.jpg"
                 ],
-                "url": "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ5838.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ6030.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ6030.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ6961.jpg"
                 ],
-                "url": "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ6030.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ6961.jpg"
             },
             {
                 "retries": [
-                    "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ6961.jpg"
+                    "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ7640.jpg"
                 ],
-                "url": "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ6961.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2.0,f_auto,t_thumb_square,w_72/wpmedia/2022/02/NKKZ7640.jpg"
-                ],
-                "url": "https://res.cloudinary.com/fridaydigital/image/private/cs_tinysrgb/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ7640.jpg"
+                "url": "https://res.cloudinary.com/fridaydigital/image/private/c_scale,dpr_2,f_auto,t_article_image/wpmedia/2022/02/NKKZ7640.jpg"
             }
         ]
     );
