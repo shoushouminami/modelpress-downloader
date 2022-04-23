@@ -15,6 +15,10 @@ function getLargeImg(url) {
         return null;
     }
 
+    if (url.endsWith("/img_protect.png")) {
+        return null;
+    }
+
     if (url.startsWith("https://img-mdpr.freetls.fastly.net/")) {
         url += "?quality=100";
     }
@@ -52,12 +56,12 @@ function inject() {
         "main .list_photo figure img", // apparel photo list
     ]) {
         utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(document, selector, getLargeImg)
+            utils.findLazyImagesWithCssSelector(document, selector, getLargeImg)
         );
     }
 
     // mobile images new UI
-    let mobileImages2 = utils.findImagesWithCssSelector(document, ".p-readAppImages  .p-readAppImages__list img", getLargeImg);
+    let mobileImages2 = utils.findLazyImagesWithCssSelector(document, ".p-readAppImages  .p-readAppImages__list img", getLargeImg);
     if (mobileImages2.length > 0) {
         utils.pushArray(o.images, mobileImages2);
         let articleIdDoms = utils.findDomsWithCssSelector(document, ".p-readAppImages  button[data-article-id]")
