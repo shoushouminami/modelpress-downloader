@@ -21,6 +21,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 3.25 (2022/04/22)
+* Fixes on apress.jp & mdpr.jp.js
+
 ###### 3.25 (2022/04/03)
 * Add magazine.yanmaga.jp
 * Add baila.hpplus.jp
