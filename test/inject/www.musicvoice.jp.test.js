@@ -1,7 +1,7 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test news article with 1 image", async () => {
+test("Test news article with 4 images", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://www.musicvoice.jp/news/166964/188192/",
