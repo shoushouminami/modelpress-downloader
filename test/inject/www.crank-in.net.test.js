@@ -114,7 +114,7 @@ test("Test column article page", async () => {
             {
                 "retries": [
                     "https://www.crank-in.net/img/db/1416220_650.jpg",
-                    "https://www.crank-in.net/img/db/1416220_1200.jpg"
+                    "https://www.crank-in.net/img/db/1416220_650.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1416220_1200.jpg"
             }
