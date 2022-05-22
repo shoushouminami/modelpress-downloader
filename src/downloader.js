@@ -19,7 +19,7 @@ function getFilename(image) {
     return decodeURI(image.folder)
         + (image.folder.endsWith("/") ? "" : "/")
         + (image.jobId != null ?  image.jobId + "-" : "")
-        + utils.getFileName(image.url, image.ext, image.filename)
+        + utils.getFileName(image.url, image.ext, image.filename);
 }
 /**
  * Use Chrome API to download the given image

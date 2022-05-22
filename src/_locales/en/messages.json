@@ -25,8 +25,12 @@
     "message": "Currently works on:",
     "description": "The title of a list of supported websites shown when the active tab is not supported"
   },
+  "recentClicks": {
+    "message": "Recent Clicks",
+    "description": "Recent sites the user clicked"
+  },
   "supportMessageML": {
-    "message": "This website is not yet supported. You can submit a request report on this <a href=\"https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8\">Google Form</a>",
+    "message": "Modelpress Image Downloader supports the following websites. You can submit a request on this <a href=\"https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8\">Google Form</a> to add other sites.",
     "description": "Shows the Google form url where the user can file a support request."
   },
   "downloadMobileLabel": {
@@ -63,24 +67,8 @@
     "message": "help/permission_en.html",
     "description": "The link that explains additional permission"
   },
-  "scanConfirm_scanConfirmText": {
-    "message": "Smart Scan will scroll the web page to find and download images. Do you want to enable Smart Scan?",
-    "description": "The text that explains the Smart Scan feature"
-  },
-  "scanConfirm_yesText": {
-    "message": "Yes",
-    "description": "The text on Yes button"
-  },
-  "scanConfirm_cancelText": {
-    "message": "Cancel",
-    "description": "The text on Cancel button"
-  },
-  "scanConfirm_alwaysYesText": {
-    "message": "Always Enable",
-    "description": "The text label for alwaysYesText check box"
-  },
-  "scanButtonText": {
-    "message": "\uD83D\uDD0D Smart Scan",
-    "description": "The text on the button after scan is started"
+  "configKeepRecentClicks": {
+    "message": "Keep Recent Clicks",
+    "description": "Text label in config setting: keep recent clicks"
   }
 }

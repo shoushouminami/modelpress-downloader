@@ -48,6 +48,18 @@ module.exports = env => {
                     }
                 }
             ]),
+            new CopyPlugin([
+                {
+                    from: "licenses/**/*",
+                    to: "./"
+                }
+            ]),
+            new CopyPlugin([
+                {
+                    from: "NOTICE",
+                    to: "./"
+                }
+            ]),
             new webpack.DefinePlugin({
                 "__GA_PROPERTY__": JSON.stringify(conf.ga_property),
                 "__IS_DEV__": JSON.stringify(conf.is_dev)

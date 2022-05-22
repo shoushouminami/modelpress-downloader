@@ -1,7 +1,6 @@
 const React = require("react");
 const i18n = require("../i18n");
 const SupportedSites = require("./supported-sites");
-const ga = require("../google-analytics");
 const logger = require("../logger2")(module.id);
 const window = require("../globals").getWindow();
 
@@ -56,7 +55,7 @@ function DownloadMobileStatus(props) {
     );
 }
 
-class Popup extends React.Component {
+class PopupComponent extends React.Component {
     constructor(props) {
         super(props);
         logger.debug("initializing with props", props);
@@ -113,7 +112,8 @@ class Popup extends React.Component {
                 </div>
             );
         } else {
-            return <SupportedSites sites={require("../inject/sites").all()}/>
+            return <SupportedSites />
+            // return <SupportedSites />
             // TODO double check support link
         }
     }
@@ -121,4 +121,4 @@ class Popup extends React.Component {
 
 exports.DownloadButton = DownloadButton;
 exports.DownloadMobileStatus = DownloadMobileStatus;
-exports.Popup = Popup;
+exports.PopupComponent = PopupComponent;

@@ -1,4 +1,5 @@
 const utils = require("../src/utils.js");
+const exp = require("constants");
 
 test("Test getDomBackgroundImage", () => {
     expect(utils.getDomBackgroundImage(null)).toBeNull();
@@ -106,4 +107,10 @@ test("test replaceSpecialChars", function (){
     expect(utils.replaceSpecialChars("~+*")).toBe("---");
     expect(utils.replaceSpecialChars("~!@#$%^&*+?<>")).toBe("-------------");
     expect(utils.replaceSpecialChars("e66b04_f13c1935704043c8b12098e40a8cc2ed~mv2.jpg")).toBe("e66b04_f13c1935704043c8b12098e40a8cc2ed-mv2.jpg");
+});
+
+test("test getFileExt", function () {
+    expect(utils.getFileExt("abc.png")).toBe("png");
+    expect(utils.getFileExt("abc")).toBeNull();
+    expect(utils.getFileExt("abc.png?blal.good")).toBe("png");
 });

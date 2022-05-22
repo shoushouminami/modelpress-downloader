@@ -6,7 +6,7 @@
     "message": "ニュースページに表示されているすべての画像をワンクリックでダウンロードする事が出来るようになります。"
   },
   "downloadButtonMessage": {
-    "message": "$NUMBER$ 枚の画像をダウンロードする",
+    "message": "$NUMBER$枚の画像をダウンロードする",
     "description": "The text on the button which user clicks to batch download all images",
     "placeholders": {
       "number": {
@@ -22,8 +22,12 @@
   "supportedSitesTitle": {
     "message": "以下のサイトに利用出来ます："
   },
+  "recentClicks": {
+    "message": "最近クリックしたサイト",
+    "description": "Recent sites the user clicked"
+  },
   "supportMessageML": {
-    "message": "このサイトはまだサポートされていません。こちらの <a href=\"https://docs.google.com/forms/d/1RJpMZnxmjqbsy5qAvMcwZFKIl9FqYfIrfiXQU901xxM\">Google フォーム</a> でリクエストレポートを送信できます。"
+    "message": "ミッチャン画像ダウンローダは、以下のWebサイトで使用できます。こちらの<a href=\"https://docs.google.com/forms/d/1RJpMZnxmjqbsy5qAvMcwZFKIl9FqYfIrfiXQU901xxM\">Google フォーム</a>で他のサイトのリクエストできます。"
   },
   "downloadMobileLabel": {
     "message": "アプリのみも検出する ",
@@ -59,24 +63,8 @@
     "message": "help/permission_ja.html",
     "description": "The link that explains additional permission"
   },
-  "scanConfirm_scanConfirmText": {
-    "message": "スマートスキャンは、Webページをスクロールして、画像を検索してダウンロードします。スマートスキャンを有効にしますか？",
-    "description": "The text that explains the Smart Scan feature"
-  },
-  "scanConfirm_yesText": {
-    "message": "はい",
-    "description": "The text on Yes button"
-  },
-  "scanConfirm_cancelText": {
-    "message": "キャンセル",
-    "description": "The text on Cancel button"
-  },
-  "scanConfirm_alwaysYesText": {
-    "message": "常に有効にする",
-    "description": "The text label for alwaysYesText check box"
-  },
-  "scanButtonText": {
-    "message": "\uD83D\uDD0D スマートスキャン",
-    "description": "The text on the button after scan is started"
+  "configKeepRecentClicks": {
+    "message": "最近クリックしたサイトを表示する"
   }
+
 }

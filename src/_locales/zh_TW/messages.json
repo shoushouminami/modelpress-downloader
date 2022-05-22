@@ -20,8 +20,11 @@
   "supportedSitesTitle": {
     "message": "該擴充功能可用在："
   },
+  "recentClicks": {
+    "message": "最近點擊的網頁"
+  },
   "supportMessageML": {
-    "message": "暫不支援该網頁。你可以通過 <a href=\"https://docs.google.com/forms/d/1it_kUTKcBH8MUT_wA7lvngOF6Ro-p4MQdN4xzyG8DFA\">這個Google 表單</a> 報告來提醒作者。"
+    "message": "米醬可在以下網頁使用。你可以通過 <a href=\"https://docs.google.com/forms/d/1it_kUTKcBH8MUT_wA7lvngOF6Ro-p4MQdN4xzyG8DFA\">這個Google 表單</a> 申請添加其他網頁。"
   },
   "downloadMobileLabel": {
     "message": "檢測App專享圖片 ",
@@ -57,23 +60,7 @@
     "message": "help/permission_zh_TW.html",
     "description": "The link that explains additional permission"
   },
-  "scanConfirm_scanConfirmText": {
-    "message": "智能掃描會滾動該網頁來搜尋并下載圖片，要使用智能掃描嗎？",
-    "description": "The text that explains the Smart Scan feature"
-  },
-  "scanConfirm_yesText": {
-    "message": "使用",
-    "description": "The text on Yes button"
-  },
-  "scanConfirm_cancelText": {
-    "message": "取消",
-    "description": "The text on Cancel button"
-  },
-  "scanConfirm_alwaysYesText": {
-    "message": "使用并不再詢問",
-    "description": "The text label for alwaysYesText check box"
-  },
-  "scanButtonText": {
-    "message": "\uD83D\uDD0D 智能掃描"
+  "configKeepRecentClicks": {
+    "message": "顯示最近點擊的網頁"
   }
 }

@@ -7,8 +7,8 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const mdprApp = require("./remote/mdpr-app");
 const logger = require("./logger2")(module.id);
-const window = require("./globals").getWindow();
 const asyncUtils = require("./utils/async-utils");
+const config = require("./config");
 
 ga.bootstrap();
 
@@ -49,13 +49,13 @@ function addClickListenerForLinks(element, callback) {
 
 let message = require("./inject/return-message").notSupported();
 
-const Popup = require("./components/popup").Popup;
+const PopupComponent = require("./components/popup-component").PopupComponent;
 let popupKey = 1;
 
 function updatePopupUI() {
     logger.debug("update popup UI", "message=", message);
     ReactDOM.render(
-        <Popup
+        <PopupComponent
             key={popupKey++} // just need something unique
             supported={message.supported}
             count={message.images && message.images.length}
@@ -68,12 +68,12 @@ function updatePopupUI() {
         />,
         document.getElementById("react-root"),
         function () {
-            addClickListenerForLinks(document.getElementById("support-request"), () => {
+            addClickListenerForLinks(document.getElementById("supportRequest"), () => {
                 ga.trackEvent("support_link", "clicked");
             });
         }
     );
-};
+}
 
 function downloadHandler(resolve) {
     const imagesNeedTab = [];
@@ -116,7 +116,9 @@ function downloadHandler(resolve) {
                 context: {
                     tabId: message.fromTabId,
                     folder: message.folder,
-                    host: message.host
+                    host: message.host,
+                    title: message.title,
+                    configMap: config.getConfigMap()
                 }
             },
             function () {
@@ -134,7 +136,9 @@ function downloadHandler(resolve) {
                 context: {
                     tabId: message.fromTabId,
                     folder: message.folder,
-                    host: message.host
+                    host: message.host,
+                    title: message.title,
+                    configMap: config.getConfigMap()
                 }
             },
             function () {
@@ -154,7 +158,9 @@ function downloadHandler(resolve) {
             finishCount: 0,
             errorCount: 0,
             totalCount: imagesNeedTab.length,
-            host: message.host
+            host: message.host,
+            title: message.title,
+            configMap: config.getConfigMap()
         };
 
         context.totalCount = imagesNeedTab.length;
@@ -164,15 +170,6 @@ function downloadHandler(resolve) {
         // after download finishes
         context.p = context.p.then(resolve);
     }
-}
-
-function grantDownloadMobilePermission() {
-    mdprApp.requestAppPerm( function(granted) {
-        if (granted) {
-            startFetchMdprMobileImages(message.remoteImages["mdpr.jp"]);
-        }
-        updatePopupUI();
-    });
 }
 
 function startFetchMdprMobileImages(articleId) {

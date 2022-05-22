@@ -20,8 +20,12 @@
   "supportedSitesTitle": {
     "message": "本扩展可用在："
   },
+  "recentClicks": {
+    "message": "最近点击的网站",
+    "description": "Recent sites the user clicked"
+  },
   "supportMessageML": {
-    "message": "暂不支持该网页。你可以通过 <a href=\"https://docs.google.com/forms/d/1it_kUTKcBH8MUT_wA7lvngOF6Ro-p4MQdN4xzyG8DFA\">这个Google 表单</a> 提交报告来提醒作者。"
+    "message": "米酱支持以下网站。你可以通过 <a href=\"https://docs.google.com/forms/d/1it_kUTKcBH8MUT_wA7lvngOF6Ro-p4MQdN4xzyG8DFA\">这个Google 表单</a> 申请添加其他网站。"
   },
   "downloadMobileLabel": {
     "message": "检测App专享图片 ",
@@ -57,23 +61,7 @@
     "message": "help/permission_zh_CN.html",
     "description": "The link that explains additional permission"
   },
-  "scanConfirm_scanConfirmText": {
-    "message": "智能扫描会滚动该页面来查找并下载图片，要使用智能扫描吗?",
-    "description": "The text that explains the Smart Scan feature"
-  },
-  "scanConfirm_yesText": {
-    "message": "使用",
-    "description": "The text on Yes button"
-  },
-  "scanConfirm_cancelText": {
-    "message": "取消",
-    "description": "The text on Cancel button"
-  },
-  "scanConfirm_alwaysYesText": {
-    "message": "使用并不再询问",
-    "description": "The text label for alwaysYesText check box"
-  },
-  "scanButtonText": {
-    "message": "\uD83D\uDD0D 智能扫描"
+  "configKeepRecentClicks": {
+    "message": "显示最近点击的网站"
   }
 }

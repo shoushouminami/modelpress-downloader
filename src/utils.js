@@ -411,6 +411,15 @@ const utils = {
         }
 
         return this.replaceSpecialChars(decodeURI(filename));
+    },
+    getFileExt: function (filename) {
+        filename = filename.split("?")[0];
+        let dot = filename.lastIndexOf(".");
+        if (dot > -1) {
+            return filename.substring(dot + 1);
+        } else {
+            return null;
+        }
     }
 };
 

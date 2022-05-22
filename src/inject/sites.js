@@ -1,21 +1,19 @@
 const modulesWithHostname = {};
 const modules = [];
-const get = function (location) {
+const {Index} = require("../utils/flexsearch.bundle");
+const index = new Index({
+    tokenize: "forward"
+});
+
+function get(location) {
     if (modulesWithHostname[location.host]) {
         return modulesWithHostname[location.host];
     }
 
     return false;
-};
+}
 
-module.exports = {
-    get: get,
-    all: function () {
-        return modules.slice();
-    }
-};
-
-const validate = function (siteMoudle) {
+function validate(siteMoudle) {
     if (siteMoudle.inject &&
         typeof siteMoudle.inject === "function" &&
         siteMoudle.host &&
@@ -30,11 +28,12 @@ const validate = function (siteMoudle) {
 
     console.warn("Bad module: " + siteMoudle);
     return false;
-};
+}
 
-const register = function (siteModule) {
+function register(siteModule) {
     if (validate(siteModule)) {
-        modules.push(siteModule);
+        let len = modules.push(siteModule);
+        index.add(len - 1, siteModule.host + " " + siteModule.url + " " + siteModule.host.split("\.").join(" "));
         if (typeof siteModule.host === "string") {
             if (modulesWithHostname[siteModule.host]) {
                 console.error("Duplicated site script: " + siteModule.host);
@@ -43,7 +42,7 @@ const register = function (siteModule) {
             modulesWithHostname[siteModule.host] = siteModule;
         }
     }
-};
+}
 
 (function(siteModuleList){
     for(const siteModuleName of siteModuleList) {
@@ -146,3 +145,18 @@ const register = function (siteModule) {
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
 ]);
+
+exports.get = get;
+exports.all = function (){
+    return modules.slice();
+}
+
+exports.search = function (query) {
+    const result = index.search(query);
+    const ret = [];
+    for (const r of result) {
+        ret.push(modules[r]);
+    }
+
+    return ret;
+}
