@@ -199,7 +199,7 @@ async function testDirectDownload(browser, url, folder, images, ops= {}) {
 }
 
 async function testDirectDownloadWithRetry(browser, url, folder, images, ops= {}) {
-    return await retries(2, async () => {
+    return await retries("TEST_RETRIES" in process.env ? parseInt(process.env.TEST_RETRIES) : 0, async () => {
         return await testDirectDownload(browser, url, folder, images, ops);
     });
 }

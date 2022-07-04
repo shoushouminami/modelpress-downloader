@@ -10,87 +10,87 @@ test("Test entertainment news article page", async () => {
             [
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi001.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi001.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi001.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi001.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi002.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi002.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi002.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi002.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi004.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi004.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi004.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi004.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi008.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi008.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi008.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi008.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi005-200x300.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi005-200x300.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi005.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi005.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi006-200x300.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi006-200x300.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi006.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi006.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi007-200x300.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi007-200x300.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi007.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi007.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi012-200x300.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi012-200x300.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi012.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi012.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi003-300x200.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi003-300x200.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi003.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi003.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi010-300x200.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi010-300x200.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi010.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi010.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi013-300x200.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi013-300x200.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi013.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi013.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi014-300x200.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi014-300x200.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi014.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi014.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi015-300x200.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi015-300x200.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi015.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi015.jpg"
                 },
                 {
                     "retries": [
-                        "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi011-300x200.jpg"
+                        "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi011-300x200.jpg"
                     ],
-                    "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi011.jpg"
+                    "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/09/20200901birthdayofi011.jpg"
                 }
             ]);
 });
@@ -103,69 +103,69 @@ test("Test entertainment news article page with attachments", async () => {
         [
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara11.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara11.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara11.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara11.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara10.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara10.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara10.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara10.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara06.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara06.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara06.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara06.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara12.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara12.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara12.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara12.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara07.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara07.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara07.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara07.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara09.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara09.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara09.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara09.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara05.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara05.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara05.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara05.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara04.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara04.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara04.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara04.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara03.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara03.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara03.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara03.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara02.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara02.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara02.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara02.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara01.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara01.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara01.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2018/04/20180430iishihara01.jpg"
             }
         ]);
 });
@@ -178,63 +178,63 @@ test("Test food news article", async () => {
         [
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi001.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi001.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi001.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi001.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi002-285x300.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi002-285x300.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi002.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi002.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi005-300x169.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi005-300x169.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi005.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi005.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi006-300x169.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi006-300x169.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi006.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi006.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi007-300x169.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi007-300x169.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi007.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi007.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi008-300x169.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi008-300x169.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi008.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi008.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi009-300x169.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi009-300x169.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi009.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi009.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi010-300x169.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi010-300x169.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi010.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi010.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi011-300x104.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi011-300x104.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi011.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi011.jpg"
             },
             {
                 "retries": [
-                    "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi012-300x60.jpg"
+                    "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi012-300x60.jpg"
                 ],
-                "url": "http://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi012.jpg"
+                "url": "https://www.edgeline-tokyo.com/wp-content/uploads/2020/05/20200501nogizakaofi012.jpg"
             }
         ]);
 });
