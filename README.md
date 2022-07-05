@@ -21,7 +21,15 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
-###### 3.25 (2022/04/22)
+###### 4.0 (2022/07/04)
+* Migrate to Chrome Extension Manifest v3
+* Add recent clicked icons
+* Add search query box to filter site icons
+* Add config page
+* Mdpr app permission: removed perm request page;
+* Fix on bisweb.jp
+
+###### 3.26 (2022/04/22)
 * Fixes on apress.jp & mdpr.jp.js
 
 ###### 3.25 (2022/04/03)
@@ -75,86 +83,3 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 * Add www.daily.co.jp
 * Add friday.kodansha.co.jp
 * Remove tokyo.whatsin.jp
-
-###### 3.16 (2021/06/20)
-* Add mer-web.jp
-* Add moment.nikkan-gendai.com
-* Add nordot.app
-* Domain change diet.news-postseven.com -> 8760.news-postseven.com
-* Fix on girlswalker.com
-
-###### 3.15 (2021/06/15)
-* Add plus.ananweb.jp
-* Fix for tfm.co.jp/lock
-
-###### 3.14 (2021/05/29)
-* Add news.merumo.ne.jp
-* Add www.lvtimes.net
-* Add popnroll.tv
-* Add mensnonno.jp
-* Fix missing pixels on yanmaga.jp
-
-###### 3.13 (2021/05/14)
-* Support new UI on mdpr.jp
-
-###### 3.12 (2021/05/09)
-* Add vogue.co.jp
-* Add anna-media.jp
-* Better image quality on mdpr.jp
-
-###### 3.11 (2021/05/02)
-* yanmaga.jp: fix one more case causing black edge
-
-###### 3.10 (2021/04/22)
-* Support encount.press
-* Fix thetv.jp
-* Add www.tfm.co.jp/lock
-
-###### 3.9 (2021/04/04)
-* Fix black edge in image (yanmaga.jp)
-* Remove teens.mynavi.jp (outdated)
-
-###### 3.8 (2021/03/26)
-* Support style.nikkei.com
-* Support domani.shogakukan.co.jp
-* Support www.vivi.tv
-* Support smart-flash.jp
-* Support trilltrill.jp
-
-###### 3.7 (2021/03/23)
-* Support spur.hpplus.jp
-* Support taishu.jp
-* Support i-voce.jp
-* Support sumabo.jp  
-* Fix natalie.mu
-* Fix apress.jp
-* Fix www.crank-in.net
-* Fix news.dwango.jp
-
-###### 3.6 (2021/02/19)
-* Fix mantan-web.jp
-
-###### 3.5 (2021/02/08)
-* Refactor download module for yamaga.jp
-
-###### 3.4 (2021/02/04)
-* Add www.dispatch.co.kr
-* Add exweb.jp
-* Add www.mina.ne.jp
-* Fix moviewalker.jp
-
-###### 3.3 (2021/01/20)
-* Bug fix on yanmaga.jp
-
-###### 3.2 (2021/01/20)
-* Support jj-jj.net
-* Support hustlepress.co.jp
-* Support ar-mag.jp
-
-###### 3.1 (2021/01/11)
-* Bug fix on nikkansports.com
-
-###### 3.0 (2021/01/11)
-* Support Japanese language
-* Support yanmaga.jp
-* UI changes
