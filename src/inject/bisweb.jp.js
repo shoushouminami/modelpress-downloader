@@ -16,7 +16,7 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(document,
+            utils.findLazyImagesWithCssSelector(document,
                 "main .single_left p img", getLargeImg)
         );
         return o;

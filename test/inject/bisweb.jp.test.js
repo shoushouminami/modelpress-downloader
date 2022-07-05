@@ -84,18 +84,122 @@ test("Test beauty article", async () => {
                     "https://img.bisweb.jp/wp-content/uploads/2020/08/11213653/5F4D8074-3985-4AEA-A91C-4F71F0E13DD0.jpg"
                 ],
                 "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213653/5F4D8074-3985-4AEA-A91C-4F71F0E13DD0.jpg"
-            }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 90);
-                await pageutils.wait(1000);
             },
-            sizeMatch: function (expectedSize, actualSize) {
-                console.log("expectedSize={} actualSize={}", expectedSize, actualSize)
-                expect(actualSize).toBeGreaterThanOrEqual(20);
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000757/DMA-5769.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000757/DMA-5769.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/11213412/B1D8A9CB-A6C2-463C-A175-E246A5B62B64.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213412/B1D8A9CB-A6C2-463C-A175-E246A5B62B64.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000739/DMA-kari__DSC14006.png"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000739/DMA-kari__DSC14006.png"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/11213428/B1C413F7-BB63-4442-B3A6-6A2FFC075814.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213428/B1C413F7-BB63-4442-B3A6-6A2FFC075814.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07005549/DMA-kari__DSC14004.png"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07005549/DMA-kari__DSC14004.png"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/11213336/CC4F63DB-462F-4117-AA29-4C0E88D03F6E.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213336/CC4F63DB-462F-4117-AA29-4C0E88D03F6E.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000723/DMA-kari__DSC14012.png"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000723/DMA-kari__DSC14012.png"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/11213723/3ED1F0D9-B7C1-4B57-9B7F-A53C7D0393A4.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213723/3ED1F0D9-B7C1-4B57-9B7F-A53C7D0393A4.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000708/DMA-kari_DSC14015.png"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000708/DMA-kari_DSC14015.png"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000324/DMA-5520.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000324/DMA-5520.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/11213737/1C847CB1-E413-4191-8D8C-EEFD7F56DF32.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213737/1C847CB1-E413-4191-8D8C-EEFD7F56DF32.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000149/DMA-LOTION_COOL.png"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000149/DMA-LOTION_COOL.png"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/11213354/BBE3B8BB-85AF-4108-BAA3-190CE09B4F86.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213354/BBE3B8BB-85AF-4108-BAA3-190CE09B4F86.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000221/DMA-kari_DSC14066.png"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000221/DMA-kari_DSC14066.png"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/11213605/72A4EFCC-D96A-4382-A714-061CCD4D6708.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213605/72A4EFCC-D96A-4382-A714-061CCD4D6708.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000204/DMA-kari_DSC14068.png"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000204/DMA-kari_DSC14068.png"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/11213709/5A0107DD-1A23-4008-A480-C7301F7B2888.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/11213709/5A0107DD-1A23-4008-A480-C7301F7B2888.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000236/DMA-kari_DSC14063.png"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000236/DMA-kari_DSC14063.png"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/07000308/DMA-5460_-1.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/07000308/DMA-5460_-1.jpg"
             }
-        });
+        ]);
 });
 
 test("Test fashion article", async () => {
@@ -139,16 +243,56 @@ test("Test fashion article", async () => {
                     "https://img.bisweb.jp/wp-content/uploads/2020/08/13143756/DMA-0003-598x399.jpg"
                 ],
                 "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143756/DMA-0003.jpg"
-            }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 80);
             },
-            sizeMatch: function (expectedSize, actualSize) {
-                expect(actualSize).toBeGreaterThanOrEqual(expectedSize - 1);
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143517/DMA-0015-598x898.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143517/DMA-0015.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143811/DMA-0002-598x897.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143811/DMA-0002.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143825/DMA-0001-598x897.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143825/DMA-0001.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143638/DMA-0009-598x897.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143638/DMA-0009.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143605/DMA-0013-598x897.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143605/DMA-0013.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143445/DMA-0017-598x897.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143445/DMA-0017.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143854/DMA-_29A0776-598x898.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143854/DMA-_29A0776.jpg"
+            },
+            {
+                "retries": [
+                    "https://img.bisweb.jp/wp-content/uploads/2020/08/13143621/DMA-0012-598x897.jpg"
+                ],
+                "url": "https://img.bisweb.jp/wp-content/uploads/2020/08/13143621/DMA-0012.jpg"
             }
-        });
+        ]);
 });
 
 test("Test lifestyle article", async () => {
@@ -241,15 +385,7 @@ test("Test lifestyle article", async () => {
                 ],
                 "url": "https://bisweb.jp/wp-content/uploads/2020/08/2db18f26a70513ca89a664db3a234559-1.jpg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 90);
-            },
-            sizeMatch: function (expectedSize, actualSize) {
-                expect(actualSize).toBeGreaterThanOrEqual(expectedSize);
-            }
-        });
+        ]);
 });
 
 test("Test mote article", async () => {
@@ -270,13 +406,5 @@ test("Test mote article", async () => {
                 ],
                 "url": "https://img.bisweb.jp/wp-content/uploads/2020/07/30155306/98633f6ebcfda38ecb90813d2b053ddf.jpg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 90);
-            },
-            sizeMatch: function (expectedSize, actualSize) {
-                expect(actualSize).toBeGreaterThanOrEqual(expectedSize);
-            }
-        });
+        ]);
 });
