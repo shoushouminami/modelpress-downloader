@@ -1,3 +1,4 @@
+const runtime = require("./runtime");
 let isDev;
 
 if (typeof __IS_DEV__ === 'undefined') {
@@ -5,7 +6,13 @@ if (typeof __IS_DEV__ === 'undefined') {
     isDev = global.isDev || false; // nodejs
     console.log("nodejs: isDev: ", isDev);
 } else {
-    isDev = __IS_DEV__ || ("true" === require("./storage").sessionGet("isDev")); //webpack
+    isDev = __IS_DEV__ ;
+    if (runtime.isServiceWorker()) {
+        isDev =  isDev || require("./globals").getWindow()["isDev"];
+    } else {
+        isDev =  isDev || ("true" === require("./storage").sessionGet("isDev")); //webpack
+    }
+
     if (isDev) {
         console.log("webpack: isDev: ", isDev);
     }

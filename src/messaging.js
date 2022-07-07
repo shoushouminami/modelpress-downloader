@@ -1,11 +1,13 @@
 const window = require("./globals").getWindow();
-const isRuntime = window.chrome && window.chrome.extension != null;
-const isPage = !isRuntime;
-const isCS = isPage && window.chrome && window.chrome.runtime && window.chrome.runtime.getManifest != null;
-const thisSender = (isRuntime ? "runtime" : (isCS ? "content_script" : "page") ) + Math.round(Math.random() * 1000000000); // random sender id
+const runtime = require("./runtime");
+const isServiceWorker = runtime.isServiceWorker();
+const isRuntime = runtime.isRuntime();
+const isPage = runtime.isPage();
+const isCS = runtime.isCS();
+const thisSender = (isServiceWorker ? "sw" : (isRuntime ? "popup" : (isCS ? "content_script" : "page"))) + Math.round(Math.random() * 1000000000); // random sender id
 const logger = require("./logger2")(thisSender);
 
-logger.debug("isRuntime", isRuntime, "isPage", isPage, "isCS", isCS);
+logger.debug("isServiceWorker", isServiceWorker, "isRuntime", isRuntime, "isPage", isPage, "isCS", isCS);
 
 let msgCount = 0; // id of message == (sender + msgCount)
 

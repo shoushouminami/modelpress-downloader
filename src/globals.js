@@ -1,7 +1,10 @@
 function getWindow() {
     if (typeof window === "undefined") {
         // hack for node
-        return global;
+        if (typeof self === "undefined") {
+            return global;
+        }
+        return self;
     }
 
     return window;
