@@ -21,7 +21,7 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
-###### 4.0 (2022/07/04)
+###### 4.0 (2022/07/09)
 * Migrate to Chrome Extension Manifest v3
 * Add recent clicked icons
 * Add search query box to filter site icons
