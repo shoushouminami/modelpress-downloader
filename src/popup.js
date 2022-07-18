@@ -10,7 +10,7 @@ const logger = require("./logger2")(module.id);
 const asyncUtils = require("./utils/async-utils");
 const config = require("./config");
 
-ga.bootstrap(module.id);
+ga.bootstrap("popup.js");
 
 /**
  * @param chrome

@@ -6,7 +6,7 @@ const globals = require("./globals");
 
 logger.debug("module", module);
 // inits
-ga.bootstrap(module.id);
+ga.bootstrap("background.js");
 downloader.listenForDownloadFailureAndRetry();
 
 logger.debug("listening for download message.")

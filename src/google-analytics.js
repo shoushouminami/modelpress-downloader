@@ -105,14 +105,9 @@ function _apiTrackEvent(category, action, label, value){
 }
 
 function _apiTrackPageview(docHost, docPath){
-    if (docPath.startsWith(".")) {
-        docPath = docPath.substring(1);
-    }
-    if (docPath.startsWith("/")) {
-        docPath = docPath.substring(1);
-    }
-    if (docPath.startsWith("src")) {
-        docPath = docPath.substring(3);
+    docPath = String(docPath); // just in case
+    if (docPath.startsWith("./src")) {
+        docPath = docPath.substring(5);
     }
     return apiTrack("pageview", null, null, null, null, docHost, docPath);
 }

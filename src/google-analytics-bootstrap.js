@@ -1,1 +1,1 @@
-require("./google-analytics").bootstrap(module.id);
+require("./google-analytics").bootstrap("google-analytics-bootstrap.js");
