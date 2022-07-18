@@ -43,6 +43,7 @@ function inject() {
             })
         ).then(function (urls) {
             logger.debug("All promises resolved urls=", urls);
+            urls.sort();
             utils.pushArray(o.images, urls);
             messaging.sendToRuntime("updateResult", o);
         })

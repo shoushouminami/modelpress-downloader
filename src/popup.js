@@ -200,7 +200,6 @@ function updateMessage(result, tabId) {
 }
 
 // process updateResult message (from content script)
-messaging.clear("updateResult"); // in case there was one handler before
 messaging.listen("updateResult", function (msg){
     if (msg) {
         logger.debug("updating message", msg);
