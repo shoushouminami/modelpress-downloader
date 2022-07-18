@@ -180,10 +180,10 @@ function startFetchMdprMobileImages(articleId) {
     updatePopupUI();
 }
 
-const updateMessage = function (result, tabId) {
+function updateMessage(result, tabId) {
     logger.debug(result);
     if (result) {
-        logger.debug(utils.printTestAssertion(result));
+        logger.debug("\n!!!! TEST CASE !!!!\n\n" + utils.printTestAssertion(result));
         message = result;
         message.fromTabId = tabId;
         if (message.remoteImages && message.remoteImages["mdpr.jp"]) {
@@ -198,6 +198,15 @@ const updateMessage = function (result, tabId) {
     ga.trackSupport(message.host, message.supported);
     updatePopupUI();
 }
+
+// process updateResult message (from content script)
+messaging.clear("updateResult"); // in case there was one handler before
+messaging.listen("updateResult", function (msg){
+    if (msg) {
+        logger.debug("updating message", msg);
+        updateMessage(msg, message.fromTabId);
+    }
+});
 
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     // inject script with 1 retry.
@@ -233,10 +242,3 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         });
 });
 
-// process updateResult message (from content script)
-messaging.listen("updateResult", function (msg){
-    if (msg) {
-        logger.debug("updating message", msg);
-        updateMessage(msg, message.fromTabId);
-    }
-});

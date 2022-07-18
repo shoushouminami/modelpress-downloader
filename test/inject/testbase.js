@@ -121,12 +121,12 @@ async function emulateInjectWithRetry(page, ops) {
  * @param browser
  * @param url
  * @param folder
- * @param images
+ * @param expectedImages
  * @param ops {{prenavigate?: Function, preinject?: Function, sizeMatch?: Function<a, b>}}
  *              An object with callbacks for customized browser action before assertion or customized assertion
  * @returns {Promise<Object>}
  */
-async function testDirectDownload(browser, url, folder, images, ops= {}) {
+async function testDirectDownload(browser, url, folder, expectedImages, ops= {}) {
     const page = await browser.newPage();
     await page.setBypassCSP(true);
 
@@ -148,36 +148,48 @@ async function testDirectDownload(browser, url, folder, images, ops= {}) {
     expect(mid).toBeDefined();
     expect(mid['o']).toBeDefined();
     expect(mid['o']['supported']).toBeTruthy();
+
+    // check window._mid.sendMessages for updateResult messages
+    // overwrite _mid.o if found
+    // this behavior emulates popup.js#updateMessage()
+    if (mid.sendMessages && mid.sendMessages.length > 0) {
+        mid.sendMessages
+            .filter(payload => payload.what === "updateResult")
+            .forEach(payload => mid.o = payload.msg)
+    }
+
+    const actualImages = mid['o']['images'];
+
     if (ops && ops.sizeMatch && typeof ops.sizeMatch === "function") {
         console.log(expect.getState().currentTestName,
-            "expectedSize=", images.length,
-            "actualSize=", mid['o']['images'].length);
-        ops.sizeMatch(images.length, mid['o']['images'].length);
+            "expectedSize=", expectedImages.length,
+            "actualSize=", actualImages.length);
+        ops.sizeMatch(expectedImages.length, actualImages.length);
     } else {
-        expect(mid['o']['images']).toHaveLength(images.length);
+        expect(actualImages).toHaveLength(expectedImages.length);
     }
     // matches images array
     // 1. literals: ["url1", "url2", ...]
     // 2. regex: [{regex: /regex/, count: 1}, ...]
     // 3. object match: [{url: "url1", retries: ["retry_url1", "retry_url2", ...]}, ...]
     // 4. prefix match:  [{prefix: "prefix-string", count: 1}, ...]
-    for (const image of images) {
+    for (const image of expectedImages) {
         if (image instanceof String || typeof image === "string") {
-            expect(mid['o']['images']).toContain(image);
+            expect(actualImages).toContain(image);
         } else if (typeof image === "object") {
             if (image.regex) {
                 let count = image.count || 1;
-                mid['o']['images'].forEach((m) => {
+                actualImages.forEach((m) => {
                     if (typeof m === "string" && m.match(image.regex)) {
                         count--;
                     }
                 });
                 expect(count).toBe(0);
             } else if (image.url) {
-                expect(mid['o']['images']).toContainEqual(image);
+                expect(actualImages).toContainEqual(image);
             } else if (image.prefix) {
                 let count = 1;
-                mid['o']['images'].forEach((m) => {
+                actualImages.forEach((m) => {
                     if (typeof m === "string" && m.startsWith(image.prefix)) {
                         count--;
                     }

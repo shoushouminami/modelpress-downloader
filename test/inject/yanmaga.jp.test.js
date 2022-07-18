@@ -1,4 +1,4 @@
-const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test columns page", async () => {
@@ -23,52 +23,11 @@ test("Test news page", async () => {
     );
 });
 
-test.skip("Test gravures page", async () => {
+test("Test manga page", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://yanmaga.jp/gravures/books/%E9%87%8E%E7%94%B0%E3%81%99%E3%81%BF%E3%82%8C_%E3%83%A4%E3%83%B3%E3%83%9E%E3%82%AC%E3%82%A2%E3%82%B6%E3%83%BC%E3%81%A3%E3%81%99%EF%BC%81YM2021%E5%B9%B429%E5%8F%B7/deae139a33d133e2526123e14a9cf62d",
-        "yanmaga.jp-gravures-books-%E9%87%8E%E7%94%B0%E3%81%99%E3%81%BF%E3%82%8C_%E3%83%A4%E3%83%B3%E3%83%9E%E3%82%AC%E3%82%A2%E3%82%B6%E3%83%BC%E3%81%A3%E3%81%99%EF%BC%81YM2021%E5%B9%B429%E5%8F%B7/",
-        [
-            {
-                "filename": "i_0001.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0002.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0003.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0004.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0005.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0006.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0007.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0008.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0009.jpg",
-                "type": "msg"
-            },
-            {
-                "filename": "i_0010.jpg",
-                "type": "msg"
-            }
-        ]
+        "https://yanmaga.jp/comics/%E9%87%91%E7%94%B0%E4%B8%80%EF%BC%93%EF%BC%97%E6%AD%B3%E3%81%AE%E4%BA%8B%E4%BB%B6%E7%B0%BF/f7aaa92fbbe6ed2ec7a87fe85419ed15",
+        "yanmaga.jp-comics-%E9%87%91%E7%94%B0%E4%B8%80%EF%BC%93%EF%BC%97%E6%AD%B3%E3%81%AE%E4%BA%8B%E4%BB%B6%E7%B0%BF-f7aaa92fbbe6ed2ec7a87fe85419ed15/",
+        dummyItems(28)
     );
 });

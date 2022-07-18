@@ -1,3 +1,4 @@
+// mock a few functions so inject scripts running in tests can function
 window.chrome = {
     runtime: {
         onMessage: {
@@ -9,6 +10,9 @@ window.chrome = {
             return "../../build/" + filepath;
         },
         sendMessage: function (payload, onResponse) {
+            window._mid = window._mid || {};
+            window._mid.sendMessages = window._mid.sendMessages || [];
+            window._mid.sendMessages.push(payload);
         }
     }
 };

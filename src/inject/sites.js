@@ -50,6 +50,7 @@ function register(siteModule) {
     }
 })([
     require("./mdpr.jp"),
+    require("./www.oricon.co.jp"),
     require("./style.nikkei.com"),
     require("./times.abema.tv"),
     require("./www.rbbtoday.com"),

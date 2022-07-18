@@ -305,12 +305,18 @@ const utils = {
         return null;
     },
     printTestAssertion: function (message) {
-        let s = "";
+        let name = message.href.split("/");
+        name.splice(0,3);
+        let s = "test(\"" + name.join("/") + "\", async () => {\n";
+        s += "await testDirectDownload(\n";
+        s += "getBrowser(),\n";
         try {
             s += JSON.stringify(message.href) + ",\n";
             s += JSON.stringify(message.folder) + ",\n";
             s += JSON.stringify(message.images, null, 1);
         } catch (e) {} // make sure dont fail
+        s += ");\n";
+        s += "});\n";
         return s;
     },
     /**

@@ -198,13 +198,14 @@ function send(key, msg, onResponse) {
 }
 
 /**
- * Unified listen method. Each key can only be listened on once (for each window).
- * Subsequent calls for the same key are no-op.
+ * Unified listen method. Each key can only register one callback (for each window).
+ * If called multiple times with the same key, the last call wins and previous callbacks are removed.
  * @param key {string} Message key
  * @param callback {function(msg: any, sendResponse: function)}
  * @return {boolean} Returns true if it was successful to listen on the key, otherwise false.
  */
 function listen(key, callback) {
+    clear(key);
     let ret;
     if (isPage) {
         ret = listenOnPage(key, callback);
