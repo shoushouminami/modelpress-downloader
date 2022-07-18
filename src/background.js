@@ -4,8 +4,9 @@ const messaging = require("./messaging");
 const logger = require("./logger2")(module.id);
 const globals = require("./globals");
 
+logger.debug("module", module);
 // inits
-ga.bootstrap();
+ga.bootstrap(module.id);
 downloader.listenForDownloadFailureAndRetry();
 
 logger.debug("listening for download message.")

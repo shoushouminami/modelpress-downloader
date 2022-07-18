@@ -6,7 +6,7 @@ const GA_PROPERTY_ID = __GA_PROPERTY__; // defined in webpack.config.js
 const NOT_CALLED = 0;
 const BOOTSTRAPPED = 1;
 const SERVICE_WORKER = 2;
-const UNIQUE_CID = "cid-" + Math.round(Math.random() * 1000000000); // unique id. only used in service worker mode;
+const UNIQUE_CID = crypto.randomUUID(); // unique id. only used in service worker mode;
 
 // 0 - not boostrapped; 1 - successful ; 2 - failed;
 let bootstrapped = NOT_CALLED;
@@ -22,7 +22,16 @@ function setVar(slot, name, value) {
     return getGaq().push(["_setCustomVar", slot, name, value]);
 }
 
-function trackPageview() {
+function trackPageview(host, path) {
+    switch (isBootstrapped()) {
+        case BOOTSTRAPPED:
+            return _trackPageview.apply(null, arguments);
+        case SERVICE_WORKER:
+            return _apiTrackPageview(host, path);
+    }
+}
+
+function _trackPageview() {
     getGaq().push(["_trackPageview"]);
 }
 
@@ -45,7 +54,7 @@ function trackEvent(category, action, label, value) {
         case BOOTSTRAPPED:
             return _trackEvent.apply(null, arguments);
         case SERVICE_WORKER:
-            return apiTrackEvent(category, action, label, value);
+            return _apiTrackEvent(category, action, label, value);
     }
 }
 
@@ -62,7 +71,7 @@ function trackSupport(site, supported) {
 }
 
 // bootstrap GA script
-function bootstrap() {
+function bootstrap(page) {
     let w = getWindow();
     let _gaq = w._gaq = w._gaq || [];
     _gaq.push(["_setAccount", GA_PROPERTY_ID]);
@@ -74,13 +83,14 @@ function bootstrap() {
         ga.src = "/ga.js";
         let s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(ga, s);
-        trackPageview();
         logger.debug("GA bootstrapped with DOM.")
         bootstrapped = BOOTSTRAPPED;
     } else {
         logger.debug("In service worker. Not able to bootstrap GA.")
         bootstrapped = SERVICE_WORKER;
     }
+
+    trackPageview("", page);
 }
 
 /**
@@ -90,15 +100,35 @@ function bootstrap() {
  * @param label optional
  * @param value optional
  */
-function apiTrackEvent(category, action, label, value){
+function _apiTrackEvent(category, action, label, value){
+    return apiTrack("event", category, action, label, value)
+}
+
+function _apiTrackPageview(docHost, docPath){
+    if (docPath.startsWith(".")) {
+        docPath = docPath.substring(1);
+    }
+    if (docPath.startsWith("/")) {
+        docPath = docPath.substring(1);
+    }
+    if (docPath.startsWith("src")) {
+        docPath = docPath.substring(3);
+    }
+    return apiTrack("pageview", null, null, null, null, docHost, docPath);
+}
+
+/**
+ * Check GA doc https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#t
+ */
+function apiTrack(hitType, category, action, label, value, docHost, docPath){
     const data = {
         // API Version.
         v: '1',
         // Tracking ID / Property ID.
         tid: GA_PROPERTY_ID,
         cid: UNIQUE_CID,
-        // Event hit type.
-        t: 'event',
+        // hit type.
+        t: hitType,
         // Event category.
         ec: category,
         // Event action.
@@ -114,14 +144,22 @@ function apiTrackEvent(category, action, label, value){
         }
     }
 
-    logger.debug("apiTrackEvent event=send category=", category, "data=", data);
+    if (docHost != null) {
+        data.dh = docHost;
+    }
+
+    if (docPath != null) {
+        data.dp = docPath;
+    }
+
+    logger.debug("apiTrack hit=", hitType, "event=send category=", category, "data=", data);
     fetch("https://www.google-analytics.com/collect", {
         method: "POST",
         body: Object.keys(data).map(k => k + "=" + data[k]).join("&")
     }).then(function (resp) {
-        logger.debug("apiTrackEvent event=success category=", category, "resp=", resp)
+        logger.debug("apiTrack hit=", hitType, "event=success status=", resp.status, "category=", category, "resp=", resp)
     }, function (error) {
-        logger.debug("apiTrackEvent event=failure category=", category, "resp=", error);
+        logger.debug("apiTrack hit=", hitType, "event=failure category=", category, "resp=", error);
     });
 }
 

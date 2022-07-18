@@ -3,7 +3,7 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const SupportedSites = require("../components/supported-sites");
 
-ga.bootstrap();
+ga.bootstrap(module.id);
 ReactDOM.render(
     <SupportedSites
         sites={require("../inject/sites").all()}
