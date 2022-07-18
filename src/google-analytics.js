@@ -1,4 +1,5 @@
 const {getWindow} = require("./globals");
+const runtime = require("./runtime");
 const logger = require("./logger2")(module.id);
 
 const GA_PROPERTY_ID = __GA_PROPERTY__; // defined in webpack.config.js
@@ -66,7 +67,7 @@ function bootstrap() {
     let _gaq = w._gaq = w._gaq || [];
     _gaq.push(["_setAccount", GA_PROPERTY_ID]);
     _gaq.push(['_gat._forceSSL']);
-    if (w.document != null) {
+    if (!runtime.isServiceWorker()) {
         let ga = w.document.createElement("script");
         ga.type = "text/javascript";
         ga.async = true;
@@ -77,11 +78,18 @@ function bootstrap() {
         logger.debug("GA bootstrapped with DOM.")
         bootstrapped = BOOTSTRAPPED;
     } else {
-        logger.debug("Not able to bootstrap GA. Possibly in service worker.")
+        logger.debug("In service worker. Not able to bootstrap GA.")
         bootstrapped = SERVICE_WORKER;
     }
 }
 
+/**
+ * Track the event by sending a HTTP POST request to GA API
+ * @param category required
+ * @param action required
+ * @param label optional
+ * @param value optional
+ */
 function apiTrackEvent(category, action, label, value){
     const data = {
         // API Version.
@@ -95,11 +103,16 @@ function apiTrackEvent(category, action, label, value){
         ec: category,
         // Event action.
         ea: action,
-        // Event label.
-        el: label,
-        // Event value.
-        ev: value,
     };
+
+    // label is optional
+    if (label != null) {
+        data.el = label;
+        // value is optional
+        if (value != null) {
+            data.ev = value;
+        }
+    }
 
     logger.debug("apiTrackEvent event=send category=", category, "data=", data);
     fetch("https://www.google-analytics.com/collect", {
