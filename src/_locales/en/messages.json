@@ -68,7 +68,11 @@
     "description": "The link that explains additional permission"
   },
   "configKeepRecentClicks": {
-    "message": "Keep Recent Clicks",
+    "message": "Keep recent clicks",
     "description": "Text label in config setting: keep recent clicks"
+  },
+  "configDownloadPrependJobId": {
+    "message": "Add sequence number to file name",
+    "description": "Text label in config setting: Add sequence number to file name"
   }
 }

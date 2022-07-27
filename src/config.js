@@ -6,12 +6,14 @@ const VERSION = 1;
 
 // V1 configs
 const KEEP_RECENT_CLICKS = "keepRecentClicks"
+const DOWNLOAD_PREPEND_JOBID = "downloadPrependJobId"
 
 const defaultConfigV1 = {
     "v": VERSION
 }
 
 defaultConfigV1[KEEP_RECENT_CLICKS] = true
+defaultConfigV1[DOWNLOAD_PREPEND_JOBID] = true
 
 const config = {}
 
@@ -91,3 +93,4 @@ exports.getConfigMap = getConfigMap;
 exports.keepRecentClicks = keepRecentClicks;
 exports.setKeepRecentClicks = setKeepRecentClicks;
 exports.KEEP_RECENT_CLICKS = KEEP_RECENT_CLICKS;
+exports.DOWNLOAD_PREPEND_JOBID = DOWNLOAD_PREPEND_JOBID;

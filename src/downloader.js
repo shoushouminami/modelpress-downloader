@@ -1,12 +1,6 @@
 const messaging = require("./messaging");
 const {wait, every} = require("./utils/async-utils");
 const utils = require("./utils");
-/**
- * Adds listener functions for a downloadId during download completion
- * @param downloadId
- * @param successCallback
- * @param failureCallback
- */
 const retryMap = {}; // for keeping retry urls
 const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
@@ -21,6 +15,7 @@ function getFilename(image) {
         + (image.jobId != null ?  image.jobId + "-" : "")
         + utils.getFileName(image.url, image.ext, image.filename);
 }
+
 /**
  * Use Chrome API to download the given image
  * @param chrome
@@ -28,26 +23,22 @@ function getFilename(image) {
  * @param resolve
  */
 function download(chrome, image, resolve) {
-    if (typeof image === "object" && image.type === "msg") {
-        downloadWithMsg();
-    } else {
-        chrome.downloads.download(
-            {
-                url: image.url,
-                saveAs: false,
-                method: "GET",
-                filename: getFilename(image)
-            }, function (downloadId) {
-                logger.debug("downloadId=" + downloadId);
-                if (downloadId && image.retries && image.retries.length > 0) {
-                    retryMap[downloadId] = image;
-                }
+    chrome.downloads.download(
+        {
+            url: image.url,
+            saveAs: false,
+            method: "GET",
+            filename: getFilename(image)
+        }, function (downloadId) {
+            logger.debug("downloadId=" + downloadId);
+            if (downloadId && image.retries && image.retries.length > 0) {
+                retryMap[downloadId] = image;
+            }
 
-                if (resolve instanceof Function) {
-                    resolve();
-                }
-            });
-    }
+            if (resolve instanceof Function) {
+                resolve();
+            }
+        });
 }
 
 /**

@@ -82,17 +82,18 @@ function downloadHandler(resolve) {
     const images = message.images.slice(0, message.images.length);
 
     ga.trackDownload(message.host, images.length);
+    const setJobId = config.getConf(config.DOWNLOAD_PREPEND_JOBID);
     let jobId = 1;
     for (const image of images) {
         if (typeof image === "string") {
-            downloadInBg.push({url: image, folder: message.folder, ext: message.ext, jobId: jobId});
+            downloadInBg.push({url: image, folder: message.folder, ext: message.ext, jobId: setJobId ? jobId : null});
         } else if (typeof image === "object" && image.type === "tab") {
-            image.jobId = jobId;
+            image.jobId = setJobId ? jobId : null;
             imagesNeedTab.push(image);
         } else if (typeof image === "object" && (image.url != null || image.type === "msg")) {
             image.folder = message.folder;
             image.ext = message.ext;
-            image.jobId = jobId;
+            image.jobId = setJobId ? jobId : null;
 
             if (image.type === "msg") {
                 image.tabId = message.fromTabId;

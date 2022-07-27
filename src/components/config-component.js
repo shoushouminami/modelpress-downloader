@@ -25,13 +25,19 @@ class ConfigComponent extends React.Component {
     render() {
         return (
             <div id="configComponent">
-                <label htmlFor={config.KEEP_RECENT_CLICKS}>{i18n.getText("configKeepRecentClicks")}</label>
-                <input id={config.KEEP_RECENT_CLICKS} type="checkbox" className="configCheckbox" checked={this.state[config.KEEP_RECENT_CLICKS]}
-                                            onChange={(e) => this.inputChanged(e)}/>
+                <div className="configRow">
+                    <label htmlFor={config.KEEP_RECENT_CLICKS}>{i18n.getText("configKeepRecentClicks")}</label>
+                    <input id={config.KEEP_RECENT_CLICKS} type="checkbox" className="configCheckbox" checked={this.state[config.KEEP_RECENT_CLICKS]}
+                           onChange={(e) => this.inputChanged(e)}/>
+                </div>
+               <div className="configRow">
+                   <label htmlFor={config.DOWNLOAD_PREPEND_JOBID}>{i18n.getText("configDownloadPrependJobId")}</label>
+                   <input id={config.DOWNLOAD_PREPEND_JOBID} type="checkbox" className="configCheckbox" checked={this.state[config.DOWNLOAD_PREPEND_JOBID]}
+                          onChange={(e) => this.inputChanged(e)}/>
+               </div>
             </div>
         );
     }
-
 }
 
 exports.ConfigComponent = ConfigComponent;

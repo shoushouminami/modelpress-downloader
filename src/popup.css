@@ -158,6 +158,12 @@ body::-webkit-scrollbar {
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
+.configRow {
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+}
+
 .configCheckbox {
     float: right;
 }

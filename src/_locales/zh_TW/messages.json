@@ -62,5 +62,9 @@
   },
   "configKeepRecentClicks": {
     "message": "顯示最近點擊的網頁"
+  },
+  "configDownloadPrependJobId": {
+    "message": "在下載檔名中添加序號",
+    "description": "Text label in config setting: Add sequence number to file name"
   }
 }

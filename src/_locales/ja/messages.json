@@ -65,6 +65,10 @@
   },
   "configKeepRecentClicks": {
     "message": "最近クリックしたサイトを表示する"
+  },
+  "configDownloadPrependJobId": {
+    "message": "ファイル名に番号を追加する",
+    "description": "Text label in config setting: Add sequence number to file name"
   }
 
 }
