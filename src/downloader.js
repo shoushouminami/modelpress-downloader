@@ -2,10 +2,12 @@ const messaging = require("./messaging");
 const {wait, every} = require("./utils/async-utils");
 const utils = require("./utils");
 const retryMap = {}; // for keeping retry urls
+const errorMap = {}; // for keeping USER_CANCELED errors; downloadId => error
 const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
-
+const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";
+const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
 /**
  * @param image {{url: "", folder: "abc/", ext: "jpg", jobId: 123}}
  */
@@ -36,7 +38,7 @@ function download(chrome, image, resolve) {
             }
 
             if (resolve instanceof Function) {
-                resolve();
+                resolve(downloadId);
             }
         });
 }
@@ -60,11 +62,13 @@ function downloadWithMsg(chrome, context, images, done) {
                 // logger.debug("received getImageUrl message filename=", image.filename, " imageWithUrl=",
                 //     imageWithUrl);
                 let completed = ++count === images.length;
+                let downloadIds = [];
                 if (imageWithUrl && imageWithUrl.url) {
                     imageWithUrl.folder = context.folder;
                     imageWithUrl.jobId = image.jobId;
                     // logger.debug("downloading filename=", image.filename);
-                    download(chrome, imageWithUrl, function () {
+                    download(chrome, imageWithUrl, function (downloadId) {
+                        downloadIds.push(downloadId);
                         if (completed) {
                             // logger.debug("downloadWithMsg done count=", count);
                             ga.trackEvent("msg_download",
@@ -76,7 +80,11 @@ function downloadWithMsg(chrome, context, images, done) {
                                 context.host,
                                 Math.round((new Date().getTime() - startMs) / 1000.0));
                             if (done instanceof Function) {
-                                wait(1000).then(done);
+                                wait(1000).then(function () {
+                                    done({
+                                        "downloadIds": downloadIds
+                                    });
+                                });
                             }
                         }
                     });
@@ -120,15 +128,21 @@ function downloadWithMsg(chrome, context, images, done) {
 function listenForDownloadFailureAndRetry() {
     // listen for download failure and retry if possible
     chrome.downloads.onChanged.addListener(function (downloadDelta) {
-        if (downloadDelta && downloadDelta.state && retryMap[downloadDelta.id]) {
-            logger.debug("e=onchange downloadId=",downloadDelta.id, "state=", downloadDelta.state);
+        if (downloadDelta && downloadDelta.state) {
+            logger.debug("e=onchange downloadId=",downloadDelta.id, "state=", downloadDelta.state, "error=", downloadDelta.error);
             if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
-                let image = retryMap[downloadDelta.id];
-                delete retryMap[downloadDelta.id];
-                if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === "SERVER_BAD_CONTENT") {
-                    logger.debug("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
-                    image.url = image.retries.shift();
-                    download(chrome, image);
+                // retry if exists
+                if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === CHROME_ERROR_SERVER_BAD_CONTENT) {
+                    if (retryMap[downloadDelta.id]) {
+                        let image = retryMap[downloadDelta.id];
+                        delete retryMap[downloadDelta.id];
+                        logger.debug("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
+                        image.url = image.retries.shift();
+                        download(chrome, image);
+                    }
+                } else if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === CHROME_ERROR_USER_CANCELED) {
+                    // no retry. check for USER_CANCELED error
+                    errorMap[downloadDelta.id] = CHROME_ERROR_USER_CANCELED;
                 }
             }
         }
@@ -183,19 +197,37 @@ function displayInNewTab(tabId, url, resolve, error) {
 
 function downloadJob(job, sendResponse) {
     logger.debug("Received " + job.images.length + " jobs");
+    logger.debug("Clearing retryMap and errorMap");
+    utils.clearObjectProperties(retryMap);
+    utils.clearObjectProperties(errorMap);
     if (job.type && job.type === "msg") {
         downloadWithMsg(chrome, job.context, job.images, sendResponse);
     } else {
         let count = 0;
+        let downloadIds = [];
         for (const image of job.images) {
-            download(chrome, image, function () {
+            download(chrome, image, function (downloadId) {
                 logger.debug("Started job #" + count);
+                downloadIds.push(downloadId);
                 if (++count === job.images.length) {
-                    sendResponse();
+                    sendResponse({
+                        "downloadIds": downloadIds
+                    });
                 }
             });
         }
     }
+}
+
+function queryUserCanceledCount() {
+    let c = 0;
+    for (let e of Object.entries(errorMap)) {
+        if (e[1] === CHROME_ERROR_USER_CANCELED) {
+            c++;
+        }
+    }
+
+    return c;
 }
 
 exports.download = download;
@@ -203,3 +235,5 @@ exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
 exports.downloadWithNewTab = downloadWithNewTab;
 exports.displayInNewTab = displayInNewTab;
 exports.downloadJob = downloadJob;
+exports.queryUserCanceledCount = queryUserCanceledCount;
+exports.CHROME_ERROR_USER_CANCELED = CHROME_ERROR_USER_CANCELED;

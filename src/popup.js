@@ -1,7 +1,6 @@
 const ga = require("./google-analytics");
 const downloader = require("./downloader");
 const utils = require("./utils");
-const isDev = require("./is-dev");
 const messaging = require("./messaging");
 const React = require("react");
 const ReactDOM = require("react-dom");
@@ -11,16 +10,37 @@ const asyncUtils = require("./utils/async-utils");
 const config = require("./config");
 
 ga.bootstrap("popup.js");
+downloader.listenForDownloadFailureAndRetry();
 
 /**
  * @param chrome
  * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg"}}
  * @param resolve Invoked when all download jobs are started (not necessarily finished)
  */
-function downloadInBackground (chrome, job, resolve) {
-    messaging.sendToRuntime("download", job, function () {
-        logger.debug("Done: " + job.images.length + " images");
-        if (resolve instanceof Function) {
+function downloadInBackgroundOrPopup(chrome, job, resolve) {
+    messaging.sendToRuntime("download", job, function (downloadResp) {
+        logger.debug("Done: " + job.images.length + " images", "resp=", downloadResp);
+        // Due to Chrome bug 1345528 https://bugs.chromium.org/p/chromium/issues/detail?id=1345528
+        // check for USER_CANCELED error and retry download from popup
+        if (downloadResp["downloadIds"] && downloadResp["downloadIds"].length > 0) {
+            asyncUtils.wait(200).then(() => {
+                messaging.sendToRuntime("queryUserCanceled", null,
+                    function (queryResp) {
+                    logger.debug("queryResp=", queryResp);
+                    if (queryResp["userCanceledCount"]) {
+                        ga.trackEvent("retry_popup_download", "retried");
+                        logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
+                        downloader.downloadJob(job, () => {
+                            // do not close the popup, as chrome waits for user to select download folder
+                            // closing popup will ignore the rest of the files
+                            // resolve();
+                        });
+                    } else if (resolve instanceof Function) {
+                        resolve();
+                    }
+                });
+            });
+        } else if (resolve instanceof Function) {
             resolve();
         }
     });
@@ -110,7 +130,7 @@ function downloadHandler(resolve) {
     }
 
     if (downloadWithMsg.length > 0) {
-        downloadInBackground(chrome,
+        downloadInBackgroundOrPopup(chrome,
             {
                 images: downloadWithMsg,
                 type: "msg",
@@ -119,7 +139,7 @@ function downloadHandler(resolve) {
                     folder: message.folder,
                     host: message.host,
                     title: message.title,
-                    configMap: config.getConfigMap()
+                    configMap: config.getConfigMap(),
                 }
             },
             function () {
@@ -130,7 +150,7 @@ function downloadHandler(resolve) {
     }
 
     if (downloadInBg.length > 0) {
-        downloadInBackground(chrome,
+        downloadInBackgroundOrPopup(chrome,
             {
                 images: downloadInBg,
                 type: "reg",

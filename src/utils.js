@@ -426,6 +426,10 @@ const utils = {
         } else {
             return null;
         }
+    },
+    clearObjectProperties: function (obj) {
+        for (let member in obj) delete obj[member];
+        return obj;
     }
 };
 

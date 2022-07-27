@@ -114,3 +114,7 @@ test("test getFileExt", function () {
     expect(utils.getFileExt("abc")).toBeNull();
     expect(utils.getFileExt("abc.png?blal.good")).toBe("png");
 });
+
+test("test clearObjectProperties", function () {
+   expect(utils.clearObjectProperties({"a": "b"})).toEqual({});
+});
