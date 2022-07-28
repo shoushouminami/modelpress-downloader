@@ -1,13 +1,12 @@
 function getWindow() {
-    if (typeof window === "undefined") {
-        // hack for node
-        if (typeof self === "undefined") {
-            return global;
-        }
+    if (typeof window !== "undefined") {
+        return window;
+    }
+    // hack for node
+    if (typeof self !== "undefined") {
         return self;
     }
-
-    return window;
+    return global;
 }
 
 function getChrome() {

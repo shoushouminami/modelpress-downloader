@@ -4,7 +4,6 @@ const messaging = require("./messaging");
 const logger = require("./logger2")(module.id);
 const globals = require("./globals");
 
-logger.debug("module", module);
 // inits
 ga.bootstrap("background.js");
 downloader.listenForDownloadFailureAndRetry();
@@ -15,6 +14,12 @@ messaging.listen("download", function (job, sendResponse) {
     downloader.downloadJob(job, sendResponse);
     // async response
     return true;
+});
+
+messaging.listen("setCid", function (msg, sendResponse) {
+    if (msg["cid"]) {
+        ga.setCid(msg["cid"]);
+    }
 });
 
 messaging.listen("queryUserCanceled", function (msg, sendResponse) {

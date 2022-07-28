@@ -6,7 +6,7 @@ const GA_PROPERTY_ID = __GA_PROPERTY__; // defined in webpack.config.js
 const NOT_CALLED = 0;
 const BOOTSTRAPPED = 1;
 const SERVICE_WORKER = 2;
-const UNIQUE_CID = crypto.randomUUID(); // unique id. only used in service worker mode;
+const CID_HOLDER = ['1413ea7b-1ff1-4641-bfeb-fc896a0caef4'];
 
 // 0 - not boostrapped; 1 - successful ; 2 - failed;
 let bootstrapped = NOT_CALLED;
@@ -121,13 +121,14 @@ function apiTrack(hitType, category, action, label, value, docHost, docPath){
         v: '1',
         // Tracking ID / Property ID.
         tid: GA_PROPERTY_ID,
-        cid: UNIQUE_CID,
+        cid: getCid(),
         // hit type.
         t: hitType,
         // Event category.
         ec: category,
         // Event action.
         ea: action,
+        ul: getWindow().navigator.language
     };
 
     // label is optional
@@ -158,6 +159,13 @@ function apiTrack(hitType, category, action, label, value, docHost, docPath){
     });
 }
 
+function setCid(cid) {
+    CID_HOLDER[0] = cid;
+}
+
+function getCid() {
+    return CID_HOLDER[0];
+}
 
 exports.trackPageview = trackPageview;
 exports.trackButtonClick = trackButtonClick;
@@ -165,3 +173,5 @@ exports.trackEvent = trackEvent;
 exports.trackDownload = trackDownload;
 exports.trackSupport = trackSupport;
 exports.bootstrap = bootstrap;
+exports.setCid = setCid;
+exports.getCid = getCid;
