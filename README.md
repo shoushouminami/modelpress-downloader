@@ -1,4 +1,5 @@
 
+
 # Modelpress Image Downloader [![shoushouminami](https://circleci.com/gh/shoushouminami/modelpress-downloader.svg?style=svg)](https://app.circleci.com/pipelines/github/shoushouminami/modelpress-downloader)
 
 One click to batch download the best resolution images from the current news article. A [list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) are supported including ModelPress (mdpr.jp), Abema Times (times.abema.tv),
@@ -20,6 +21,10 @@ If you have additional websites that you want this extension to support, please 
 You can report bugs and issues by [posting on issues page](https://github.com/shoushouminami/modelpress-downloader/issues).
 
 ### Change Logs
+
+###### 4.2 (2022/07/28)
+* Bug fixes
+* Add config option to turn seq number on/off
 
 ###### 4.1 (2022/07/17)
 * Add oricon.co.jp
