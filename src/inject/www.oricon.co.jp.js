@@ -50,9 +50,21 @@ function inject() {
 
         return require("./return-message.js").loading();
     } else {
-        utils.pushArray(o.images, [
-            getLargeImgFromPage(document)
-        ]);
+        // utils.pushArray(o.images, [
+        //     getLargeImgFromPage(document)
+        // ]);
+        for (const selector of [
+            ".content-main .special-content .image-main img",
+            ".content-main .special-content .image img",
+            ".content-main  #slider ul li a img"
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    selector,
+                   null)
+            );
+        }
         return o;
     }
 }
