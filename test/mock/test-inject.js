@@ -1,7 +1,7 @@
 const rewiremock = require("./rewiremock");
-const utils = require("../../src/utils");
+const func_utils = require("../../src/utils/func-utils");
 
-utils.injectScriptDOM = function (filepath) {
+func_utils.injectScriptFileToDOM = function (filepath) {
     let span = document.createElement("span");
     // unit test looks at this value and injects the script using puppeteer API
     // since browser side won't have permission to get a local file
@@ -10,7 +10,7 @@ utils.injectScriptDOM = function (filepath) {
     document.body.appendChild(span);
 };
 
-rewiremock(() => require("../../src/utils")).with(utils);
+rewiremock(() => require("../../src/utils/func-utils")).with(func_utils);
 rewiremock.enable();
 
 let o = require("../../src/inject-cs");

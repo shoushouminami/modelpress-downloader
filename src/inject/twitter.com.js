@@ -63,7 +63,8 @@ module.exports = {
                 o.ext = "jpg";
             } else {
                 // inject helper script and wait
-                utils.injectScriptDOM(chrome.runtime.getURL("helper/twitter-react.js"));
+                require("../utils/func-utils")
+                    .injectScriptFileToDOM(chrome.runtime.getURL("helper/twitter-react.js"));
                 o.retry = true;
             }  
         } else {

@@ -249,11 +249,6 @@ const utils = {
 
         return src;
     },
-    injectScriptDOM: function (filepath) {
-        let script = document.createElement('script');
-        script.src = filepath;
-        document.body.appendChild(script);
-    },
     /**
      * finds the article id from page
      */

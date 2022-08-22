@@ -177,6 +177,7 @@ Descrambler.prototype.init = function (ptbinb, cid) {
                         .then(function (respText) {
                             let resp2;
                             if (funcName) {
+                                // logger.debug("funcName=", funcName, "respText=", respText);
                                 let f = new Function(funcName, respText);
                                 f(function (resp) {
                                     resp2 = resp;

@@ -16,7 +16,8 @@ module.exports = {
                 }
             } else {
                 // inject helper script and wait
-                utils.injectScriptDOM(chrome.runtime.getURL("helper/instagram-react.js"));
+                require("../utils/func-utils")
+                    .injectScriptFileToDOM(chrome.runtime.getURL("helper/instagram-react.js"));
                 o.retry = true;
             }
         }

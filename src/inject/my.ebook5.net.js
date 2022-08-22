@@ -8,7 +8,7 @@ module.exports = {
             utils.pushArray(o.images, helper.loadImagesFromDataDiv());
         } else {
             // inject helper script and wait
-            utils.injectScriptDOM(chrome.runtime.getURL("helper/my.ebook5.net-helper.js"));
+            require("../utils/func-utils").injectScriptFileToDOM(chrome.runtime.getURL("helper/my.ebook5.net-helper.js"));
             o.retry = true;
         }
 
