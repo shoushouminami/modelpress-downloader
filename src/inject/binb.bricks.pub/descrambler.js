@@ -177,11 +177,11 @@ Descrambler.prototype.init = function (ptbinb, cid) {
                         .then(function (respText) {
                             let resp2;
                             if (funcName) {
-                                // logger.debug("funcName=", funcName, "respText=", respText);
-                                let f = new Function(funcName, respText);
-                                f(function (resp) {
-                                    resp2 = resp;
-                                })
+                                logger.debug("funcName=", funcName, "respText=", respText);
+                                let jsonText = respText.replace(funcName + "(", "");
+                                jsonText = jsonText.substring(0, jsonText.lastIndexOf(")"));
+                                logger.debug("jsonText=", jsonText);
+                                resp2 = JSON.parse(jsonText);
                             } else {
                                 resp2 = JSON.parse(respText);
                             }
