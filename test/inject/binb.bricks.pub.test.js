@@ -1,47 +1,46 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test photo page", async () => {
+test("contents/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/speed_reader", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://binb.bricks.pub/contents/fe386b1d-5573-485d-8cf8-5cf5a7275023_1635407952/speed_reader?u0=aeb9949e36bf4a1d81a0a6781051df20",
-        "binb.bricks.pub-山本直樹 最新作品集 第一篇「練習」その12/",
+        "https://binb.bricks.pub/contents/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/speed_reader?u0=e3d6ac68dfaf478ca5b5ffad9ab23342",
+        "binb.bricks.pub-山本直樹 最新作品集 第二篇「夜景」その3/",
         [
             {
-                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/fe386b1d-5573-485d-8cf8-5cf5a7275023_1635407952/member_trial/pages/T_1ZOsht.jpg/M_H.jpg?dmytime=20211028075940",
+                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/member_trial/pages/wKUJ27ve.jpg/M_H.jpg?dmytime=20220727093457",
                 "filename": "P0000.jpg",
                 "type": "msg"
             },
             {
-                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/fe386b1d-5573-485d-8cf8-5cf5a7275023_1635407952/member_trial/pages/qlcgcKo8.jpg/M_H.jpg?dmytime=20211028075940",
+                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/member_trial/pages/3sRVLyMo.jpg/M_H.jpg?dmytime=20220727093457",
                 "filename": "P0001.jpg",
                 "type": "msg"
             },
             {
-                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/fe386b1d-5573-485d-8cf8-5cf5a7275023_1635407952/member_trial/pages/jblovQWW.jpg/M_H.jpg?dmytime=20211028075940",
+                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/member_trial/pages/uw8Vth2l.jpg/M_H.jpg?dmytime=20220727093457",
                 "filename": "P0002.jpg",
                 "type": "msg"
             },
             {
-                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/fe386b1d-5573-485d-8cf8-5cf5a7275023_1635407952/member_trial/pages/0sxsuSx1.jpg/M_H.jpg?dmytime=20211028075940",
+                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/member_trial/pages/yYdhZO8O.jpg/M_H.jpg?dmytime=20220727093457",
                 "filename": "P0003.jpg",
                 "type": "msg"
             },
             {
-                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/fe386b1d-5573-485d-8cf8-5cf5a7275023_1635407952/member_trial/pages/ya3iUA7E.jpg/M_H.jpg?dmytime=20211028075940",
+                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/member_trial/pages/kaPRFPVM.jpg/M_H.jpg?dmytime=20220727093457",
                 "filename": "P0004.jpg",
                 "type": "msg"
             },
             {
-                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/fe386b1d-5573-485d-8cf8-5cf5a7275023_1635407952/member_trial/pages/dKHINanu.jpg/M_H.jpg?dmytime=20211028075940",
+                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/member_trial/pages/egD33U7F.jpg/M_H.jpg?dmytime=20220727093457",
                 "filename": "P0005.jpg",
                 "type": "msg"
             },
             {
-                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/fe386b1d-5573-485d-8cf8-5cf5a7275023_1635407952/member_trial/pages/B2P0FuFL.jpg/M_H.jpg?dmytime=20211028075940",
+                "url": "https://s3-ap-northeast-1.amazonaws.com/binb.bricks.pub/output/c4f58067-f745-4719-93ea-d3a20aa56797_1658914467/member_trial/pages/IUO9_Z0W.jpg/M_H.jpg?dmytime=20220727093457",
                 "filename": "P0006.jpg",
                 "type": "msg"
             }
-        ]
-    );
+        ]);
 });
