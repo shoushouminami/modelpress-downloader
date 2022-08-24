@@ -1,6 +1,4 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-const pageutils = require("../pageutils");
-
 const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test photo page", async () => {

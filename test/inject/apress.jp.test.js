@@ -1,17 +1,9 @@
-const {testDirectDownload, launchBrowser, dummyItems} = require("./testbase");
-
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
+const {testDirectDownload, dummyItems, getBrowserFactory} = require("./testbase");
+const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test apress.jp article with only embeded image", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://apress.jp/archives/10032",
         "apress.jp-archives-10032/",
         [
@@ -23,7 +15,7 @@ test("Test apress.jp article with only embeded image", async () => {
 
 test("Test apress.jp article with image gallery", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://apress.jp/archives/10040",
         "apress.jp-archives-10040/",
         ["https://apress.jp/wp-content/uploads/2020/01/46%E6%88%90%E4%BA%BA%E5%BC%8F2020-01684.jpg",
@@ -36,7 +28,7 @@ test("Test apress.jp article with image gallery", async () => {
 
 test("Test apress.jp article with more embeded images", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://apress.jp/archives/378",
         "apress.jp-archives-378/",
         ["https://apress.jp/wp-content/uploads/2017/08/44cacae9afc2f9b93fb1a26dfe515c93_d48380ce590f730b18556f6b96b1d2fc.jpg",
@@ -49,7 +41,7 @@ test("Test apress.jp article with more embeded images", async () => {
 
 test("Test apress.jp article with embeded images excluding ads", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://apress.jp/archives/10003",
         "apress.jp-archives-10003/",
         ["https://apress.jp/wp-content/uploads/2019/12/main-8-2914344712-1577333035183.jpg",
@@ -58,7 +50,7 @@ test("Test apress.jp article with embeded images excluding ads", async () => {
 
 test("Test apress.jp article with images", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://apress.jp/archives/13005",
         "apress.jp-archives-13005/",
         [
