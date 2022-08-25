@@ -1,6 +1,6 @@
 const utils = require("../utils.js");
 const getLargeImg = function (url) {
-    return utils.removeQuery(url) + "?imtype=";
+    return utils.removeQuery(url);
 };
 
 const inject = function () {
@@ -14,15 +14,15 @@ const inject = function () {
         }
     }
 
-    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#NA_main figure .NA_figure img", getLargeImg));
+    utils.pushArray(o.images, utils.findLazyImagesWithCssSelector(document, "#NA_main figure .NA_figure img", getLargeImg));
 
     // new layout 2020-05-15
-    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main .NA_article_body .NA_article_img a .NA_article_img_thumb img", getLargeImg));
-    utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "main .NA_article_body .NA_article_gallery .NA_imglist li img", getLargeImg));
+    utils.pushArray(o.images, utils.findLazyImagesWithCssSelector(document, "main .NA_article_body .NA_article_img a .NA_article_img_thumb img", getLargeImg));
+    utils.pushArray(o.images, utils.findLazyImagesWithCssSelector(document, "main .NA_article_body .NA_article_gallery .NA_imglist li img", getLargeImg));
 
     // missing pp special page
     utils.pushArray(o.images,
-        utils.findImagesWithCssSelector(
+        utils.findLazyImagesWithCssSelector(
             document,
             [
                 "main .PP_container .PP_main img",

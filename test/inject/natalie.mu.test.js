@@ -1,65 +1,53 @@
-const {testDirectDownload, launchBrowser} = require("./testbase");
+const {testDirectDownload, launchBrowser, getBrowserFactory} = require("./testbase");
 const pageutils = require("../pageutils");
 
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
+let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-afterAll(async () => {
-    await browser.close();
-});
-
-test("Test natalie.mu news page", async () => {
+test("owarai/news/363814", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://natalie.mu/owarai/news/363814",
         "natalie.mu-owarai-news-363814/",
-        ["https://ogre.natalie.mu/media/news/owarai/2020/0120/kowaimadori2.jpg?imtype=",
-            "https://ogre.natalie.mu/media/news/owarai/2020/0120/kowaimadori1.jpg?imtype="],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 50);
-            }
-        });
+        [
+            "https://ogre.natalie.mu/media/news/owarai/2020/0120/kowaimadori2.jpg",
+            "https://ogre.natalie.mu/media/news/owarai/2020/0120/kowaimadori1.jpg"
+        ]);
 });
 
-test("Test natalie.mu gallery page", async () => {
+test("eiga/gallery/news/363868/1317326", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://natalie.mu/eiga/gallery/news/363868/1317326",
         "natalie.mu-eiga-gallery-news-363868-1317326/",
-        ["https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_02.jpg?imtype=",
-            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_01.jpg?imtype=",
-            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_04.jpg?imtype=",
-            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_05.jpg?imtype=",
-            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_03.jpg?imtype="],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 50);
-            }
-        });
+        [
+            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_02.jpg",
+            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_01.jpg",
+            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_04.jpg",
+            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_05.jpg",
+            "https://ogre.natalie.mu/media/news/eiga/2020/0120/bishokutantei_202001_03.jpg"
+        ]);
 });
 
-test("Test natalie.mu single image page", async () => {
+test("eiga/news/363866", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://natalie.mu/eiga/news/363866",
         "natalie.mu-eiga-news-363866/",
-        ["https://ogre.natalie.mu/media/news/eiga/2020/0120/Mujica_202001_01.jpg?imtype="]);
+        [
+            "https://ogre.natalie.mu/media/news/eiga/2020/0120/Mujica_202001_01.jpg"
+        ]);
 });
 
-test("Test pp page", async () => {
+test("music/pp/kashiwagiyuki02/page/3", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://natalie.mu/music/pp/kashiwagiyuki02/page/3",
         "natalie.mu-music-pp-kashiwagiyuki02-page-3/",
         [
-            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/pc_header_min.jpg?imtype=",
-            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo08s.jpg?imtype=",
-            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo09s.jpg?imtype=",
-            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo10s.jpg?imtype=",
-            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo11.jpg?imtype="
-        ]
-    );
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/pc_header_min.jpg",
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo08s.jpg",
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo09s.jpg",
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo10s.jpg",
+            "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo11.jpg"
+        ]);
 });
