@@ -16,12 +16,6 @@ messaging.listen("download", function (job, sendResponse) {
     return true;
 });
 
-messaging.listen("setCid", function (msg, sendResponse) {
-    if (msg["cid"]) {
-        ga.setCid(msg["cid"]);
-    }
-});
-
 messaging.listen("queryUserCanceled", function (msg, sendResponse) {
     sendResponse({
         "userCanceledCount": downloader.queryUserCanceledCount()
