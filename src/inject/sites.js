@@ -121,6 +121,7 @@ function register(siteModule) {
     require("./www.mensnonno.jp"),
     require("./jj-jj.net"),
     require("./cancam.jp"),
+    require("./sweetweb.jp"),
     require("./ray-web.jp"),
     require("./bisweb.jp"),
     require("./ar-mag.jp"),

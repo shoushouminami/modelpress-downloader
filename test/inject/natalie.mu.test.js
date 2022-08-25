@@ -1,6 +1,4 @@
-const {testDirectDownload, launchBrowser, getBrowserFactory} = require("./testbase");
-const pageutils = require("../pageutils");
-
+const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("owarai/news/363814", async () => {
