@@ -3,6 +3,10 @@ function toFull(url, window) {
         return url;
     }
 
+    if (window === undefined) {
+        window = require("../globals").getWindow();
+    }
+
     return window.origin + (url.startsWith("/") ? "" : "/") + url;
 }
 

@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+const url_utils = require("../utils/url-utils");
 function getLargeImg(url) {
     let arr = url.split("/");
     let re = /^\d+m$/;
@@ -6,7 +7,7 @@ function getLargeImg(url) {
         arr[arr.length - 2] = "-";
     }
 
-    return arr.join("/");
+    return url_utils.toFull(arr.join("/"));
 }
 
 const inject = function() {
