@@ -2,20 +2,6 @@ const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 const pageutils = require("../pageutils");
 
-test("Test magazine article", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://www.loveteen.jp/magazine",
-        "www.loveteen.jp-magazine/",
-        [],
-        {
-            sizeMatch: function (expectedSize, actualSize) {
-                expect(actualSize).toBeGreaterThanOrEqual(1);
-            }
-        }
-    );
-});
-
 test("Test news article", async () => {
     await testDirectDownload(
         getBrowser(),
