@@ -148,6 +148,7 @@ function register(siteModule) {
     require("./twitter.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
+    require("./eiga.com"),
 ]);
 
 exports.get = get;
