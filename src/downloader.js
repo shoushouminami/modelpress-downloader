@@ -8,6 +8,7 @@ const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";
 const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
+const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
 /**
  * @param image {{url: "", folder: "abc/", ext: "jpg", jobId: 123}}
  */
@@ -132,7 +133,10 @@ function listenForDownloadFailureAndRetry() {
             logger.debug("e=onchange downloadId=",downloadDelta.id, "state=", downloadDelta.state, "error=", downloadDelta.error);
             if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
                 // retry if exists
-                if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === CHROME_ERROR_SERVER_BAD_CONTENT) {
+                if (downloadDelta.state.current === "interrupted" &&
+                    (downloadDelta.error.current === CHROME_ERROR_SERVER_BAD_CONTENT ||
+                        downloadDelta.error.current === CHROME_ERROR_SERVER_FORBIDDEN)
+                ) {
                     if (retryMap[downloadDelta.id]) {
                         let image = retryMap[downloadDelta.id];
                         delete retryMap[downloadDelta.id];
