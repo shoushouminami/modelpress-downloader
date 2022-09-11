@@ -16,6 +16,7 @@ const inject = function () {
     let o = require("./return-message.js").init();
     for (const selector of [
         ".content-main .article-image img", // article image
+        ".content-main .slide-show .slick-slide img"
     ]) {
         utils.pushArray(
             o.images,

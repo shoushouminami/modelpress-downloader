@@ -1,11 +1,11 @@
 const { testDirectDownload, getBrowserFactory } = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("news/20220907/15", async () => {
+test("news/20220907/15/", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://eiga.com/news/20220907/15/",
-        "eiga.com-news-20220907-15/",
+        "eiga.com-news-20220907-15-/",
         [
             "https://eiga.k-img.com/images/buzz/98624/085c54f044df2759.jpg",
             "https://eiga.k-img.com/images/buzz/98624/2764531ce8102108.jpg",
@@ -25,8 +25,18 @@ test("news/20220907/15", async () => {
             "https://eiga.k-img.com/images/buzz/98624/3731f1dfae8f6779.jpg",
             "https://eiga.k-img.com/images/buzz/98624/72539856de850e0a.jpg",
             "https://eiga.k-img.com/images/buzz/98624/6cabf531814e38f6.jpg",
-        ]
-    );
+            "https://eiga.k-img.com/images/buzz/98624/c2d82e0cc534ae87.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/0b282b7a95ace187.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/c84f126f8371291b.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/0478aa25cbdf1c7e.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/ed2ac8b4ed576c9b.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/c076ce1fc13bb2e1.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/d039d4763674eb30.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/b965a3c76ba2539a.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/16a686bbd19bcb09.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/b6befe214c96dffc.jpg",
+            "https://eiga.k-img.com/images/buzz/98624/1a98e89e715ff35a.jpg"
+        ]);
 });
 
 test("news/20220902/6", async () => {
@@ -36,4 +46,37 @@ test("news/20220902/6", async () => {
         "eiga.com-news-20220902-6/",
         ["https://eiga.k-img.com/images/buzz/98525/c2ccc2c4c5c66bf9.jpg"]
     );
+});
+
+test("news/20220609/5/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://eiga.com/news/20220609/5/",
+        "eiga.com-news-20220609-5-/",
+        [
+            "https://eiga.k-img.com/images/buzz/96980/291bad642e985f30.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/b55d5746002f1c5c.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/3b7a5f6a1874b659.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/25ed4cf75e923d02.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/5538c84d9adaa11f.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/26dd2d6c4aa57f8e.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/dd970dbe8af1c66c.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/a6dfe8d7865b0981.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/05f2434440e27d07.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/1b1831202c8980cd.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/1976e8f232fd7619.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/17f06dee50c252bc.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/883c12c24d9a4b0d.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/00d0a1e34e14967a.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/7039d41316784218.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/b23eadf59c97b9e3.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/2f50ae102e14832c.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/ae83f837a151d0e2.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/e2626f0fa6d1eb62.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/f380647775532e31.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/122a0fd72fa8f552.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/a0f70deae42a3063.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/0957874c1b46bc3b.jpg",
+            "https://eiga.k-img.com/images/buzz/96980/e6845e8e474e5c22.jpg"
+        ]);
 });
