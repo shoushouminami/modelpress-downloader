@@ -102,6 +102,7 @@ function register(siteModule) {
     require("./girlswalker.com"),
     require("./www.walkerplus.com"),
     require("./moviewalker.jp"),
+    require("./eiga.com"),
     require("./mikan-incomplete.com"),
     require("./sirabee.com"),
     require("./e-talentbank.co.jp"),
@@ -148,7 +149,6 @@ function register(siteModule) {
     require("./twitter.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
-    require("./eiga.com"),
 ]);
 
 exports.get = get;

@@ -8,6 +8,7 @@ const mdprApp = require("./remote/mdpr-app");
 const logger = require("./logger2")(module.id);
 const asyncUtils = require("./utils/async-utils");
 const config = require("./config");
+const globals = require("./globals");
 
 ga.bootstrap("popup.js");
 downloader.listenForDownloadFailureAndRetry();
@@ -28,7 +29,7 @@ function downloadInBackgroundOrPopup(chrome, job, resolve) {
                     function (queryResp) {
                     logger.debug("queryResp=", queryResp);
                     if (queryResp["userCanceledCount"]) {
-                        ga.trackEvent("retry_popup_download", "retried");
+                        ga.trackEvent("retry_popup_download", "retried", globals.getChromeVersion(), 1);
                         logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
                         downloader.downloadJob(job, () => {
                             // do not close the popup, as chrome waits for user to select download folder

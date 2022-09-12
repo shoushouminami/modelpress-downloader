@@ -39,9 +39,16 @@ function isChromeExtension() {
     return getChrome() != null && getChrome().runtime != null;
 }
 
+function getChromeVersion() {
+    let navigator = getWindow().navigator || {};
+    let m = /Chrome\/([0-9.]+)/.exec(navigator.userAgent);
+    return String(m && m[1]);
+}
+
 exports.getWindow = getWindow;
 exports.getChrome = getChrome;
 exports.getDocument = getDocument;
 exports.getSearchParamValue = getSearchParamValue;
 exports.getExtensionVersion = getExtensionVersion;
 exports.isChromeExtension = isChromeExtension;
+exports.getChromeVersion = getChromeVersion;
