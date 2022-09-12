@@ -20,6 +20,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.4 (2022/09/11)
+* Add eiga.com
+* Fix on mainichikirei.jp
+
 ###### 4.3 (2022/08/24)
 * Add www.ytjp.jp
 * Add wanibooks-newscrunch.com
