@@ -149,6 +149,10 @@ function register(siteModule) {
     require("./twitter.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
+    require("./m.tribe-m.jp"),
+    require("./m.ex-m.jp"),
+    require("./m.ldh-m.jp"),
+    require("./m.ldhgirls-m.jp"),
 ]);
 
 exports.get = get;
