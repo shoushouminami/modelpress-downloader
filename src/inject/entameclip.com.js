@@ -7,7 +7,12 @@ module.exports = {
             "main article .entry-content img", // news article top image
         ]) {
             utils.pushArray(o.images,
-                utils.findLazyImagesWithCssSelector(document, selector, utils.removeTrailingResolutionNumbers)
+                utils.findLazyImagesWithCssSelector(document, selector, function (url) {
+                    if (url.endsWith("CDicon2.jpeg") || url.endsWith("CDicon.jpeg")) {
+                        return null;
+                    }
+                    return utils.removeTrailingResolutionNumbers(url);
+                })
             );
         }
         return o;

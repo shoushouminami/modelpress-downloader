@@ -58,19 +58,3 @@ test("Test thetv.jp matome home page", async () => {
         ]
     );
 });
-
-test("Test thetv.jp program anime", async () => {
-    await testDirectDownload(
-        browser(),
-        "https://thetv.jp/program/0000987893/",
-        "thetv.jp-program-0000987893-/",
-        [
-            "https://thetv.jp/i/nw/1042731/10395543.jpg",
-            "https://thetv.jp/i/nw/1041484/10382192.jpg",
-            "https://thetv.jp/i/nw/1036270/10328742.jpg",
-            "https://thetv.jp/i/nw/1033199/10299200.jpg",
-            {}
-        ]
-    );
-});
-

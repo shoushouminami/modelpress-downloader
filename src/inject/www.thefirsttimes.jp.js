@@ -3,10 +3,10 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         for (const query of [
-            "main .m-article .m-main-image img", // top main image
-            "main .m-article .entry-body a img", // body images
-            "main .m-image .entry-body figure img", // thumbnail page top image
-            "main .m-image .entry-body ul li img", // thumbnail page top image
+            "main .m-article-header img.m-article-header__img", // top main image
+            "main .m-article-body .entry-body a img", // body images
+            "main .m-gallery-list img.m-gallery-list__img", // thumbnail page top image
+            "main .m-gallery-list__box img.m-gallery-list__img", // thumbnail page top image
         ]) {
             utils.pushArray(o.images,
                 utils.findImagesWithCssSelector(
