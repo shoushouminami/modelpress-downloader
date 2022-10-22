@@ -193,7 +193,7 @@ const utils = {
      * @param filterFunc a function to transform the found src to another object. Input is the found IMG.src.
      * @returns {[]}
      */
-    findLazyImagesWithCssSelector: function (rootDom, cssSelector, filterFunc) {
+    findLazyImagesWithCssSelector: function (rootDom, cssSelector, filterFunc = null) {
         return utils.findDomsWithCssSelector(rootDom, cssSelector, function (dom) {
             let src = dom.src;
 

@@ -140,7 +140,6 @@ function register(siteModule) {
     require("./seventeen-web.jp"),
     require("./withonline.jp"),
     require("./cmnow.jp"),
-    require("./m.ex-m.jp"),
     require("./www.loveteen.jp"),
     require("./www.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
