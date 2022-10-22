@@ -45,5 +45,9 @@ exports.check = function (location) {
         return "this.kiji.is";
     }
 
+    if (host === "m.ldh-m.jp" || host === "m.ldhgirls-m.jp" || host === "m.tribe-m.jp") {
+        return "m.ex-m.jp";
+    }
+
     return host;
 };

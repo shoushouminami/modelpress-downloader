@@ -30,4 +30,5 @@ const inject = function () {
 module.exports = {
     inject: inject,
     host: "m.ex-m.jp",
+    hidden: true
 };
