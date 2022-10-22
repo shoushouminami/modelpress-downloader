@@ -20,6 +20,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.5 (2022/10/21)
+* Add m.tribe-m.jp, m.ex-m.jp, m.ldh-m.jp, m.ldhgirls-m.jp
+* Add FC content on sakurazaka46.com
+* Add tvbros.jp
+* Add plus.paravi.jp
+
 ###### 4.4 (2022/09/11)
 * Add eiga.com
 * Fix on mainichikirei.jp
