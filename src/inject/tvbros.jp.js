@@ -13,7 +13,6 @@ module.exports = {
                 utils.removeTrailingResolutionNumbers
             )
         );
-
         return o;
     },
     host: "tvbros.jp"

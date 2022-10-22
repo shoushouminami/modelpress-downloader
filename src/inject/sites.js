@@ -108,6 +108,7 @@ function register(siteModule) {
     require("./e-talentbank.co.jp"),
     require("./plus.tver.jp"),
     require("./www.tvlife.jp"),
+    require("./tvbros.jp"),
     require("./sumabo.jp"),
     require("./entamenext.com"),
     require("./entameclip.com"),
