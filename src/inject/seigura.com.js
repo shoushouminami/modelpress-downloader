@@ -1,9 +1,12 @@
 const utils = require("../utils.js");
 const getLargeImg = function (url) {
-    return {
-        url: utils.removeTrailingResolutionNumbers(url),
-        retries: [url]
-    };
+    url = utils.removeDataUrl(url);
+    if (url){
+        return {
+            url: utils.removeTrailingResolutionNumbers(url),
+            retries: [url]
+        };
+    }
 }
 module.exports = {
     inject: function () {
@@ -11,7 +14,7 @@ module.exports = {
         // article top image
         utils.pushArray(
             o.images,
-            utils.findImagesWithCssSelector(
+            utils.findLazyImagesWithCssSelector(
                 document,
                 "#primary .entry-header .single-thumbnail img",
                 getLargeImg
@@ -20,7 +23,7 @@ module.exports = {
         // gallery thumbnail images in article
         utils.pushArray(
             o.images,
-            utils.findImagesWithCssSelector(
+            utils.findLazyImagesWithCssSelector(
                 document,
                 "#primary .gallery-item a img",
                 getLargeImg
@@ -29,7 +32,7 @@ module.exports = {
         // images in article
         utils.pushArray(
             o.images,
-            utils.findImagesWithCssSelector(
+            utils.findLazyImagesWithCssSelector(
                 document,
                 "#primary .entry-content p img",
                 getLargeImg
