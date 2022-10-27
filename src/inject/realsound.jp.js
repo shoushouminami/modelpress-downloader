@@ -6,6 +6,10 @@ const getLargeImg = function (url) {
             url = globals.getWindow().location.origin + url;
         }
 
+        if (url.endsWith(".svg")) {
+            return null;
+        }
+
         url = utils.removeDataUrl(url);
 
         if (url) {
