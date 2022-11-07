@@ -41,3 +41,29 @@ test("Test news article", async () => {
         ]
     );
 });
+
+test("news/239463/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.musicvoice.jp/news/239463/",
+        "www.musicvoice.jp-news-239463-/",
+        [
+            "https://www.musicvoice.jp/wp-content/uploads/2022/10/pmu221031m302.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2022/10/pmu221031m305.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2022/10/pmu221031m304.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2022/10/pmu221031m303.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2022/10/pmu221031m301.jpg"
+        ]);
+});
+
+test("news/234927/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.musicvoice.jp/news/234927/",
+        "www.musicvoice.jp-news-234927-/",
+        [
+            "https://www.musicvoice.jp/wp-content/uploads/2022/08/pmu220825m110.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2022/08/pmu220825m112.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2022/08/pmu220825m111.jpg"
+        ]);
+});
