@@ -13,6 +13,9 @@ module.exports = {
             "#contents .contents-btm .post-contents .pattern_2 img", //lifestyle article image
             "#contents .contents-btm .post-contents .slider-container .slide-img img",
             "#post .photo_gallery .thumb_list .img-box img", // thumbnail page
+            "#article .article-header-contents figure img", // with-class lifestyle header
+            "#article .article-contents-body .article-item .swiper-slide > img", // with-class lifestyle swiper-slide
+            "#article .article-contents-body .post-contents .item_image img", // with-class lifestyle swiper-slide
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(document, selector, function (url){
