@@ -1,17 +1,16 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-let browser =  getBrowserFactory(beforeAll, afterAll);
+let getBrowser =  getBrowserFactory(beforeAll, afterAll);
 
-test("Test gravure page", async () => {
+test("gravure/2022ym50cover.html", async () => {
     await testDirectDownload(
-        browser(),
-        "https://magazine.yanmaga.jp/gravure/2022ym21-22cover.html",
-        "magazine.yanmaga.jp-gravure-2022ym21-22cover.html/",
+        getBrowser(),
+        "https://magazine.yanmaga.jp/gravure/2022ym50cover.html",
+        "magazine.yanmaga.jp-gravure-2022ym50cover.html/",
         [
-            "https://magazine.yanmaga.jp/content/images/_gravure-style/2022ym21-22cover01_0vdxZUrXFeEx.jpg",
-            "https://magazine.yanmaga.jp/content/images/_gravure-style/2022ym21-22cover02_0vdxZUrXFeEx.jpg",
-            "https://magazine.yanmaga.jp/content/images/_gravure-style/2022ym21-22cover03_0vdxZUrXFeEx.jpg"
-        ]
-    );
+            "https://magazine.yanmaga.jp/content/images/_gravure-style/2022ym50cover01_pwiOO8fgTbI0.jpg",
+            "https://magazine.yanmaga.jp/content/images/_gravure-style/2022ym50cover02_pwiOO8fgTbI0.jpg",
+            "https://magazine.yanmaga.jp/content/images/_gravure-style/2022ym50cover03_pwiOO8fgTbI0.jpg"
+        ]);
 });
 
 
