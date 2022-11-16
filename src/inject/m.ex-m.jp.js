@@ -5,7 +5,8 @@ function getLargeImg(url) {
         return null;
     }
 
-    if (!url.includes("uplcmn")) {
+    keywords = ["uplcmn", "upload", "off_shot", "offshot", "artist_photo"];
+    if (!keywords.some(v => url.includes(v))) {
         return null;
     }
 
@@ -15,14 +16,27 @@ function getLargeImg(url) {
 const inject = function () {
     let o = require("./return-message.js").init();
     for (const selector of [
-        ".article .protectimg img", // article image
-        ".blog-article .protectimg img" // blog article image
+        ".inner img", // content photos
     ]) {
         utils.pushArray(
             o.images,
             utils.findLazyImagesWithCssSelector(document, selector, getLargeImg)
         );
     }
+
+    utils.pushArray(o.images,
+        utils.findDomsWithCssSelector(document,
+            [
+                ".ldhOffShotList a", // offshot photo
+                ".item__image a", // offshot photo legacy
+            ].join(","),
+            function (dom) {
+                if (dom && dom.href) {
+                    return dom.href
+                }
+            }
+        )
+    );
 
     return o;
 };
