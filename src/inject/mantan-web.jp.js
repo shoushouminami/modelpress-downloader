@@ -12,7 +12,7 @@ module.exports = {
             ".photo__wrap .photo__photolist .thumb-item img", // photo page top image
         ]) {
             utils.pushArray(o.images,
-                utils.findImagesWithCssSelector(
+                utils.findLazyImagesWithCssSelector(
                     document,
                     selector,
                     function (url) {
