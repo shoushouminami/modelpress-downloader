@@ -148,6 +148,7 @@ function register(siteModule) {
     require("./www.hinatazaka46.com"),
     require("./sakurazaka46.com"),
     require("./7gogo.jp"),
+    require("./emomiu.jp"),
     require("./twitter.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
