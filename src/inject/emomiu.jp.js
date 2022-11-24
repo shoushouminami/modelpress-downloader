@@ -4,10 +4,14 @@ const inject = function () {
     let o = require("./return-message.js").init();
     for (const selector of [
         "article .size-full", // article full-sized images
+        "article .gallery-item img", // gallery images
     ]) {
         utils.pushArray(
             o.images,
-            utils.findLazyImagesWithCssSelector(document, selector)
+            utils.findLazyImagesWithCssSelector(
+                document,
+                selector,
+                utils.removeTrailingResolutionNumbers)
         );
     }
 
@@ -16,6 +20,5 @@ const inject = function () {
 
 module.exports = {
     inject: inject,
-    host: "emomiu.jp",
-    hidden: true
+    host: "emomiu.jp"
 };
