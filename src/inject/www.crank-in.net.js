@@ -25,7 +25,7 @@ module.exports = {
             "#content main article .top_news_all img"
         ]) {
             utils.pushArray(o.images,
-                utils.findImagesWithCssSelector(
+                utils.findLazyImagesWithCssSelector(
                     document,
                     query,
                     getLargeImg

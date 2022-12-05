@@ -208,10 +208,6 @@ test("Test photo detail page with app photo", async () => {
             "https://img-mdpr.freetls.fastly.net/article/0W4P/nm/0W4PZp-QJ92yVFpyWjoYh3yuEmecPnxwTqc1ihczSg4.jpg?quality=100"
         ]
     );
-
-    expect(data["o"]["remoteImages"]).toStrictEqual({
-        "mdpr.jp": "2563180"
-    });
 });
 
 test("Test news article page with app photo", async () => {
@@ -241,10 +237,6 @@ test("Test news article page with app photo", async () => {
         }
     );
 
-
-    expect(data["o"]["remoteImages"]).toStrictEqual({
-        "mdpr.jp": "2563180"
-    });
 });
 
 test("Test news article page with instagram photos", async () => {
