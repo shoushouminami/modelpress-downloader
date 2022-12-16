@@ -50,18 +50,12 @@ test("Test lifestyle news page", async () => {
     );
 });
 
-test("Test special page with thumbnails", async () => {
+test("learn/257698/", async () => {
     await testDirectDownload(
-        browser(),
-        "https://hanako.tokyo/special/257698/",
-        "hanako.tokyo-special-257698-/",
+        getBrowser(),
+        "https://hanako.tokyo/learn/257698/",
+        "hanako.tokyo-learn-257698-/",
         [
-            "https://img.hanako.tokyo/2021/09/13180336/5f794dced421509d9b57a9fb436cd129.jpeg",
-            "https://img.hanako.tokyo/2021/08/28034720/ktw_2255.jpg",
-            "https://img.hanako.tokyo/2021/08/28043200/0d40a5e4a645fc6b96e767d64ac0878e-5.jpg",
-            "https://img.hanako.tokyo/2021/09/11233319/DSC_8692.jpg",
-            "https://img.hanako.tokyo/2021/09/16013357/DMA-IMG_8846.jpg",
-            "https://img.hanako.tokyo/2020/06/19174108/htlw_0572.jpg"
-        ]
-    );
+            "https://img.hanako.tokyo/2021/09/13180336/5f794dced421509d9b57a9fb436cd129.jpeg"
+        ]);
 });

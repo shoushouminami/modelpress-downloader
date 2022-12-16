@@ -8,7 +8,7 @@ module.exports = {
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(document, selector, function (url) {
-                    if (url.endsWith("CDicon2.jpeg") || url.endsWith("CDicon.jpeg")) {
+                    if (url.endsWith("CDicon2.jpeg") || url.endsWith("CDicon.jpeg") || url.endsWith(".svg")) {
                         return null;
                     }
                     return utils.removeTrailingResolutionNumbers(url);
