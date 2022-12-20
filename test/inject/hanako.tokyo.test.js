@@ -1,9 +1,9 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-let browser =  getBrowserFactory(beforeAll, afterAll);
+let getBrowser =  getBrowserFactory(beforeAll, afterAll);
 
 test("Test column page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://hanako.tokyo/column/kotobanoosusowake/260498/",
         "hanako.tokyo-column-kotobanoosusowake-260498-/",
         [
@@ -18,7 +18,7 @@ test("Test column page", async () => {
 
 test("Test food news page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://hanako.tokyo/news/food/259876/",
         "hanako.tokyo-news-food-259876-/",
         [
@@ -34,7 +34,7 @@ test("Test food news page", async () => {
 
 test("Test lifestyle news page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://hanako.tokyo/news/lifestyle/186294/",
         "hanako.tokyo-news-lifestyle-186294-/",
         [
