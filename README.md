@@ -20,6 +20,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.6 (2022/12/22)
+* Add articles under exweb.jp/list/premium/
+* Fix on friday.kodansha.co.jp
+* Add emomiu.jp
+
 ###### 4.5 (2022/10/21)
 * Add m.tribe-m.jp, m.ex-m.jp, m.ldh-m.jp, m.ldhgirls-m.jp
 * Add FC content on sakurazaka46.com
