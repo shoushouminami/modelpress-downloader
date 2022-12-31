@@ -1,15 +1,19 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test single image full article", async () => {
+test("articles/-/93066?page=1", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://taishu.jp/articles/-/93066?page=1",
         "taishu.jp-articles---93066/",
         [
-            "https://taishu.jp/mwimgs/5/3/-/img_5305dbc9b99f0473f5221a9cea5ac25935903.jpg"
-        ]
-    );
+            {
+                "retries": [
+                    "https://taishu.ismcdn.jp/mwimgs/5/3/1500w/img_5305dbc9b99f0473f5221a9cea5ac25935903.jpg"
+                ],
+                "url": "https://taishu.ismcdn.jp/mwimgs/5/3/-/img_5305dbc9b99f0473f5221a9cea5ac25935903.jpg"
+            }
+        ]);
 });
 
 test("Test single image half article", async () => {
@@ -23,13 +27,18 @@ test("Test single image half article", async () => {
     );
 });
 
-test("Test multiple images full article", async () => {
+test("articles/-/93163?page=1", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://taishu.jp/articles/-/93163?page=1",
         "taishu.jp-articles---93163/",
         [
-            "https://taishu.jp/mwimgs/6/3/-/img_6356b9583fc4456027892e82fb44d295176236.jpg",
+            {
+                "retries": [
+                    "https://taishu.ismcdn.jp/mwimgs/6/3/1500w/img_6356b9583fc4456027892e82fb44d295176236.jpg"
+                ],
+                "url": "https://taishu.ismcdn.jp/mwimgs/6/3/-/img_6356b9583fc4456027892e82fb44d295176236.jpg"
+            },
             {
                 "retries": [
                     "https://taishu.ismcdn.jp/mwimgs/3/d/120w/img_3d499646fc0990ce6448a411907ea993382352.jpg"
@@ -66,10 +75,8 @@ test("Test multiple images full article", async () => {
                 ],
                 "url": "https://taishu.ismcdn.jp/mwimgs/6/f/-/img_6fd568ce6004997f867cf62ef3c02b44316317.jpg"
             }
-        ]
-    );
+        ]);
 });
-
 
 test("Test multiple images photo page", async () => {
     await testDirectDownload(
