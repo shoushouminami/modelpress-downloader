@@ -4,7 +4,8 @@ module.exports = {
         let o = require("./return-message.js").init();
         for (const selector of [
             "main article .picturecontainer .picturecontainer-item .picturecontainer-item-img img", //picture page thumbnails
-            "main article .entry-content img", // news article top image
+            "main article .entry-content .picturecontainer2 img", // news article top image
+            "main article .entry-content .spotlight img", // news article top image
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(document, selector, function (url) {
