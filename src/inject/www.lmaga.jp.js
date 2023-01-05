@@ -14,7 +14,7 @@ module.exports = {
             "#main .feature_cont .pct > img", // feature images
         ]) {
             utils.pushArray(o.images,
-                utils.findImagesWithCssSelector(document,
+                utils.findLazyImagesWithCssSelector(document,
                     query,
                     function (url) {
                         const m = url.match(re);
@@ -23,7 +23,8 @@ module.exports = {
                         }
 
                         return url;
-                    }
+                    },
+                    utils.removeTrailingResolutionNumbers
                 )
             );
         }
