@@ -81,6 +81,7 @@ function register(siteModule) {
     require("./www.wws-channel.com"),
     require("./lp.p.pia.jp"),
     require("./www.lvtimes.net"),
+    require("./www.lmaga.jp"),
     require("./apress.jp"),
     require("./encount.press"),
     require("./girlsnews.tv"),
