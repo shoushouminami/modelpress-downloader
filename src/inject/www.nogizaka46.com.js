@@ -19,6 +19,22 @@ function pushToOutput(imgDoms, o) {
     }
 }
 
+function getFolder(original) {
+    let nameP = document.querySelector('.bd--prof__name');
+    let timeP = document.querySelector(".bd--hd__date");
+    let titleP = document.querySelector(".bd--hd__ttl");
+    if (nameP && timeP && titleP) {
+        return (
+                document.querySelector('meta[name="keyword"]').getAttribute('content')
+                + '-' + nameP.innerText.replaceAll(' ', '')
+                + '-' + timeP.innerText.replace(' ', '_').replace(':', '.')
+                + '-' + (titleP.innerText.length > 35 ? titleP.innerText.substring(0, 35) + '…' : titleP.innerText)
+            ).replaceAll(/\//g, "-")
+            + '/';
+    }
+    return original;
+}
+
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
@@ -37,6 +53,8 @@ module.exports = {
             ),
             o
         );
+
+        o.folder = getFolder(o.folder);
         return o;
     },
     host: "www.nogizaka46.com",
