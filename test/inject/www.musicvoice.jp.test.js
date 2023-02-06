@@ -1,18 +1,17 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test news article with 4 images", async () => {
+test("news/166964/188192/", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://www.musicvoice.jp/news/166964/188192/",
         "www.musicvoice.jp-news-166964-188192-/",
         [
-            "https://www.musicvoice.jp/wp-content/uploads/2020/10/pmu201021-m101.jpg",
             "https://www.musicvoice.jp/wp-content/uploads/2020/10/pmu201021-m104.jpg",
             "https://www.musicvoice.jp/wp-content/uploads/2020/10/pmu201021-m103.jpg",
-            "https://www.musicvoice.jp/wp-content/uploads/2020/10/pmu201021-m102.jpg"
-        ]
-    );
+            "https://www.musicvoice.jp/wp-content/uploads/2020/10/pmu201021-m102.jpg",
+            "https://www.musicvoice.jp/wp-content/uploads/2020/10/pmu201021-m101.jpg"
+        ]);
 });
 
 test("Test news article with 3 images", async () => {
@@ -65,5 +64,15 @@ test("news/234927/", async () => {
             "https://www.musicvoice.jp/wp-content/uploads/2022/08/pmu220825m110.jpg",
             "https://www.musicvoice.jp/wp-content/uploads/2022/08/pmu220825m112.jpg",
             "https://www.musicvoice.jp/wp-content/uploads/2022/08/pmu220825m111.jpg"
+        ]);
+});
+
+test("news/223852/pmu2022-04-15-200805-213k/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.musicvoice.jp/news/223852/pmu2022-04-15-200805-213k/",
+        "www.musicvoice.jp-news-223852-pmu2022-04-15-200805-213k-/",
+        [
+            "https://www.musicvoice.jp/wp-content/uploads/2022/04/pmu2022-04-15-200805-213k.jpg"
         ]);
 });
