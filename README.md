@@ -20,6 +20,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.8 (2023/02/06)
+* nogizaka46.com: Minor fix on folder name
+
 ###### 4.7 (2023/02/05)
 * Add www.lmaga.jp
 * nogizaka46.com: Use blog title as folder name
