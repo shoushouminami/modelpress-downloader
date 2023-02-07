@@ -19,17 +19,29 @@ function pushToOutput(imgDoms, o) {
     }
 }
 
+function replaceIllegalChars(path) {
+    //   < (less than)
+    //   > (greater than)
+    //   : (colon - sometimes works, but is actually NTFS Alternate Data Streams)
+    //   " (double quote)
+    //   / (forward slash)
+    //   \ (backslash)
+    //   | (vertical bar or pipe)
+    //   ? (question mark)
+    //   * (asterisk)
+    return path.replace(/[<>:"'\/\\|?*]/g, '-');
+}
+
 function getFolder(original) {
     let nameP = document.querySelector('.bd--prof__name');
     let timeP = document.querySelector(".bd--hd__date");
     let titleP = document.querySelector(".bd--hd__ttl");
     if (nameP && timeP && titleP) {
-        return (
-                document.querySelector('meta[name="keyword"]').getAttribute('content')
-                + '-' + nameP.innerText.replaceAll(' ', '')
+        return replaceIllegalChars(
+                nameP.innerText.replaceAll(' ', '')
                 + '-' + timeP.innerText.replace(' ', '_').replace(':', '.')
                 + '-' + (titleP.innerText.length > 35 ? titleP.innerText.substring(0, 35) + '…' : titleP.innerText)
-            ).replaceAll(/\//g, "-")
+            )
             + '/';
     }
     return original;
@@ -58,5 +70,6 @@ module.exports = {
         return o;
     },
     host: "www.nogizaka46.com",
-    url: "https://www.nogizaka46.com/s/n46/diary/MEMBER"
+    url: "https://www.nogizaka46.com/s/n46/diary/MEMBER",
+    replaceIllegalChars: replaceIllegalChars
 };
