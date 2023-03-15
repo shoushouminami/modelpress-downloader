@@ -28,8 +28,15 @@ const DOMAINS = {
     yanmaga: "api-yanmaga.comici.jp",
     yanmaga2: "api2-yanmaga.comici.jp",
     "api-yanmaga.comici.jp": "api-yanmaga.comici.jp",
-    "api2-yanmaga.comici.jp": "api2-yanmaga.comici.jp"
+    "api2-yanmaga.comici.jp": "api2-yanmaga.comici.jp",
+    "younganimal.com": "younganimal.com"
 };
+
+const COORD_PATH = {
+    "api-yanmaga.comici.jp": "/book/coordinateInfo",
+    "api2-yanmaga.comici.jp": "/book/coordinateInfo",
+    "younganimal.com": "/book/episodeInfo"
+}
 
 const DEFAULT_ORDER = [];
 for (let k = 0, i = 0; i < 4; i++) {
@@ -90,7 +97,7 @@ function getCoordInfoUrl() {
     let apiDomain = div.dataset["apiDomain"] || div.getAttribute("api-domain");
     return "https://" +
         (DOMAINS[apiDomain] || DOMAINS["yanmaga2"]) +
-        "/book/coordinateInfo?comici-viewer-id=" + div.getAttribute("comici-viewer-id")
+        `${COORD_PATH[apiDomain]}?comici-viewer-id=` + div.getAttribute("comici-viewer-id")
 }
 
 function getContentInfoUrl(len) {
@@ -169,7 +176,13 @@ const inject = function () {
                             const coord = JSON.parse(respText);
                             logger.debug("coord=", coord);
                             if (coord && coord.result && coord.result.length > 0) {
-                                let contentUrl = getContentInfoUrl(coord.result.length);
+                                let len = coord.result.length;
+                                if (window.location.host === "younganimal.com") {
+                                    // quick hack for younganimal.com
+                                    len = coord.result["0"]["page_count"];
+                                }
+                                let contentUrl = getContentInfoUrl(len);
+                                logger.debug("contentUrl=", contentUrl, "len=", len);
                                 utils.fetchUrl(contentUrl).then(function (respText) {
                                     const content = JSON.parse(respText);
                                     logger.debug("content=", content);

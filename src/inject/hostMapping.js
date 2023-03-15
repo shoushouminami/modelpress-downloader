@@ -49,5 +49,9 @@ exports.check = function (location) {
         return "m.ex-m.jp";
     }
 
+    if (host === "younganimal.com") {
+        return "yanmaga.jp";
+    }
+
     return host;
 };
