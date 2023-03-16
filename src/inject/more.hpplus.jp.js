@@ -2,8 +2,8 @@ const utils = require("../utils.js");
 const inject = function() {
     let o = require("./return-message.js").init();
     for (const selector of [
-        "#main article .image_body img", // article images
-        "#main .magazine_slider_wrap .slide_content img", // magazine images
+        "main article .article-body .article-block-image img", // article images
+        "main .magazine-slider-container .magazine-slider-item img", // magazine images
     ]) {
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(
