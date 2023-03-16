@@ -19,7 +19,7 @@ module.exports = {
         } else if (window.location.pathname.match(/\/archives\/[0-9]+$/)
             || window.location.pathname.match(/\/medias\/.+$/)
             || window.location.pathname.match(/^\/[a-z0-9]+$/)) {
-            utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#main img", getLargeImg));
+            utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "#main .entry-content img", getLargeImg));
         }
         return o;
     },

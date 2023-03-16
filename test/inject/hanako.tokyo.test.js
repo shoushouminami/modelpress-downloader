@@ -56,6 +56,6 @@ test("learn/257698/", async () => {
         "https://hanako.tokyo/learn/257698/",
         "hanako.tokyo-learn-257698-/",
         [
-            "https://img.hanako.tokyo/2021/09/13180336/5f794dced421509d9b57a9fb436cd129.jpeg"
+            "https://img.hanako.tokyo/2021/09/17151203/ccb26bc28554d743572ee15fc92e901a.jpg"
         ]);
 });
