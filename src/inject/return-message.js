@@ -22,6 +22,8 @@ module.exports = {
             loading: false //  tells the runtime to show an in progress icon indicating images are loading
         });
 
+        o.originalFolder = o.folder;
+
         return o;
     },
 

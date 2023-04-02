@@ -10,13 +10,13 @@ const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";
 const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
 const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
 /**
- * @param image {{url: "", folder: "abc/", ext: "jpg", jobId: 123}}
+ * @param image {{context: {folder: "", ext: ""}, url: "", filename: "", folder: "abc/", ext: "jpg", jobId: 123}}
  */
 function getFilename(image) {
-    return decodeURI(image.folder)
-        + (image.folder.endsWith("/") ? "" : "/")
+    return decodeURI(image.context.folder)
+        + (image.context.folder.endsWith("/") ? "" : "/")
         + (image.jobId != null ?  image.jobId + "-" : "")
-        + utils.getFileName(image.url, image.ext, image.filename);
+        + utils.getFileName(image.url, image.context.ext, image.filename);
 }
 
 /**
@@ -65,7 +65,7 @@ function downloadWithMsg(chrome, context, images, done) {
                 let completed = ++count === images.length;
                 let downloadIds = [];
                 if (imageWithUrl && imageWithUrl.url) {
-                    imageWithUrl.folder = context.folder;
+                    imageWithUrl.context = context;
                     imageWithUrl.jobId = image.jobId;
                     // logger.debug("downloading filename=", image.filename);
                     download(chrome, imageWithUrl, function (downloadId) {

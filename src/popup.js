@@ -15,7 +15,7 @@ downloader.listenForDownloadFailureAndRetry();
 
 /**
  * @param chrome
- * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg"}}
+ * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg", context: {}}}
  * @param resolve Invoked when all download jobs are started (not necessarily finished)
  */
 function downloadInBackgroundOrPopup(chrome, job, resolve) {
@@ -24,23 +24,29 @@ function downloadInBackgroundOrPopup(chrome, job, resolve) {
         // Due to Chrome bug 1345528 https://bugs.chromium.org/p/chromium/issues/detail?id=1345528
         // check for USER_CANCELED error and retry download from popup
         if (downloadResp["downloadIds"] && downloadResp["downloadIds"].length > 0) {
-            asyncUtils.wait(200).then(() => {
-                messaging.sendToRuntime("queryUserCanceled", null,
-                    function (queryResp) {
-                    logger.debug("queryResp=", queryResp);
-                    if (queryResp["userCanceledCount"]) {
-                        ga.trackEvent("retry_popup_download", "retried", globals.getChromeVersion(), 1);
-                        logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
-                        downloader.downloadJob(job, () => {
-                            // do not close the popup, as chrome waits for user to select download folder
-                            // closing popup will ignore the rest of the files
-                            // resolve();
+            // if all download ids are null, retry with original folder path, in case the folder path is broken
+            if (downloadResp["downloadIds"].every(val => val == null)) {
+                job.context.folder = job.context.originalFolder;
+                messaging.sendToRuntime("download", job); // not listening to the response
+            } else {
+                asyncUtils.wait(200).then(() => {
+                    messaging.sendToRuntime("queryUserCanceled", null,
+                        function (queryResp) {
+                            logger.debug("queryResp=", queryResp);
+                            if (queryResp["userCanceledCount"]) {
+                                ga.trackEvent("retry_popup_download", "retried", globals.getChromeVersion(), 1);
+                                logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
+                                downloader.downloadJob(job, () => {
+                                    // do not close the popup, as chrome waits for user to select download folder
+                                    // closing popup will ignore the rest of the files
+                                    // resolve();
+                                });
+                            } else if (resolve instanceof Function) {
+                                resolve();
+                            }
                         });
-                    } else if (resolve instanceof Function) {
-                        resolve();
-                    }
                 });
-            });
+            }
         } else if (resolve instanceof Function) {
             resolve();
         }
@@ -104,20 +110,33 @@ function downloadHandler(resolve) {
 
     ga.trackDownload(message.host, images.length);
     const setJobId = config.getConf(config.DOWNLOAD_PREPEND_JOBID);
+    const context = {
+        tabId: message.fromTabId,
+        folder: message.folder,
+        originalFolder: message.originalFolder,
+        host: message.host,
+        title: message.title,
+        configMap: config.getConfigMap(),
+    };
     let jobId = 1;
     for (const image of images) {
         if (typeof image === "string") {
-            downloadInBg.push({url: image, folder: message.folder, ext: message.ext, jobId: setJobId ? jobId : null});
+            downloadInBg.push(
+                {
+                    context: context,
+                    url: image,
+                    jobId: setJobId ? jobId : null
+                }
+            );
         } else if (typeof image === "object" && image.type === "tab") {
+            image.context = context;
             image.jobId = setJobId ? jobId : null;
             imagesNeedTab.push(image);
         } else if (typeof image === "object" && (image.url != null || image.type === "msg")) {
-            image.folder = message.folder;
-            image.ext = message.ext;
+            image.context = context;
             image.jobId = setJobId ? jobId : null;
 
             if (image.type === "msg") {
-                image.tabId = message.fromTabId;
                 image.host = message.host;
                 downloadWithMsg.push(image);
             } else {
@@ -135,13 +154,7 @@ function downloadHandler(resolve) {
             {
                 images: downloadWithMsg,
                 type: "msg",
-                context: {
-                    tabId: message.fromTabId,
-                    folder: message.folder,
-                    host: message.host,
-                    title: message.title,
-                    configMap: config.getConfigMap(),
-                }
+                context: context
             },
             function () {
                 if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
@@ -155,13 +168,7 @@ function downloadHandler(resolve) {
             {
                 images: downloadInBg,
                 type: "reg",
-                context: {
-                    tabId: message.fromTabId,
-                    folder: message.folder,
-                    host: message.host,
-                    title: message.title,
-                    configMap: config.getConfigMap()
-                }
+                context: context
             },
             function () {
             if (imagesNeedTab.length === 0) {
@@ -172,7 +179,7 @@ function downloadHandler(resolve) {
 
     if (imagesNeedTab.length) {
         ga.trackEvent("tab_download", "started", message.host, imagesNeedTab.length);
-        let context = {
+        let downloadViaTabContext = {
             p: Promise.resolve(),
             tempTab: null,
             tempIframe: null,
@@ -185,12 +192,12 @@ function downloadHandler(resolve) {
             configMap: config.getConfigMap()
         };
 
-        context.totalCount = imagesNeedTab.length;
+        downloadViaTabContext.totalCount = imagesNeedTab.length;
         for (let image of imagesNeedTab) {
-            downloader.downloadWithNewTab(chrome, image, context, message.fromTabId);
+            downloader.downloadWithNewTab(chrome, image, downloadViaTabContext, message.fromTabId);
         }
         // after download finishes
-        context.p = context.p.then(resolve);
+        downloadViaTabContext.p = downloadViaTabContext.p.then(resolve);
     }
 }
 
