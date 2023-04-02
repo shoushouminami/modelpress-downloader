@@ -17,8 +17,16 @@ const inject = function () {
     utils.pushArray(o.images, utils.findLazyImagesWithCssSelector(document, "#NA_main figure .NA_figure img", getLargeImg));
 
     // new layout 2020-05-15
-    utils.pushArray(o.images, utils.findLazyImagesWithCssSelector(document, "main .NA_article_body .NA_article_img a .NA_article_img_thumb img", getLargeImg));
-    utils.pushArray(o.images, utils.findLazyImagesWithCssSelector(document, "main .NA_article_body .NA_article_gallery .NA_imglist li img", getLargeImg));
+    for (const selector of [
+        "main .NA_article_body .NA_article_img a .NA_article_img_thumb img",
+        "main .NA_article_body .NA_article_gallery .NA_imglist li img",
+        "main .PP_main .PP_embed-img img"
+    ]) {
+        utils.pushArray(o.images,
+            utils.findLazyImagesWithCssSelector(document, selector, getLargeImg)
+        );
+    }
+
 
     // missing pp special page
     utils.pushArray(o.images,

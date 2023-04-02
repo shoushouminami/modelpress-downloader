@@ -49,3 +49,31 @@ test("music/pp/kashiwagiyuki02/page/3", async () => {
             "https://ogre.natalie.mu/media/pp/static/music/kashiwagiyuki02/photo11.jpg"
         ]);
 });
+
+test("eiga/pp/telasa_batsuichi", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://natalie.mu/eiga/pp/telasa_batsuichi",
+        "natalie.mu-eiga-pp-telasa_batsuichi/",
+        [
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_47.jpg",
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_51.jpg",
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_1398.jpg",
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_1338.jpg",
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_16.jpg",
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_0722.jpg"
+        ]);
+});
+
+test("eiga/pp/telasa_batsuichi/page/2", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://natalie.mu/eiga/pp/telasa_batsuichi/page/2",
+        "natalie.mu-eiga-pp-telasa_batsuichi-page-2/",
+        [
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_31.jpg",
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_63.jpg",
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_1231.jpg",
+            "https://ogre.natalie.mu/media/pp/telasa_batsuichi/telasa_batsuichi_0707.jpg"
+        ]);
+});
