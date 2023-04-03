@@ -1,17 +1,9 @@
-const {testDirectDownload, launchBrowser} = require("./testbase");
-
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
+const {testDirectDownload, launchBrowser, getBrowserFactory} = require("./testbase");
+const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test e-talentbank.co.jp article page with 1 image", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://e-talentbank.co.jp/news/music/175388/",
         "e-talentbank.co.jp-news-music-175388-/",
         [
@@ -24,7 +16,7 @@ test("Test e-talentbank.co.jp article page with 1 image", async () => {
 
 test("Test e-talentbank.co.jp article page with 5 images", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://e-talentbank.co.jp/news/enta/139166/",
         "e-talentbank.co.jp-news-enta-139166-/",
         [
@@ -39,7 +31,7 @@ test("Test e-talentbank.co.jp article page with 5 images", async () => {
 
 test("Test e-talentbank.co.jp attachment page", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://e-talentbank.co.jp/photo/enta/139226/",
         "e-talentbank.co.jp-photo-enta-139226-/",
         [
@@ -67,7 +59,7 @@ test("interview/96270/attachment/d75_4804-2/", async () => {
 
 test("Test news page with 3 photos ", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://e-talentbank.co.jp/news/music/175388/",
         "e-talentbank.co.jp-news-music-175388-/",
         [
