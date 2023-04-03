@@ -20,6 +20,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.9 (2023/04/02)
+* Add shueisha.online
+* Add nikkan-spa.jp
+* Add news.livedoor.com
+* Bug fixes
+
 ###### 4.8 (2023/02/06)
 * nogizaka46.com: Minor fix on folder name
 
