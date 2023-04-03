@@ -56,6 +56,7 @@ function register(siteModule) {
     require("./www.rbbtoday.com"),
     require("./www.nikkansports.com"),
     require("./moment.nikkan-gendai.com"),
+    require("./nikkan-spa.jp"),
     require("./news.mynavi.jp"),
     require("./www.fujitv-view.jp"),
     require("./friday.kodansha.co.jp"),
