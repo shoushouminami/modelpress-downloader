@@ -71,6 +71,7 @@ function register(siteModule) {
     require("./news.merumo.ne.jp"),
     require("./www.excite.co.jp"),
     require("./natalie.mu"),
+    require("./news.livedoor.com"),
     require("./wanibooks-newscrunch.com"),
     require("./actresspress.com"),
     require("./hominis.media"),
