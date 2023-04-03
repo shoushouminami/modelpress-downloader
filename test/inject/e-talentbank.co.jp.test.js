@@ -52,17 +52,17 @@ test("Test e-talentbank.co.jp attachment page", async () => {
     );
 });
 
-test("Test e-talentbank.co.jp interview attachment page", async () => {
+test("interview/96270/attachment/d75_4804-2/", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://e-talentbank.co.jp/interview/96270/attachment/d75_4804-2/",
         "e-talentbank.co.jp-interview-96270-attachment-d75_4804-2-/",
         [
+            "https://etb-media-photo.s3.ap-northeast-1.amazonaws.com/wp-content/uploads/2023/03/20175734/IMG_8415.jpg",
             "https://e-talentbank.co.jp/wp-content/uploads/2020/08/D75_4804-1-1600x1066-1-1.jpeg",
             "https://e-talentbank.co.jp/wp-content/uploads/2019/05/D75_4804.jpeg",
             "https://e-talentbank.co.jp/wp-content/uploads/2019/05/2951c446019a8f5d54e9ae7e5e3cca09.jpg"
-        ]
-    );
+        ]);
 });
 
 test("Test news page with 3 photos ", async () => {

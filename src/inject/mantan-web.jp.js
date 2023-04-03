@@ -6,6 +6,7 @@ module.exports = {
         let o = require("./return-message.js").init();
         for (let selector of [
             ".article__wrap .article__photolist img", // article image gallery
+            ".photo__wrap .photo__photolist img", // article image gallery
             ".article__wrap .photo__photo img",  // article top image
             ".article__wrap .photo__photo--minh img",  // article top image
             ".photo__wrap .photo__photo img", // photo page top image
