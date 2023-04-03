@@ -53,6 +53,7 @@ function register(siteModule) {
     require("./www.oricon.co.jp"),
     require("./style.nikkei.com"),
     require("./times.abema.tv"),
+    require("./shueisha.online"),
     require("./www.rbbtoday.com"),
     require("./www.nikkansports.com"),
     require("./moment.nikkan-gendai.com"),

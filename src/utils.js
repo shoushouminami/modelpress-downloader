@@ -376,7 +376,6 @@ const utils = {
     fetchUrl: function (url) {
         return new Promise(function (resolve, reject) {
             let xhr = new XMLHttpRequest();
-            let respText;
             xhr.open("GET", url, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
