@@ -11,47 +11,47 @@ test("entertainment/102517?gi=9", async () => {
             {
                 "filename": "_YUU5403-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013820238951/3200/_YUU5403-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013820238951/0/_YUU5403-Edit.jpg"
             },
             {
                 "filename": "_YUU5381-Edit-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013156419052/3200/_YUU5381-Edit-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013156419052/0/_YUU5381-Edit-Edit-Edit.jpg"
             },
             {
                 "filename": "_YUU5372-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013221464640/3200/_YUU5372-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013221464640/0/_YUU5372-Edit-Edit.jpg"
             },
             {
                 "filename": "2826_000.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013457593244/3200/2826_000.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013457593244/0/2826_000.jpg"
             },
             {
                 "filename": "2826_001.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013918766710/3200/2826_001.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013918766710/0/2826_001.jpg"
             },
             {
                 "filename": "_YUU5265-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014039505441/3200/_YUU5265-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014039505441/0/_YUU5265-Edit-Edit.jpg"
             },
             {
                 "filename": "_YUU5275-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014134553574/3200/_YUU5275-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014134553574/0/_YUU5275-Edit.jpg"
             },
             {
                 "filename": "_YUU5399-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014205806965/3200/_YUU5399-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014205806965/0/_YUU5399-Edit-Edit.jpg"
             },
             {
                 "filename": "_YUU5366-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014312589905/3200/_YUU5366-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014312589905/0/_YUU5366-Edit.jpg"
             }
         ]);
 });
@@ -65,89 +65,84 @@ test("entertainment/102517?gi=9&photo=4", async () => {
             {
                 "filename": "_YUU5403-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013820238951/3200/_YUU5403-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013820238951/0/_YUU5403-Edit.jpg"
             },
             {
                 "filename": "_YUU5381-Edit-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013156419052/3200/_YUU5381-Edit-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013156419052/0/_YUU5381-Edit-Edit-Edit.jpg"
             },
             {
                 "filename": "_YUU5372-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013221464640/3200/_YUU5372-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013221464640/0/_YUU5372-Edit-Edit.jpg"
             },
             {
                 "filename": "2826_000.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013457593244/3200/2826_000.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013457593244/0/2826_000.jpg"
             },
             {
                 "filename": "2826_001.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10013918766710/3200/2826_001.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10013918766710/0/2826_001.jpg"
             },
             {
                 "filename": "_YUU5265-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014039505441/3200/_YUU5265-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014039505441/0/_YUU5265-Edit-Edit.jpg"
             },
             {
                 "filename": "_YUU5275-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014134553574/3200/_YUU5275-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014134553574/0/_YUU5275-Edit.jpg"
             },
             {
                 "filename": "_YUU5399-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014205806965/3200/_YUU5399-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014205806965/0/_YUU5399-Edit-Edit.jpg"
             },
             {
                 "filename": "_YUU5366-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014312589905/3200/_YUU5366-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014312589905/0/_YUU5366-Edit.jpg"
             },
             {
                 "filename": "_YUU5498-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014646641747/3200/_YUU5498-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014646641747/0/_YUU5498-Edit.jpg"
             },
             {
                 "filename": "_YUU5523-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014700927191/3200/_YUU5523-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014700927191/0/_YUU5523-Edit.jpg"
             },
             {
                 "filename": "_YUU5436-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014713246412/3200/_YUU5436-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014713246412/0/_YUU5436-Edit.jpg"
             },
             {
                 "filename": "_YUU5305-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014722061938/3200/_YUU5305-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014722061938/0/_YUU5305-Edit.jpg"
             },
             {
                 "filename": "_YUU5319-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014746465889/3200/_YUU5319-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014746465889/0/_YUU5319-Edit.jpg"
             },
             {
                 "filename": "_YUU5312-Edit-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014759359805/3200/_YUU5312-Edit-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014759359805/0/_YUU5312-Edit-Edit.jpg"
             },
             {
                 "filename": "_YUU5279-Edit.jpg",
                 "type": "msg",
-                "url": "https://assets.shueisha.online/image/2023/02/10014821016772/3200/_YUU5279-Edit.jpg"
+                "url": "https://assets.shueisha.online/image/2023/02/10014821016772/0/_YUU5279-Edit.jpg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.wait(4000);
-            }
-        });
+        ]);
 });
 
 test("sports/57307?photo=3&gi=0", async () => {
