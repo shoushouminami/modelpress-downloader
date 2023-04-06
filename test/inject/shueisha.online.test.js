@@ -142,7 +142,12 @@ test("entertainment/102517?gi=9&photo=4", async () => {
                 "type": "msg",
                 "url": "https://assets.shueisha.online/image/2023/02/10014821016772/0/_YUU5279-Edit.jpg"
             }
-        ]);
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.wait(4000);
+            }
+        });
 });
 
 test("sports/57307?photo=3&gi=0", async () => {
