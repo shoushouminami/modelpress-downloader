@@ -29,13 +29,15 @@ const DOMAINS = {
     yanmaga2: "api2-yanmaga.comici.jp",
     "api-yanmaga.comici.jp": "api-yanmaga.comici.jp",
     "api2-yanmaga.comici.jp": "api2-yanmaga.comici.jp",
-    "younganimal.com": "younganimal.com"
+    "younganimal.com": "younganimal.com",
+    "youngchampion.jp": "youngchampion.jp"
 };
 
 const COORD_PATH = {
     "api-yanmaga.comici.jp": "/book/coordinateInfo",
     "api2-yanmaga.comici.jp": "/book/coordinateInfo",
-    "younganimal.com": "/book/episodeInfo"
+    "younganimal.com": "/book/episodeInfo",
+    "youngchampion.jp": "/book/episodeInfo"
 }
 
 const DEFAULT_ORDER = [];
@@ -180,6 +182,10 @@ const inject = function () {
                                 if (window.location.host === "younganimal.com") {
                                     // quick hack for younganimal.com
                                     len = coord.result["0"]["page_count"];
+                                }
+                                if (window.location.host === "youngchampion.jp") {
+                                    const comiciViewerId = document.getElementById("comici-viewer").getAttribute("comici-viewer-id")
+                                    len = coord.result.filter(r => r.id == comiciViewerId)[0]["page_count"];
                                 }
                                 let contentUrl = getContentInfoUrl(len);
                                 logger.debug("contentUrl=", contentUrl, "len=", len);

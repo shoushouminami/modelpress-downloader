@@ -49,7 +49,7 @@ exports.check = function (location) {
         return "m.ex-m.jp";
     }
 
-    if (host === "younganimal.com") {
+    if (host === "younganimal.com" || host === "youngchampion.jp") {
         return "yanmaga.jp";
     }
 
