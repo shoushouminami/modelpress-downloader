@@ -1,5 +1,5 @@
 const utils = require("../utils.js");
-const re = /^(https:\/\/www\.nikkansports\.com)?\/.*(-w\d+_)\d\.(jpg|jpeg|png)$/i;
+const re = /^(https:\/\/www\.nikkansports\.com)?\/.*(-w\d+_)\d+\.(jpg|jpeg|png)$/i;
 const getLargeImgFromDom = function (imgDom) {
     let url = utils.getDomBackgroundImage(imgDom);
     if (url) {
@@ -46,6 +46,18 @@ module.exports = {
                     .join(","),
                 getLargeImg)
         );
+
+        for (const selector of [
+            "#main #bigPhoto .article-photo img", // single photo news,
+            "#main #news .live-photo_big img" // article photos
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    selector,
+                    getLargeImg)
+            );
+        }
 
         return o;
     },

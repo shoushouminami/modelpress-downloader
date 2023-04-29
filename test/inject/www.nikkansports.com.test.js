@@ -22,6 +22,11 @@ test("Test getLargeImgFromDom", () => {
             backgroundImage: "url(https://www.nikkansports.com/entertainment/news/img/202011180000713-w500_1.jpg)"
         }
     }).url).toBe("https://www.nikkansports.com/entertainment/news/img/202011180000713-w1300_1.jpg");
+    expect(getLargeImgFromDom({
+        style: {
+            backgroundImage: "url(https://www.nikkansports.com/entertainment/news/img/202011180000713-w500_10.jpg)"
+        }
+    }).url).toBe("https://www.nikkansports.com/entertainment/news/img/202011180000713-w1300_10.jpg");
 });
 
 test("Test news article", async () => {
