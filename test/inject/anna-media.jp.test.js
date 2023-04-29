@@ -1,9 +1,9 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-let browser =  getBrowserFactory(beforeAll, afterAll);
+let getBrowser =  getBrowserFactory(beforeAll, afterAll);
 
 test("Test gurume news page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://anna-media.jp/archives/423205",
         "anna-media.jp-archives-423205/",
         [
@@ -21,7 +21,7 @@ test("Test gurume news page", async () => {
 
 test("Test fashion news page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://anna-media.jp/archives/423672",
         "anna-media.jp-archives-423672/",
         [
@@ -38,7 +38,7 @@ test("Test fashion news page", async () => {
 
 test("Test gurume news page 2", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://anna-media.jp/archives/427072",
         "anna-media.jp-archives-427072/",
         [
@@ -57,7 +57,7 @@ test("Test gurume news page 2", async () => {
 
 test("Test odekake news page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://anna-media.jp/archives/424944",
         "anna-media.jp-archives-424944/",
         [
@@ -99,15 +99,15 @@ test("Test odekake news page", async () => {
     );
 });
 
-test("Test event news page", async () => {
-        await testDirectDownload(
-            browser(),
-            "https://anna-media.jp/archives/427705",
-            "anna-media.jp-archives-427705/",
-            [
-                    "https://anna-media.jp/wp-content/uploads/2021/05/21-05hasedera3.jpg",
-                    "https://anna-media.jp/wp-content/uploads/2021/05/21-05hasedera2.jpg",
-                    "https://anna-media.jp/wp-content/uploads/2021/05/21-05hasedera4.jpg"
-            ]
-        );
+test("archives/714764", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://anna-media.jp/archives/714764",
+        "anna-media.jp-archives-714764/",
+        [
+            "https://anna-media.jp/wp-content/uploads/2023/04/23-04harukaze-kairo.jpg",
+            "https://anna-media.jp/wp-content/uploads/2023/04/23-04harukaze-kairo3.jpg",
+            "https://anna-media.jp/wp-content/uploads/2023/04/23-04harukaze-kairo4.jpg",
+            "https://anna-media.jp/wp-content/uploads/2023/04/23-04harukaze-kairo2.jpg"
+        ]);
 });

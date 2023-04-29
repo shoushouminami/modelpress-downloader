@@ -26,7 +26,7 @@ module.exports = {
         // images in article
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document,
-                ".page .container main .entry-single img", getLargeImg)
+                ".page .container main .entry-single picture img", getLargeImg)
         );
 
         // images in article div bg
