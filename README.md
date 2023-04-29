@@ -20,6 +20,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.10 (2023/04/28)
+* Bug fixes
+
 ###### 4.9 (2023/04/02)
 * Add shueisha.online
 * Add nikkan-spa.jp
@@ -68,58 +71,3 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 * Add config page
 * Mdpr app permission: removed perm request page;
 * Fix on bisweb.jp
-
-###### 3.26 (2022/04/22)
-* Fixes on apress.jp & mdpr.jp.js
-
-###### 3.25 (2022/04/03)
-* Add magazine.yanmaga.jp
-* Add baila.hpplus.jp
-* Add sirabee.com
-* Add www.animatetimes.com
-* Add plus.tver.jp
-
-###### 3.24 (2022/03/07)
-* Minor fixes
-
-###### 3.23 (2022/02/16)
-* Fix blog on nogizaka46.com
-* Add yorozoonews.jp
-* Remove www.m-on-music.jp
-* Add sequence number to file name
-
-###### 3.22 (2021/12/16)
-* Fix on yanmaga.jp
-
-###### 3.21 (2021/12/05)
-* Add www.cinemacafe.net
-* Add 25jigen.jp
-* Add more.hpplus.jp
-* Add www.loveteen.jp
-* Add www.excite.co.jp
-* Fix on thetv.jp
-* Fix on www.news-postseven.com
-* Fix on withonline.jp
-
-###### 3.20 (2021/11/14)
-* Add okmusic.jp
-* Fix on smart-flash.jp
-* Fix on ray-web.jp
-* Fix on girlswalker.com
-
-###### 3.19 (2021/10/03)
-* Better resolution on friday.kodansha.co.jp
-* Add www.thefirsttimes.jp
-* Add hanako.tokyo
-
-###### 3.18 (2021/09/07)
-* Add seventeen-web.jp
-* Add withonline.jp
-* Add entameclip.com
-* Add cmnow.jp
-* Remove tokyopopline.com
-
-###### 3.17 (2021/07/04)
-* Add www.daily.co.jp
-* Add friday.kodansha.co.jp
-* Remove tokyo.whatsin.jp
