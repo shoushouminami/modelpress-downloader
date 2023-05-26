@@ -155,6 +155,7 @@ function register(siteModule) {
     require("./twitter.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
+    require("./numero.jp"),
 ]);
 
 exports.get = get;
