@@ -136,6 +136,7 @@ function register(siteModule) {
     require("./anna-media.jp"),
     require("./www.fashion-press.net"),
     require("./numero.jp"),
+    require("./classy-online.jp"),
     require("./i-voce.jp"),
     require("./spur.hpplus.jp"),
     require("./more.hpplus.jp"),
