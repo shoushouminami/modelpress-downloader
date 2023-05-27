@@ -20,6 +20,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.11 (2023/05/27)
+* Add classy-online.jp
+* Add www.tvguide.or.jp
+* Add numero.jp
+
 ###### 4.10 (2023/04/28)
 * Bug fixes
 
