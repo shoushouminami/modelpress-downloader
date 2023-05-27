@@ -113,6 +113,7 @@ function register(siteModule) {
     require("./plus.tver.jp"),
     require("./www.tvlife.jp"),
     require("./tvbros.jp"),
+    require("./www.tvguide.or.jp"),
     require("./sumabo.jp"),
     require("./entamenext.com"),
     require("./entameclip.com"),
@@ -134,6 +135,7 @@ function register(siteModule) {
     require("./ananweb.jp"),
     require("./anna-media.jp"),
     require("./www.fashion-press.net"),
+    require("./numero.jp"),
     require("./i-voce.jp"),
     require("./spur.hpplus.jp"),
     require("./more.hpplus.jp"),
@@ -154,7 +156,6 @@ function register(siteModule) {
     require("./twitter.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
-    require("./numero.jp"),
 ]);
 
 exports.get = get;

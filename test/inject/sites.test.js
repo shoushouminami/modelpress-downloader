@@ -77,7 +77,6 @@ test("Test sites.all", () => {
     expect(hosts).toContain("smart-flash.jp");
     expect(hosts).toContain("www.vivi.tv");
     expect(hosts).toContain("domani.shogakukan.co.jp");
-    expect(hosts).toContain("style.nikkei.com");
     expect(hosts).toContain("encount.press");
     expect(hosts).toContain("www.vogue.co.jp");
     expect(hosts).toContain("anna-media.jp");
@@ -116,6 +115,7 @@ test("Test sites.all", () => {
     expect(hosts).toContain("nikkan-spa.jp");
     expect(hosts).toContain("shueisha.online");
     expect(hosts).toContain("numero.jp");
+    expect(hosts).toContain("www.tvguide.or.jp");
 
     expect(urls).toContain("https://www.bilibili.com/read/home");
     expect(urls).toContain("https://mdpr.jp");

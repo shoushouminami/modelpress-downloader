@@ -3,7 +3,7 @@ const utils = require("../utils.js");
 const inject = function () {
     let o = require("./return-message.js").init();
     for (const selector of [
-        ".article .size-full", // article full-sized images
+        "article .wp-block-image .size-full img", // article full-sized images
     ]) {
         utils.pushArray(
             o.images,
@@ -16,5 +16,6 @@ const inject = function () {
 
 module.exports = {
     inject: inject,
-    host: "numero.jp"
+    host: "www.tvguide.or.jp",
+    hidden: true
 };
