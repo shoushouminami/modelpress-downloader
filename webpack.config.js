@@ -15,7 +15,8 @@ module.exports = env => {
             "helper/twitter-react": "./src/helper/twitter-react.js",
             "helper/my.ebook5.net-helper": "./src/helper/my.ebook5.net-helper.js",
             "google-analytics-bootstrap": "./src/google-analytics-bootstrap.js",
-            "ga": "./src/utils/ga.js",
+            "ga": "./src/ga/ga.js",
+            "ga4": "./src/ga/ga4.js",
             "github-pages/sites-html": "./src/github-pages/sites-html.js",
         },
         module: {
@@ -26,7 +27,8 @@ module.exports = env => {
                     use: {
                         loader: "babel-loader",
                         options: {
-                            presets: ['@babel/preset-react']
+                            presets: ['@babel/preset-react'],
+                            plugins: ["@babel/plugin-transform-class-properties"]
                         }
                     }
                 }
@@ -62,6 +64,8 @@ module.exports = env => {
             ]),
             new webpack.DefinePlugin({
                 "__GA_PROPERTY__": JSON.stringify(conf.ga_property),
+                "__GA4_MEASUREMENT_ID__": JSON.stringify(conf.ga4_measurement_id),
+                "__GA4_MEASUREMENT_SECRET__": JSON.stringify(conf.ga4_measurement_secret),
                 "__IS_DEV__": JSON.stringify(conf.is_dev)
             })
         ],

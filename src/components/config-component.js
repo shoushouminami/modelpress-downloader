@@ -15,6 +15,7 @@ class ConfigComponent extends React.Component {
         const newVal = !this.state[e.target.id];
         config.setConf(e.target.id, newVal);
         ga.trackEvent("config_change", e.target.id, newVal + "");
+        ga.trackEventGA4("config_change", Object.fromEntries([[String(e.target.id), String(newVal)]]));
         this.setState(config.getConfigMap())
         // check side effects on config change
         if (!config.keepRecentClicks()) {
@@ -23,6 +24,7 @@ class ConfigComponent extends React.Component {
     }
 
     render() {
+        // ga.trackPageViewGA4("Config");
         return (
             <div id="configComponent">
                 <div className="configRow">
@@ -37,6 +39,10 @@ class ConfigComponent extends React.Component {
                </div>
             </div>
         );
+    }
+
+    componentDidMount(){
+        document.title = "Config"
     }
 }
 

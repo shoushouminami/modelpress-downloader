@@ -5,6 +5,7 @@ const logger = require("../logger2")(module.id);
 const window = require("../globals").getWindow();
 
 function DownloadButton(props) {
+    document.title = "Download Button";
     let text;
     let disabled = props.disabled;
     if (props.count) {
@@ -23,6 +24,7 @@ function DownloadButton(props) {
             <span id="buttonText"><span id="count">{text}</span></span>
         </button>
     );
+
 }
 
 function DownloadMobileStatus(props) {

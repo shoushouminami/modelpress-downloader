@@ -10,7 +10,9 @@ const asyncUtils = require("./utils/async-utils");
 const config = require("./config");
 const globals = require("./globals");
 
+
 ga.bootstrap("popup.js");
+ga.bootstrapGA4();
 downloader.listenForDownloadFailureAndRetry();
 
 /**
@@ -35,6 +37,7 @@ function downloadInBackgroundOrPopup(chrome, job, resolve) {
                             logger.debug("queryResp=", queryResp);
                             if (queryResp["userCanceledCount"]) {
                                 ga.trackEvent("retry_popup_download", "retried", globals.getChromeVersion(), 1);
+                                ga.trackEventGA4("retry_popup_download");
                                 logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
                                 downloader.downloadJob(job, () => {
                                     // do not close the popup, as chrome waits for user to select download folder
@@ -97,6 +100,7 @@ function updatePopupUI() {
         function () {
             addClickListenerForLinks(document.getElementById("supportRequest"), () => {
                 ga.trackEvent("support_link", "clicked");
+                ga.trackEventGA4("support_link_click");
             });
         }
     );
@@ -109,6 +113,10 @@ function downloadHandler(resolve) {
     const images = message.images.slice(0, message.images.length);
 
     ga.trackDownload(message.host, images.length);
+    ga.trackEventGA4("download", {
+        "domain": message.host,
+        "count": images.length
+    });
     const setJobId = config.getConf(config.DOWNLOAD_PREPEND_JOBID);
     const context = {
         tabId: message.fromTabId,
@@ -179,6 +187,10 @@ function downloadHandler(resolve) {
 
     if (imagesNeedTab.length) {
         ga.trackEvent("tab_download", "started", message.host, imagesNeedTab.length);
+        ga.trackEventGA4("tab_dl_start", {
+            "domain": message.host,
+            "count": imagesNeedTab.length
+        })
         let downloadViaTabContext = {
             p: Promise.resolve(),
             tempTab: null,
@@ -225,6 +237,9 @@ function updateMessage(result, tabId) {
         }
     }
     ga.trackSupport(message.host, message.supported);
+    ga.trackEventGA4("website", Object.fromEntries([
+        [message.supported ? "supported" : "not_supported", message.host]
+    ]))
     updatePopupUI();
 }
 

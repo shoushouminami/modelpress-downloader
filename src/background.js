@@ -6,6 +6,8 @@ const globals = require("./globals");
 
 // inits
 ga.bootstrap("background.js");
+ga.bootstrapGA4();
+
 downloader.listenForDownloadFailureAndRetry();
 
 logger.debug("listening for download message.")
@@ -29,10 +31,15 @@ chrome.runtime.onInstalled.addListener(function(details) {
     if (details.reason === "install") {
         logger.debug("extension", "install", globals.getExtensionVersion(), typeof (globals.getExtensionVersion()));
         ga.trackEvent("extension", "install", globals.getExtensionVersion());
+        ga.builder().event("ext_install").param("ext_ver", globals.getExtensionVersion()).send();
     }
 
     if (details.reason === "update") {
         logger.debug("extension", "update", globals.getExtensionVersion());
         ga.trackEvent("extension", "update", globals.getExtensionVersion());
+        ga.builder()
+            .event("ext_update")
+            .param("ext_ver", globals.getExtensionVersion())
+            .send();
     }
 });

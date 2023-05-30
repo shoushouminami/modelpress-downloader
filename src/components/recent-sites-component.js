@@ -15,10 +15,16 @@ class RecentSitesComponent extends React.Component {
 
     handleSiteClick(host, href) {
         ga.trackEvent("recent_icon", "clicked", host);
+        ga.trackEventGA4("recent_icon", {
+            "click": host
+        });
     }
 
     clearRecentSites() {
         ga.trackEvent("recent_icon", "removed");
+        ga.trackEventGA4("recent_icon", {
+            "clear": "true"
+        });
         clearRecentSites();
         this.setState({
             recentSites: getRecentSites()

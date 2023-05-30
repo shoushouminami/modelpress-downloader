@@ -1,12 +1,18 @@
-const {getWindow} = require("./globals");
+const {getWindow, getExtensionVersion} = require("./globals");
 const runtime = require("./runtime");
+const {randomGA4UID, getGA4UID} = require("./ga/ga4-uid");
 const logger = require("./logger2")(module.id);
 
 const GA_PROPERTY_ID = __GA_PROPERTY__; // defined in webpack.config.js
+const GA4_MEASUREMENT_ID = __GA4_MEASUREMENT_ID__; // defined in webpack.config.js
+const GA4_MEASUREMENT_SECRET = __GA4_MEASUREMENT_SECRET__; // defined in webpack.config.js
 const NOT_CALLED = 0;
 const BOOTSTRAPPED = 1;
 const SERVICE_WORKER = 2;
-const CID_HOLDER = ['1413ea7b-1ff1-4641-bfeb-fc896a0caef4'];
+const CID_HOLDER = ["mid-v" + getExtensionVersion()];
+const UID_HOLDER = [getGA4UID()];
+const SESSION_ID = Math.round(new Date().getTime() / 1000).toString();
+const USER_PROPERTIES = {};
 
 // 0 - not boostrapped; 1 - successful ; 2 - failed;
 let bootstrapped = NOT_CALLED;
@@ -52,6 +58,7 @@ function _trackEvent(category, action, label, value) {
 function trackEvent(category, action, label, value) {
     switch (isBootstrapped()) {
         case BOOTSTRAPPED:
+            // apiTrackToGA4(category, action, label, value);
             return _trackEvent.apply(null, arguments);
         case SERVICE_WORKER:
             return _apiTrackEvent(category, action, label, value);
@@ -81,8 +88,7 @@ function bootstrap(page) {
         ga.type = "text/javascript";
         ga.async = true;
         ga.src = "/ga.js";
-        let s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(ga, s);
+        w.document.head.insertBefore(ga, w.document.head.firstChild);
         logger.debug("GA bootstrapped with DOM.")
         bootstrapped = BOOTSTRAPPED;
     } else {
@@ -157,7 +163,110 @@ function apiTrack(hitType, category, action, label, value, docHost, docPath){
     }, function (error) {
         logger.debug("apiTrack hit=", hitType, "event=failure category=", category, "resp=", error);
     });
+
+    // GA4
+    // if (hitType === "event") {
+    //     apiTrackToGA4(category, action, label, value);
+    // }
 }
+
+function apiTrackToGA4(category, action, label, value) {
+    // crypto.randomUUID()
+    fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${GA4_MEASUREMENT_ID}&api_secret=${GA4_MEASUREMENT_SECRET}`, {
+        method: "POST",
+        body: JSON.stringify({
+            "client_id": "test_id",
+            "events": [
+                {
+                    "name": category,
+                    "params": {
+                        "ua_action": action,
+                        "ua_label": label,
+                        "ua_value": JSON.stringify(value)
+                    }
+                }
+            ]
+        })
+    }).then(function (resp) {
+        logger.debug("apiTrackToGA4 event=success status=", resp.status, "category=", category, "resp=", resp)
+    }, function (error) {
+        logger.debug("apiTrackToGA4 event=failure category=", category, "resp=", error);
+    });
+}
+
+class Builder {
+    _event;
+    _clientId = getCid();
+    _userId = getUid();
+    _params = {};
+    _userProperties = {};
+    event(event) {
+        this._event = event;
+        return this;
+    }
+    clientId(clientId) {
+        this._clientId = clientId;
+        return this;
+    }
+    userId(userId) {
+        this._userId = userId;
+        return this;
+    }
+    params(params) {
+        Object.assign(this._params, params);
+        return this;
+    }
+    param(key, value) {
+        this._params[key] = value;
+        return this;
+    }
+    userProperties(properties) {
+        Object.assign(this._userProperties, properties);
+        return this;
+    }
+    userProperty(key, value) {
+        this._userProperties[key] = value;
+        return this;
+    }
+    engagementTimeMS(timeMS = 100) {
+        return this.params({
+            "engagement_time_msec": timeMS,
+            "session_id": SESSION_ID
+        });
+    }
+    send() {
+        const builder = this;
+        const body = JSON.stringify({
+            "client_id": builder._clientId, // TODO
+            "user_id": builder._userId, // TODO
+            "user_properties": builder._userProperties,
+            "events": [
+                {
+                    "name": builder._event,
+                    "params": builder._params
+                }
+            ]
+        });
+        fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${GA4_MEASUREMENT_ID}&api_secret=${GA4_MEASUREMENT_SECRET}`, {
+            method: "POST",
+            body: body
+        }).then(function (resp) {
+            logger.debug("Builder.send result=success status=", resp.status, "event=", builder._event, "body=", body, "resp=", resp)
+        }, function (error) {
+            logger.debug("apiTrackToGA4 result=failure event=", builder._event, "body=", body, "resp=", error);
+        });
+    }
+
+}
+
+function builder(event) {
+    const b = new Builder();
+    if (event) {
+        b.event(event);
+    }
+    return b;
+}
+
 
 function setCid(cid) {
     CID_HOLDER[0] = cid;
@@ -167,6 +276,60 @@ function getCid() {
     return CID_HOLDER[0];
 }
 
+function setUid(uid) {
+    UID_HOLDER[0] = uid;
+}
+
+function getUid() {
+    return UID_HOLDER[0];
+}
+
+function bootstrapGA4() {
+    if (!runtime.isServiceWorker()){
+        Object.assign(USER_PROPERTIES, {});  // TODO
+
+        // gtag manager
+        const w = getWindow();
+        const ga = w.document.createElement("script");
+        ga.type = "text/javascript";
+        ga.async = true;
+        ga.src = "/ga4.js";
+        w.document.head.insertBefore(ga, w.document.head.firstChild);
+        logger.debug("GA4 bootstrapped with DOM.")
+        w.dataLayer = w.dataLayer || [];
+        w.gtag = function () {
+            w.dataLayer.push(arguments);
+        }
+        w.gtag('js', new Date());
+        w.gtag('config', GA4_MEASUREMENT_ID, {
+            "user_id": getUid(),
+            "ext_ver": getExtensionVersion(),
+        });
+    } else {
+        builder()
+            .event("bg_bootstrap")
+            .param("ext_ver", getExtensionVersion())
+            .send();
+    }
+}
+
+/**
+ * Track GA4 event.
+ */
+function trackEventGA4(event, params) {
+    // getWindow().gtag(
+    //     "event",
+    //     event,
+    //     params
+    // );
+    builder()
+        .event(event)
+        .userId(getUid())
+        .params(params)
+        .send();
+}
+
+
 exports.trackPageview = trackPageview;
 exports.trackButtonClick = trackButtonClick;
 exports.trackEvent = trackEvent;
@@ -175,3 +338,9 @@ exports.trackSupport = trackSupport;
 exports.bootstrap = bootstrap;
 exports.setCid = setCid;
 exports.getCid = getCid;
+// GA4
+exports.setUid = setUid;
+exports.getUid = getUid;
+exports.bootstrapGA4 = bootstrapGA4;
+exports.builder = builder;
+exports.trackEventGA4 = trackEventGA4;
