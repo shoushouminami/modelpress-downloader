@@ -4,49 +4,61 @@ const {Index} = require("../utils/flexsearch.bundle");
 const index = new Index({
     tokenize: "forward"
 });
+const logger = require("../logger2")(module.id);
 
-function get(location) {
-    if (modulesWithHostname[location.host]) {
-        return modulesWithHostname[location.host];
-    }
-
-    return false;
+function getByWindowLocation(location) {
+    return getByHost(location.host);
 }
 
-function validate(siteMoudle) {
-    if (siteMoudle.inject &&
-        typeof siteMoudle.inject === "function" &&
-        siteMoudle.host &&
-        (typeof siteMoudle.host === "function" || typeof siteMoudle.host === "string")) {
+function getByHost(host) {
+    return modulesWithHostname[host];
+}
 
-        if (typeof siteMoudle.host !== "string" && !siteMoudle.hidden && !siteMoudle.url) {
-            console.error("Missing site url: " + siteMoudle);
+function validate(siteModule) {
+    if (siteModule.inject &&
+        typeof siteModule.inject === "function" &&
+        siteModule.host &&
+        typeof siteModule.host === "string") {
+        if (typeof siteModule.host !== "string" && !siteModule.hidden && !siteModule.url) {
+            logger.error("Missing site url: " + siteModule);
+        }
+
+        if (siteModule.altHosts) {
+            if (!Array.isArray(siteModule.altHosts) || !siteModule.altHosts.every(h => typeof h === "string")) {
+                logger.error("altHosts not array or host not string: " + siteModule);
+            }
         }
 
         return true;
     }
 
-    console.warn("Bad module: " + siteMoudle);
+    logger.error("Bad module: " + siteModule);
     return false;
+}
+
+function registerHostToModule(host, siteModule) {
+    if (modulesWithHostname[host]) {
+        logger.error("Duplicate site module", host);
+        throw Error("Duplicate site module: " + host);
+    }
+    modulesWithHostname[host] = siteModule;
 }
 
 function register(siteModule) {
     if (validate(siteModule)) {
         let len = modules.push(siteModule);
-        index.add(len - 1, siteModule.host + " " + siteModule.url + " " + siteModule.host.split("\.").join(" "));
-        if (typeof siteModule.host === "string") {
-            if (modulesWithHostname[siteModule.host]) {
-                console.error("Duplicated site script: " + siteModule.host);
-                throw Error("Duplicated site script: " + siteModule.host);
-            }
-            modulesWithHostname[siteModule.host] = siteModule;
-        }
+        index.add(len - 1, siteModule.host + " " + siteModule.url + " " +
+            siteModule.host.split("\.").join(" ") +
+            (siteModule.altHosts ? siteModule.altHosts.map(h => h.split("\.").join(" ")).join(" "): ""));
+        registerHostToModule(siteModule.host, siteModule);
+        (siteModule.altHosts || []).forEach(h => registerHostToModule(h, siteModule));
+
     }
 }
 
 (function(siteModuleList){
-    for(const siteModuleName of siteModuleList) {
-        register(siteModuleName);
+    for(const siteModule of siteModuleList) {
+        register(siteModule);
     }
 })([
     require("./mdpr.jp"),
@@ -162,12 +174,11 @@ function register(siteModule) {
     require("./www.instagram.com"),
 ]);
 
-exports.get = get;
-exports.all = function (){
+function all() {
     return modules.slice();
 }
 
-exports.search = function (query) {
+function search(query) {
     const result = index.search(query);
     const ret = [];
     for (const r of result) {
@@ -175,4 +186,11 @@ exports.search = function (query) {
     }
 
     return ret;
+}
+
+module.exports = {
+    getByWindowLocation: getByWindowLocation,
+    getByHost: getByHost,
+    all: all,
+    search: search
 }

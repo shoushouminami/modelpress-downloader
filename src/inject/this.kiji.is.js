@@ -13,5 +13,6 @@ module.exports = {
         }));
         return o;
     },
-    host: "this.kiji.is"
+    host: "this.kiji.is",
+    altHosts: ["nordot.app"]
 };

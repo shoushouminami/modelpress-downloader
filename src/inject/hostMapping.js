@@ -16,10 +16,6 @@ exports.check = function (location) {
         return "not_supported";
     }
 
-    if (host === "talent.thetv.jp") {
-        return "thetv.jp"
-    }
-
     if (host.endsWith(".wowkorea.jp")) {
         return "www.wowkorea.jp";
     }
@@ -33,28 +29,8 @@ exports.check = function (location) {
         return "tonarinoyj.jp";
     }
 
-    if (host === "plus.ananweb.jp") {
-        return "ananweb.jp";
-    }
-
-    if (host === "tfm.co.jp") {
-        return "www.tfm.co.jp";
-    }
-
-    if (host === "nordot.app") {
-        return "this.kiji.is";
-    }
-
-    if (host === "m.ldh-m.jp" || host === "m.ldhgirls-m.jp" || host === "m.tribe-m.jp") {
-        return "m.ex-m.jp";
-    }
-
     if (host === "younganimal.com" || host === "youngchampion.jp") {
         return "yanmaga.jp";
-    }
-
-    if (host === "www.kstyle.com") {
-        return "news.kstyle.com";
     }
 
     return host;

@@ -1,28 +1,24 @@
-const inject = function () {
-    const site = getSiteModule();
-    if (site != null) {
-        return site.inject();
-    } else {
-        return require("./inject/return-message.js").notSupported();
-    }
-}
+const logger = require("./logger2")(module.id);
 
 /**
  * Returns the module of the current website.
  * @returns {null|{}}
  */
-const getSiteModule = function () {
+function getSiteModule(location) {
     try {
-        return require("./inject/" + require("./inject/hostMapping").check(window.location));
+        const startMs = new Date().getTime();
+        const m = require("./inject/sites").getByHost(require("./inject/hostMapping").check(location));
+        if (m) {
+            logger.debug("func=getSiteModule getByWindowLocationLatency=", new Date().getTime() - startMs, "ms");
+            return m;
+        }
+        // not found
+        logger.error("Site module not found", location.host);
     } catch (e) {
         // not found
-        if (require("./is-dev")) {
-            console.error(e);
-        }
-
-        return null;
+        logger.error(e);
     }
-};
+}
 
 /**
  * Injects "inject-cs.js" file.
@@ -30,7 +26,7 @@ const getSiteModule = function () {
  * @param tabId
  * @param callback {function(results, tabId)}
  */
-const injectInjectScript = function (chrome, tabId, callback) {
+function injectInjectScript(chrome, tabId, callback) {
 
     chrome.scripting.executeScript(
         {
@@ -40,10 +36,16 @@ const injectInjectScript = function (chrome, tabId, callback) {
         },
         results => callback(results, tabId)
     );
-};
+}
 
 module.exports = {
-    inject: inject,
-    getSiteModule: getSiteModule,
-    injectInjectScript: injectInjectScript,
+    inject: function (){
+        const site = getSiteModule(window.location);
+        if (site != null) {
+            return site.inject();
+        } else {
+            return require("./inject/return-message.js").notSupported();
+        }
+    },
+    getSiteModule: getSiteModule
 }

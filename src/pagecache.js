@@ -2,7 +2,7 @@
  * Cache content by page url (excluding queries)
  */
 const window = require("./globals").getWindow();
-const logger = require("./logger");
+const logger = require("./logger2")(module.id);
 const PREFIX = "_mid_cache_";
 
 function key() {

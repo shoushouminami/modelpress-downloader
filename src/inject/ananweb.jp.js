@@ -23,4 +23,5 @@ module.exports = {
         return o;
     },
     host: "ananweb.jp",
+    altHosts: ["plus.ananweb.jp"]
 };

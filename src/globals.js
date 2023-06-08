@@ -21,7 +21,7 @@ function getSearchParamValue(key) {
     try {
         return require("./utils").getSearchParam(getWindow().location).get(key);
     } catch (e) {
-        require("./logger").error(e);
+        require("./logger2")(module.id).error(e);
         return null;
     }
 }

@@ -27,5 +27,6 @@ module.exports = {
         return o;
     },
     host: "news.kstyle.com",
+    altHosts: ["www.kstyle.com"]
 };
 

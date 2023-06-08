@@ -44,5 +44,6 @@ const inject = function () {
 module.exports = {
     inject: inject,
     host: "m.ex-m.jp",
+    altHosts: ["m.ldh-m.jp", "m.ldhgirls-m.jp", "m.tribe-m.jp"],
     hidden: true
 };

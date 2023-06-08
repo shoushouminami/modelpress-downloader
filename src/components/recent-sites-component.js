@@ -33,7 +33,7 @@ class RecentSitesComponent extends React.Component {
 
     render() {
         let recentSites = this.state.recentSites.map(
-            host => sites.get({host:host})
+            host => sites.getByWindowLocation({host:host})
         ).filter (site => !site.hidden)
             .map(site =>
                 <SiteIcon

@@ -6,7 +6,7 @@ const utils = {
      * @returns {*|a}
      */
     findImagesOfClass: function (clazz) {
-        let logger = require("./logger");
+        let logger = require("./logger2")(module.id);
         let dom = document.getElementsByClassName(clazz);
         let list = this.findImageUrlsFromDOMList(dom && dom.length && dom);
         logger.debug("Found " + list.length + " images of class " + clazz);
@@ -19,7 +19,7 @@ const utils = {
      * @returns {*}
      */
     findImagesOfContainerClass: function (clazz) {
-        let logger = require("./logger");
+        let logger = require("./logger2")(module.id);
         let list = [];
         let dom = document.getElementsByClassName(clazz);
         if (dom && dom.length) {
@@ -223,7 +223,7 @@ const utils = {
      * @returns {[]}
      */
     findDomsWithCssSelector: function(rootDom, cssSelector, filterFunc) {
-        let logger = require("./logger");
+        let logger = require("./logger2")(module.id);
         let ret = [];
         let doms = rootDom.querySelectorAll(cssSelector);
         logger.debug("[utils.js]","doms.length=", doms.length, "cssSelector=", cssSelector, "doms=", doms);

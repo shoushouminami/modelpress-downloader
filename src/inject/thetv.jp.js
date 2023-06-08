@@ -29,5 +29,6 @@ module.exports = {
          return o;
     },
     host: "thetv.jp",
+    altHosts: ["talent.thetv.jp"],
     url: "https://thetv.jp"
 };
