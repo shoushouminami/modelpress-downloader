@@ -170,34 +170,10 @@ function apiTrack(hitType, category, action, label, value, docHost, docPath){
     // }
 }
 
-function apiTrackToGA4(category, action, label, value) {
-    // crypto.randomUUID()
-    fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${GA4_MEASUREMENT_ID}&api_secret=${GA4_MEASUREMENT_SECRET}`, {
-        method: "POST",
-        body: JSON.stringify({
-            "client_id": "test_id",
-            "events": [
-                {
-                    "name": category,
-                    "params": {
-                        "ua_action": action,
-                        "ua_label": label,
-                        "ua_value": JSON.stringify(value)
-                    }
-                }
-            ]
-        })
-    }).then(function (resp) {
-        logger.debug("apiTrackToGA4 event=success status=", resp.status, "category=", category, "resp=", resp)
-    }, function (error) {
-        logger.debug("apiTrackToGA4 event=failure category=", category, "resp=", error);
-    });
-}
-
 class Builder {
     _event;
     _clientId = getCid();
-    _userId = getUid();
+    _userId;
     _params = {};
     _userProperties = {};
     event(event) {
@@ -236,24 +212,28 @@ class Builder {
     }
     send() {
         const builder = this;
-        const body = JSON.stringify({
-            "client_id": builder._clientId, // TODO
-            "user_id": builder._userId, // TODO
-            "user_properties": builder._userProperties,
-            "events": [
-                {
-                    "name": builder._event,
-                    "params": builder._params
-                }
-            ]
-        });
+        const eventBody = {
+            "client_id": builder._clientId,
+            "events": [{
+                "name": builder._event,
+                "params": builder._params
+            }]
+        };
+        if (builder._userId) {
+            eventBody["user_id"] = builder._userId;
+            if (builder._userProperties) {
+                eventBody["user_properties"] = builder._userProperties;
+            }
+        }
+
+        const body = JSON.stringify(eventBody);
         fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${GA4_MEASUREMENT_ID}&api_secret=${GA4_MEASUREMENT_SECRET}`, {
             method: "POST",
             body: body
         }).then(function (resp) {
-            logger.debug("Builder.send result=success status=", resp.status, "event=", builder._event, "body=", body, "resp=", resp)
+            logger.debug("Builder.send result=success status=", resp.status, "event=", builder._event, "body=", eventBody, "resp=", resp)
         }, function (error) {
-            logger.debug("apiTrackToGA4 result=failure event=", builder._event, "body=", body, "resp=", error);
+            logger.debug("apiTrackToGA4 result=failure event=", builder._event, "body=", eventBody, "resp=", error);
         });
     }
 
@@ -324,7 +304,6 @@ function trackEventGA4(event, params) {
     // );
     builder()
         .event(event)
-        .userId(getUid())
         .params(params)
         .send();
 }

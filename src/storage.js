@@ -1,8 +1,14 @@
 const PREFIX = "MID_CONF."
-const messaging = require("./messaging");
 
 function getLocalStorage() {
     return require("./globals").getWindow().localStorage || {
+        "getItem": () => undefined,
+        "setItem": () => undefined
+    };
+}
+
+function getSessionStorage() {
+    return require("./globals").getWindow().sessionStorage || {
         "getItem": () => undefined,
         "setItem": () => undefined
     };
@@ -29,14 +35,14 @@ function set(key, value) {
  * Same as {@link #get} but uses session storage.
  */
 function sessionGet(key) {
-    return require("./globals").getWindow().sessionStorage.getItem(PREFIX + key);
+    return getSessionStorage().getItem(PREFIX + key);
 }
 
 /**
  * Same as {@link #set} but uses session storage.
  */
 function sessionSet(key, value) {
-    return require("./globals").getWindow().sessionStorage.setItem(PREFIX + key, value);
+    return getSessionStorage().setItem(PREFIX + key, value);
 }
 
 exports.get = get;

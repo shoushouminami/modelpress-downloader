@@ -1,4 +1,3 @@
-let logger = require("./logger2")(module.id);
 const utils = {
     /**
      * First get a list of DOMs belonging to the given CSS class.
@@ -7,6 +6,7 @@ const utils = {
      * @returns {*|a}
      */
     findImagesOfClass: function (clazz) {
+        let logger = require("./logger2")(module.id);
         let dom = document.getElementsByClassName(clazz);
         let list = this.findImageUrlsFromDOMList(dom && dom.length && dom);
         logger.debug("Found " + list.length + " images of class " + clazz);
