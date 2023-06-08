@@ -172,6 +172,8 @@ function register(siteModule) {
     require("./twitter.com"),
     require("./www.bilibili.com"),
     require("./www.instagram.com"),
+    require("./m.ex-m.jp"),
+    require("./www.tfm.co.jp"),
 ]);
 
 function all() {

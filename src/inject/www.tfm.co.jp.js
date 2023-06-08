@@ -12,5 +12,6 @@ module.exports = {
         return o;
     },
     host: "www.tfm.co.jp",
-    altHosts: ["tfm.co.jp"]
+    altHosts: ["tfm.co.jp"],
+    hidden: true
 };
