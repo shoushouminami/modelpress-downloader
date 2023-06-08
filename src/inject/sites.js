@@ -89,6 +89,7 @@ function register(siteModule) {
     require("./girlsnews.tv"),
     require("./hustlepress.co.jp"),
     require("./www.crank-in.net"),
+    require("./www.billboard-japan.com"),
     require("./realsound.jp"),
     require("./www.musicvoice.jp"),
     require("./okmusic.jp"),
