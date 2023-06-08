@@ -5,7 +5,7 @@ module.exports = {
         let o = require("./return-message.js").init();
         // special top image
         utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(
+            utils.findLazyImagesWithCssSelector(
                 document,
                 [
                     "#main-auto .article_head img",
