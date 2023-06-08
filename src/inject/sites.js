@@ -118,6 +118,7 @@ function register(siteModule) {
     require("./sumabo.jp"),
     require("./entamenext.com"),
     require("./entameclip.com"),
+    require("./korepo.com"),
     require("./exweb.jp"),
     require("./bltweb.jp"),
     require("./taishu.jp"),
