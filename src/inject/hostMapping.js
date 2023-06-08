@@ -53,5 +53,9 @@ exports.check = function (location) {
         return "yanmaga.jp";
     }
 
+    if (host === "www.kstyle.com") {
+        return "news.kstyle.com";
+    }
+
     return host;
 };

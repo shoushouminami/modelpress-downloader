@@ -119,6 +119,7 @@ function register(siteModule) {
     require("./entamenext.com"),
     require("./entameclip.com"),
     require("./korepo.com"),
+    require("./news.kstyle.com"),
     require("./exweb.jp"),
     require("./bltweb.jp"),
     require("./taishu.jp"),
