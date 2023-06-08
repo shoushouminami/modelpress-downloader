@@ -20,6 +20,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.12 (2023/06/07)
+* Add www.billboard-japan.com
+* Add korepo.com
+* Add news.kstyle.com
+
 ###### 4.11 (2023/05/27)
 * Add classy-online.jp
 * Add www.tvguide.or.jp

@@ -9,11 +9,13 @@ function getSiteModule(location) {
         const startMs = new Date().getTime();
         const m = require("./inject/sites").getByHost(require("./inject/hostMapping").check(location));
         if (m) {
-            logger.debug("func=getSiteModule getByWindowLocationLatency=", new Date().getTime() - startMs, "ms");
+            logger.debug("func=getSiteModule getByHost=", new Date().getTime() - startMs, "ms");
             return m;
         }
         // not found
         logger.error("Site module not found", location.host);
+        // try module file again
+        return require("./inject/" + require("./inject/hostMapping").check(location));
     } catch (e) {
         // not found
         logger.error(e);
