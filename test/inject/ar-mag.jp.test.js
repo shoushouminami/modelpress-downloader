@@ -60,7 +60,7 @@ test("Test article page", async () => {
 test("Test article page 2", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://ar-mag.jp/articles/-/6698",
+        "https://ar-mag.jp/articles/-/6698?display=full",
         "ar-mag.jp-articles---6698/",
         [
             {
