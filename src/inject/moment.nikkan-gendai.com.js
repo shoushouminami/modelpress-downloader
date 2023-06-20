@@ -15,6 +15,16 @@ function replaceFilename(url) {
 }
 
 function guessFolderPath() {
+    let mainImgUrl = utils.findDomsWithCssSelector(
+        document,
+        ".wrapper div.main_img",
+        utils.getDomBackgroundImage);
+
+    if (mainImgUrl && mainImgUrl[0]) {
+        logger.debug("mainImgUrl=", mainImgUrl[0]);
+        return "/" + mainImgUrl[0].split("/").slice(3, -1).join("/");
+    }
+
     let dom = document.querySelector("head > meta[property='og:image']");
     if (dom && dom.getAttribute("content")) {
         try {
