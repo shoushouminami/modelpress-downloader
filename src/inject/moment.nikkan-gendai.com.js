@@ -1,6 +1,6 @@
 const utils = require("../utils.js");
 const re = /https:\/\/.*(\/wp-content\/themes\/moment\/img\/thumbnail)\/.*\.(jpg|png|jpeg)/i;
-const logger = require("../logger");
+const logger = require("../logger2")(module.id);
 const globals = require("../globals");
 
 function replaceFilename(url) {

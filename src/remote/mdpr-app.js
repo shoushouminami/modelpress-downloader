@@ -1,7 +1,6 @@
 const ga = require("../google-analytics");
 const utils = require("../utils.js");
-// const utils = require("../utils/utils-mock");
-const logger = require("../logger");
+const logger = require("../logger2")(module.id);
 const getLargeImg = require("../inject/mdpr.jp").getLargeImg
 
 let state = {

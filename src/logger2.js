@@ -1,6 +1,5 @@
 const dev = require("./is-dev");
-const globals = require("./globals");
-const window = globals.getWindow();
+const window = require("./globals").getWindow();
 
 function noop() {}
 

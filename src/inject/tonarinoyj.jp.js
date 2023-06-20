@@ -1,7 +1,7 @@
 const utils = require("../utils");
 const messaging = require("../messaging");
 const globals = require("../globals");
-const logger = require("../logger");
+const logger = require("../logger2")(module.id);
 
 const document = globals.getDocument();
 const window = globals.getWindow();
