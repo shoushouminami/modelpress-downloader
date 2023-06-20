@@ -1,6 +1,6 @@
 const {getWindow, getExtensionVersion} = require("./globals");
 const runtime = require("./runtime");
-const {randomGA4UID, getGA4UID} = require("./ga/ga4-uid");
+const {getGA4UID} = require("./ga/ga4-uid");
 const logger = require("./logger2")(module.id);
 
 const GA_PROPERTY_ID = __GA_PROPERTY__; // defined in webpack.config.js
@@ -9,8 +9,7 @@ const GA4_MEASUREMENT_SECRET = __GA4_MEASUREMENT_SECRET__; // defined in webpack
 const NOT_CALLED = 0;
 const BOOTSTRAPPED = 1;
 const SERVICE_WORKER = 2;
-const CID_HOLDER = ["mid-v" + getExtensionVersion()];
-const UID_HOLDER = [getGA4UID()];
+const CID = "mid-v" + getExtensionVersion();
 const SESSION_ID = Math.round(new Date().getTime() / 1000).toString();
 const USER_PROPERTIES = {};
 
@@ -189,7 +188,9 @@ class Builder {
         return this;
     }
     params(params) {
-        Object.assign(this._params, params);
+        if (params) {
+            Object.assign(this._params, params);
+        }
         return this;
     }
     param(key, value) {
@@ -247,21 +248,8 @@ function builder(event) {
     return b;
 }
 
-
-function setCid(cid) {
-    CID_HOLDER[0] = cid;
-}
-
 function getCid() {
-    return CID_HOLDER[0];
-}
-
-function setUid(uid) {
-    UID_HOLDER[0] = uid;
-}
-
-function getUid() {
-    return UID_HOLDER[0];
+    return CID;
 }
 
 function bootstrapGA4() {
@@ -282,7 +270,7 @@ function bootstrapGA4() {
         }
         w.gtag('js', new Date());
         w.gtag('config', GA4_MEASUREMENT_ID, {
-            "user_id": getUid(),
+            "user_id": getGA4UID(),
             "ext_ver": getExtensionVersion(),
         });
     } else {
@@ -296,18 +284,17 @@ function bootstrapGA4() {
 /**
  * Track GA4 event.
  */
-function trackEventGA4(event, params) {
-    // getWindow().gtag(
-    //     "event",
-    //     event,
-    //     params
-    // );
+function _trackEventGA4(event, params, userId = undefined) {
     builder()
         .event(event)
+        .userId(userId)
         .params(params)
         .send();
 }
 
+function trackEventGA4(event, params) {
+    return _trackEventGA4(event, params, getGA4UID());
+}
 
 exports.trackPageview = trackPageview;
 exports.trackButtonClick = trackButtonClick;
@@ -315,11 +302,5 @@ exports.trackEvent = trackEvent;
 exports.trackDownload = trackDownload;
 exports.trackSupport = trackSupport;
 exports.bootstrap = bootstrap;
-exports.setCid = setCid;
-exports.getCid = getCid;
-// GA4
-exports.setUid = setUid;
-exports.getUid = getUid;
 exports.bootstrapGA4 = bootstrapGA4;
-exports.builder = builder;
 exports.trackEventGA4 = trackEventGA4;

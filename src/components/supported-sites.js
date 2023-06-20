@@ -33,8 +33,8 @@ class SupportedSites extends React.Component {
 
     handleSiteClick(host) {
         ga.trackEvent("site_icon", "clicked", host);
-        ga.trackEventGA4("site_icon", {
-            "click": host,
+        ga.trackEventGA4("site_icon_click", {
+            "domain": host,
             "with_query": String(this.state.query !== "")
         });
         if (this.state.query !== "") {
@@ -58,18 +58,15 @@ class SupportedSites extends React.Component {
         }
         this.setState({showQuery: newVal})
         ga.trackEvent("query_icon", "clicked");
-        ga.trackEventGA4("query_icon", {
-            "click": "true"
-        })
+        ga.trackEventGA4("query_icon_click");
     }
 
     handleConfigIconClick(e) {
         logger.debug("config button CLICKED", e)
         // const to = useLocation().pathname === "/config" ? "config": "/";
         ga.trackEvent("config_icon", "clicked");
-        ga.trackEventGA4("config_icon", {
-            "click": true
-        });
+        ga.trackEventGA4("config_icon_click");
+
     }
 
     render() {

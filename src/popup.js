@@ -237,9 +237,9 @@ function updateMessage(result, tabId) {
         }
     }
     ga.trackSupport(message.host, message.supported);
-    ga.trackEventGA4("website", Object.fromEntries([
-        [message.supported ? "supported" : "not_supported", message.host]
-    ]))
+    ga.trackEventGA4(message.supported ? "website_supported" : "website_not_supported", {
+        "domain": message.host
+    })
     updatePopupUI();
 }
 

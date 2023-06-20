@@ -57,10 +57,10 @@ function downloadWithMsg(chrome, context, images, done) {
         let startMs = new Date().getTime();
         logger.debug("downloadWithMsg images.length=", images.length);
         ga.trackEvent("msg_download", "start", context.host, images.length);
-        ga.builder("msg_dl_start")
-            .param("domain", context.host)
-            .param("count", images.length)
-            .send();
+        ga.trackEventGA4("msg_dl_start", {
+            "domain": context.host,
+            "count": images.length
+        });
         for (const image of images) {
             // logger.debug("sending getImageUrl message to cs filename=", image.filename);
             messaging.sendToCS(context.tabId, "getImageUrl", image, function (imageWithUrl) {
@@ -84,11 +84,11 @@ function downloadWithMsg(chrome, context, images, done) {
                                 "comp_latency_s",
                                 context.host,
                                 Math.round((new Date().getTime() - startMs) / 1000.0));
-                            ga.builder("msg_dl_comp")
-                                .param("domain", context.host)
-                                .param("count", images.length)
-                                .param("latency_s", Math.round((new Date().getTime() - startMs) / 1000.0))
-                                .send();
+                            ga.trackEventGA4("msg_dl_comp", {
+                                "domain": context.host,
+                                "count": images.length,
+                                "latency_s": Math.round((new Date().getTime() - startMs) / 1000.0)
+                            });
                             if (done instanceof Function) {
                                 wait(1000).then(function () {
                                     done({
@@ -100,9 +100,9 @@ function downloadWithMsg(chrome, context, images, done) {
                     });
                 } else {
                     ga.trackEvent("msg_download", "null", context.host, 1);
-                    ga.builder("msg_dl_null")
-                        .param("domain", context.host)
-                        .send();
+                    ga.trackEventGA4("msg_dl_null", {
+                        "domain": context.host
+                    });
                 }
             })
         }
@@ -111,10 +111,10 @@ function downloadWithMsg(chrome, context, images, done) {
             .then(() => {
                 if (count < images.length) {
                     ga.trackEvent("msg_download", "incomp_15s", context.host, images.length);
-                    ga.builder("msg_dl_incomp")
-                        .param("count", images.length)
-                        .param("latency_s", 15)
-                        .send();
+                    ga.trackEventGA4("msg_dl_incomp", {
+                        "count": images.length,
+                        "latency_s": 15
+                    })
                     every(2000)
                         .then(() => {
                             const sec = Math.round((new Date().getTime() - startMs) / 1000.0);
@@ -123,11 +123,11 @@ function downloadWithMsg(chrome, context, images, done) {
                                     "comp_" + sec + "s",
                                     context.host,
                                     images.length);
-                                ga.builder("msg_dl_comp")
-                                    .param("domain", context.host)
-                                    .param("count", images.length)
-                                    .param("latency_s", sec)
-                                    .send();
+                                ga.trackEventGA4("msg_dl_comp", {
+                                    "domain": context.host,
+                                    "count": images.length,
+                                    "latency_s": sec
+                                })
                                 return true;
                             } else {
                                 if (sec >= 40) {
@@ -135,10 +135,10 @@ function downloadWithMsg(chrome, context, images, done) {
                                         "incomp_40s",
                                         context.host,
                                         images.length);
-                                    ga.builder("msg_dl_incomp")
-                                        .param("count", images.length)
-                                        .param("latency_s", sec)
-                                        .send();
+                                    ga.trackEventGA4("msg_dl_incomp", {
+                                        "count": images.length,
+                                        "latency_s": sec
+                                    });
                                     return true;
                                 }
                             }

@@ -2,15 +2,15 @@ const PREFIX = "MID_CONF."
 
 function getLocalStorage() {
     return require("./globals").getWindow().localStorage || {
-        "getItem": () => undefined,
-        "setItem": () => undefined
+        "getItem": function() { throw new NotAvailable("local storage")},
+        "setItem": function() { throw new NotAvailable("local storage")}
     };
 }
 
 function getSessionStorage() {
     return require("./globals").getWindow().sessionStorage || {
-        "getItem": () => undefined,
-        "setItem": () => undefined
+        "getItem": function() { throw new NotAvailable("session storage")},
+        "setItem": function() { throw new NotAvailable("session storage")}
     };
 }
 /**
@@ -43,6 +43,13 @@ function sessionGet(key) {
  */
 function sessionSet(key, value) {
     return getSessionStorage().setItem(PREFIX + key, value);
+}
+
+class NotAvailable extends Error {
+    constructor(storage) {
+        super();
+        this.message = `${storage} is not available`;
+    }
 }
 
 exports.get = get;

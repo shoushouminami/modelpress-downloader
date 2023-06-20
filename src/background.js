@@ -31,15 +31,16 @@ chrome.runtime.onInstalled.addListener(function(details) {
     if (details.reason === "install") {
         logger.debug("extension", "install", globals.getExtensionVersion(), typeof (globals.getExtensionVersion()));
         ga.trackEvent("extension", "install", globals.getExtensionVersion());
-        ga.builder().event("ext_install").param("ext_ver", globals.getExtensionVersion()).send();
+        ga.trackEventGA4("ext_install", {
+            "ext_ver": globals.getExtensionVersion()
+        });
     }
 
     if (details.reason === "update") {
         logger.debug("extension", "update", globals.getExtensionVersion());
         ga.trackEvent("extension", "update", globals.getExtensionVersion());
-        ga.builder()
-            .event("ext_update")
-            .param("ext_ver", globals.getExtensionVersion())
-            .send();
+        ga.trackEventGA4("ext_update", {
+            "ext_ver": globals.getExtensionVersion()
+        });
     }
 });
