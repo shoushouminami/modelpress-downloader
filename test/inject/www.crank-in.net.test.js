@@ -1,4 +1,5 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const pageutils = require("../pageutils");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test special page", async () => {
@@ -171,7 +172,12 @@ test("gallery/special/77136/2", async () => {
                     "https://www.crank-in.net/img/db/1397184_650.jpg"
                 ]
             }
-        ]);
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.wait(1000);
+            }
+        });
 });
 
 test("Test column article page", async () => {

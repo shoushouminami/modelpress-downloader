@@ -235,7 +235,7 @@ test("Test lifestyle page", async () => {
     );
 });
 
-test("Test lifestyle page 2", async () => {
+test("lifestyle/136501/", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://jj-jj.net/lifestyle/136501/",
@@ -255,15 +255,15 @@ test("Test lifestyle page 2", async () => {
             },
             {
                 "retries": [
-                    "https://jj-jj.net/wp-content/uploads/2021/01/DMA-IMG_6945.jpg"
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/11094801/DMA-IMG_6945.jpg"
                 ],
-                "url": "https://jj-jj.net/wp-content/uploads/2021/01/DMA-IMG_6945.jpg"
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/11094801/DMA-IMG_6945.jpg"
             },
             {
                 "retries": [
-                    "https://jj-jj.net/wp-content/uploads/2021/01/DMA-beauty_1569504290267.jpg"
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/11094908/DMA-beauty_1569504290267.jpg"
                 ],
-                "url": "https://jj-jj.net/wp-content/uploads/2021/01/DMA-beauty_1569504290267.jpg"
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/11094908/DMA-beauty_1569504290267.jpg"
             },
             {
                 "retries": [
@@ -273,12 +273,11 @@ test("Test lifestyle page 2", async () => {
             },
             {
                 "retries": [
-                    "https://jj-jj.net/wp-content/uploads/2021/01/DMA-4213_001%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC-422x540.jpg"
+                    "https://img.jj-jj.net/wp-content/uploads/2021/01/11094713/DMA-4213_001%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC-422x540.jpg"
                 ],
-                "url": "https://jj-jj.net/wp-content/uploads/2021/01/DMA-4213_001%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg"
+                "url": "https://img.jj-jj.net/wp-content/uploads/2021/01/11094713/DMA-4213_001%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg"
             }
-        ]
-    );
+        ]);
 });
 
 test("Test lifestyle page 3", async () => {
