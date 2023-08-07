@@ -56,7 +56,10 @@ function inject() {
         for (const selector of [
             ".content-main .special-content .image-main img",
             ".content-main .special-content .image img",
-            ".content-main  #slider ul li a img"
+            ".content-main  #slider ul li a img",
+            "#mainwrap .contentsbox .imgleftbox img",
+            "#mainwrap .contentsbox .imgcenterbox img",
+            "#container .contentsbox img",
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
@@ -71,5 +74,6 @@ function inject() {
 
 module.exports = {
     inject: inject,
-    host: "www.oricon.co.jp"
+    host: "www.oricon.co.jp",
+    altHosts: ["beauty.oricon.co.jp"]
 };

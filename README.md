@@ -1,10 +1,9 @@
 # Modelpress Image Downloader [![shoushouminami](https://circleci.com/gh/shoushouminami/modelpress-downloader.svg?style=svg)](https://app.circleci.com/pipelines/github/shoushouminami/modelpress-downloader)
 
-One click to batch download the best resolution images from the current news article. A [list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) are supported including ModelPress (mdpr.jp), Abema Times (times.abema.tv),
-Dwango News (news.dwango.jp), and more, and is still growing! 
+One click to batch download the best resolution images from the current news article. A [list of websites](https://github.com/shoushouminami/modelpress-downloader/wiki) are supported including [ModelPress](https://mdpr.jp), [Oricon](https://www.oricon.co.jp/), [Mantan Web](https://mantan-web.jp/),
+and more, and is still growing! 
 
-This extensi
-on is different from other image downloaders as it is custom made for the supported websites and it can search on the current  page for images
+This extension is different from other image downloaders as it is custom made for the supported websites and it can search on the current  page for images
 only related to the news article, and ignores the other irrelevant images such as ads and logos. Further more, it downloads images that are the best possible resolution.
 
 How to: 
