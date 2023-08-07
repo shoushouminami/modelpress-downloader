@@ -13,9 +13,19 @@ const getLargeImg = function (src) {
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.col-main main article figure.img-box img", getLargeImg));
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.col-main main div.photo-square .feed-item div div img", getLargeImg));
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.col-main div.box div.item img", getLargeImg));
+        for (const query of [
+            "div.col-main main article figure.img-box img",
+            "div.col-main main div.photo-square .feed-item div div img",
+            "div.col-main div.box div.item img",
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    query,
+                    getLargeImg
+                )
+            );
+        }
         return o;
     },
     host: "www.cinematoday.jp",

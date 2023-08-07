@@ -1,6 +1,6 @@
 const {re, getLargeImg} = require("../../src/inject/www.cinematoday.jp");
-const {testDirectDownload, launchBrowser, dummyItems} = require("./testbase");
-const pageutils = require("../pageutils");
+const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test regex", () => {
     let m = "https://img.cinematoday.jp/a/CZJYMLQU-j7p/_size_640x/_v_1335279600/2.jpg".match(re);
@@ -22,20 +22,11 @@ test("Test getLargeImg", () => {
         .toBe("https://img.cinematoday.jp/a/E0000454/_v_1335279600/1.jpg");
 });
 
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
-
-test("Test www.cinematoday.jp image gallery page", async () => {
+test("gallery/E0014987/DSC_4754.JPG.html", async () => {
     await testDirectDownload(
-        browser,
-        "https://www.cinematoday.jp/gallery/E0014987",
-        "www.cinematoday.jp-gallery-E0014987/",
+        getBrowser(),
+        "https://www.cinematoday.jp/gallery/E0014987/DSC_4754.JPG.html",
+        "www.cinematoday.jp-gallery-E0014987-DSC_4754.JPG.html/",
         [
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4753.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4754.JPG",
@@ -66,39 +57,40 @@ test("Test www.cinematoday.jp image gallery page", async () => {
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4864.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/DSC_4877.JPG",
             "https://img.cinematoday.jp/a/WC6mcC_u5blE/_v_1554204847/main.jpg"
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 80);
-            }
-        });
+        ]);
 });
 
-test("Test www.cinematoday.jp news article page", async () => {
+test("news/N0107799", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://www.cinematoday.jp/news/N0107799",
         "www.cinematoday.jp-news-N0107799/",
-        ["https://img.cinematoday.jp/a/a79leE2d9924/_v_1554204902/main.jpg"]);
+        [
+            "https://img.cinematoday.jp/a/a79leE2d9924/_v_1554204902/main.jpg"
+        ]);
 });
 
-test("Test www.cinematoday.jp news article page 2", async () => {
+test("news/N0115490", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://www.cinematoday.jp/news/N0115490",
         "www.cinematoday.jp-news-N0115490/",
-        ["https://img.cinematoday.jp/a/KQkvapdJLpQk/_v_1587188602/main.jpg"]);
+        [
+            "https://img.cinematoday.jp/a/KQkvapdJLpQk/_v_1587188602/main.jpg"
+        ]);
 });
 
-test("Test www.cinematoday.jp interview article", async () => {
+test("interview/A0007153", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://www.cinematoday.jp/interview/A0007153",
         "www.cinematoday.jp-interview-A0007153/",
-        ["https://img.cinematoday.jp/a/vhh2nCXqKV2j/A0007153-00.jpg",
+        [
+            "https://img.cinematoday.jp/a/vhh2nCXqKV2j/A0007153-00.jpg",
             "https://img.cinematoday.jp/a/vhh2nCXqKV2j/A0007153-02.jpg",
             "https://img.cinematoday.jp/a/vhh2nCXqKV2j/A0007153-03.jpg",
             "https://img.cinematoday.jp/a/vhh2nCXqKV2j/A0007153-04.jpg",
             "https://img.cinematoday.jp/a/vhh2nCXqKV2j/A0007153-05.jpg",
-            "https://img.cinematoday.jp/a/vhh2nCXqKV2j/A0007153-06.jpg"]);
+            "https://img.cinematoday.jp/a/vhh2nCXqKV2j/A0007153-06.jpg"
+        ]);
 });
