@@ -158,7 +158,6 @@ function register(siteModule) {
     require("./baila.hpplus.jp"),
     require("./trilltrill.jp"),
     require("./www.vivi.tv"),
-    require("./plus.paravi.jp"),
     require("./domani.shogakukan.co.jp"),
     require("./mer-web.jp"),
     require("./seventeen-web.jp"),
