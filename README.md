@@ -19,6 +19,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.13 (2023/08/06)
+* Add www.bubkaweb.com
+* Add gravure.mantan-web.jp
+* Remove news.dwango.jp
+* Bug fixes
+
 ###### 4.12 (2023/06/07)
 * Add www.billboard-japan.com
 * Add korepo.com
