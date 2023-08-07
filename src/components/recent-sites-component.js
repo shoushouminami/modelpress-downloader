@@ -32,7 +32,8 @@ class RecentSitesComponent extends React.Component {
     render() {
         let recentSites = this.state.recentSites.map(
             host => sites.getByWindowLocation({host:host})
-        ).filter (site => !site.hidden)
+        ).filter(site => site != null)
+            .filter (site => !site.hidden)
             .map(site =>
                 <SiteIcon
                     key={site.host}

@@ -74,7 +74,6 @@ function register(siteModule) {
     require("./friday.kodansha.co.jp"),
     require("./www.daily.co.jp"),
     require("./www.tokyoheadline.com"),
-    require("./news.dwango.jp"),
     require("./www.ytjp.jp"),
     require("./www.thefirsttimes.jp"),
     require("./hanako.tokyo"),
