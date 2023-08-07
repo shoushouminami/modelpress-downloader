@@ -49,13 +49,22 @@ test("Test news article attachment page", async () => {
     );
 });
 
-test("Test news2 article full page", async () => {
-        await testDirectDownload(
-            getBrowser(),
-            "https://www.wws-channel.com/news2/222467.html?view=more",
-            "www.wws-channel.com-news2-222467.html/",
-            [
-                    "https://www.wws-channel.com/wp-content/uploads/2020/09/SK00.jpg"
-            ]
-        );
+test("news2/222467.html?view=more", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.wws-channel.com/news2/222467.html?view=more",
+        "www.wws-channel.com-news2-222467.html/",
+        [
+            "https://www.wws-channel.com/wp-content/uploads/2020/09/SK00.jpg"
+        ]);
+});
+
+test("news2/222467.html/attachment/sk00-20?pg=222467&mv=0", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.wws-channel.com/news2/222467.html/attachment/sk00-20?pg=222467&mv=0",
+        "www.wws-channel.com-news2-222467.html-attachment-sk00-20/",
+        [
+            "https://www.wws-channel.com/wp-content/uploads/2020/09/SK00.jpg"
+        ]);
 });
