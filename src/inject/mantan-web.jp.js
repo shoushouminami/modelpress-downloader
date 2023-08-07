@@ -11,6 +11,7 @@ module.exports = {
             ".article__wrap .photo__photo--minh img",  // article top image
             ".photo__wrap .photo__photo img", // photo page top image
             ".photo__wrap .photo__photolist .thumb-item img", // photo page top image
+            ".photo__photolist-wrap .swiper-slide .photo__photolist-item img", // photo page top image
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
@@ -29,5 +30,6 @@ module.exports = {
         return o;
     },
     host: "mantan-web.jp",
+    altHosts: ["gravure.mantan-web.jp"],
     getLargeImg: getLargeImg
 };

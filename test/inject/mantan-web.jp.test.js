@@ -195,3 +195,106 @@ test("Test mantan-web.jp page", async () => {
         ]
     );
 });
+
+test("article/20230801dog00m200030000c/photopage/001.html", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://gravure.mantan-web.jp/article/20230801dog00m200030000c/photopage/001.html",
+        "gravure.mantan-web.jp-article-20230801dog00m200030000c-photopage-001.html/",
+        [
+            {
+                "retries": [],
+                "url": "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/001_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/002_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/002_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/002_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/002_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/002_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/003_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/003_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/003_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/003_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/003_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/004_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/004_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/004_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/004_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/004_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/005_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/005_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/005_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/005_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/005_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/006_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/006_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/006_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/006_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/006_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/007_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/007_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/007_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/007_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/01/20230801dog00m200030000c/007_size10.jpg"
+            }
+        ]);
+});
+
+test("article/20230806dog00m200025000c.html", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://gravure.mantan-web.jp/article/20230806dog00m200025000c.html",
+        "gravure.mantan-web.jp-article-20230806dog00m200025000c.html/",
+        [
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/001_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/001_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/001_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/001_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/001_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/002_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/002_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/002_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/002_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/002_size10.jpg"
+            },
+            {
+                "retries": [
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/003_size9.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/003_size8.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/003_size7.jpg",
+                    "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/003_size6.jpg"
+                ],
+                "url": "https://storage.mantan-web.jp/images/2023/08/06/20230806dog00m200025000c/003_size10.jpg"
+            }
+        ]);
+});
