@@ -2,10 +2,9 @@ const utils = require("../utils.js");
 const inject = function() {
     let o = require("./return-message.js").init();
     for (const selector of [
-        ".article p img.size-large", // article top image
-        ".gallery .galleryCarousel_imagee img", // article image thumbnails
-        ".article .attachment img", // gallery top image
-        ".article .gallery-item img", // gallery top image
+        ".main .gallery-item img", // gallery image
+        ".main .post .attachment img", // article image
+        ".main p img", // article image
     ]) {
         utils.pushArray(o.images,
             utils.findLazyImagesWithCssSelector(
