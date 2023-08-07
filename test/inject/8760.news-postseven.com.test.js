@@ -2,7 +2,7 @@ const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const pageutils = require("../pageutils");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test news article", async () => {
+test("57687", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://8760.news-postseven.com/57687",
@@ -19,9 +19,7 @@ test("Test news article", async () => {
             preinject: async function (page) {
                 await pageutils.wait(1000);
                 await pageutils.scrollToTop(page);
-                await pageutils.wait(1000);
-                await pageutils.scrollToTop(page);
-                await pageutils.scrollTo(page, 60);
+                await pageutils.scrollTo(page, 80);
             }
         });
 });

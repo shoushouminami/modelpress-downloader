@@ -3,7 +3,7 @@ const url_utils = require("../utils/url-utils");
 function getLargeImg(url) {
     let arr = url.split("/");
     let re = /^\d+m$/;
-    if (arr[arr.length - 2].match(re)) {
+    if (arr[arr.length - 2] && arr[arr.length - 2].match(re)) {
         arr[arr.length - 2] = "-";
     }
 

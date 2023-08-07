@@ -9,7 +9,7 @@ const inject = function () {
     // article images
     utils.pushArray(o.images,
         utils.findImagesWithCssSelector(document,
-            "#main .single_container .article a img")
+            "#main .single_container .article p a img")
     );
     return o;
 };

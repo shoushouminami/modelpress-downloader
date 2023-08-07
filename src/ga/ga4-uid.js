@@ -21,7 +21,7 @@ function getGA4UID() {
         }
         return ga4_uid_loaded_from_storage;
     } catch (e) {
-        logger.error("Failed getGA4UID() " + e)
+        // logger.error("Failed getGA4UID() " + e)
         return undefined;
     }
 }

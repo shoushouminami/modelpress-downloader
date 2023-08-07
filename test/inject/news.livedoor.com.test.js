@@ -19,14 +19,13 @@ test("article/image_detail/22794332/?img_id=34472927", async () => {
         ]);
 });
 
-test("article/detail/24186622/", async () => {
+test("article/detail/24755247/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://news.livedoor.com/article/detail/24186622/",
-        "news.livedoor.com-article-detail-24186622-/",
+        "https://news.livedoor.com/article/detail/24755247/",
+        "news.livedoor.com-article-detail-24755247-/",
         [
-            "https://image.news.livedoor.com/newsimage/stf/4/9/491c7_1585_d07bab04d853b96e7180cc66d254f416.jpg",
-            "https://image.news.livedoor.com/newsimage/stf/4/8/48f2a_1585_0fd4b766d8907500832d70296a137cbf.jpg"
+            "https://image.news.livedoor.com/newsimage/stf/3/d/3d880_759_c3cb677d_a0d700f7.jpg"
         ]);
 });
 

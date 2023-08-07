@@ -48,7 +48,7 @@ test("hit/2022/07/08/42876/2/", async () => {
         "https://tvbros.jp/hit/2022/07/08/42876/2/",
         "tvbros.jp-hit-2022-07-08-42876-2-/",
         [
-            "https://tvbros.jp/wp-content/uploads/2022/07/1004c1d55b5278e91d32b05874ee053f.jpg",
+            "https://tvbros.jp/wp-content/uploads/2022/07/7011fbed10115522db9645649dc88c16.jpg",
             "https://tvbros.jp/wp-content/uploads/2022/07/355f9871d5240cacefe328827985a599.jpg",
             "https://tvbros.jp/wp-content/uploads/2022/07/bf551af2df36361ad8c2ace956f09e11.jpg",
             "https://tvbros.jp/wp-content/uploads/2022/07/a94e75dffdceaa95afaca12170ad5980.jpg",
@@ -66,9 +66,9 @@ test("hit/2022/07/07/45312/", async () => {
         "tvbros.jp-hit-2022-07-07-45312-/",
         [
             "https://tvbros.jp/wp-content/uploads/2022/07/0f480eb4b3101b1a38bb746a1a7dc089.jpg",
-            "https://tvbros.jp/wp-content/uploads/2022/07/1004c1d55b5278e91d32b05874ee053f.jpg",
-            "https://tvbros.jp/wp-content/uploads/2022/07/b85fe4d4858886d28591b852db9135f9.jpg",
-            "https://tvbros.jp/wp-content/uploads/2022/07/0c1e338a53e69bdffbaddf6d46cd9a0a.jpg",
+            "https://tvbros.jp/wp-content/uploads/2022/07/7011fbed10115522db9645649dc88c16.jpg",
+            "https://tvbros.jp/wp-content/uploads/2022/07/852e4fdfc68b61210e13c85415360d9b.jpg",
+            "https://tvbros.jp/wp-content/uploads/2022/07/bcb74e21127e91cc50bc0735ffb6e37b.jpg",
             "https://tvbros.jp/wp-content/uploads/2022/06/9bcfa2532f7cb5726bdfd2cc96df3f70.jpeg"
         ]);
 });
