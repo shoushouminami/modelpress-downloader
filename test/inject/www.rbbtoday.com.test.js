@@ -90,37 +90,25 @@ test("Test news article gallery", async () => {
     );
 });
 
-test("Test news article images", async () => {
+test("article/2023/09/11/212480.html", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.rbbtoday.com/article/2020/08/21/181450.html",
-        "www.rbbtoday.com-article-2020-08-21-181450.html/",
+        "https://www.rbbtoday.com/article/2023/09/11/212480.html",
+        "www.rbbtoday.com-article-2023-09-11-212480.html/",
         [
             {
                 "retries": [
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675748.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675748.jpg"
+                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/785145.jpg",
+                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/785145.jpg"
                 ],
-                "url": "https://www.rbbtoday.com/imgs/zoom/675748.jpg"
+                "url": "https://www.rbbtoday.com/imgs/zoom/785145.jpg"
             },
             {
                 "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/675749.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675749.jpg"
+                    "https://www.rbbtoday.com/imgs/zoom/730826.jpg",
+                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/730826.jpg"
                 ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675749.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.rbbtoday.com/imgs/zoom/675750.jpg",
-                    "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675750.jpg"
-                ],
-                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/675750.jpg"
+                "url": "https://www.rbbtoday.com/imgs/p/5Mv003Y5bG8YWlzdSjWJq4VMdEMsQ0JFREdG/730826.jpg"
             }
-        ],
-        {
-            sizeMatch: function (expectedSize, actualSize) {
-                expect(actualSize).toBeGreaterThanOrEqual(expectedSize);
-            }
-        });
+        ]);
 });

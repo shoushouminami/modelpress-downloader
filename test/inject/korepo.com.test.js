@@ -36,12 +36,12 @@ test("archives/1299301", async () => {
             ]);
 });
 
-test("archives/1300147", async () => {
-        await testDirectDownload(
-            getBrowser(),
-            "https://korepo.com/archives/1300147",
-            "korepo.com-archives-1300147/",
-            [
-                    "https://s.wowkorea.jp/upload/news/398632/20230608e4.jpg"
-            ]);
+test("archives/1336402", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://korepo.com/archives/1336402",
+        "korepo.com-archives-1336402/",
+        [
+            "https://www.wowkorea.jp/img/news/81/408433/296528_640.jpg"
+        ]);
 });
