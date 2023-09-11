@@ -17,6 +17,12 @@ function getLargeImg(url) {
         url = url.replace(url.match(pattern)[1], "");
     }
 
+    // https://times-abema.ismcdn.jp/mwimgs/2/8/1448w/img_282140be4f76eec3bfce4658a720451f268882.jpg
+    let pattern2 = /^https?:\/\/.*\/mwimgs\/[0-9a-z]+\/[0-9a-z]+\/(\d+w)\/.*\.jpg$/i
+    if (url.match(pattern2)) {
+        url = url.replace(url.match(pattern2)[1], "2000w");
+    }
+
     return utils.removeDataUrl(url);
 }
 
@@ -31,22 +37,19 @@ const getLargeImgWithRetry = url => {
 
 const inject =  function() {
     let o = require("./return-message").init();
-    utils.pushArray(o.images,
-        utils.findDomsWithCssSelector(document,
-            "main article .article-body .figure img",
-            function (dom) {
-                if (dom.dataset["srcset"]) {
-                    let srcs = dom.dataset["srcset"].split(",").map(s => s.trim());
-                    return getLargeImgWithRetry(srcs[srcs.length - 1].split(/\s+/)[0]);
-                } else if (dom.srcset) {
-                    let srcs = dom.srcset.split(",").map(s => s.trim());
-                    return getLargeImgWithRetry(srcs[srcs.length - 1].split(/\s+/)[0]);
-                } else {
-                    return getLargeImgWithRetry(dom.src)
-                }
-            }
-        )
-    );
+    for (const selector of [
+        "main article .article-body .figure img",
+        "main article .article-body .m-teaser-main img",
+        "main article .article-body .article-gallery-wrap figure img",
+        "main article .article-body .article-thumb figure img",
+    ]) {
+        utils.pushArray(o.images,
+            utils.findLazyImagesWithCssSelector(
+                document,
+                selector,
+                getLargeImgWithRetry)
+        );
+    }
     return o;
 };
 
