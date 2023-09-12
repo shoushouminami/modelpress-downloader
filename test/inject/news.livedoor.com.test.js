@@ -25,7 +25,7 @@ test("article/detail/24966579/", async () => {
         "https://news.livedoor.com/article/detail/24966579/",
         "news.livedoor.com-article-detail-24966579-/",
         [
-            "https://image.news.livedoor.com/newsimage/stf/2/9/29117_50_66162496_63f9f361.jpg"
+            "https://image.news.livedoor.com/newsimage/stf/b/a/ba976_50_66162496_8a414c77.jpg"
         ]);
 });
 
