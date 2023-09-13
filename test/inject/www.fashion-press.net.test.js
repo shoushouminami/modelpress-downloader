@@ -2,15 +2,12 @@ const { testDirectDownload, getBrowserFactory, dummyItems } = require("./testbas
 const pageutils = require("../pageutils");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test news article page", async () => {
+test("news/56100", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://www.fashion-press.net/news/56100",
         "www.fashion-press.net-news-56100/",
         [
-            {
-                "url": "https://www.fashion-press.net/img/movies/23487/FLw.jpg"
-            },
             {
                 "url": "https://www.fashion-press.net/img/movies/23487/DWM.jpg"
             },
@@ -18,102 +15,60 @@ test("Test news article page", async () => {
                 "url": "https://www.fashion-press.net/img/movies/23487/XZw.jpg"
             },
             {
-                "url": "https://www.fashion-press.net/img/movies/23487/T3Y.jpg"
+                "url": "https://www.fashion-press.net/img/movies/23487/32U.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/movies/23487/GW0.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/movies/23487/gEE.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/movies/23487/hn8.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/movies/23487/lFU.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/movies/23487/sY0.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/movies/23487/g8Y.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/movies/23487/cpU.jpg"
             },
             {
                 "url": "https://www.fashion-press.net/img/movies/23487/yEw.jpg"
             },
             {
-                "url": "https://www.fashion-press.net/img/movies/23487/vEE.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_32U.jpg"
-                ],
-                "url": "https://www.fashion-press.net/img/movies/23487/32U.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_GW0.jpg"
-                ],
-                "url": "https://www.fashion-press.net/img/movies/23487/GW0.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_gEE.jpg"
-                ],
-                "url": "https://www.fashion-press.net/img/movies/23487/gEE.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_hn8.jpg"
-                ],
-                "url": "https://www.fashion-press.net/img/movies/23487/hn8.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_lFU.jpg"
-                ],
-                "url": "https://www.fashion-press.net/img/movies/23487/lFU.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_sY0.jpg"
-                ],
-                "url": "https://www.fashion-press.net/img/movies/23487/sY0.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_g8Y.jpg"
-                ],
-                "url": "https://www.fashion-press.net/img/movies/23487/g8Y.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_cpU.jpg"
-                ],
-                "url": "https://www.fashion-press.net/img/movies/23487/cpU.jpg"
-            },
-            {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_es8.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/movies/23487/es8.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_n0w.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/movies/23487/n0w.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_5Uk.jpg"
-                ],
+                "url": "https://www.fashion-press.net/img/movies/23487/FLw.jpg"
+            },
+            {
                 "url": "https://www.fashion-press.net/img/movies/23487/5Uk.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_Jcg.jpg"
-                ],
+                "url": "https://www.fashion-press.net/img/movies/23487/T3Y.jpg"
+            },
+            {
                 "url": "https://www.fashion-press.net/img/movies/23487/Jcg.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/movies/23487/w300_hd8.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/movies/23487/hd8.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/movies/23487/vEE.jpg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
-            }
-        }
-    );
+        ]);
 });
 
-test("Test collection article page", async () => {
+test("collections/13552", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://www.fashion-press.net/collections/13552",
@@ -142,17 +97,167 @@ test("Test collection article page", async () => {
             },
             {
                 "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_014.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_018.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_019.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_020.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_027.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_028.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_029.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_030.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_031.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_032.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_033.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_034.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_035.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_036.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_037.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_038.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_039.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_040.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_041.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_042.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_043.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_044.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_045.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_046.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_055.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_069.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_070.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_071.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_072.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_073.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_074.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_075.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_076.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_080.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_081.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_082.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_083.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_084.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_085.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_086.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_087.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_088.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_089.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_090.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_091.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_092.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_093.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_094.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_095.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_096.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_097.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_098.jpg"
+            },
+            {
+                "url": "https://www.fashion-press.net/img/news/65061/GiorgioArmani_2021ss_099.jpg"
             }
-        ].concat(dummyItems(52)),
-        {
-            preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
-            }
-        }
-    );
+        ]);
 });
 
-test("Test snaps article page", async () => {
+test("snaps/5485", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://www.fashion-press.net/snaps/5485",
@@ -209,11 +314,5 @@ test("Test snaps article page", async () => {
                 ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/q2Y.jpg"
             }
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollToBottom(page);
-            }
-        }
-    );
+        ]);
 });
