@@ -13,7 +13,7 @@ test("Test 1 image", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.wait(3500);
+                await pageutils.wait(6000);
             }
         });
 });
@@ -30,7 +30,7 @@ test("Test 3 images", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.wait(3500);
+                await pageutils.wait(6000);
             }
         });
 });
