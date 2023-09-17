@@ -8,8 +8,7 @@ const inject = function() {
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(
                 document,
-                selector,
-                utils.removeTrailingResolutionNumbers)
+                selector)
         );
     }
 

@@ -15,11 +15,11 @@ test("fashion/watch/72528/", async () => {
         ]);
 });
 
-test("fashion/coordinate/72910/3/", async () => {
+test("fashion/coordinate/72910/1/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://more.hpplus.jp/fashion/coordinate/72910/3/",
-        "more.hpplus.jp-fashion-coordinate-72910-3-/",
+        "https://more.hpplus.jp/fashion/coordinate/72910/1/",
+        "more.hpplus.jp-fashion-coordinate-72910-1-/",
         [
             "https://image-more.hpplus.jp/block/image/sp/upload/791/7914376e76e932aa1c9510a84fb6e1c0.jpg",
             "https://image-more.hpplus.jp/block/image/sp/upload/139/13902bb8fb39d600810203b34949b9a2.jpg",
@@ -28,7 +28,6 @@ test("fashion/coordinate/72910/3/", async () => {
             "https://image-more.hpplus.jp/block/image/sp/upload/497/497e30e3763ca9e25f3b2c811e8b92a0.jpg"
         ]);
 });
-
 test("beauty/make/72497/", async () => {
     await testDirectDownload(
         getBrowser(),
@@ -39,6 +38,19 @@ test("beauty/make/72497/", async () => {
             "https://image-more.hpplus.jp/block/image/sp/upload/2c9/2c9f0893d4f8c14364f1c2a48e7c7922.jpg",
             "https://image-more.hpplus.jp/block/image/sp/upload/a4d/a4d43ad9e3abea22fa25b159987492d5.jpg",
             "https://image-more.hpplus.jp/block/image/sp/upload/faa/faa81b5114a8e24937f64935d8615e16.jpg"
+        ]);
+});
+
+test("entame/people/102910/2/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://more.hpplus.jp/entame/people/102910/2/",
+        "more.hpplus.jp-entame-people-102910-2-/",
+        [
+            "https://img-more.hpplus.jp/article/parts/image/4e/4ed00c57-bc38-4acf-9ad1-962df21eae67-1280x1920.jpg",
+            "https://img-more.hpplus.jp/article/parts/image/89/89d9a878-7364-4da1-9ee1-cb916fe1753c-1280x1920.jpg",
+            "https://img-more.hpplus.jp/article/parts/image/3d/3d121679-e0fb-4b2a-84e1-ae416faa33ab-1280x1843.jpg",
+            "https://img-more.hpplus.jp/article/parts/image/10/10d53d37-9386-4edd-8847-c4bf7b37bfa5-1280x1843.jpg"
         ]);
 });
 
