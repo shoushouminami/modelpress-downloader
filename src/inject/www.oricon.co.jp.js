@@ -35,16 +35,21 @@ function inject() {
     if (links.length > 0) {
         Promise.all(
             links.map((pageUrl) => {
-                return utils.fetchUrl(pageUrl).then(function (pageHtml) {
+                return utils.fetchUrl(pageUrl, retry=3).then(function (pageHtml) {
                     let template = document.createElement('template');
                     template.innerHTML = pageHtml;
                     return getLargeImgFromPage(template.content);
+                }, function (status, statusText) {
+                    logger.error("utils.fetchUrl failed with", status, statusText);
                 })
             })
         ).then(function (urls) {
             logger.debug("All promises resolved urls=", urls);
             urls.sort();
             utils.pushArray(o.images, urls);
+            messaging.sendToRuntime("updateResult", o);
+        }, function(error){
+            logger.error("Promise.all() failed", error);
             messaging.sendToRuntime("updateResult", o);
         })
 

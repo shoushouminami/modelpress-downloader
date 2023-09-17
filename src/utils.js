@@ -1,3 +1,4 @@
+const {wait} = require("./utils/async-utils");
 const utils = {
     /**
      * First get a list of DOMs belonging to the given CSS class.
@@ -377,20 +378,49 @@ const utils = {
         return (new URL(url)).searchParams;
     },
 
-    fetchUrl: function (url) {
+    fetchUrl: function (url, retry=1, concurrency_limit=8) {
+        utils["_concurrency_count"] = utils["_concurrency_count"] || 0;
+        let logger = require("./logger2")(module.id);
         return new Promise(function (resolve, reject) {
+            function retryFunc(retry) {
+                const {wait} = require("./utils/async-utils")
+                return wait(500).then(() => {
+                    return utils.fetchUrl(url, retry, concurrency_limit);
+                }).then(resolve, reject);
+            }
             let xhr = new XMLHttpRequest();
             xhr.open("GET", url, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
+                    utils["_concurrency_count"] = Math.max(0, utils["_concurrency_count"] - 1);
                     if (xhr.status / 100 === 2) {
+                        logger.debug("GET", url, "OK");
                         resolve(xhr.responseText);
+                    } else if (retry > 0){
+                        logger.error("GET", url, "failed with", xhr.status, xhr.statusText);
+                        logger.error("Retrying ... ");
+                        retryFunc(retry - 1);
                     } else {
+                        logger.error("GET", url, "failed after retries");
                         reject(xhr.status, xhr.statusText);
                     }
                 }
             };
-            xhr.send();
+            xhr.timeout = 2000;
+            xhr.ontimeout = xhr.onabort = (e) => {
+                logger.error("GET", url, "timed out after 2s", e);
+                logger.error("Retrying ... ");
+                utils["_concurrency_count"] = Math.max(0, utils["_concurrency_count"] - 1);
+                retryFunc(retry - 1);
+            };
+            if (utils["_concurrency_count"] < concurrency_limit) {
+                utils["_concurrency_count"] += 1;
+                logger.debug("fetchUrl GET", url, "_concurrent_count=", utils["_concurrency_count"],
+                    "concurrency=", concurrency_limit);
+                xhr.send();
+            } else {
+                return retryFunc(retry);
+            }
         });
     },
     replaceSpecialChars: function (s, replacement) {
