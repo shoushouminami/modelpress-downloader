@@ -17,30 +17,61 @@ function getLargeImg(url) {
     return parts.join("/");
 }
 
+function toCachedImage(url) {
+    url = getLargeImg(url);
+    const filename = utils.getFileName(url);
+    moduleCachedImages.push({
+        filename: filename,
+        promise: new Promise(function (resolve) {
+            fetch(url).then(
+                resp => resp.blob()
+            ).then(
+                blob => {
+                    let reader = new FileReader();
+                    reader.onload = function () {
+                        resolve(this.result)
+                    }
+                    reader.readAsDataURL(blob);
+                }
+            );
+        }),
+    });
+
+    return {
+        type: "msg",
+        filename: filename,
+        url: url
+    }
+}
+
+function registerRuntimeListener() {
+    // listen for "msg" query
+    messaging.listenOnRuntime("getImageUrl", function (msg, sendResponse) {
+        logger.debug("received getImageUrl message filename=", msg.filename);
+        if (msg.filename) {
+            for (const image of moduleCachedImages) {
+                if (image.filename === msg.filename) {
+                    logger.debug("found image filename=", msg.filename, "msg=", msg);
+                    image.promise.then(function (dataUrl) {
+                        logger.debug("sending getImageUrl response image.filename=", image.filename,
+                            "msg.filename=", msg.filename,
+                            "dataUrl.length=", dataUrl && dataUrl.length);
+                        sendResponse({
+                            url: dataUrl,
+                            filename: msg.filename
+                        });
+                    });
+                }
+            }
+
+            return true; // async response
+        }
+    });
+}
+
 module.exports = {
     inject: function () {
-        // listen for "msg" query
-        messaging.listenOnRuntime("getImageUrl", function (msg, sendResponse) {
-            logger.debug("received getImageUrl message filename=", msg.filename);
-            if (msg.filename) {
-                for (const image of moduleCachedImages) {
-                    if (image.filename === msg.filename) {
-                        logger.debug("found image filename=", msg.filename, "msg=", msg);
-                        image.promise.then(function (dataUrl) {
-                            logger.debug("sending getImageUrl response image.filename=", image.filename,
-                                "msg.filename=", msg.filename,
-                                "dataUrl.length=", dataUrl && dataUrl.length);
-                            sendResponse({
-                                url: dataUrl,
-                                filename: msg.filename
-                            });
-                        });
-                    }
-                }
-
-                return true; // async response
-            }
-        });
+        registerRuntimeListener();
 
         let o = require("./return-message.js").init();
         for (const selector of [
@@ -52,32 +83,7 @@ module.exports = {
                 utils.findLazyImagesWithCssSelector(
                     document,
                     selector,
-                    function (url) {
-                        url = getLargeImg(url);
-                        const filename = utils.getFileName(url);
-                        moduleCachedImages.push({
-                            filename: filename,
-                            promise: new Promise(function (resolve) {
-                                fetch(url).then(
-                                    resp => resp.blob()
-                                ).then(
-                                    blob => {
-                                        let reader = new FileReader();
-                                        reader.onload = function () {
-                                            resolve(this.result)
-                                        }
-                                        reader.readAsDataURL(blob);
-                                    }
-                                );
-                            }),
-                        });
-
-                        return {
-                            type: "msg",
-                            filename: filename,
-                            url: url
-                        }
-                    }
+                    toCachedImage
                 )
             );
         }

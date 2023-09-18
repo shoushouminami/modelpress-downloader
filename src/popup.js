@@ -195,8 +195,6 @@ function downloadHandler(resolve) {
         })
         let downloadViaTabContext = {
             p: Promise.resolve(),
-            tempTab: null,
-            tempIframe: null,
             folder: message.folder,
             finishCount: 0,
             errorCount: 0,
@@ -208,7 +206,7 @@ function downloadHandler(resolve) {
 
         downloadViaTabContext.totalCount = imagesNeedTab.length;
         for (let image of imagesNeedTab) {
-            downloader.downloadWithNewTab(chrome, image, downloadViaTabContext, message.fromTabId);
+            downloader.downloadWithNewTab(chrome, image, downloadViaTabContext);
         }
         // after download finishes
         downloadViaTabContext.p = downloadViaTabContext.p.then(resolve);
