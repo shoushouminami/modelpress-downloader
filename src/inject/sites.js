@@ -93,6 +93,7 @@ function register(siteModule) {
     require("./thetv.jp"),
     require("./www.wws-channel.com"),
     require("./lp.p.pia.jp"),
+    require("./trepo.jp"),
     require("./www.lvtimes.net"),
     require("./www.lmaga.jp"),
     require("./apress.jp"),
