@@ -125,7 +125,8 @@ function downloadHandler(resolve) {
         host: message.host,
         title: message.title,
         configMap: config.getConfigMap(),
-        ext: message.ext
+        ext: message.ext,
+        headers: message.headers
     };
     let jobId = 1;
     for (const image of images) {

@@ -31,7 +31,8 @@ function download(chrome, image, resolve) {
             url: image.url,
             saveAs: false,
             method: "GET",
-            filename: getFilename(image)
+            filename: getFilename(image),
+            headers: image.context && image.context.headers || []
         }, function (downloadId) {
             logger.debug("downloadId=" + downloadId);
             if (downloadId && image.retries && image.retries.length > 0) {
@@ -167,7 +168,7 @@ function listenForDownloadFailureAndRetry() {
                         delete retryMap[downloadDelta.id];
                         logger.debug("event=retry downloadId=" + downloadDelta.id + " url=" + image.url + " retryUrl=" + image.retries[0]);
                         image.url = image.retries.shift();
-                        download(chrome, image);
+                        download(chrome, image); // retry download from retryMap
                     }
                 } else if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === CHROME_ERROR_USER_CANCELED) {
                     // no retry. check for USER_CANCELED error
@@ -185,7 +186,7 @@ function downloadWithNewTab(chrome, image, context, tabId) {
                 logger.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
                 displayInNewTab(tabId, image.websiteUrl, function () {
                     logger.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                    download(chrome, {url: image.imageUrl, folder: context.folder, jobId: image.jobId} , () => {
+                    download(chrome, {url: image.imageUrl, folder: context.folder, jobId: image.jobId, context: context} , () => {
                         context.finishCount++;
                         if (context.finishCount === context.totalCount) {
                             if (context.errorCount > 0) {
@@ -243,6 +244,7 @@ function downloadJob(job, sendResponse) {
         let count = 0;
         let downloadIds = [];
         for (const image of job.images) {
+            image.context = image.context || job.context;
             download(chrome, image, function (downloadId) {
                 logger.debug("Started job #" + count);
                 downloadIds.push(downloadId);

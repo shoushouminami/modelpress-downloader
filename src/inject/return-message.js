@@ -19,7 +19,8 @@ module.exports = {
             title: window.document.title.replace(/\//g, "-"),
             folder: (window.location.host + window.location.pathname).replace(/\//g, "-") + "/",
             fromTabId: 0, // tabId,
-            loading: false //  tells the runtime to show an in progress icon indicating images are loading
+            loading: false, //  tells the runtime to show an in progress icon indicating images are loading
+            headers: [] // extra HTTP headers to send when calling chrome.download(). such as [{ "name": "myname", "value": "myvalue"}]
         });
 
         o.originalFolder = o.folder;
