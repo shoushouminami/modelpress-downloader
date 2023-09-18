@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --testTimeout=${TEST_TIMEOUT:-30000} --maxWorkers=${TEST_WORKERS:-4} --silent --ci --reporters=default --reporters=jest-junit test/**/*.test.js",
+    "test": "jest --testTimeout=${TEST_TIMEOUT:-30000} --maxWorkers=${TEST_WORKERS:-4} --silent --ci --reporters=default --reporters=jest-junit -- test",
     "build": "make"
   },
   "jest": {
