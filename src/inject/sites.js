@@ -150,6 +150,7 @@ function register(siteModule) {
     require("./ananweb.jp"),
     require("./anna-media.jp"),
     require("./www.fashion-press.net"),
+    require("./www.fashionsnap.com"),
     require("./numero.jp"),
     require("./classy-online.jp"),
     require("./i-voce.jp"),
