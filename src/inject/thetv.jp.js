@@ -19,14 +19,22 @@ module.exports = {
             }
         }));
 
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.maincontents .newsdetail .news_feed figure img", getLargeImg));
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.maincontents .persondetail .photo__block .item-img img", getLargeImg));
+        for (let selector of [
+            "div.maincontents .newsdetail .news_feed figure img",
+            "div.maincontents .persondetail .photo__block .item-img img",
+            "div.maincontents div.fullWidthImages img", // matome
+            "div.maincontents .program_main__item img", // program
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    selector,
+                    getLargeImg
+                )
+            );
+        }
 
-        // matome
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.maincontents div.fullWidthImages img", getLargeImg));
-        // program
-        utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.maincontents .program_main__item img", getLargeImg));
-         return o;
+        return o;
     },
     host: "thetv.jp",
     altHosts: ["talent.thetv.jp"],
