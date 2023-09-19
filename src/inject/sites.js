@@ -110,6 +110,7 @@ function register(siteModule) {
     require("./www.astage-ent.com"),
     require("./www.cinematoday.jp"),
     require("./www.cinemacafe.net"),
+    require("./www.cinema-life.net"),
     require("./www.news-postseven.com"),
     require("./8760.news-postseven.com"),
     require("./popwave.jp"),
