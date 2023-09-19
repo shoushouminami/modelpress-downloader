@@ -19,6 +19,14 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.14 (2023/09/18)
+* Add qjweb.jp
+* Add www.cinema-life.net
+* Add www.koari.net
+* Add www.fashionsnap.com
+* Add trepo.jp
+* Bug fixes
+
 ###### 4.13 (2023/08/06)
 * Add www.bubkaweb.com
 * Add gravure.mantan-web.jp
