@@ -131,6 +131,7 @@ function register(siteModule) {
     require("./sumabo.jp"),
     require("./entamenext.com"),
     require("./entameclip.com"),
+    require("./qjweb.jp"),
     require("./korepo.com"),
     require("./news.kstyle.com"),
     require("./www.koari.net"),
