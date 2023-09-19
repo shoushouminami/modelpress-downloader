@@ -74,3 +74,23 @@ test("interview/i2235/", async () => {
             "http://www.cinema-life.net/wp-content/uploads/7004424743bad0790c87aae9ff814946.jpg"
         ]);
 });
+
+test("p230711_dspr/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "http://www.cinema-life.net/p230711_dspr/",
+        "www.cinema-life.net-p230711_dspr-/",
+        [
+            "http://www.cinema-life.net/wp-content/uploads/29e1f1c66644a6b0bd304a1992279231.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/5e669b9c51b86a5c09007a0afce18e9c.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/1e7e4f8a70a8d4952c3561e9055f3fbd.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/470cf8def923a33a79ff9f54b31d6473.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/fcd4433eb48e428a6bef5c2bdae490b6.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/55a2fbb5a0f22e9fa0da5fa1d1784eb7.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/37a698396bab4bf04cfd967784304e2f.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/9c10f8cdfb42269b3591c6a990d78117.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/d3a6a31f261cab63d5d4c98bd2e3d042.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/bd61ed61b08c6144ae8c14ff4294082b.jpg",
+            "http://www.cinema-life.net/wp-content/uploads/d54b052e51387195f385315539738825.jpg"
+        ]);
+});
