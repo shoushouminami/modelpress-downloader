@@ -1,5 +1,4 @@
 const utils = require("../utils.js");
-
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();

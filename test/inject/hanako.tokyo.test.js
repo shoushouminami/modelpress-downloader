@@ -1,19 +1,19 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser =  getBrowserFactory(beforeAll, afterAll);
 
-test("Test column page", async () => {
+test("learn/260498/#heading-1", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://hanako.tokyo/column/kotobanoosusowake/260498/",
-        "hanako.tokyo-column-kotobanoosusowake-260498-/",
+        "https://hanako.tokyo/learn/260498/#heading-1",
+        "hanako.tokyo-learn-260498-/",
         [
             "https://img.hanako.tokyo/2021/09/30114508/20210702h0080-1.jpg",
             "https://img.hanako.tokyo/2021/09/30114511/20210702h0093-1.jpg",
             "https://img.hanako.tokyo/2021/09/30114505/20210702h0025-1.jpg",
             "https://img.hanako.tokyo/2021/09/30114740/20210702h0100-1.jpg",
-            "https://img.hanako.tokyo/2021/09/30114737/20210702h0068-1.jpg"
-        ]
-    );
+            "https://img.hanako.tokyo/2021/09/30114737/20210702h0068-1.jpg",
+            "https://img.hanako.tokyo/2022/08/04150412/logo-Rena-Yamazaki-NEW.jpg"
+        ]);
 });
 
 test("Test food news page", async () => {

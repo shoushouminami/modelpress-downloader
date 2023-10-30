@@ -196,26 +196,35 @@ const utils = {
      */
     findLazyImagesWithCssSelector: function (rootDom, cssSelector, filterFunc = null) {
         return utils.findDomsWithCssSelector(rootDom, cssSelector, function (dom) {
-            let src = dom.src;
-
-            if (dom.dataset["lazySrc"]) {
-                src = dom.dataset["lazySrc"];
-            }
-
-            if (dom.dataset["src"]) {
-                src = dom.dataset["src"];
-            }
-
-            if (!src && dom.srcset) {
-                src = dom.srcset.split(",").pop().trim().split(" ")[0];
-            }
-
+            let src = utils.getLazyImageFromDOM(dom);
             if (typeof filterFunc === "function") {
                 return filterFunc(src, dom.width, dom.height);
             } else {
                 return src;
             }
         });
+    },
+
+    getLazyImageFromDOM: function (dom) {
+        let src = dom.src;
+
+        if (dom.dataset["lazySrc"]) {
+            src = dom.dataset["lazySrc"];
+        }
+
+        if (dom.dataset["src"]) {
+            src = dom.dataset["src"];
+        }
+
+        if (!src && dom.srcset) {
+            src = dom.srcset.split(",").pop().trim().split(" ")[0];
+        }
+
+        if (typeof filterFunc === "function") {
+            return filterFunc(src, dom.width, dom.height);
+        } else {
+            return src;
+        }
     },
 
     /**

@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+const logger = require("../logger2")(module.id)
 function getLargeImg(url) {
     url = utils.removeTrailingResolutionNumbers(utils.removeQuery(url));
 
@@ -20,7 +21,11 @@ function getLargeImg(url) {
     // https://times-abema.ismcdn.jp/mwimgs/2/8/1448w/img_282140be4f76eec3bfce4658a720451f268882.jpg
     let pattern2 = /^https?:\/\/.*\/mwimgs\/[0-9a-z]+\/[0-9a-z]+\/(\d+w)\/.*\.jpg$/i
     if (url.match(pattern2)) {
-        url = url.replace(url.match(pattern2)[1], "2000w");
+        url = url.replace(url.match(pattern2)[1], "-");
+    }
+
+    if (url.startsWith("https://times-abema.ismcdn.jp/")) {
+        url = url.replace("https://times-abema.ismcdn.jp/", "https://times.abema.tv/")
     }
 
     return utils.removeDataUrl(url);
@@ -41,15 +46,42 @@ const inject =  function() {
         "main article .article-body .figure img",
         "main article .article-body .m-teaser-main img",
         "main article .article-body .article-gallery-wrap figure img",
+        "main article .article-body .article-gallery-img-wrap img",
         "main article .article-body .article-thumb figure img",
     ]) {
         utils.pushArray(o.images,
-            utils.findLazyImagesWithCssSelector(
+            utils.findDomsWithCssSelector(
                 document,
                 selector,
-                getLargeImgWithRetry)
+                function (dom) {
+                    return getLargeImgWithRetry(dom.dataset.gallerySrc || utils.getLazyImageFromDOM(dom))
+                })
         );
     }
+
+    // from JS
+    if (document.querySelector("article script")){
+        let scriptText = document.querySelector("article script").innerText;
+        let photosArrayText = "";
+        for (let line of scriptText.split("\n")) {
+            if (line.trim().startsWith("window.GALLERY.photos")) {
+                photosArrayText = line.trim().split("=")[1];
+            }
+        }
+        logger.debug("photosArrayText=", photosArrayText);
+        for (let line of photosArrayText.split(",")) {
+            if (line.indexOf("\"src\"") > -1) {
+                utils.pushIfNew(
+                    o.images,
+                    getLargeImgWithRetry(window.location.origin + line.split(":")[1]
+                        .replaceAll("\"", "")
+                        .replaceAll("}", "")
+                    )
+                )
+            }
+        }
+    }
+
     return o;
 };
 

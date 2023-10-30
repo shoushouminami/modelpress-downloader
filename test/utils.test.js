@@ -61,6 +61,8 @@ test("Test removeTrailingResolutionNumbers", () => {
     //"http://popwave.jp/wp-content/uploads/2020/03/25607-150x150-1.jpg"
     expect(utils.removeTrailingResolutionNumbers("http://popwave.jp/wp-content/uploads/2020/03/25607-150x150-1.jpg"))
         .toBe("http://popwave.jp/wp-content/uploads/2020/03/25607.jpg");
+    expect(utils.removeTrailingResolutionNumbers("https://img.hanako.tokyo/2021/09/30114511/20210702h0093-1-1536x1022.jpg"))
+        .toBe("https://img.hanako.tokyo/2021/09/30114511/20210702h0093-1.jpg");
 });
 
 
