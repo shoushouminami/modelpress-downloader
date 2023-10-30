@@ -1,4 +1,5 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const pageutils = require("../pageutils");
 const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test samplebook page", async () => {
@@ -122,6 +123,11 @@ test("Test samplebook page", async () => {
                 "filename": "0023.jpg",
                 "type": "msg"
             }
-        ]
+        ],
+        {
+            preinject: async function () {
+                await pageutils.wait(2000);
+            }
+        }
     );
 });

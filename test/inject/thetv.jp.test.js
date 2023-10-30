@@ -1,5 +1,6 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const browser = getBrowserFactory(beforeAll, afterAll);
+const pageutils = require("../pageutils");
 
 test("Test thetv.jp image page", async () => {
     await testDirectDownload(
@@ -32,7 +33,12 @@ test("Test talent.thetv.jp single image", async () => {
         "thetv.jp-person-1000031439-/",
         [
             "https://thetv.jp/i/tl/100/0031/1000031439_r.jpg"
-        ]
+        ],
+        {
+            preinject: async function () {
+                await pageutils.wait(2000);
+            }
+        }
     );
 });
 
