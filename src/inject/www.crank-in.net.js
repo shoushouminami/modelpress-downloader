@@ -18,6 +18,7 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         for (const query of [
+            "#content main article .headline-img img", // headline image in article
             "#content main article .headline_part img", // headline image in article
             "#content main article > article > figure img", // headline image in article
             "#content main article figure .photo-link-main img",  // top image in slide show
@@ -66,7 +67,7 @@ module.exports = {
                 () => messaging.sendToRuntime("updateResult", o)
             );
 
-            require("./return-message.js").loading(o);
+            return require("./return-message.js").loading();
         }
 
         return o;

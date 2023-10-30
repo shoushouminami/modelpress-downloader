@@ -175,7 +175,7 @@ test("gallery/special/77136/2", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.wait(1000);
+                await pageutils.wait(2000);
             }
         });
 });
@@ -236,6 +236,7 @@ test("Test special page 2", async () => {
     );
 });
 
+
 test("news/87669/1", async () => {
     await testDirectDownload(
         getBrowser(),
@@ -245,7 +246,7 @@ test("news/87669/1", async () => {
             {
                 "retries": [
                     "https://www.crank-in.net/img/db/1461515_650.jpg",
-                    "https://www.crank-in.net/img/db/1461515_150.jpg"
+                    "https://www.crank-in.net/img/db/1461515_300.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1461515_1200.jpg"
             },
@@ -517,5 +518,10 @@ test("gallery/news/116325", async () => {
                     "https://www.crank-in.net/img/db/225109224155511_650.jpg"
                 ]
             }
-        ]);
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.wait(2000);
+            }
+        });
 });
