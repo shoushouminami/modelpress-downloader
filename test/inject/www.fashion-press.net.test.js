@@ -264,6 +264,9 @@ test("snaps/5485", async () => {
         "www.fashion-press.net-snaps-5485/",
         [
             {
+                "retries": [
+                    "https://www.fashion-press.net/img/snaps/5485/w150_-rQ.jpg"
+                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/-rQ.jpg"
             },
             {

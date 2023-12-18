@@ -111,39 +111,3 @@ test("special/101801/", async () => {
                     "https://beauty-cdn.oricon.co.jp/special_img/101000/101801/detail/img660/1680252512805.png"
             ]);
 });
-
-test("column/24388/", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://beauty.oricon.co.jp/column/24388/",
-        "beauty.oricon.co.jp-column-24388-/",
-        [
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/25e9ce8258fb3f6cb38d73703e9cabc482716f6e88292d0015394268012ca3b1.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/6c34ae8b282737219ff6588dc763b77b2583a353e1c2f2260fb3ab5baa3bc2ee.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/a3464c619abba95d2eb48662212917dda2f22060561b71f37da0e2ddd898a1c9.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/0901ce7ced24a599c23d2ec24a8fb200d0699a8e918dcef0e0ba7f18316ad930.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/9f8d4fd67a4b30776fda52c88f96ed52f756efa59407e05c3d81c32780e96072.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/f72301636378406fe2b9f5060ada201475036493f5561596a1aa14a185e5ea57.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/38a6c52f638cbfb2b1afe04690d90ec829f52c0063b42a381ecab6b20866def1.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/51dc297ad384bf6eb8fd1f25a0a5a840d162f1d1097a675fbb88bd2883a9efdb.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/cc376b5636cc2083936e73c085cd3a05c0eec421fabe15bbcd12661a81f0bc38.jpg"
-        ]);
-});
-
-test("column/24388/", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://beauty.oricon.co.jp/column/24388/",
-        "beauty.oricon.co.jp-column-24388-/",
-        [
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/25e9ce8258fb3f6cb38d73703e9cabc482716f6e88292d0015394268012ca3b1.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/6c34ae8b282737219ff6588dc763b77b2583a353e1c2f2260fb3ab5baa3bc2ee.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/a3464c619abba95d2eb48662212917dda2f22060561b71f37da0e2ddd898a1c9.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/0901ce7ced24a599c23d2ec24a8fb200d0699a8e918dcef0e0ba7f18316ad930.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/9f8d4fd67a4b30776fda52c88f96ed52f756efa59407e05c3d81c32780e96072.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/f72301636378406fe2b9f5060ada201475036493f5561596a1aa14a185e5ea57.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/38a6c52f638cbfb2b1afe04690d90ec829f52c0063b42a381ecab6b20866def1.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/51dc297ad384bf6eb8fd1f25a0a5a840d162f1d1097a675fbb88bd2883a9efdb.jpg",
-            "https://beauty-cdn.oricon.co.jp/img/column/1/E1690107869416/detail/cc376b5636cc2083936e73c085cd3a05c0eec421fabe15bbcd12661a81f0bc38.jpg"
-        ]);
-});

@@ -4,6 +4,9 @@ const logger = require("../logger2")(module.id);
 const messaging = require("../messaging");
 
 function getLargeImg (url) {
+    if (url.startsWith("//")) {
+        url = "https:" + url;
+    }
     let m = url.match(pattern);
     if (m && m[1]) {
         return {

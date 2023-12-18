@@ -246,7 +246,7 @@ test("news/87669/1", async () => {
             {
                 "retries": [
                     "https://www.crank-in.net/img/db/1461515_650.jpg",
-                    "https://www.crank-in.net/img/db/1461515_300.jpg"
+                    "https://www.crank-in.net/img/db/1461515_1200.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1461515_1200.jpg"
             },

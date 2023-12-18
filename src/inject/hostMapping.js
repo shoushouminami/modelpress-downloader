@@ -33,5 +33,10 @@ exports.check = function (location) {
         return "yanmaga.jp.old";
     }
 
+    if (host === "wws-channel.com") {
+        return "www.wws-channel.com";
+    }
+
+
     return host;
 };
