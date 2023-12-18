@@ -19,6 +19,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.15 (2023/12/18)
+* Fix yanmaga.jp
+* Remove exweb.jp
+
 ###### 4.14 (2023/09/18)
 * Add qjweb.jp
 * Add www.cinema-life.net
