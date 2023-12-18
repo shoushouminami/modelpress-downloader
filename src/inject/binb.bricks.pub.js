@@ -1,6 +1,7 @@
 const utils = require("../utils.js");
 const messaging = require("../messaging");
 const logger = require("../logger2")(module.id);
+const isYanmaga = require("../globals").getWindow().location.host.indexOf("yanmaga.jp") > -1
 const ImageLoader = require("./binb.bricks.pub/image-loader");
 const PtimgPreCombinedDelegator = require("./binb.bricks.pub/ptimg-pre-combined-delegator");
 const Descrambler = require("./binb.bricks.pub/descrambler");
@@ -24,7 +25,7 @@ function addToDataIfNew(dom) {
         };
         item.promise = new Promise(function (resolve) {
             item.dom = document.createElement("img");
-            item.dom.crossOrigin = "anonymous";
+            item.dom.crossOrigin = isYanmaga ? "use-credentials" : "anonymous";
             item.dom.onload = function (){
                 resolve(item);
             };
@@ -90,6 +91,16 @@ function registerEventListener() {
     });
 }
 
+function getFolderName() {
+    return window.location.host
+        + "-"
+        + window.location.pathname
+            .split("/")
+            .slice(2, 5)
+            .join("-")
+        + "/";
+}
+
 module.exports = {
     inject: function () {
         registerEventListener();
@@ -97,7 +108,11 @@ module.exports = {
         let content = document.querySelector("#content");
         if (content && content.dataset["ptbinb"] && content.dataset["ptbinbCid"]) {
             o = require("./return-message.js").loading();
-            descrambler.init(content.dataset["ptbinb"], content.dataset["ptbinbCid"]).then(function (ttx) {
+            let ptbinb = content.dataset["ptbinb"]
+            if (!ptbinb.startsWith("http")) {
+                ptbinb = window.location.origin + ptbinb;
+            }
+            descrambler.init(ptbinb, content.dataset["ptbinbCid"]).then(function (ttx) {
                 let template = document.createElement('template');
                 template.innerHTML = ttx;
                 utils.pushArray(o.images,
@@ -110,6 +125,9 @@ module.exports = {
                     )
                 );
                 o.folder = window.location.host + "-" + window.document.title.replace(/\//g, "-") +  "/";
+                if (isYanmaga) {
+                    o.folder = getFolderName();
+                }
                 messaging.sendToRuntime("updateResult", o);
             }, function (e) {
                 logger.error(e);

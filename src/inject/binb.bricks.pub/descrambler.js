@@ -1,5 +1,6 @@
 const utils = require("../../utils.js");
 const logger = require("../../logger2")(module.id);
+const isYanmaga = require("../../globals").getWindow().location.host.indexOf("yanmaga.jp") > -1
 
 var f = (s.prototype.vt = function () {
     return null !== this.It
@@ -148,9 +149,9 @@ Descrambler.prototype.init = function (ptbinb, cid) {
     const descrambler = this;
     return new Promise(function (resolve, reject) {
         const salt = Descrambler.generateSalt(cid);
-        const u0 = utils.getSearchParam(ptbinb).get("u0");
+        const u0 = utils.getSearchParam(ptbinb).get("u0") || null;
         descrambler.cid = cid;
-        utils.fetchUrl(`${ptbinb}&cid=${cid}&k=${salt}`)
+        utils.fetchUrl(`${ptbinb}&cid=${cid}&k=${salt}`, 2, 1, {timeout: 8000})
             .then(function (respText) {
                 try {
                     let resp = JSON.parse(respText);
@@ -164,16 +165,22 @@ Descrambler.prototype.init = function (ptbinb, cid) {
                     let funcName = null;
                     switch (V.servertype) {
                         case b.Direct:
-                            contentUrl = `${V.sbcurl}content.js?`
+                            contentUrl = `${V.sbcurl}content.js`
                             funcName = "DataGet_Content"
                             break;
                         case b.Rest:
-                            contentUrl = `${V.sbcurl}content?`
+                            contentUrl = `${V.sbcurl}content`
                             break;
                         default:
                             contentUrl = `${V.sbcurl}sbcGetCntnt.php?cid=${cid}&p=${V.token}`
                     }
-                    utils.fetchUrl(`${contentUrl}&u0=${u0}`)
+                    if (u0) {
+                        contentUrl += contentUrl.indexOf("?") > -1 ? `&u0=${u0}` : `?u0=${u0}`;
+                    }
+                    utils.fetchUrl(contentUrl, 1, 1, {
+                        withCredentials:isYanmaga,
+                        timeout: 8000
+                    })
                         .then(function (respText) {
                             let resp2;
                             if (funcName) {

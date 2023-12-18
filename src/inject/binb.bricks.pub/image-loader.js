@@ -7,23 +7,29 @@ function createCanvas(width, height) {
     canvas.height = height;
     return canvas;
 }
-ImageLoader.prototype.initCanvas = function (width, height, n) {
-    logger.debug("initCanvas width=", width, "height=", height);
+ImageLoader.prototype.initCanvas = function (origWidth, origHeight, n) {
+    logger.debug("initCanvas origWidth=", origWidth, "origHeight=", origHeight);
     this.canvas = null;
     this.y = 0;
     this.fix = [];
-    let sum = 0;
-    n.map(x => x.height).forEach(x => sum += x);
-    if (sum > height) {
+    let sumCanvasHeight = 0, scaling = origWidth / n[0].width;
+    n.map(x => x.height).forEach(x => sumCanvasHeight += x);
+    logger.debug("initCanvas sumCanvasHeight=", sumCanvasHeight, "scaling=", scaling, "origHeight=", origHeight);
+    sumCanvasHeight *= scaling; // scaled
+    logger.debug("initCanvas sumCanvasHeightScaled=", sumCanvasHeight);
+    if (sumCanvasHeight > origHeight) {
         this.fix.push(0);
-        let f = (sum - height) / (n.length - 1) ;
+        let f = (sumCanvasHeight - origHeight) / (n.length - 1) ;
         for (let i = 0; i < n.length - 1; i++) {
             if (i !== n.length - 2) {
                 this.fix.push(-1 * f);
             } else {
-                this.fix.push(-1 * (f + ((sum - height) % (n.length - 1))));
+                this.fix.push(-1 * (f + ((sumCanvasHeight - origHeight) % (n.length - 1))));
             }
         }
+        logger.debug("initCanvas fix=", this.fix);
+    } else {
+        logger.debug("initCanvas no fix needed");
     }
 }
 
@@ -93,16 +99,16 @@ ImageLoader.prototype.Qe = function () {
     const loader = this;
     return (null === loader.ts ? loader.Qe() : W.resolve()).then(function () {
         return loader.o.get(t.width, t.height)
-    }).then(function (r) {
-        logger.debug("running for canvas r=", r);
-        var n = r.getContext("2d");
+    }).then(function (canvas) {
+        logger.debug("running for canvas r=", canvas);
+        var n = canvas.getContext("2d");
         return t.transfers.forEach(function (i) {
             i.coords.forEach(function (t) {
                 loader.ts(n, e[i.index], t.xsrc, t.ysrc, t.width, t.height, t.xdest, t.ydest, t.width, t.height)
             })
         }), new W(function (resolve) {
-            loader.drawImage(r, t);
-            loader.o.release(r);
+            loader.drawImage(canvas, t);
+            loader.o.release(canvas);
             resolve();
         })
     });

@@ -11,7 +11,9 @@ function getByWindowLocation(location) {
 }
 
 function getByHost(host) {
-    return modulesWithHostname[host];
+    const m = modulesWithHostname[host];
+    logger.debug("Get module by host=", host, "module=", m);
+    return m;
 }
 
 function validate(siteModule) {

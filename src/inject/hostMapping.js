@@ -30,7 +30,7 @@ exports.check = function (location) {
     }
 
     if (host === "younganimal.com" || host === "youngchampion.jp") {
-        return "yanmaga.jp";
+        return "yanmaga.jp.old";
     }
 
     return host;

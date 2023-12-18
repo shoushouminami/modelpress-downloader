@@ -387,14 +387,18 @@ const utils = {
         return (new URL(url)).searchParams;
     },
 
-    fetchUrl: function (url, retry=1, concurrency_limit=8) {
+    fetchUrl: function (url, retry=1, concurrency_limit=8, config={}) {
+        const logger = require("./logger2")(module.id);
+        logger.debug("fetchUrl retry=", retry, "concurrency_limit=", concurrency_limit, "config=", config, "url=", url);
+        const timeout = config['timeout'] || 2000; // ms
+        const withCredentials = config['withCredentials'] === true || false;
         utils["_concurrency_count"] = utils["_concurrency_count"] || 0;
-        let logger = require("./logger2")(module.id);
         return new Promise(function (resolve, reject) {
-            function retryFunc(retry) {
+            function retryFunc(local_retry) {
+                logger.error("Retrying ... local_retry=", local_retry);
                 const {wait} = require("./utils/async-utils")
                 return wait(500).then(() => {
-                    return utils.fetchUrl(url, retry, concurrency_limit);
+                    return utils.fetchUrl(url, local_retry, concurrency_limit, config);
                 }).then(resolve, reject);
             }
             let xhr = new XMLHttpRequest();
@@ -407,7 +411,6 @@ const utils = {
                         resolve(xhr.responseText);
                     } else if (retry > 0){
                         logger.error("GET", url, "failed with", xhr.status, xhr.statusText);
-                        logger.error("Retrying ... ");
                         retryFunc(retry - 1);
                     } else {
                         logger.error("GET", url, "failed after retries");
@@ -415,13 +418,15 @@ const utils = {
                     }
                 }
             };
-            xhr.timeout = 2000;
+            xhr.timeout = timeout;
             xhr.ontimeout = xhr.onabort = (e) => {
-                logger.error("GET", url, "timed out after 2s", e);
-                logger.error("Retrying ... ");
+                logger.error("GET", url, `timed out after ${timeout}ms`, e);
                 utils["_concurrency_count"] = Math.max(0, utils["_concurrency_count"] - 1);
                 retryFunc(retry - 1);
             };
+            if (withCredentials) {
+                xhr.withCredentials = true;
+            }
             if (utils["_concurrency_count"] < concurrency_limit) {
                 utils["_concurrency_count"] += 1;
                 logger.debug("fetchUrl GET", url, "_concurrent_count=", utils["_concurrency_count"],
