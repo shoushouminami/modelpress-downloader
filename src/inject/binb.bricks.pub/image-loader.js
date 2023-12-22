@@ -22,9 +22,9 @@ ImageLoader.prototype.initCanvas = function (origWidth, origHeight, n) {
         let f = (sumCanvasHeight - origHeight) / (n.length - 1) ;
         for (let i = 0; i < n.length - 1; i++) {
             if (i !== n.length - 2) {
-                this.fix.push(-1 * f);
+                this.fix.push(Math.ceil(-1 * f / scaling));
             } else {
-                this.fix.push(-1 * (f + ((sumCanvasHeight - origHeight) % (n.length - 1))));
+                this.fix.push(Math.ceil(-1 * (f + ((sumCanvasHeight - origHeight) % (n.length - 1))) / scaling));
             }
         }
         logger.debug("initCanvas fix=", this.fix);
