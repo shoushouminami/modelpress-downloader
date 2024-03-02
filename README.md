@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.17 (2024/03/02)
+* Fix mdpr.jp
+
 ###### 4.16 (2023/12/22)
 * Minor fixes on yanmaga.jp
 
