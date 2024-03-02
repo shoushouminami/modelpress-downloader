@@ -54,6 +54,7 @@ function inject() {
         "main .pg-photo__body .pg-photo__webImageListItem img",
         "main .images_article figure img",
         "main .list_photo figure img", // apparel photo list
+        "main .pg-photo__webImageList .pg-photo__webImageListLink img"
     ]) {
         utils.pushArray(o.images,
             utils.findLazyImagesWithCssSelector(document, selector, getLargeImg)
