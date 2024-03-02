@@ -1,63 +1,62 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test ray-web.jp article page ", async () => {
+test("54526?page=1", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://ray-web.jp/54526?page=1",
         "ray-web.jp-54526/",
         [
-            "https://ray-web.jp/wp-content/uploads/2020/07/472bf892ee3bd4be918741d2ae64eb3cb9434dbd.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/3e8ac64274eb3c9d9f75fff83e1aa20ea26fbf2d.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/8230affdf4bfbbfdfd1da9676a088763301fba0d.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/d5017bc2b468c27c355c2e541c8094c90e5a972f.jpg"
-        ]
-    );
+            "https://cdn.ray-web.jp/images/98/03/67/65/jpg/zbg2jzvsj2ebj5bahm4voikqpryiyi.webp",
+            "https://cdn.ray-web.jp/images/92/45/71/26/jpg/m5kfywqgkgun7ygp7vrs7xodloo7pd.webp",
+            "https://cdn.ray-web.jp/images/27/20/68/22/jpg/lttzbnbgwyacaw8lunz9bzq3vf8kjx.webp",
+            "https://cdn.ray-web.jp/images/50/32/44/56/jpg/twns3aaxf4bdedihtgwfnkyzs4a8vx.webp"
+        ]);
 });
 
-test("Test ray-web.jp intro page ", async () => {
+test("54526", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://ray-web.jp/54526",
         "ray-web.jp-54526/",
         [
-            "https://ray-web.jp/wp-content/uploads/2020/07/472bf892ee3bd4be918741d2ae64eb3cb9434dbd.jpg"
-        ]
-    );
+            "https://cdn.ray-web.jp/images/98/03/67/65/jpg/zbg2jzvsj2ebj5bahm4voikqpryiyi.webp",
+            "https://cdn.ray-web.jp/images/92/45/71/26/jpg/m5kfywqgkgun7ygp7vrs7xodloo7pd.webp",
+            "https://cdn.ray-web.jp/images/27/20/68/22/jpg/lttzbnbgwyacaw8lunz9bzq3vf8kjx.webp",
+            "https://cdn.ray-web.jp/images/50/32/44/56/jpg/twns3aaxf4bdedihtgwfnkyzs4a8vx.webp"
+        ]);
 });
 
-test("Test ray-web.jp article 2 ", async () => {
+test("56094?page=1", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://ray-web.jp/56094?page=1",
         "ray-web.jp-56094/",
         [
-            "https://ray-web.jp/wp-content/uploads/2020/09/520781574fc5b6e9c418d8836c7345f5dd41408d-1.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/c89ebb4c459f19271c27722f52a7ca6736b1fa4e.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/d34914720f8049d91a97daba707a5ca55efbc041.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/504319d299628734789ec83c8943659bc443bd46.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/fd38c0d5064661a4955e09ea180f5125ddef48be.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/439e98ad441496e6881207794a49a749fd896426.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/d43cdc3f1ddbb7d11d4c982e88ae7cc9ea947f5b.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/b6b436245fd99a225f1e4e4b8746677205145c66.jpg",
-            "https://ray-web.jp/wp-content/uploads/migration/35b9e921677f62337be8890a866a93dc77895072.jpg"
-        ]
-    );
+            "https://cdn.ray-web.jp/images/45/28/04/13/jpg/sdgebx5tbubmqfbpvvaijiwsrpknex.webp",
+            "https://cdn.ray-web.jp/images/04/47/29/12/jpg/ultozj3jm962a0zvzqrfimskvjkpng.webp",
+            "https://cdn.ray-web.jp/images/96/04/06/98/jpg/v8wlwd4uvhxeh1fzxjxorrjynl1pio.webp",
+            "https://cdn.ray-web.jp/images/37/04/42/51/jpg/lc9k18ahvz95t8sq89ju6v0jhxgu78.webp",
+            "https://cdn.ray-web.jp/images/40/26/23/73/jpg/hxb2jpkuq9lrx7gduwrw3algk7zqec.webp",
+            "https://cdn.ray-web.jp/images/32/04/68/87/jpg/tnrwwxs9b8vazifmsaaeguptl6fgps.webp",
+            "https://cdn.ray-web.jp/images/25/87/34/89/jpg/z2wtcjxoeav3q3o3akhri0hhbcze3z.webp",
+            "https://cdn.ray-web.jp/images/20/56/01/71/jpg/vynpnejn9yx4tvmgppiiphwe7wb7zv.webp",
+            "https://cdn.ray-web.jp/images/66/17/73/49/jpg/ruvabebjwmalnyo8j0gnqgzihubnnh.webp"
+        ]);
 });
 
-test("Test ray-web.jp new layout article", async () => {
+test("142819", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://ray-web.jp/142819",
         "ray-web.jp-142819/",
         [
-            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-19.jpg",
-            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-13.jpg",
-            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-18.jpg",
-            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-17.jpg",
-            "https://ray-web.jp/wp-content/uploads/2021/11/ray01_0-16.jpg",
-            "https://ray-web.jp/wp-content/uploads/2021/11/DMA-ray_1583.jpg",
-            "https://ray-web.jp/wp-content/uploads/2021/11/DMA-ray_1585.jpg"
-        ]
-    );
+            "https://cdn.ray-web.jp/images/78/58/46/64/jpg/acetsonqzctnlwwacdwows027trbcl.webp",
+            "https://cdn.ray-web.jp/images/34/49/17/95/jpg/sgryuv1miisytqlsu5nxciktlu4oje.webp",
+            "https://cdn.ray-web.jp/images/99/23/18/49/jpg/qmwununvpxfv2aswzzslhum5bh8tlf.webp",
+            "https://cdn.ray-web.jp/images/65/84/13/83/jpg/vv2ethnj5e4tbrbooz3chcdaibxm7e.webp",
+            "https://cdn.ray-web.jp/images/11/45/64/68/jpg/uk8ofhtusdgvxpm9devezpap1nf5wj.webp",
+            "https://cdn.ray-web.jp/images/88/23/94/50/jpg/sb14fmd1nhwc32zjuxvot4epolxrp1.webp",
+            "https://cdn.ray-web.jp/images/78/23/42/08/jpg/bqkpcce52x3q4pyeutxkkgklffkwp6.webp"
+        ]);
 });
