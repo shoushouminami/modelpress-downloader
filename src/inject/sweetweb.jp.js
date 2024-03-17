@@ -7,7 +7,14 @@ const inject = function() {
         utils.pushArray(o.images,
             utils.findLazyImagesWithCssSelector(
                 document,
-                selector)
+                selector,
+                function (url) {
+                    if (url == null || url.split("?")[0].endsWith(".gif")) {
+                        return null;
+                    }
+
+                    return url;
+                })
         );
     }
 
