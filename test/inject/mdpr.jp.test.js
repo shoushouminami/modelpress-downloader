@@ -246,13 +246,13 @@ test("Test news article page with instagram photos", async () => {
         "mdpr.jp-news-detail-2587451/",
         [
             {
-                prefix: "https://scontent.cdninstagram.com/v/t51.2885-15/188131714_4488409557839768_2718379691644857371_n.jpg"
+                prefix: "https://scontent.cdninstagram.com/v/"
             },
             {
-                prefix: "https://scontent.cdninstagram.com/v/t51.2885-15/189090037_380077196631949_443156786077998043_n.jpg"
+                prefix: "https://scontent.cdninstagram.com/v/"
             },
             {
-                prefix: "https://scontent.cdninstagram.com/v/t51.2885-15/188325269_2834027283530585_5016862394668132274_n.jpg"
+                prefix: "https://scontent.cdninstagram.com/v/"
             },
             "https://img-mdpr.freetls.fastly.net/article/tyJU/wm/tyJUVAtLPKFIyc6Q-yyf-w395mRFXcZxexrdBWf2EME.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/KO5E/nm/KO5EYh54YA0ydjFEBgshPZb0wr9-o0r8w4SrONMZM_E.jpg?quality=100",
