@@ -111,3 +111,13 @@ test("special/101801/", async () => {
                     "https://beauty-cdn.oricon.co.jp/special_img/101000/101801/detail/img660/1680252512805.png"
             ]);
 });
+
+test("news/2295884/photo/1/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.oricon.co.jp/news/2295884/photo/1/",
+        "www.oricon.co.jp-news-2295884-photo-1-/",
+        [
+            "https://contents.oricon.co.jp/upimg/news/2296000/2295884/20230703_115045_p_l_41881947.jpg"
+        ]);
+});

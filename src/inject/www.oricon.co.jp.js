@@ -65,6 +65,7 @@ function inject() {
             "#mainwrap .contentsbox .imgleftbox img",
             "#mainwrap .contentsbox .imgcenterbox img",
             "#container .contentsbox img",
+            ".main_photo_image a div img"
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
