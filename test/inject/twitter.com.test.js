@@ -3,19 +3,14 @@ const pageutils = require("../pageutils");
 
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test 1 image", async () => {
+test("elonmusk/status/1768693242894119188", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://twitter.com/mai_westcoast/status/1312721916520587264",
-        "twitter.com-mai_westcoast-status-1312721916520587264/",
+        "https://twitter.com/elonmusk/status/1768693242894119188",
+        "twitter.com-elonmusk-status-1768693242894119188/",
         [
-            "https://pbs.twimg.com/media/Eje5n-FUcAEFvc3?format=jpg&name=large"
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.wait(6000);
-            }
-        });
+            "https://pbs.twimg.com/media/GIupIYqWsAAgNut?format=jpg&name=large"
+        ]);
 });
 
 test("Test 3 images", async () => {

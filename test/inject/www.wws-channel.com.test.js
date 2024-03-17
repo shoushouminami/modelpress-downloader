@@ -1,52 +1,54 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test news article full page", async () => {
+test("fashion2/488823.html?view=more", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://wws-channel.com/girls2/222667.html?view=more",
-        "wws-channel.com-girls2-222667.html/",
+        "https://wws-channel.com/fashion2/488823.html?view=more",
+        "wws-channel.com-fashion2-488823.html/",
         [
-                "https://wws-channel.com/wp-content/uploads/2020/09/00-3.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-4-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-3-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-1-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-2-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-5-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-6.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-5.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-4.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-3.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-2.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-8.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-9.jpg"
-        ]
-    );
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/59OZFOGF-00.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-4.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-5.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-2.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-3.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-7.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-6.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-1.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-8.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-7.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-6.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-5.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-4.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-3.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-2.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-1.jpg"
+        ]);
 });
 
-test("Test news article attachment page", async () => {
+test("fashion2/488823.html/attachment/00-9317?pg=488823&mv=0", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://wws-channel.com/girls2/222667.html/attachment/00-6990?pg=222667&mv=0",
-        "wws-channel.com-girls2-222667.html-attachment-00-6990/",
+        "https://wws-channel.com/fashion2/488823.html/attachment/00-9317?pg=488823&mv=0",
+        "wws-channel.com-fashion2-488823.html-attachment-00-9317/",
         [
-                "https://wws-channel.com/wp-content/uploads/2020/09/00-3.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-4-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-3-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-1-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-2-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/1-5-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-6.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-5.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-4.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-3.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-2.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-1.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-8.jpg",
-                "https://wws-channel.com/wp-content/uploads/2020/09/10-9.jpg"
-        ]
-    );
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/59OZFOGF-00.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-4.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-5.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-2.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-3.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-7.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-6.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/souel01-1.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-8.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-7.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-6.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-5.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-4.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-3.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-2.jpg",
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2024/03/japanese-1.jpg"
+        ]);
 });
 
 test("news2/222467.html?view=more", async () => {
