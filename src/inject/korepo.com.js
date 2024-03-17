@@ -9,7 +9,9 @@ module.exports = {
                 [
                     "#main .row .blog-content img.aligncenter", // article images
                 ].join(","),
-                utils.removeTrailingResolutionNumbers)
+                function (url) {
+                    return utils.removeTrailingResolutionNumbers(utils.removeQuery(url));
+                })
         );
 
         return o;

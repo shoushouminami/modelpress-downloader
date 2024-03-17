@@ -1,15 +1,24 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test image page", async () => {
+test("news/article/Jisin_2303854/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.excite.co.jp/news/article/Narinari_20220415_71431/image/1/",
-        "www.excite.co.jp-news-article-Narinari_20220415_71431-image-1-/",
+        "https://www.excite.co.jp/news/article/Jisin_2303854/",
+        "www.excite.co.jp-news-article-Jisin_2303854-/",
         [
-            "https://s.eximg.jp/exnews/feed/Narinari/cf/Narinari_20220415_71431/Narinari_20220415_71431_1.jpg"
-        ]
-    );
+            "https://s.eximg.jp/exnews/feed/Jisin/1d/Jisin_2303854/Jisin_2303854_1.jpg"
+        ]);
+});
+
+test("news/article/Jisin_2303854/image/1/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.excite.co.jp/news/article/Jisin_2303854/image/1/",
+        "www.excite.co.jp-news-article-Jisin_2303854-image-1-/",
+        [
+            "https://s.eximg.jp/exnews/feed/Jisin/1d/Jisin_2303854/Jisin_2303854_1.jpg"
+        ]);
 });
 
 test("Test article page", async () => {

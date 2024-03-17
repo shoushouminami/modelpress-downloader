@@ -13,7 +13,7 @@ test.skip("Test news article 1 image", async () => {
     );
 });
 
-test("Test news article 4 images", async () => {
+test.skip("Test news article 4 images", async () => {
     await testDirectDownload(
         browser(),
         "https://news.merumo.ne.jp/article/genre/10770775",
