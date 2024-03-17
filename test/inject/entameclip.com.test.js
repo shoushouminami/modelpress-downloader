@@ -1,105 +1,122 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("Test picture page", async () => {
+test("news/391831/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://entameclip.com/picture/268878/",
-        "entameclip.com-picture-268878-/",
+        "https://entameclip.com/news/391831/",
+        "entameclip.com-news-391831-/",
         [
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB481.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB488.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB482.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB483.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB484.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB485.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB486.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB487.jpg"
-        ]
-    );
-});
-
-test("Test news page", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://entameclip.com/news/268885",
-        "entameclip.com-news-268885/",
-        [
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB481.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB482.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB483.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB484.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB485.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB486.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB487.jpg",
-            "https://cdn.entameclip.com/2021/09/pic20210907NMB488.jpg"
-        ]
-    );
-});
-
-test("Test news page with full images", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://entameclip.com/news/198169",
-        "entameclip.com-news-198169/",
-        [
-            "https://cdn.entameclip.com/2020/06/img20200623fukuyamaayami1.jpg",
-            "https://cdn.entameclip.com/2020/06/img20200623fukuyamaayami2.jpg",
-            "https://cdn.entameclip.com/2020/06/img20200623fukuyamaayami3.jpg"
-        ]
-    );
-});
-
-test("news/253891/2/", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://entameclip.com/news/253891/2/",
-        "entameclip.com-news-253891-2-/",
-        [
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka462.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka463.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka464.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka465.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka466.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka467.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka468.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka469.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4610.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4611.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4612.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4613.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4614.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4615.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4616.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4617.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4618.jpg"
+            "https://cdn.entameclip.com/2024/03/pic20240317joy2.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy3.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy4.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy5.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy6.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy7.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy8.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy9.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy10.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy11.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy12.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy13.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy14.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy15.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy16.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy17.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy18.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy19.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy20.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy21.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy22.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy23.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy24.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy1.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy25.jpg"
         ]);
 });
 
-test("Test picture page 2", async () => {
+test("picture/391810/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://entameclip.com/picture/253886/",
-        "entameclip.com-picture-253886-/",
+        "https://entameclip.com/picture/391810/",
+        "entameclip.com-picture-391810-/",
         [
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka462.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka467.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka468.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka469.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4610.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4611.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4612.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4613.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4614.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4615.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4616.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4617.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka4618.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka461.png",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka463.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka464.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka465.jpg",
-            "https://cdn.entameclip.com/2021/08/pic20210802nogizaka466.jpg"
-        ]
-    );
+            "https://cdn.entameclip.com/2024/03/pic20240317joy1.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy2.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy3.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy4.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy5.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy6.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy7.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy8.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy9.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy10.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy11.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy12.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy13.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy14.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy15.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy16.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy17.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy18.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy19.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy20.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy21.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy22.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy23.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy24.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317joy25.jpg"
+        ]);
+});
+
+test("picture/391679/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://entameclip.com/picture/391679/",
+        "entameclip.com-picture-391679-/",
+        [
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion3.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion4.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion5.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion6.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion7.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion1.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion2.jpg"
+        ]);
+});
+
+test("news/391685/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://entameclip.com/news/391685/",
+        "entameclip.com-news-391685-/",
+        [
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion1.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion2.jpg"
+        ]);
+});
+
+ttest("news/391769/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://entameclip.com/news/391769/",
+        "entameclip.com-news-391769-/",
+        [
+            "https://cdn.entameclip.com/2024/03/pic20240317FLY4.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317FLY5.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317FLY2.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317FLY1.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317FLY3.jpg",
+            "https://cdn.entameclip.com/2024/03/pic20240317FLY6.jpg"
+        ]);
+});
+
+test("picture/391772/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://entameclip.com/picture/391772/",
+        "entameclip.com-picture-391772-/",
+        [
+            "https://cdn.entameclip.com/2024/03/pic20240317CRAVITY.jpg"
+        ]);
 });
