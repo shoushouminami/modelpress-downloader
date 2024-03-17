@@ -4,11 +4,13 @@ const utils = require("./utils");
 const retryMap = {}; // for keeping retry urls
 const errorMap = {}; // for keeping USER_CANCELED errors; downloadId => error
 const ga = require("./google-analytics");
+const asyncUtils = require("./utils/async-utils");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";
 const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
 const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
+const moduleData = [];
 /**
  * @param image {{context: {folder: "", ext: ""}, url: "", filename: "", folder: "abc/", ext: "jpg", jobId: 123}}
  */
@@ -183,10 +185,20 @@ function downloadWithNewTab(chrome, image, context, tabId) {
     if (image.websiteUrl) {
         context.p = context.p.then(function () {
             return new Promise(function (resolve) {
-                logger.debug("event=creating_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                displayInNewTab(tabId, image.websiteUrl, function () {
-                    logger.debug("event=created_new_iframe totalCount=%d finishCount=%d ", context.totalCount, context.finishCount);
-                    download(chrome, {url: image.imageUrl, folder: context.folder, jobId: image.jobId, context: context} , () => {
+                logger.debug("event=creating_new_tab totalCount=", context.totalCount,
+                    "finishCount=",  context.finishCount);
+                displayInNewTab(tabId, image.websiteUrl, image.websiteCS,function (result) {
+                    logger.debug("event=created_new_tab totalCount=", context.totalCount,
+                        "finishCount=",  context.finishCount,
+                        "websiteUrl=", image.websiteUrl);
+                    logger.debug("new tab result=", result);
+                    download(chrome, {
+                        url: result.images[0].url || image.imageUrl,
+                        folder: context.folder,
+                        jobId: image.jobId,
+                        context: context,
+                        filename: image.filename
+                    } , () => {
                         context.finishCount++;
                         if (context.finishCount === context.totalCount) {
                             if (context.errorCount > 0) {
@@ -218,21 +230,50 @@ function downloadWithNewTab(chrome, image, context, tabId) {
     }
 }
 
-function displayInNewTab(tabId, url, resolve, error) {
+function displayInNewTab(tabId, url, injectCS, resolve) {
     chrome.tabs.create({
         url: url,
         active: false
     }, (newTab) => {
+        logger.debug("Created newTab=", newTab);
         chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
             if (tabId === newTab.id && changeInfo.status === "complete") {
-                chrome.tabs.remove(newTab.id, () => {
-                    resolve();
-                });
+                if (injectCS) {
+                    logger.debug("Executing script",  injectCS, "on tabId", newTab.id);
+                    chrome.scripting.executeScript(
+                        {
+                            target: {"tabId": newTab.id},
+                            files: [injectCS]
+                        },
+                        function (results) {
+                            if (results && results.length > 0) {
+                                logger.debug("Script results[0]=",  results[0]);
+                                const result = results[0].result;
+                                if (result.images && result.images.length > 0) {
+                                    chrome.tabs.remove(newTab.id, () => {
+                                        resolve(result);
+                                    });
+                                }
+                            } else {
+                                chrome.tabs.remove(newTab.id, () => {
+                                    resolve();
+                                });
+                            }
+                        });
+                } else {
+                    chrome.tabs.remove(newTab.id, () => {
+                        resolve();
+                    });
+                }
             }
         });
     });
 }
 
+/**
+ * Entry function for background.js to download images.
+ * Although popup.js calls this function directly if all downloads were cancelled by user error (bug in Chrome)
+ */
 function downloadJob(job, sendResponse) {
     logger.debug("Received " + job.images.length + " jobs");
     logger.debug("Clearing retryMap and errorMap");

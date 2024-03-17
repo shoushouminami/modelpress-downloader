@@ -7,12 +7,17 @@
     "activeTab",
     "downloads"
   ],
+  "optional_permissions": ["tabs"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "host_permissions": [
     "https://www.google-analytics.com/",
     "https://*.freetls.fastly.net/"
+  ],
+  "optional_host_permissions": [
+    "https://storage.mainichikirei.jp/",
+    "https://mainichikirei.jp/"
   ],
   "background": {
     "service_worker":"background.js"

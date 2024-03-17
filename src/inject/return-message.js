@@ -20,7 +20,8 @@ module.exports = {
             folder: (window.location.host + window.location.pathname).replace(/\//g, "-") + "/",
             fromTabId: 0, // tabId,
             loading: false, //  tells the runtime to show an in progress icon indicating images are loading
-            headers: [] // extra HTTP headers to send when calling chrome.download(). such as [{ "name": "myname", "value": "myvalue"}]
+            headers: [], // extra HTTP headers to send when calling chrome.download(). such as [{ "name": "myname", "value": "myvalue"}]
+            permissions_request: undefined  // request for optional permissions
         });
 
         o.originalFolder = o.folder;

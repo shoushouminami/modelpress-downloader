@@ -112,6 +112,25 @@ function downloadHandler(resolve) {
     const downloadWithMsg = [];
     const images = message.images.slice(0, message.images.length);
 
+    if (message.permissions_request) {
+        ga.trackEventGA4("optional_perm_req", {
+            "domain": message.host
+        });
+        chrome.permissions.request(
+            message.permissions_request,
+            (granted) => {
+            if (granted) {
+                ga.trackEventGA4("optional_perm_granted", {
+                    "domain": message.host
+                });
+            } else {
+                ga.trackEventGA4("optional_perm_not_granted", {
+                    "domain": message.host
+                });
+            }
+        });
+    }
+
     ga.trackDownload(message.host, images.length);
     ga.trackEventGA4("download", {
         "domain": message.host,

@@ -1,5 +1,16 @@
 const utils = require("../utils.js");
-const getLargeImg = utils.getSizeGuessingFunc(10);
+function getLargeImg(url) {
+    let filename = utils.getFileName(url);
+    if (filename.indexOf("size") > -1 && !filename.endsWith("_size9.jpg")) {
+        url = url.replace(filename, filename.split("_")[0] + "_size9.jpg");
+    }
+    return {
+        url: url,
+        imageUrl: url,
+        filename: filename,
+        type: "msg"
+    }
+}
 
 module.exports = {
     inject: function () {
@@ -24,6 +35,26 @@ module.exports = {
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document,
                 ".photo__wrap .photo__photolist img", getLargeImg)
+        );
+
+        o.permissions_request = {
+            permissions: ["tabs"],
+            origins: ["https://storage.mainichikirei.jp/", "https://mainichikirei.jp/"]
+        }
+
+        let anchor = window.location.href.split("#")[1];
+        if (anchor && anchor.startsWith("mid_")) {
+            let imageUrl = atob(anchor.replace("mid_", ""));
+            window.open(imageUrl, "_self");
+        }
+        o.images = o.images.map(
+            i => ({
+                imageUrl: i.url,
+                websiteUrl: "https://mainichikirei.jp/assets/favicons/browserconfig.xml#mid_" + btoa(i.url),
+                websiteCS: "inject-cs.js",
+                type: "tab",
+                filename: utils.getFileName(i.url)
+            })
         );
         return o;
     },

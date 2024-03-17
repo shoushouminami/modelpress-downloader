@@ -59,11 +59,13 @@ function expand(handle, newWidth, newHeight) {
 /**
  * Create a new canvas handle with the size of the image dom, and draw the image onto the canvas
  * @param dom
+ * @param width width of the canvas. dom.width is used if not given.
+ * @param height height of the canvas. dom.height is used if not given.
  * @return {*}
  */
-function createCanvasAndDrawImage(dom) {
+function createCanvasAndDrawImage(dom, width, height) {
     return _draw(
-        createCanvas(dom.width, dom.height),
+        createCanvas(width || dom.width, height || dom.height),
         dom
     );
 }
