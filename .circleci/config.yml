@@ -1,8 +1,8 @@
 version: 2.1
 jobs:
   build: # name of your job
-    docker: # executor type
-      - image: cimg/base
+    machine: # executor type
+      image: ubuntu-2204:current
     resource_class: medium
     steps:
       - checkout
