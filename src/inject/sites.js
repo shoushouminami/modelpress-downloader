@@ -90,6 +90,7 @@ function register(siteModule) {
     require("./wanibooks-newscrunch.com"),
     require("./actresspress.com"),
     require("./hominis.media"),
+    require("./mezamashi.media"),
     require("./emomiu.jp"),
     require("./www.edgeline-tokyo.com"),
     require("./this.kiji.is"),
