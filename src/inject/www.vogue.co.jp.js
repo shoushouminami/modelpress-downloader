@@ -1,11 +1,14 @@
 const utils = require("../utils.js");
 function getLargeImg(url) {
+    if (!url.startsWith("https://")) {
+        url = window.location.origin + url;
+    }
     let m = url.match(/^https:\/\/.*\/(w_\d+%2cc_limit\/).*\.(jpg|jpeg|png)$/i);
     if (m) {
-        return url.replace(m[1], "");
+        url = url.replace(m[1], "");
     }
 
-    return url;
+    return utils.removeGIF(url);
 }
 const inject = function() {
     let o = require("./return-message.js").init();
