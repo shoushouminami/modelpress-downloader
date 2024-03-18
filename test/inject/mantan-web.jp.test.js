@@ -1,8 +1,6 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 const {getLargeImg} = require("../../src/inject/mantan-web.jp");
-const pageutils = require("../pageutils");
-
-let getBrowser = getBrowserFactory(beforeAll, afterAll);
+const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test mantan-web.jp article with 4 images", async () => {
     await testDirectDownload(

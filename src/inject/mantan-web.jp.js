@@ -3,7 +3,7 @@ const getLargeImg = utils.getSizeGuessingFunc(10);
 
 module.exports = {
     inject: function () {
-        let o = require("./return-message.js").init();
+        let o = require("./return-message").init();
         for (let selector of [
             ".article__wrap .article__photolist img", // article image gallery
             ".photo__wrap .photo__photolist img", // article image gallery
@@ -27,7 +27,16 @@ module.exports = {
                 )
             );
         }
-        return o;
+
+
+        return require("./return-message").tabDownload(
+            o,
+            {
+                permissions: ["tabs"],
+                origins: ["https://storage.mantan-web.jp/", "https://mantan-web.jp/"]
+            },
+            "https://mantan-web.jp/assets/ichimen/browserconfig.xml",
+        );
     },
     host: "mantan-web.jp",
     altHosts: ["gravure.mantan-web.jp"],

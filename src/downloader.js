@@ -3,6 +3,7 @@ const {wait, every} = require("./utils/async-utils");
 const utils = require("./utils");
 const retryMap = {}; // for keeping retry urls
 const errorMap = {}; // for keeping USER_CANCELED errors; downloadId => error
+const tabIdOnUpdatedFunctionMap = {}; // tabId => function
 const ga = require("./google-analytics");
 const asyncUtils = require("./utils/async-utils");
 const chrome = require("./globals").getChrome();
@@ -10,7 +11,6 @@ const logger = require("./logger2")(module.id);
 const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";
 const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
 const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
-const moduleData = [];
 /**
  * @param image {{context: {folder: "", ext: ""}, url: "", filename: "", folder: "abc/", ext: "jpg", jobId: 123}}
  */
@@ -179,6 +179,15 @@ function listenForDownloadFailureAndRetry() {
             }
         }
     });
+
+    // listen for tab updates and inject content scripts
+    chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+        if (tabIdOnUpdatedFunctionMap[tabId] != null && changeInfo.status === "complete") {
+            logger.debug("Tab updated tabId=", tabId);
+            const f = tabIdOnUpdatedFunctionMap[tabId];
+            f();
+        }
+    });
 }
 
 function downloadWithNewTab(chrome, image, context, tabId) {
@@ -187,13 +196,13 @@ function downloadWithNewTab(chrome, image, context, tabId) {
             return new Promise(function (resolve) {
                 logger.debug("event=creating_new_tab totalCount=", context.totalCount,
                     "finishCount=",  context.finishCount);
-                displayInNewTab(tabId, image.websiteUrl, image.websiteCS,function (result) {
+                displayInNewTab(tabId, image.websiteUrl, image.websiteCS, image.retries,function (result) {
                     logger.debug("event=created_new_tab totalCount=", context.totalCount,
                         "finishCount=",  context.finishCount,
                         "websiteUrl=", image.websiteUrl);
                     logger.debug("new tab result=", result);
                     download(chrome, {
-                        url: result.images[0].url || image.imageUrl,
+                        url: result && result.images[0] && result.images[0].url || image.imageUrl,
                         folder: context.folder,
                         jobId: image.jobId,
                         context: context,
@@ -230,43 +239,52 @@ function downloadWithNewTab(chrome, image, context, tabId) {
     }
 }
 
-function displayInNewTab(tabId, url, injectCS, resolve) {
+function displayInNewTab(tabId, url, injectCS, retries, resolve) {
+    logger.debug("Display in tab url=", url, "injectCS=", injectCS, "retries=", retries);
     chrome.tabs.create({
         url: url,
         active: false
     }, (newTab) => {
         logger.debug("Created newTab=", newTab);
-        chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-            if (tabId === newTab.id && changeInfo.status === "complete") {
-                if (injectCS) {
-                    logger.debug("Executing script",  injectCS, "on tabId", newTab.id);
-                    chrome.scripting.executeScript(
-                        {
-                            target: {"tabId": newTab.id},
-                            files: [injectCS]
-                        },
-                        function (results) {
-                            if (results && results.length > 0) {
-                                logger.debug("Script results[0]=",  results[0]);
-                                const result = results[0].result;
-                                if (result.images && result.images.length > 0) {
-                                    chrome.tabs.remove(newTab.id, () => {
-                                        resolve(result);
-                                    });
-                                }
-                            } else {
-                                chrome.tabs.remove(newTab.id, () => {
-                                    resolve();
+        tabIdOnUpdatedFunctionMap[newTab.id] = function () {
+            function closeTab(callback) {
+                delete tabIdOnUpdatedFunctionMap[newTab.id];
+                chrome.tabs.remove(newTab.id, callback);
+            }
+
+            if (injectCS) {
+                logger.debug("Executing script",  injectCS, "on tabId", newTab.id);
+                chrome.scripting.executeScript(
+                    {
+                        target: {"tabId": newTab.id},
+                        files: [injectCS]
+                    },
+                    function (results) {
+                        if (results && results.length > 0) {
+                            logger.debug("Script results[0]=",  results[0]);
+                            const result = results[0].result;
+                            if (result.images && result.images.length > 0) {
+                                closeTab(() => {
+                                    resolve(result);
+                                });
+                            } else if (!result.supported && retries && retries.length > 0) {
+                                url = retries.shift().websiteUrl;
+                                closeTab(() => {
+                                    displayInNewTab(tabId, url, injectCS, retries, resolve)
                                 });
                             }
-                        });
-                } else {
-                    chrome.tabs.remove(newTab.id, () => {
-                        resolve();
+                        } else {
+                            closeTab(() => {
+                                resolve();
+                            });
+                        }
                     });
-                }
+            } else {
+                closeTab(() => {
+                    resolve();
+                });
             }
-        });
+        };
     });
 }
 
@@ -310,10 +328,8 @@ function queryUserCanceledCount() {
     return c;
 }
 
-exports.download = download;
 exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
 exports.downloadWithNewTab = downloadWithNewTab;
-exports.displayInNewTab = displayInNewTab;
 exports.downloadJob = downloadJob;
 exports.queryUserCanceledCount = queryUserCanceledCount;
 exports.CHROME_ERROR_USER_CANCELED = CHROME_ERROR_USER_CANCELED;

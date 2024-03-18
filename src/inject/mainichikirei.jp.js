@@ -14,7 +14,7 @@ function getLargeImg(url) {
 
 module.exports = {
     inject: function () {
-        let o = require("./return-message.js").init();
+        let o = require("./return-message").init();
         // images in article
         utils.pushArray(o.images,
             utils.findImagesWithCssSelector(document,
@@ -37,26 +37,13 @@ module.exports = {
                 ".photo__wrap .photo__photolist img", getLargeImg)
         );
 
-        o.permissions_request = {
-            permissions: ["tabs"],
-            origins: ["https://storage.mainichikirei.jp/", "https://mainichikirei.jp/"]
-        }
-
-        let anchor = window.location.href.split("#")[1];
-        if (anchor && anchor.startsWith("mid_")) {
-            let imageUrl = atob(anchor.replace("mid_", ""));
-            window.open(imageUrl, "_self");
-        }
-        o.images = o.images.map(
-            i => ({
-                imageUrl: i.url,
-                websiteUrl: "https://mainichikirei.jp/assets/favicons/browserconfig.xml#mid_" + btoa(i.url),
-                websiteCS: "inject-cs.js",
-                type: "tab",
-                filename: utils.getFileName(i.url)
-            })
-        );
-        return o;
+        return require("./return-message").tabDownload(
+            o,
+            {
+                permissions: ["tabs"],
+                origins: ["https://storage.mainichikirei.jp/", "https://mainichikirei.jp/"]
+            },
+            "https://mainichikirei.jp/assets/favicons/browserconfig.xml");
     },
     host: "mainichikirei.jp",
 };

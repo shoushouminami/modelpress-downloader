@@ -3,6 +3,7 @@
  * download tasks to backend.
  * @type {{init: (function(): {ext: undefined, images: [], folder: string, host: string, remoteImages: {}, retry: boolean, supported: boolean})}}
  */
+const utils = require("../utils");
 module.exports = {
     init: function (message) {
         let o = message || {};
@@ -21,7 +22,7 @@ module.exports = {
             fromTabId: 0, // tabId,
             loading: false, //  tells the runtime to show an in progress icon indicating images are loading
             headers: [], // extra HTTP headers to send when calling chrome.download(). such as [{ "name": "myname", "value": "myvalue"}]
-            permissions_request: undefined  // request for optional permissions
+            permissionRequest: undefined  // request for optional permissions
         });
 
         o.originalFolder = o.folder;
@@ -39,6 +40,34 @@ module.exports = {
     loading: function (message) {
         let o = message || this.init();
         o.loading = true;
+
+        return o;
+    },
+
+    tabDownload: function (o, permissionRequest, redirectPage) {
+        o.permissionRequest = permissionRequest;
+
+        let anchor = window.location.href.split("#")[1];
+        if (anchor && anchor.startsWith("mid_")) {
+            let imageUrl = atob(anchor.replace("mid_", ""));
+            window.open(imageUrl, "_self");
+        }
+
+        o.images = o.images.map(
+            i => ({
+                imageUrl: i.url,
+                websiteUrl: redirectPage + "#mid_" + btoa(i.url),
+                websiteCS: "inject-cs.js",
+                type: "tab",
+                filename: utils.getFileName(i.url),
+                retries: i.retries == null ? undefined : i.retries.map(
+                    retry => ({
+                        websiteUrl: redirectPage + "#mid_" + btoa(retry),
+                        imageUrl: retry
+                    })
+                )
+            })
+        );
 
         return o;
     }

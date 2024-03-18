@@ -112,12 +112,12 @@ function downloadHandler(resolve) {
     const downloadWithMsg = [];
     const images = message.images.slice(0, message.images.length);
 
-    if (message.permissions_request) {
+    if (message.permissionRequest) {
         ga.trackEventGA4("optional_perm_req", {
             "domain": message.host
         });
         chrome.permissions.request(
-            message.permissions_request,
+            message.permissionRequest,
             (granted) => {
             if (granted) {
                 ga.trackEventGA4("optional_perm_granted", {
