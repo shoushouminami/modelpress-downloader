@@ -112,6 +112,108 @@ function downloadHandler(resolve) {
     const downloadWithMsg = [];
     const images = message.images.slice(0, message.images.length);
 
+    function _downloadHandler() {
+        ga.trackDownload(message.host, images.length);
+        ga.trackEventGA4("download", {
+            "domain": message.host,
+            "count": images.length
+        });
+        const setJobId = config.getConf(config.DOWNLOAD_PREPEND_JOBID);
+        const context = {
+            tabId: message.fromTabId,
+            folder: message.folder,
+            originalFolder: message.originalFolder,
+            host: message.host,
+            title: message.title,
+            configMap: config.getConfigMap(),
+            ext: message.ext,
+            headers: message.headers
+        };
+        let jobId = 1;
+        for (const image of images) {
+            if (typeof image === "string") {
+                downloadInBg.push(
+                    {
+                        context: context,
+                        url: image,
+                        jobId: setJobId ? jobId : null
+                    }
+                );
+            } else if (typeof image === "object" && image.type === "tab") {
+                image.context = context;
+                image.jobId = setJobId ? jobId : null;
+                imagesNeedTab.push(image);
+            } else if (typeof image === "object" && (image.url != null || image.type === "msg")) {
+                image.context = context;
+                image.jobId = setJobId ? jobId : null;
+
+                if (image.type === "msg") {
+                    image.host = message.host;
+                    downloadWithMsg.push(image);
+                } else {
+                    downloadInBg.push(image);
+                }
+            } else {
+                logger.error("event=unknown_type image=" + JSON.stringify(image));
+            }
+
+            jobId++;
+        }
+
+        if (downloadWithMsg.length > 0) {
+            downloadInBackgroundOrPopup(chrome,
+                {
+                    images: downloadWithMsg,
+                    type: "msg",
+                    context: context
+                },
+                function () {
+                    if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
+                        resolve();
+                    }
+                });
+        }
+
+        if (downloadInBg.length > 0) {
+            downloadInBackgroundOrPopup(chrome,
+                {
+                    images: downloadInBg,
+                    type: "reg",
+                    context: context
+                },
+                function () {
+                    if (imagesNeedTab.length === 0) {
+                        resolve();
+                    }
+                });
+        }
+
+        if (imagesNeedTab.length) {
+            ga.trackEvent("tab_download", "started", message.host, imagesNeedTab.length);
+            ga.trackEventGA4("tab_dl_start", {
+                "domain": message.host,
+                "count": imagesNeedTab.length
+            })
+            let downloadViaTabContext = {
+                p: Promise.resolve(),
+                folder: message.folder,
+                finishCount: 0,
+                errorCount: 0,
+                totalCount: imagesNeedTab.length,
+                host: message.host,
+                title: message.title,
+                configMap: config.getConfigMap()
+            };
+
+            downloadViaTabContext.totalCount = imagesNeedTab.length;
+            for (let image of imagesNeedTab) {
+                downloader.downloadWithNewTab(chrome, image, downloadViaTabContext);
+            }
+            // after download finishes
+            downloadViaTabContext.p = downloadViaTabContext.p.then(resolve);
+        }
+    }
+
     if (message.permissionRequest) {
         ga.trackEventGA4("optional_perm_req", {
             "domain": message.host
@@ -123,112 +225,15 @@ function downloadHandler(resolve) {
                 ga.trackEventGA4("optional_perm_granted", {
                     "domain": message.host
                 });
+                _downloadHandler();
             } else {
                 ga.trackEventGA4("optional_perm_not_granted", {
                     "domain": message.host
                 });
             }
         });
-    }
-
-    ga.trackDownload(message.host, images.length);
-    ga.trackEventGA4("download", {
-        "domain": message.host,
-        "count": images.length
-    });
-    const setJobId = config.getConf(config.DOWNLOAD_PREPEND_JOBID);
-    const context = {
-        tabId: message.fromTabId,
-        folder: message.folder,
-        originalFolder: message.originalFolder,
-        host: message.host,
-        title: message.title,
-        configMap: config.getConfigMap(),
-        ext: message.ext,
-        headers: message.headers
-    };
-    let jobId = 1;
-    for (const image of images) {
-        if (typeof image === "string") {
-            downloadInBg.push(
-                {
-                    context: context,
-                    url: image,
-                    jobId: setJobId ? jobId : null
-                }
-            );
-        } else if (typeof image === "object" && image.type === "tab") {
-            image.context = context;
-            image.jobId = setJobId ? jobId : null;
-            imagesNeedTab.push(image);
-        } else if (typeof image === "object" && (image.url != null || image.type === "msg")) {
-            image.context = context;
-            image.jobId = setJobId ? jobId : null;
-
-            if (image.type === "msg") {
-                image.host = message.host;
-                downloadWithMsg.push(image);
-            } else {
-                downloadInBg.push(image);
-            }
-        } else {
-            logger.error("event=unknown_type image=" + JSON.stringify(image));
-        }
-
-        jobId++;
-    }
-
-    if (downloadWithMsg.length > 0) {
-        downloadInBackgroundOrPopup(chrome,
-            {
-                images: downloadWithMsg,
-                type: "msg",
-                context: context
-            },
-            function () {
-                if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
-                    resolve();
-                }
-            });
-    }
-
-    if (downloadInBg.length > 0) {
-        downloadInBackgroundOrPopup(chrome,
-            {
-                images: downloadInBg,
-                type: "reg",
-                context: context
-            },
-            function () {
-            if (imagesNeedTab.length === 0) {
-                resolve();
-            }
-        });
-    }
-
-    if (imagesNeedTab.length) {
-        ga.trackEvent("tab_download", "started", message.host, imagesNeedTab.length);
-        ga.trackEventGA4("tab_dl_start", {
-            "domain": message.host,
-            "count": imagesNeedTab.length
-        })
-        let downloadViaTabContext = {
-            p: Promise.resolve(),
-            folder: message.folder,
-            finishCount: 0,
-            errorCount: 0,
-            totalCount: imagesNeedTab.length,
-            host: message.host,
-            title: message.title,
-            configMap: config.getConfigMap()
-        };
-
-        downloadViaTabContext.totalCount = imagesNeedTab.length;
-        for (let image of imagesNeedTab) {
-            downloader.downloadWithNewTab(chrome, image, downloadViaTabContext);
-        }
-        // after download finishes
-        downloadViaTabContext.p = downloadViaTabContext.p.then(resolve);
+    } else {
+        _downloadHandler();
     }
 }
 
