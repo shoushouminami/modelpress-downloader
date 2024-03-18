@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build: # name of your job
     docker: # executor type
-      - image: ubuntu-2204:default
+      - image: ubuntu-2204
     resource_class: medium
     steps:
       - checkout
