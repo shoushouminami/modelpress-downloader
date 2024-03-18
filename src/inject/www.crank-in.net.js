@@ -9,14 +9,10 @@ function getLargeImg (url) {
     }
     let m = url.match(pattern);
     if (m && m[1]) {
-        let ret = {
+        return {
             url: url.replace(m[1], "_1200"),
             retries: [url.replace(m[1], "_650")]
         }
-        if (url !== ret.url) {
-            utils.pushIfNew(ret.retries, url);
-        }
-        return ret;
     }
     return url;
 }

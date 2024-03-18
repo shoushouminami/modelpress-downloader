@@ -181,8 +181,7 @@ test("column/80473", async () => {
         [
             {
                 "retries": [
-                    "https://www.crank-in.net/img/db/1416220_650.jpg",
-                    "https://www.crank-in.net/img/db/1416220_300.jpg"
+                    "https://www.crank-in.net/img/db/1416220_650.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1416220_1200.jpg"
             }
@@ -224,36 +223,31 @@ test("news/87669/1", async () => {
             },
             {
                 "retries": [
-                    "https://www.crank-in.net/img/db/1459679_650.jpg",
-                    "https://www.crank-in.net/img/db/1459679_150.jpg"
+                    "https://www.crank-in.net/img/db/1459679_650.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1459679_1200.jpg"
             },
             {
                 "retries": [
-                    "https://www.crank-in.net/img/db/1459680_650.jpg",
-                    "https://www.crank-in.net/img/db/1459680_150.jpg"
+                    "https://www.crank-in.net/img/db/1459680_650.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1459680_1200.jpg"
             },
             {
                 "retries": [
-                    "https://www.crank-in.net/img/db/1461517_650.jpg",
-                    "https://www.crank-in.net/img/db/1461517_150.jpg"
+                    "https://www.crank-in.net/img/db/1461517_650.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1461517_1200.jpg"
             },
             {
                 "retries": [
-                    "https://www.crank-in.net/img/db/1461518_650.jpg",
-                    "https://www.crank-in.net/img/db/1461518_150.jpg"
+                    "https://www.crank-in.net/img/db/1461518_650.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1461518_1200.jpg"
             },
             {
                 "retries": [
-                    "https://www.crank-in.net/img/db/1461516_650.jpg",
-                    "https://www.crank-in.net/img/db/1461516_150.jpg"
+                    "https://www.crank-in.net/img/db/1461516_650.jpg"
                 ],
                 "url": "https://www.crank-in.net/img/db/1461516_1200.jpg"
             }
