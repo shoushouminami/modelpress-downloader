@@ -26,4 +26,6 @@ module.exports = {
         return o;
     },
     host: "storage.mainichikirei.jp",
+    altHosts: ["bunshun.ismcdn.jp"],
+    hidden: true
 };

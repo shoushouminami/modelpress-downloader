@@ -7,8 +7,10 @@ const logger = require("./logger2")(module.id);
 function getSiteModule(location) {
     try {
         const startMs = new Date().getTime();
+        const checkedLocation = require("./inject/hostMapping").check(location);
+        logger.debug("Looking up module location.host=", location.host, "checkedLocation=", checkedLocation);
         // Load module by hostname
-        let m = require("./inject/sites").getByHost(require("./inject/hostMapping").check(location));
+        let m = require("./inject/sites").getByHost(checkedLocation);
         if (m) {
             logger.debug("func=getSiteModule getByHost=", new Date().getTime() - startMs, "ms");
             return m;
@@ -16,7 +18,7 @@ function getSiteModule(location) {
         // not found
         logger.error("Site module not found", location.host);
         // try module by path (in case not registered by hostname)
-        m = require("./inject/" + require("./inject/hostMapping").check(location));
+        m = require("./inject/" + checkedLocation);
         logger.debug("Site module loaded module=", m);
         return m;
     } catch (e) {

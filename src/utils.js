@@ -118,7 +118,7 @@ const utils = {
      * Removes the query part of the given url
      */
     removeQuery: function (url) {
-        return url.split("\?")[0];
+        return url == null ? url: url.split("\?")[0];
     },
     /**
      * Helper method to push all elements from newList into list.
@@ -256,6 +256,7 @@ const utils = {
 
     trailingResolutionPattern: /^https?:\/\/.*(-[0-9]+x[0-9]+(-[\d]+)?)(\.jpg|\.jpeg|\.png)$/,
     removeTrailingResolutionNumbers: function (src) {
+        if (src == null) return src;
         let result = src.match(utils.trailingResolutionPattern);
         if (result) {
             return src.replace(result[1], "");
@@ -285,7 +286,14 @@ const utils = {
         return null;
     },
     removeDataUrl: function (url) {
-        if (url.startsWith("data:")) {
+        if (url && url.startsWith("data:")) {
+            return null
+        }
+
+        return url;
+    },
+    removeGIF: function (url) {
+        if (url && url.endsWith(".gif")) {
             return null
         }
 

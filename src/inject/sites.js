@@ -76,6 +76,7 @@ function register(siteModule) {
     require("./friday.kodansha.co.jp"),
     require("./www.daily.co.jp"),
     require("./www.tokyoheadline.com"),
+    require("./bunshun.jp"),
     require("./www.ytjp.jp"),
     require("./www.thefirsttimes.jp"),
     require("./hanako.tokyo"),
@@ -178,6 +179,7 @@ function register(siteModule) {
     require("./www.instagram.com"),
     require("./m.ex-m.jp"),
     require("./www.tfm.co.jp"),
+    require("./storage.mainichikirei.jp")
 ]);
 
 function all() {
