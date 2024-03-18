@@ -1,7 +1,19 @@
-const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
-let getBrowser = getBrowserFactory(beforeAll, afterAll);
+const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const getBrowser = getBrowserFactory(beforeAll, afterAll);
+const {getLargeImg} = require("../../src/inject/bunshun.jp");
 
-test("articles/photo/62734", async () => {
+test("test getLargeImg", () => {
+    expect(getLargeImg("https://bunshun.ismcdn.jp/mwimgs/e/4/64h/img_e4d0e4cdbbf9f2087b144541ec0bd16d547325.png"))
+        .toStrictEqual({url: "https://bunshun.ismcdn.jp/mwimgs/e/4/-/img_e4d0e4cdbbf9f2087b144541ec0bd16d547325.png"});
+    expect(getLargeImg("https://bunshun.ismcdn.jp/mwimgs/1/3/128w/img_13bb0e4fd2c89d6a5f2bd2441ed48eec13515506.jpg"))
+        .toStrictEqual({url: "https://bunshun.ismcdn.jp/mwimgs/1/3/-/img_13bb0e4fd2c89d6a5f2bd2441ed48eec13515506.jpg"});
+    expect(getLargeImg("https://bunshun.ismcdn.jp/mwimgs/1/3/650wm/img_13bb0e4fd2c89d6a5f2bd2441ed48eec13515506.jpg"))
+        .toStrictEqual({url: "https://bunshun.ismcdn.jp/mwimgs/1/3/-/img_13bb0e4fd2c89d6a5f2bd2441ed48eec13515506.jpg"});
+    expect(getLargeImg("https://bunshun.ismcdn.jp/mwimgs/1/3/64h/img_13bb0e4fd2c89d6a5f2bd2441ed48eec13515506.jpg"))
+        .toStrictEqual({url: "https://bunshun.ismcdn.jp/mwimgs/1/3/-/img_13bb0e4fd2c89d6a5f2bd2441ed48eec13515506.jpg"});
+});
+
+    test("articles/photo/62734", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://bunshun.jp/articles/photo/62734",
@@ -143,6 +155,43 @@ test("articles/-/69638", async () => {
                 "type": "tab",
                 "websiteCS": "inject-cs.js",
                 "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvYi83Ly0vaW1nX2I3YzVmZTBjM2M1N2Y1NDJkMjk3N2Q1NzE5YTE1YzhmMTIzNDY0LmpwZw=="
+            }
+        ]);
+});
+
+test("articles/photo/68029?pn=1", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://bunshun.jp/articles/photo/68029?pn=1",
+        "bunshun.jp-articles-photo-68029/",
+        [
+            {
+                "filename": "img_73a5fc698cf82c7e613e488cb0a1a6c32646272.jpg",
+                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/7/3/-/img_73a5fc698cf82c7e613e488cb0a1a6c32646272.jpg",
+                "type": "tab",
+                "websiteCS": "inject-cs.js",
+                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvNy8zLy0vaW1nXzczYTVmYzY5OGNmODJjN2U2MTNlNDg4Y2IwYTFhNmMzMjY0NjI3Mi5qcGc="
+            },
+            {
+                "filename": "img_5dc59836294e61bd906f0b0bed943f19183867.png",
+                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/5/d/-/img_5dc59836294e61bd906f0b0bed943f19183867.png",
+                "type": "tab",
+                "websiteCS": "inject-cs.js",
+                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvNS9kLy0vaW1nXzVkYzU5ODM2Mjk0ZTYxYmQ5MDZmMGIwYmVkOTQzZjE5MTgzODY3LnBuZw=="
+            },
+            {
+                "filename": "img_b70e14158a7455102d37c47eaecaa68d132064.png",
+                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/b/7/-/img_b70e14158a7455102d37c47eaecaa68d132064.png",
+                "type": "tab",
+                "websiteCS": "inject-cs.js",
+                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvYi83Ly0vaW1nX2I3MGUxNDE1OGE3NDU1MTAyZDM3YzQ3ZWFlY2FhNjhkMTMyMDY0LnBuZw=="
+            },
+            {
+                "filename": "img_08291a0054b2b1cb4052d6f1c057f16b72692.jpg",
+                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/0/8/-/img_08291a0054b2b1cb4052d6f1c057f16b72692.jpg",
+                "type": "tab",
+                "websiteCS": "inject-cs.js",
+                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvMC84Ly0vaW1nXzA4MjkxYTAwNTRiMmIxY2I0MDUyZDZmMWMwNTdmMTZiNzI2OTIuanBn"
             }
         ]);
 });

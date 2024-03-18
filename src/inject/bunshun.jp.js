@@ -1,4 +1,16 @@
 const utils = require("../utils.js");
+
+function getLargeImg(url) {
+    let m = url.match(/^https:\/\/bunshun.ismcdn.jp\/mwimgs\/.+\/.+(\/\d+[a-z]+\/).+\.(jpg|png|jpeg)$/)
+    if (m && m[1]) {
+        url = url.replace(m[1], "/-/")
+    }
+    url = utils.removeDataUrl(utils.removeGIF(url));
+    return url == null ? null : {
+        url: url
+    };
+}
+
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
@@ -11,38 +23,20 @@ module.exports = {
                 utils.findLazyImagesWithCssSelector(
                     document,
                     query,
-                    function (url) {
-                        let m = url.match(/^https:\/\/bunshun.ismcdn.jp\/mwimgs\/.+\/.+(\/\d+[a-z]+\/).+\.jpg$/)
-                        if (m && m[1]) {
-                            url = url.replace(m[1], "/-/")
-                        }
-                        return utils.removeDataUrl(utils.removeGIF(url));
-                    }
+                    getLargeImg
                 )
             );
         }
 
-        o.permissions_request = {
-            permissions: ["tabs"],
-            origins: ["https://bunshun.ismcdn.jp/", "https://bunshun.jp/"]
-        }
-
-        let anchor = window.location.href.split("#")[1];
-        if (anchor && anchor.startsWith("mid_")) {
-            let imageUrl = atob(anchor.replace("mid_", ""));
-            window.open(imageUrl, "_self");
-        }
-        o.images = o.images.map(
-            url => ({
-                imageUrl: url,
-                websiteUrl: "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_" + btoa(url),
-                websiteCS: "inject-cs.js",
-                type: "tab",
-                filename: utils.getFileName(url)
-            })
+        return require("./return-message").tabDownload(
+            o,
+            {
+                permissions: ["tabs"],
+                origins: ["https://bunshun.ismcdn.jp/", "https://bunshun.jp/"]
+            },
+            "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css"
         );
-
-        return o;
     },
-    host: "bunshun.jp"
+    host: "bunshun.jp",
+    getLargeImg: getLargeImg
 };
