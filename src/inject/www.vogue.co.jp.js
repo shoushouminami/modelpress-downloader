@@ -18,7 +18,7 @@ const inject = function() {
     ]) {
         utils.pushArray(
             o.images,
-            utils.findImagesWithCssSelector(
+            utils.findLazyImagesWithCssSelector(
                 document,
                 selector,
             getLargeImg)

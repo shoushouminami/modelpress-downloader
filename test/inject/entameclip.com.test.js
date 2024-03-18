@@ -96,7 +96,7 @@ test("news/391685/", async () => {
         ]);
 });
 
-ttest("news/391769/", async () => {
+test("news/391769/", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://entameclip.com/news/391769/",

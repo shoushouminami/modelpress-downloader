@@ -125,9 +125,7 @@ test("Test samplebook page", async () => {
             }
         ],
         {
-            preinject: async function () {
-                await pageutils.wait(2000);
-            }
+            pagetimeout: 20000
         }
     );
 });

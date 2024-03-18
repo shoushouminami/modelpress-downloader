@@ -455,7 +455,9 @@ test("gallery/news/116325", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.wait(2000);
-            }
+                await pageutils.scrollTo(page, 50);
+            },
+            retries: 1,
+            pagetimeout: 30000
         });
 });

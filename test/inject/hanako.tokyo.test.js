@@ -1,4 +1,5 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const pageutils = require("../pageutils");
 let getBrowser =  getBrowserFactory(beforeAll, afterAll);
 
 test("learn/260498/", async () => {
@@ -46,7 +47,12 @@ test("learn/186294/#heading-4", async () => {
             "https://img.hanako.tokyo/2020/10/14164346/DSC_6086.jpg",
             "https://img.hanako.tokyo/2020/09/14175740/unnamed.jpg",
             "https://img.hanako.tokyo/2020/05/12122816/top_SDGs.jpg"
-        ]);
+        ], {
+            pagetimeout: 20000,
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 70, 500);
+            }
+        });
 });
 
 test("learn/257698/", async () => {
@@ -56,5 +62,10 @@ test("learn/257698/", async () => {
         "hanako.tokyo-learn-257698-/",
         [
             "https://img.hanako.tokyo/2021/09/17151203/ccb26bc28554d743572ee15fc92e901a.jpg"
-        ]);
+        ], {
+            pagetimeout: 20000,
+            preinject: async function (page) {
+                await pageutils.scrollTo(page, 75);
+            }
+        });
 });

@@ -134,7 +134,7 @@ async function testDirectDownload(browser, url, folder, expectedImages, ops= {})
     await runFuncIfDefined(ops && ops['prenavigate'], [page]);
 
     try {
-        await page.goto(url, {timeout: 15000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
+        await page.goto(url, {timeout: parseInt(ops["pagetimeout"]) || 15000, waitUtil: ["load", "domcontentloaded", "networkidle0"]});
     } catch (e) {}
 
     // callback hook to customize action after loading the page, such as scrolling
@@ -166,7 +166,13 @@ async function testDirectDownload(browser, url, folder, expectedImages, ops= {})
             "actualSize=", actualImages.length);
         ops.sizeMatch(expectedImages.length, actualImages.length);
     } else {
-        expect(actualImages).toHaveLength(expectedImages.length);
+        expectedLength = expectedImages.length;
+        for (const expectedImage of expectedImages) {
+            if (expectedImage.prefix && expectedImage.count) {
+                expectedLength += expectedImage.count - 1;
+            }
+        }
+        expect(actualImages).toHaveLength(expectedLength);
     }
     // matches images array
     // 1. literals: ["url1", "url2", ...]
@@ -188,7 +194,7 @@ async function testDirectDownload(browser, url, folder, expectedImages, ops= {})
             } else if (image.url) {
                 expect(actualImages).toContainEqual(image);
             } else if (image.prefix) {
-                let count = 1;
+                let count = image.count || 1;
                 actualImages.forEach((m) => {
                     if (typeof m === "string" && m.startsWith(image.prefix)) {
                         count--;
@@ -211,7 +217,8 @@ async function testDirectDownload(browser, url, folder, expectedImages, ops= {})
 }
 
 async function testDirectDownloadWithRetry(browser, url, folder, images, ops= {}) {
-    return await retries("TEST_RETRIES" in process.env ? parseInt(process.env.TEST_RETRIES) : 0, async () => {
+    let retriesOverwrite = parseInt(ops["retries"]) || 0;
+    return await retries("TEST_RETRIES" in process.env ? parseInt(process.env.TEST_RETRIES) : retriesOverwrite, async () => {
         return await testDirectDownload(browser, url, folder, images, ops);
     });
 }

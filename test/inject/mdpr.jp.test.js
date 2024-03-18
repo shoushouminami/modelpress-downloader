@@ -246,13 +246,8 @@ test("Test news article page with instagram photos", async () => {
         "mdpr.jp-news-detail-2587451/",
         [
             {
-                prefix: "https://scontent.cdninstagram.com/v/"
-            },
-            {
-                prefix: "https://scontent.cdninstagram.com/v/"
-            },
-            {
-                prefix: "https://scontent.cdninstagram.com/v/"
+                prefix: "https://scontent.cdninstagram.com/v/",
+                count: 3
             },
             "https://img-mdpr.freetls.fastly.net/article/tyJU/wm/tyJUVAtLPKFIyc6Q-yyf-w395mRFXcZxexrdBWf2EME.jpg?quality=100",
             "https://img-mdpr.freetls.fastly.net/article/KO5E/nm/KO5EYh54YA0ydjFEBgshPZb0wr9-o0r8w4SrONMZM_E.jpg?quality=100",
