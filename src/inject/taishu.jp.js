@@ -1,16 +1,17 @@
 const utils = require("../utils.js");
+const urlUtils = require("../utils/url-utils");
 const re = /https?:\/\/.*\/mwimgs\/.*\/(\d+w?m?)\/img_[a-z0-9]+\.jpg/i
 function getLargeImg(url) {
     if (url.indexOf("/common/images/icons/") > -1) {
         return null;
     }
 
-    const m = url.match(re);
-    if (m) {
-        return {url: url.replace(m[1], "-"), retries: [url]};
+    let newUrl = urlUtils.removeMwimgsSize(url);
+    if (newUrl !== url) {
+        return {url: newUrl, retries: [url]};
     }
 
-    return url;
+    return newUrl;
 }
 
 module.exports = {

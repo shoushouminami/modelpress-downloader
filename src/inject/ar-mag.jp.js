@@ -1,23 +1,16 @@
 const utils = require("../utils.js");
-const re = /^.*\/(\d{2,3}(mw|wm))\/img.*.(jpg|jpeg|png)$/i
+const urlUtils = require("../utils/url-utils");
 function getLargeImg(url) {
     //https://arweb.ismcdn.jp/mwimgs/a/5/650mw/img_a51243ea92baaa94cd74edae5642ac25191202.jpg
-    const m = url.match(re);
-    if (m) {
+    let newUrl = urlUtils.removeMwimgsSize(utils.removeDataUrl(url));
+    if (newUrl) {
         return {
-            url: url.replace(m[1], "-"),
-            retries: [url]
-        };
-    }
-
-    url = utils.removeDataUrl(url);
-    if (url) {
-        return {
-            url: url,
-            retries: []
+            url: newUrl,
+            retries: (newUrl === url ? [] : [url])
         }
-    };
+    }
 }
+
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();

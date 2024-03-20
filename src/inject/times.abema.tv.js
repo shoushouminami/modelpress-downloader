@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+const urlUtils = require("../utils/url-utils");
 const logger = require("../logger2")(module.id)
 function getLargeImg(url) {
     url = utils.removeTrailingResolutionNumbers(utils.removeQuery(url));
@@ -19,10 +20,7 @@ function getLargeImg(url) {
     }
 
     // https://times-abema.ismcdn.jp/mwimgs/2/8/1448w/img_282140be4f76eec3bfce4658a720451f268882.jpg
-    let pattern2 = /^https?:\/\/.*\/mwimgs\/[0-9a-z]+\/[0-9a-z]+\/(\d+w)\/.*\.jpg$/i
-    if (url.match(pattern2)) {
-        url = url.replace(url.match(pattern2)[1], "-");
-    }
+    url = urlUtils.removeMwimgsSize(url)
 
     if (url.startsWith("https://times-abema.ismcdn.jp/")) {
         url = url.replace("https://times-abema.ismcdn.jp/", "https://times.abema.tv/")

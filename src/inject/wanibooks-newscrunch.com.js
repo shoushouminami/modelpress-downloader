@@ -1,13 +1,7 @@
 const utils = require("../utils.js");
-const url_utils = require("../utils/url-utils");
+const urlUtils = require("../utils/url-utils");
 function getLargeImg(url) {
-    let arr = url.split("/");
-    let re = /^\d+m$/;
-    if (arr[arr.length - 2] && arr[arr.length - 2].match(re)) {
-        arr[arr.length - 2] = "-";
-    }
-
-    return url_utils.toFull(arr.join("/"));
+    return urlUtils.toFull(urlUtils.removeMwimgsSize(url));
 }
 
 const inject = function() {

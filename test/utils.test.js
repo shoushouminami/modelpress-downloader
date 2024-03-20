@@ -1,5 +1,4 @@
 const utils = require("../src/utils.js");
-const exp = require("constants");
 
 test("Test getDomBackgroundImage", () => {
     expect(utils.getDomBackgroundImage(null)).toBeNull();
@@ -118,5 +117,5 @@ test("test getFileExt", function () {
 });
 
 test("test clearObjectProperties", function () {
-   expect(utils.clearObjectProperties({"a": "b"})).toEqual({});
+    expect(utils.clearObjectProperties({"a": "b"})).toEqual({});
 });
