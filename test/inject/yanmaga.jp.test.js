@@ -31,3 +31,11 @@ test("Test manga page", async () => {
         dummyItems(29)
     );
 });
+
+test("episodes/54714d64c642c/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://younganimal.com/episodes/54714d64c642c/",
+        "younganimal.com-episodes-54714d64c642c-/",
+        dummyItems(30));
+});

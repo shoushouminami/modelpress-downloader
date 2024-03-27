@@ -87,35 +87,33 @@ function descramble(imageDom, scrambleString) {
     return canvas.toDataURL("image/jpeg", 1);
 }
 
-function getCoordInfoUrl() {
-    let div = document.getElementById("comici-viewer");
+function getComiciViewerId() {
+    const div = document.getElementById("comici-viewer");
+    return div != null ? div.getAttribute("comici-viewer-id") : null;
+}
 
-    if (div == null ||
-        div.getAttribute("comici-viewer-id") == null
-    ) {
-        return null;
-    }
+function getCoordInfoUrl() {
+    const div = document.getElementById("comici-viewer");
+    const viewerId = getComiciViewerId();
+    if (viewerId == null) return null;
 
     let apiDomain = div.dataset["apiDomain"] || div.getAttribute("api-domain");
     return "https://" +
         (DOMAINS[apiDomain] || DOMAINS["yanmaga2"]) +
-        `${COORD_PATH[apiDomain]}?comici-viewer-id=` + div.getAttribute("comici-viewer-id")
+        `${COORD_PATH[apiDomain]}?comici-viewer-id=${viewerId}`
 }
 
 function getContentInfoUrl(len) {
-    let div = document.getElementById("comici-viewer");
-    if (div == null ||
-        div.getAttribute("comici-viewer-id") == null
-    ) {
+    const div = document.getElementById("comici-viewer");
+    const viewerId = getComiciViewerId();
+    if (div == null || viewerId == null) {
         return null;
     }
 
-    // div.getAttribute("api-domain") == null ||
-    // div.getAttribute("data-member-jwt") == null
-    let apiDomain = div.dataset["apiDomain"] || div.getAttribute("api-domain");
-    let jwt =  div.dataset["memberJwt"]
+    const apiDomain = div.dataset["apiDomain"] || div.getAttribute("api-domain");
+    const jwt =  div.dataset["memberJwt"]
     return `https://${(DOMAINS[apiDomain] || DOMAINS["yanmaga2"])}` +
-        `/book/contentsInfo?comici-viewer-id=${div.getAttribute("comici-viewer-id")}` +
+        `/book/contentsInfo?comici-viewer-id=${viewerId}` +
         `&user-id=${jwt}&page-from=0&page-to=${len}`;
 }
 
@@ -181,7 +179,14 @@ const inject = function () {
                                 let len = coord.result.length;
                                 if (window.location.host === "younganimal.com") {
                                     // quick hack for younganimal.com
-                                    len = coord.result["0"]["page_count"];
+                                    const viewId = getComiciViewerId();
+                                    if (viewId != null) {
+                                        try {
+                                            len = coord.result.filter(c => c["id"] === viewId)["0"]["page_count"]
+                                        } catch (e) {
+                                            len = coord.result["0"]["page_count"];
+                                        }
+                                    }
                                 }
                                 if (window.location.host === "youngchampion.jp") {
                                     const comiciViewerId = document.getElementById("comici-viewer").getAttribute("comici-viewer-id")
