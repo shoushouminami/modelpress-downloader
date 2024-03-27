@@ -11,7 +11,6 @@ const config = require("./config");
 const globals = require("./globals");
 
 
-ga.bootstrap("popup.js");
 ga.bootstrapGA4();
 downloader.listenForDownloadFailureAndRetry();
 

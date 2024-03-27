@@ -42,7 +42,6 @@
     "resources": [
       "images/*",
       "helper/*",
-      "ga.js",
       "ga4.*"
     ],
     "matches": ["*://*/*"]

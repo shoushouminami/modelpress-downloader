@@ -5,7 +5,6 @@ const logger = require("./logger2")(module.id);
 const globals = require("./globals");
 
 // inits
-ga.bootstrap("background.js");
 ga.bootstrapGA4();
 
 downloader.listenForDownloadFailureAndRetry();

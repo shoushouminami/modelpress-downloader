@@ -7,46 +7,11 @@ const GA_PROPERTY_ID = __GA_PROPERTY__; // defined in webpack.config.js
 const GA4_MEASUREMENT_ID = __GA4_MEASUREMENT_ID__; // defined in webpack.config.js
 const GA4_MEASUREMENT_SECRET = __GA4_MEASUREMENT_SECRET__; // defined in webpack.config.js
 const NOT_CALLED = 0;
-const BOOTSTRAPPED = 1;
-const SERVICE_WORKER = 2;
 const CID = "mid-v" + getExtensionVersion();
 const SESSION_ID = Math.round(new Date().getTime() / 1000).toString();
-const USER_PROPERTIES = {};
 
 // 0 - not boostrapped; 1 - successful ; 2 - failed;
 let bootstrapped = NOT_CALLED;
-function isBootstrapped() {
-    return bootstrapped;
-}
-
-function getGaq() {
-    return getWindow()._gaq;
-}
-
-function setVar(slot, name, value) {
-    return getGaq().push(["_setCustomVar", slot, name, value]);
-}
-
-function trackPageview(host, path) {
-    switch (isBootstrapped()) {
-        case BOOTSTRAPPED:
-            return _trackPageview.apply(null, arguments);
-        case SERVICE_WORKER:
-            return _apiTrackPageview(host, path);
-    }
-}
-
-function _trackPageview() {
-    getGaq().push(["_trackPageview"]);
-}
-
-function trackButtonClick(buttonId) {
-    trackEvent(buttonId, "clicked");
-}
-
-function _trackEvent(category, action, label, value) {
-    getGaq().push(["_trackEvent", category, action, label, value]);
-}
 
 /**
  * @param category {string}
@@ -55,47 +20,15 @@ function _trackEvent(category, action, label, value) {
  * @param value {number?}
  */
 function trackEvent(category, action, label, value) {
-    switch (isBootstrapped()) {
-        case BOOTSTRAPPED:
-            // apiTrackToGA4(category, action, label, value);
-            return _trackEvent.apply(null, arguments);
-        case SERVICE_WORKER:
-            return _apiTrackEvent(category, action, label, value);
-    }
+    return _apiTrackEvent(category, action, label, value);
 }
 
 function trackDownload(site, count) {
-    setVar(1, "site", site);
-    setVar(2, "version", chrome.runtime.getManifest().version);
     trackEvent("download", "clicked", site, count);
 }
 
 function trackSupport(site, supported) {
-    setVar(1, "site", site);
-    setVar(2, "version", chrome.runtime.getManifest().version);
     trackEvent("website", supported ? "supported" : "not_supported", site);
-}
-
-// bootstrap GA script
-function bootstrap(page) {
-    let w = getWindow();
-    let _gaq = w._gaq = w._gaq || [];
-    _gaq.push(["_setAccount", GA_PROPERTY_ID]);
-    _gaq.push(['_gat._forceSSL']);
-    if (!runtime.isServiceWorker()) {
-        let ga = w.document.createElement("script");
-        ga.type = "text/javascript";
-        ga.async = true;
-        ga.src = "/ga.js";
-        w.document.head.insertBefore(ga, w.document.head.firstChild);
-        logger.debug("GA bootstrapped with DOM.")
-        bootstrapped = BOOTSTRAPPED;
-    } else {
-        logger.debug("In service worker. Not able to bootstrap GA.")
-        bootstrapped = SERVICE_WORKER;
-    }
-
-    trackPageview("", page);
 }
 
 /**
@@ -253,32 +186,10 @@ function getCid() {
 }
 
 function bootstrapGA4() {
-    if (!runtime.isServiceWorker()){
-        Object.assign(USER_PROPERTIES, {});  // TODO
-
-        // gtag manager
-        const w = getWindow();
-        const ga = w.document.createElement("script");
-        ga.type = "text/javascript";
-        ga.async = true;
-        ga.src = "/ga4.js";
-        w.document.head.insertBefore(ga, w.document.head.firstChild);
-        logger.debug("GA4 bootstrapped with DOM.")
-        w.dataLayer = w.dataLayer || [];
-        w.gtag = function () {
-            w.dataLayer.push(arguments);
-        }
-        w.gtag('js', new Date());
-        w.gtag('config', GA4_MEASUREMENT_ID, {
-            "user_id": getGA4UID(),
-            "ext_ver": getExtensionVersion(),
-        });
-    } else {
-        builder()
-            .event("bg_bootstrap")
-            .param("ext_ver", getExtensionVersion())
-            .send();
-    }
+    builder()
+        .event(runtime.isServiceWorker() ? "bg_bootstrap" : "bootstrap")
+        .param("ext_ver", getExtensionVersion())
+        .send();
 }
 
 /**
@@ -296,11 +207,8 @@ function trackEventGA4(event, params) {
     return _trackEventGA4(event, params, getGA4UID());
 }
 
-exports.trackPageview = trackPageview;
-exports.trackButtonClick = trackButtonClick;
 exports.trackEvent = trackEvent;
 exports.trackDownload = trackDownload;
 exports.trackSupport = trackSupport;
-exports.bootstrap = bootstrap;
 exports.bootstrapGA4 = bootstrapGA4;
 exports.trackEventGA4 = trackEventGA4;

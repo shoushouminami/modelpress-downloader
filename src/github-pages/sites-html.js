@@ -3,7 +3,6 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const SupportedSites = require("../components/supported-sites");
 
-ga.bootstrap("sites-html.js");
 ga.bootstrapGA4();
 ReactDOM.render(
     <SupportedSites
