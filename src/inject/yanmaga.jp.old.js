@@ -177,8 +177,8 @@ const inject = function () {
                             logger.debug("coord=", coord);
                             if (coord && coord.result && coord.result.length > 0) {
                                 let len = coord.result.length;
-                                if (window.location.host === "younganimal.com") {
-                                    // quick hack for younganimal.com
+                                if (window.location.host === "younganimal.com"
+                                    || window.location.host === "youngchampion.jp") {
                                     const viewId = getComiciViewerId();
                                     if (viewId != null) {
                                         try {
@@ -187,10 +187,6 @@ const inject = function () {
                                             len = coord.result["0"]["page_count"];
                                         }
                                     }
-                                }
-                                if (window.location.host === "youngchampion.jp") {
-                                    const comiciViewerId = document.getElementById("comici-viewer").getAttribute("comici-viewer-id")
-                                    len = coord.result.filter(r => r.id == comiciViewerId)[0]["page_count"];
                                 }
                                 let contentUrl = getContentInfoUrl(len);
                                 logger.debug("contentUrl=", contentUrl, "len=", len);

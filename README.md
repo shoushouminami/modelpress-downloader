@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.19 (2024/03/27)
+* Fix on younganimal.com
+
 ###### 4.18 (2024/03/18)
 * Add mezamashi.media and bunshun.jp
 * Fixes on mantan-web.jp, entameclip.com, hanako.tokyo, sweetweb.jp, www.oricon.com, mainichikirei.jp, 
