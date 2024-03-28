@@ -32,7 +32,6 @@ module.exports = {
         return require("./return-message").tabDownload(
             o,
             {
-                permissions: ["tabs"],
                 origins: ["https://storage.mantan-web.jp/", "https://mantan-web.jp/"]
             },
             "https://mantan-web.jp/assets/ichimen/browserconfig.xml",

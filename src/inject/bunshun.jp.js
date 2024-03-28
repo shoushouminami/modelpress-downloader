@@ -31,7 +31,6 @@ module.exports = {
         return require("./return-message").tabDownload(
             o,
             {
-                permissions: ["tabs"],
                 origins: ["https://bunshun.ismcdn.jp/", "https://bunshun.jp/"]
             },
             "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css"

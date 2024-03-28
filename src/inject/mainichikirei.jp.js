@@ -1,15 +1,9 @@
 const utils = require("../utils.js");
 function getLargeImg(url) {
-    let filename = utils.getFileName(url);
-    if (filename.indexOf("size") > -1 && !filename.endsWith("_size9.jpg")) {
-        url = url.replace(filename, filename.split("_")[0] + "_size9.jpg");
-    }
-    return {
-        url: url,
-        imageUrl: url,
-        filename: filename,
-        type: "msg"
-    }
+    const func = utils.getSizeGuessingFunc(9);
+    let ret = func(url);
+    ret["type"] = "msg";
+    return ret;
 }
 
 module.exports = {
@@ -40,7 +34,6 @@ module.exports = {
         return require("./return-message").tabDownload(
             o,
             {
-                permissions: ["tabs"],
                 origins: ["https://storage.mainichikirei.jp/", "https://mainichikirei.jp/"]
             },
             "https://mainichikirei.jp/assets/favicons/browserconfig.xml");

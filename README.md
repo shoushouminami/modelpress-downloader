@@ -20,7 +20,7 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 ### Change Logs
 
 ###### 4.19 (2024/03/27)
-* Fix on younganimal.com
+* Fix on younganimal.com and mainichikirei.jp
 * Remove old GA code
 
 ###### 4.18 (2024/03/18)
