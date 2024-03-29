@@ -42,8 +42,9 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         for (const selector of [
-            ".VcPageContent div[class^='main_'] img",
-            "div[class^='VcGallerySwiper_'] .swiper-slide img[class^='image_'] "
+            ".VcPageContent div[class^='main_'] > div > div > img",
+            ".VcPageContent div[class^='main_'] figure > img",
+            "div[class^='main_'] .swiper-slide a[class^='CsmCard_'] > div > img"
         ]) {
             utils.pushArray(
                 o.images,
