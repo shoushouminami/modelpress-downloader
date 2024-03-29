@@ -19,8 +19,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.20 (2024/03/29)
+* Fix mainichikirei.jp
+* Remove tabs from optional permission
+
 ###### 4.19 (2024/03/27)
-* Fix on younganimal.com and mainichikirei.jp
+* Fix on younganimal.com
 * Remove old GA code
 
 ###### 4.18 (2024/03/18)
