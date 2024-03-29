@@ -3,13 +3,13 @@ const pageutils = require("../pageutils");
 
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("elonmusk/status/1768693242894119188", async () => {
+test("nogizaka46/status/1773336164650676599", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://twitter.com/elonmusk/status/1768693242894119188",
-        "twitter.com-elonmusk-status-1768693242894119188/",
+        "https://twitter.com/nogizaka46/status/1773336164650676599",
+        "twitter.com-nogizaka46-status-1773336164650676599/",
         [
-            "https://pbs.twimg.com/media/GIupIYqWsAAgNut?format=jpg&name=large"
+            "https://pbs.twimg.com/media/GJwn12GbwAAFkmE?format=jpg&name=large"
         ]);
 });
 

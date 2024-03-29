@@ -15,7 +15,12 @@ test("article/image_detail/22794332/?img_id=34472927", async () => {
             "https://image.news.livedoor.com/newsimage/stf/4/4/4484fdfb2da0cfb067ec9f5b8ce2dd85.jpg",
             "https://image.news.livedoor.com/newsimage/stf/2/5/25f24ba33918d228b4d6611e3b4937e5.jpg",
             "https://image.news.livedoor.com/newsimage/stf/6/f/6f9e0e23648b3391d4a8c2a1cbe0b290.jpg",
-            "https://image.news.livedoor.com/newsimage/stf/b/2/b2ab72f95d12e216fa7db056b27a918b.jpg"
+            "https://image.news.livedoor.com/newsimage/stf/b/2/b2ab72f95d12e216fa7db056b27a918b.jpg",
+            "https://image.news.livedoor.com/newsimage/stf/9/b/9b50c93ecc310036feca7f808346b4ef.jpg",
+            "https://image.news.livedoor.com/newsimage/stf/e/8/e843ce30ea927085a084939fa2e1d2d3.jpg",
+            "https://image.news.livedoor.com/newsimage/stf/4/c/4c85d01d59d3c27114a667d7a82f81ed.jpg",
+            "https://image.news.livedoor.com/newsimage/stf/0/b/0b9e96a45c55af929279ef4b15ddf7ac.jpg",
+            "https://image.news.livedoor.com/newsimage/stf/6/a/6a7948469b88f0870dd00b5cfae65092.jpg"
         ]);
 });
 
