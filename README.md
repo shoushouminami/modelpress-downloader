@@ -20,7 +20,8 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 ### Change Logs
 
 ###### 4.20 (2024/03/29)
-* Fix mainichikirei.jp
+* Fixes on mainichikirei.jp, i-voce.jp and mezamashi.media
+* Remove www.fujitv-view.jp
 * Remove tabs from optional permission
 
 ###### 4.19 (2024/03/27)
