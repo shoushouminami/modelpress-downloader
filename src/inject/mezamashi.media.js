@@ -4,7 +4,7 @@ module.exports = {
         let o = require("./return-message.js").init();
         for (const query of [
             "#__next .chakra-stack img[fetchpriority='high']", // article images
-            "#__next .chakra-stack .chakra-link > img[srcset]", // thumbnail images
+            "#__next .chakra-stack div > a.chakra-link > img[srcset]", // thumbnail images
             "#__next main > div.chakra-container > div > a.chakra-link > div > img[srcset]", // article images
         ]) {
             utils.pushArray(o.images,
