@@ -10,7 +10,18 @@ test("nogizaka46/status/1773336164650676599", async () => {
         "twitter.com-nogizaka46-status-1773336164650676599/",
         [
             "https://pbs.twimg.com/media/GJwn12GbwAAFkmE?format=jpg&name=large"
-        ]);
+        ],
+        {
+            preinject: async function (page) {
+                await pageutils.wait(1500);
+                let executionContext = await page.mainFrame().executionContext();
+                await executionContext.evaluate(() => {
+                    try {
+                        document.querySelectorAll("article")[0].querySelectorAll("div[aria-label=Image] img")[0].click();
+                    } catch (ignored){}
+                });
+            }
+        });
 });
 
 test("Test 3 images", async () => {
