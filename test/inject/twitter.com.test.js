@@ -13,7 +13,7 @@ test("nogizaka46/status/1773336164650676599", async () => {
         ],
         {
             preinject: async function (page) {
-                await pageutils.wait(1500);
+                await pageutils.wait(3000);
                 let executionContext = await page.mainFrame().executionContext();
                 await executionContext.evaluate(() => {
                     try {
