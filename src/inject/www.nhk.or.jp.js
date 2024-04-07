@@ -1,24 +1,17 @@
 const utils = require("../utils.js");
 const inject = function() {
     let o = require("./return-message.js").init();
-    // for (const selector of [
-    //     "#main #center .entry:nth-child(1) img",
-    //     // "#main #center div div > img",
-    // ]) {
-    //     utils.pushArray(o.images,
-    //         utils.findLazyImagesWithCssSelector(
-    //             document,
-    //             selector,
-    //             function (url) {
-    //                 if (!(url.endsWith(".jpg") || url.endsWith(".JPG")
-    //                     || url.endsWith(".jpeg") || url.endsWith(".JPEG"))) {
-    //                     return null;
-    //                 }
-    //                 return url;
-    //             }
-    //         )
-    //     );
-    // }
+    for (const selector of [
+        ".blogposting-articles .article-text img",
+        // "#main #center div div > img",
+    ]) {
+        utils.pushArray(o.images,
+            utils.findLazyImagesWithCssSelector(
+                document,
+                selector
+            )
+        );
+    }
     const divDOMs = utils.findDomsWithCssSelector(document, "#main #center div.entry", function (divDOM) {
         const h2Divs = utils.findDomsWithCssSelector(divDOM, "h2", function (h2Div) {
             if (h2Div.innerText.indexOf("らじらー！サンデー") > -1) {
@@ -52,5 +45,7 @@ const inject = function() {
 
 module.exports = {
     inject: inject,
-    host: "www.nhk.or.jp"
+    host: "www.nhk.or.jp",
+    altHosts: ["www.nhk.jp"],
+    hidden: true
 };

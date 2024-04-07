@@ -180,7 +180,8 @@ function register(siteModule) {
     require("./www.instagram.com"),
     require("./m.ex-m.jp"),
     require("./www.tfm.co.jp"),
-    require("./storage.mainichikirei.jp")
+    require("./storage.mainichikirei.jp"),
+    require("./www.nhk.or.jp")
 ]);
 
 function all() {
