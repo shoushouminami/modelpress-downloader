@@ -3,6 +3,7 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         for (const selector of [
+            "main .content-main article .article-kv img",
             ".photo-gallery-main .pic  img", // slide show top images
             ".photo-gallery-main .slick-dots img", // top image
             ".article-body .innerpic img", // article body images

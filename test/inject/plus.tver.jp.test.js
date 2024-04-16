@@ -27,15 +27,14 @@ test("Test detail page", async () => {
     );
 });
 
-test("news/157796/detail/", async () => {
+test("news/ntvtopics_158633/detail/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://plus.tver.jp/news/157796/detail/",
-        "plus.tver.jp-news-157796-detail-/",
+        "https://plus.tver.jp/news/ntvtopics_158633/detail/",
+        "plus.tver.jp-news-ntvtopics_158633-detail-/",
         [
-            "https://plus.tver.jp/prod/kanren_news/20240329/e6c458914cc0b75b98d54970ba318c9d.jpg",
-            "https://plus.tver.jp/prod/kanren_news/20240329/35fac624506289dd58c222f997517b5b.jpg",
-            "https://plus.tver.jp/prod/kanren_news/20240329/258adf4dc3362ced05a70c2fe6e9c985.jpg",
-            "https://plus.tver.jp/prod/kanren_news/20240329/318deb3a97d7a5fde1ff86aaa37cb25d.jpg"
+            "https://plus.tver.jp/prod/kanren_news/20240416/f9a1c8d23d9e5bfb15c001ce02d5fa64.jpg",
+            "https://www.ntv.co.jp/topics/articles/images/a2kcnkg2jxk0kd68vfoqtdiex6t6or.jpg",
+            "https://www.ntv.co.jp/topics/articles/images/okzuzp779xwzraxy8ai753kigd4v1a.jpg"
         ]);
 });
