@@ -143,18 +143,18 @@ test("articles/-/69544", async () => {
         ]);
 });
 
-test("articles/-/69638", async () => {
+test("articles/-/70202", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://bunshun.jp/articles/-/69638",
-        "bunshun.jp-articles---69638/",
+        "https://bunshun.jp/articles/-/70202",
+        "bunshun.jp-articles---70202/",
         [
             {
-                "filename": "img_b7c5fe0c3c57f542d2977d5719a15c8f123464.jpg",
-                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/b/7/-/img_b7c5fe0c3c57f542d2977d5719a15c8f123464.jpg",
+                "filename": "img_854598d7edb9fe04376c8d00e791657e183078.jpg",
+                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/8/5/-/img_854598d7edb9fe04376c8d00e791657e183078.jpg",
                 "type": "tab",
                 "websiteCS": "inject-cs.js",
-                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvYi83Ly0vaW1nX2I3YzVmZTBjM2M1N2Y1NDJkMjk3N2Q1NzE5YTE1YzhmMTIzNDY0LmpwZw=="
+                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvOC81Ly0vaW1nXzg1NDU5OGQ3ZWRiOWZlMDQzNzZjOGQwMGU3OTE2NTdlMTgzMDc4LmpwZw=="
             }
         ]);
 });
