@@ -33,6 +33,7 @@ test("classy/202307/", async () => {
         "https://classy-online.jp/classy/202307/",
         "classy-online.jp-classy-202307-/",
         [
+            "https://img.classy-online.jp/wp-content/uploads/2023/05/22120000/e11e451c181fe7f4a09f599601930036.jpg",
             "https://img.classy-online.jp/wp-content/uploads/2023/05/22125800/17-1.jpg",
             "https://img.classy-online.jp/wp-content/uploads/2023/05/22125805/19.jpg",
             "https://img.classy-online.jp/wp-content/uploads/2023/05/22125814/40-41.jpg",

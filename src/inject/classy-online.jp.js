@@ -4,7 +4,10 @@ const inject = function () {
     let o = require("./return-message.js").init();
     for (const selector of [
         ".main .entry-body figure > img",
-        ".main .main-bndetail-index-img img" // magazine images
+        "article .p-single__contents figure > img",
+        ".main .main-bndetail-index-img img", // magazine images
+        "article section figure.magazine-img img", // magazine images
+        "article section .magazine-index__gallery-img-box img" // magazine images
     ]) {
         utils.pushArray(
             o.images,
