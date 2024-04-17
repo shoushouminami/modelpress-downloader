@@ -2,7 +2,7 @@ const utils = require("../utils.js");
 const logger = require("../logger2")(module.id);
 const getLargeImg = (url) => {
     if (!url || url.endsWith("/index.jpg")) {
-        return null;
+        return url;
     }
     if (url.endsWith(".jpg") && !url.endsWith("l.jpg")) {
         return url.replace(".jpg", "l.jpg");
@@ -26,13 +26,14 @@ const inject = function () {
             }
         }
     }
-
+    logger.debug("o.images.length=", o.images.length);
     if (o.images.length === 0) {
         for (const selector of [
             "article.article div.article-body ul.photo_table img.photo_table__img", // article images
             "article.article div.article-body div.photo_right img.photo_right__img", // single image on the right
             ".contents .magnify .magnifyBlock figure img", // image gallery top
             ".slick-list .slick-track div a img", // image gallery slide stack
+            "article .img-container img",
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
