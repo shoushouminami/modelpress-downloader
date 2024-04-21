@@ -3,6 +3,7 @@ const inject = function() {
     let o = require("./return-message.js").init();
     for (const selector of [
         ".blogposting-articles .article-text img",
+        ".blogposting-articles .gc-article img",
         // "#main #center div div > img",
     ]) {
         utils.pushArray(o.images,
