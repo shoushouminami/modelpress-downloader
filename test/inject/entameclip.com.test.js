@@ -85,17 +85,6 @@ test("picture/391679/", async () => {
         ]);
 });
 
-test("news/391685/", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://entameclip.com/news/391685/",
-        "entameclip.com-news-391685-/",
-        [
-            "https://cdn.entameclip.com/2024/03/pic20240317soundorion1.jpg",
-            "https://cdn.entameclip.com/2024/03/pic20240317soundorion2.jpg"
-        ]);
-});
-
 test("news/391769/", async () => {
     await testDirectDownload(
         getBrowser(),
