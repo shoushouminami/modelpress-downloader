@@ -12,13 +12,8 @@ module.exports = {
         let o = require("./return-message.js").init();
 
         for (const selector of [
-            // top image
-            "div.main div.section div.content_area div.article div.part .image figure div img",
-            // images in content
-            "div.main div.section div.content_area div.article div.part div.html center img",
-            // magazine trial
-            "div.main div.section div.module div.slider_magazine_wrap div img"
-
+            ".article .image figure img", // article
+            ".wrap-content-normal .wrap-img-view .wrap-img img", //magzine
         ]) {
             utils.pushArray(
                 o.images,
