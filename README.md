@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.21 (2024/05/23)
+* Add add www.sanspo.com and prtimes.jp
+* Fixes on classy-online.jp, plus.tver.jp, nonno.hpplus.jp and mezamashi.media
+* Remove okmusic.jp (site discontinued)
+
 ###### 4.20 (2024/03/29)
 * Fixes on mainichikirei.jp, i-voce.jp and mezamashi.media
 * Remove www.fujitv-view.jp
