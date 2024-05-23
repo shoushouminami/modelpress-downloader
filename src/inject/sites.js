@@ -71,6 +71,7 @@ function register(siteModule) {
     require("./www.nikkansports.com"),
     require("./moment.nikkan-gendai.com"),
     require("./nikkan-spa.jp"),
+    require("./www.sanspo.com"),
     require("./news.mynavi.jp"),
     require("./www.fujitv-view.jp"),
     require("./friday.kodansha.co.jp"),
