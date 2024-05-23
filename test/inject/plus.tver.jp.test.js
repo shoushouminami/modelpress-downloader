@@ -27,14 +27,16 @@ test("Test detail page", async () => {
     );
 });
 
-test("news/ntvtopics_158633/detail/", async () => {
+test("news/abc-magazine_160155/detail/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://plus.tver.jp/news/ntvtopics_158633/detail/",
-        "plus.tver.jp-news-ntvtopics_158633-detail-/",
+        "https://plus.tver.jp/news/abc-magazine_160155/detail/",
+        "plus.tver.jp-news-abc-magazine_160155-detail-/",
         [
-            "https://plus.tver.jp/prod/kanren_news/20240416/f9a1c8d23d9e5bfb15c001ce02d5fa64.jpg",
-            "https://www.ntv.co.jp/topics/articles/images/a2kcnkg2jxk0kd68vfoqtdiex6t6or.jpg",
-            "https://www.ntv.co.jp/topics/articles/images/okzuzp779xwzraxy8ai753kigd4v1a.jpg"
+            "https://abc-magazine.asahi.co.jp/wp-content/uploads/2024/05/6606a243263ceb59d70ecd4295d6a0a0-1024x683.jpg",
+            "https://abc-magazine.asahi.co.jp/wp-content/uploads/2024/05/e7db8b56b0ea7aba67744646c67b039f-1024x683.jpg",
+            "https://abc-magazine.asahi.co.jp/wp-content/uploads/2024/05/386567221880d0978f877f9aa9274693-1024x683.jpg",
+            "https://abc-magazine.asahi.co.jp/wp-content/uploads/2024/05/8005f3f0b71bed21f2fab4eac38f3e2c-1024x683.jpg",
+            "https://abc-magazine.asahi.co.jp/wp-content/uploads/2024/05/d24e880bb327dcca18f894fad2901288-1024x683.jpg"
         ]);
 });

@@ -1,10 +1,10 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-const browser = getBrowserFactory(beforeAll, afterAll);
+const getBrowser = getBrowserFactory(beforeAll, afterAll);
 const pageutils = require("../pageutils");
 
 test("Test thetv.jp image page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://thetv.jp/news/detail/204813/1245284/",
         "thetv.jp-news-detail-204813-1245284-/",
         ["https://thetv.jp/i/nw/204813/1245283.jpg",
@@ -16,7 +16,7 @@ test("Test thetv.jp image page", async () => {
 
 test("Test thetv.jp article page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://thetv.jp/news/detail/204813/",
         "thetv.jp-news-detail-204813-/",
         ["https://thetv.jp/i/nw/204813/1245283.jpg",
@@ -26,9 +26,9 @@ test("Test thetv.jp article page", async () => {
             "https://thetv.jp/i/nw/204813/1245287.jpg"]);
 });
 
-test("Test talent.thetv.jp single image", async () => {
+test("person/1000031439/", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://thetv.jp/person/1000031439/",
         "thetv.jp-person-1000031439-/",
         [
@@ -44,7 +44,7 @@ test("Test talent.thetv.jp single image", async () => {
 
 test("Test thetv.jp program home page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://thetv.jp/news/detail/235367/",
         "thetv.jp-news-detail-235367-/",
         [
@@ -56,7 +56,7 @@ test("Test thetv.jp program home page", async () => {
 
 test("Test thetv.jp matome home page", async () => {
     await testDirectDownload(
-        browser(),
+        getBrowser(),
         "https://thetv.jp/feature/matome/11131/",
         "thetv.jp-feature-matome-11131-/",
         [
