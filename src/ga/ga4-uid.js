@@ -21,9 +21,17 @@ function getGA4UID() {
         }
         return ga4_uid_loaded_from_storage;
     } catch (e) {
-        // logger.error("Failed getGA4UID() " + e)
+        logger.error("Failed getGA4UID() " + e)
         return undefined;
     }
+}
+
+/**
+ * Allows to set GA4 UID. This is only for background.js to set it after receiving setUserID message.
+ * @param uid
+ */
+function setGA4UID(uid) {
+    ga4_uid_loaded_from_storage = uid;
 }
 
 function randomGA4UID() {
@@ -31,3 +39,4 @@ function randomGA4UID() {
 }
 
 exports.getGA4UID = getGA4UID;
+exports.setGA4UID = setGA4UID;

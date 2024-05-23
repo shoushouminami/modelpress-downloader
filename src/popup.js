@@ -9,6 +9,7 @@ const logger = require("./logger2")(module.id);
 const asyncUtils = require("./utils/async-utils");
 const config = require("./config");
 const globals = require("./globals");
+const {getGA4UID} = require("./ga/ga4-uid");
 
 
 ga.bootstrapGA4();
@@ -20,6 +21,12 @@ downloader.listenForDownloadFailureAndRetry();
  * @param resolve Invoked when all download jobs are started (not necessarily finished)
  */
 function downloadInBackgroundOrPopup(chrome, job, resolve) {
+    // pass user id to background.js
+    const userId = getGA4UID();
+    if (userId) {
+        job["userId"] = userId;
+    }
+
     messaging.sendToRuntime("download", job, function (downloadResp) {
         logger.debug("Done: " + job.images.length + " images", "resp=", downloadResp);
         // Due to Chrome bug 1345528 https://bugs.chromium.org/p/chromium/issues/detail?id=1345528

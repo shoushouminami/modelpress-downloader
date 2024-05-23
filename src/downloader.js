@@ -5,7 +5,6 @@ const retryMap = {}; // for keeping retry urls
 const errorMap = {}; // for keeping USER_CANCELED errors; downloadId => error
 const tabIdOnUpdatedFunctionMap = {}; // tabId => function
 const ga = require("./google-analytics");
-const asyncUtils = require("./utils/async-utils");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";

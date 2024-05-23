@@ -3,15 +3,19 @@ const downloader = require("./downloader");
 const messaging = require("./messaging");
 const logger = require("./logger2")(module.id);
 const globals = require("./globals");
+const {setGA4UID} = require("./ga/ga4-uid");
 
 // inits
 ga.bootstrapGA4();
 
 downloader.listenForDownloadFailureAndRetry();
 
-logger.debug("listening for download message.")
+logger.debug("listening for download messages.")
 // listen for download message from popup.js
 messaging.listen("download", function (job, sendResponse) {
+    if (job["userId"]) {
+        setGA4UID(job["userId"]);
+    }
     downloader.downloadJob(job, sendResponse);
     // async response
     return true;
