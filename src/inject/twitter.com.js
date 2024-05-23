@@ -83,5 +83,6 @@ module.exports = {
         return o;
     },
     host: "twitter.com",
+    altHosts: ["x.com"],
     getLargeImg: getLargeImg
 };
