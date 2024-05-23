@@ -4,8 +4,8 @@ const getLargeImg = (url) => {
     if (!url || url.endsWith("/index.jpg")) {
         return url;
     }
-    if (url.endsWith(".jpg") && !url.endsWith("l.jpg")) {
-        return url.replace(".jpg", "l.jpg");
+    if (url.endsWith(".jpg") && !url.endsWith("_large.jpg")) {
+        return url.replace(".jpg", "_large.jpg");
     }
     return url;
 };
