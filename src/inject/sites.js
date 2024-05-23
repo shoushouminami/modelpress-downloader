@@ -72,6 +72,7 @@ function register(siteModule) {
     require("./moment.nikkan-gendai.com"),
     require("./nikkan-spa.jp"),
     require("./www.sanspo.com"),
+    require("./prtimes.jp"),
     require("./news.mynavi.jp"),
     require("./www.fujitv-view.jp"),
     require("./friday.kodansha.co.jp"),
