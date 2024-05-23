@@ -1,4 +1,4 @@
-const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
 const getBrowser = getBrowserFactory(beforeAll, afterAll);
 const {re, getLargeImg} = require("../../src/inject/i-voce.jp");
 
@@ -96,62 +96,7 @@ test("Test magazine feed article", async () => {
         getBrowser(),
         "https://i-voce.jp/feed/455477/",
         "i-voce.jp-feed-455477-/",
-        [
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_750,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/2021.05tatiyomiTOP.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/2021.05tatiyomiTOP.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/size_zoukan.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/size_zoukan.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/huroku.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/huroku.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/cccdf10e0962a5f899e21acdd4c11ab1.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/cccdf10e0962a5f899e21acdd4c11ab1.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/huroku_1.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/huroku_1.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-7-500x640.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-7.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-6-500x640.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210315_1657-6.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-7-500x640.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-7.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-6-500x640.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/dam_20210415_1035-6.jpg"
-            }
-        ]
+        dummyItems(9)
     );
 });
 
@@ -161,86 +106,7 @@ test("feed/459549/", async () => {
         getBrowser(),
         "https://i-voce.jp/feed/459549/",
         "i-voce.jp-feed-459549-/",
-        [
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_750,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/155459573_2823834137882795_483099235787126697_n.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/155459573_2823834137882795_483099235787126697_n.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154640160_910008549851097_6091848284446566452_n-400x400.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154640160_910008549851097_6091848284446566452_n.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/156025222_415953342803481_8439650478182846557_n.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/156025222_415953342803481_8439650478182846557_n.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154280690_718079558862875_5684868594846573803_n-400x400.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154280690_718079558862875_5684868594846573803_n.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/152356355_1197572667341177_8376819591572017710_n.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/152356355_1197572667341177_8376819591572017710_n.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154661058_466259101061514_5414266187772980127_n-400x400.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/03/154661058_466259101061514_5414266187772980127_n.jpg"
-            },
-            {
-                "retries": [
-                    "https://cosmedb-image.i-voce.jp/cosme_variation/440/186537/186537.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/186537/186537.jpg"
-            },
-            {
-                "retries": [
-                    "https://cosmedb-image.i-voce.jp/cosme_variation/440/186552/186552.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/186552/186552.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_248,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/219197/219197.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/219197/219197.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_248,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/216388/216388.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/216388/216388.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_248,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/204577/204577.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/204577/204577.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_248,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/186538/186538.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/186538/186538.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_248,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/186548/186548.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/186548/186548.jpg"
-            }
-        ]);
+        dummyItems(13));
 });
 
 test("Test cover beauty article", async () => {

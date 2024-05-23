@@ -1,4 +1,4 @@
-const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
 
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
@@ -58,7 +58,7 @@ test("articles/photo/7039728", async () => {
         [
             {
                 "retries": [
-                    "https://times-abema.ismcdn.jp/mwimgs/2/8/1448w/img_282140be4f76eec3bfce4658a720451f268882.jpg"
+                    "https://times-abema.ismcdn.jp/mwimgs/2/8/1352w/img_282140be4f76eec3bfce4658a720451f268882.jpg"
                 ],
                 "url": "https://times.abema.tv/mwimgs/2/8/-/img_282140be4f76eec3bfce4658a720451f268882.jpg"
             },
@@ -181,92 +181,7 @@ test("articles/photo/7006935", async () => {
         getBrowser(),
         "https://times.abema.tv/articles/photo/7006935",
         "times.abema.tv-articles-photo-7006935/",
-        [
-            {
-                "retries": [
-                    "https://times-abema.ismcdn.jp/mwimgs/4/c/1448w/img_4c57d32d00ec7a39b64a80696aed482f497988.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/4/c/-/img_4c57d32d00ec7a39b64a80696aed482f497988.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/8/d/-/img_8df1be07c184a252b7faa7c305430f65507746.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/8/d/-/img_8df1be07c184a252b7faa7c305430f65507746.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/5/5/-/img_5509960e83176adea2d42f19042a5393438214.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/5/5/-/img_5509960e83176adea2d42f19042a5393438214.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/1/0/-/img_102d46ec70bdd28764c3bc8d3dcdeedf589283.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/1/0/-/img_102d46ec70bdd28764c3bc8d3dcdeedf589283.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/3/0/-/img_30f8ee1b4900d1866ea16e1eab4e1f18617179.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/3/0/-/img_30f8ee1b4900d1866ea16e1eab4e1f18617179.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/f/8/-/img_f8524f74a30b27b0ba81f31942d50585539506.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/f/8/-/img_f8524f74a30b27b0ba81f31942d50585539506.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/6/0/-/img_60eef54595268a578566174a3eed8a98594732.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/6/0/-/img_60eef54595268a578566174a3eed8a98594732.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/1/3/-/img_1322d004278eb01b0d72ef8aaa4fecbf540541.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/1/3/-/img_1322d004278eb01b0d72ef8aaa4fecbf540541.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/9/7/-/img_975bd29d6648a7bfa853263036d80e63476098.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/9/7/-/img_975bd29d6648a7bfa853263036d80e63476098.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/d/8/-/img_d8e1d27263efd0296089f3664daf5f58460311.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/d/8/-/img_d8e1d27263efd0296089f3664daf5f58460311.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/3/c/-/img_3cd5b112f096f892c53bf4adba57de4e477263.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/3/c/-/img_3cd5b112f096f892c53bf4adba57de4e477263.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/a/a/-/img_aa637518af937add7a54103af3bdbf61405867.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/a/a/-/img_aa637518af937add7a54103af3bdbf61405867.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/1/c/-/img_1c43db8f6d2d80983f02dbcff4895737472898.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/1/c/-/img_1c43db8f6d2d80983f02dbcff4895737472898.jpg"
-            },
-            {
-                "retries": [
-                    "https://times.abema.tv/mwimgs/0/f/-/img_0feaf20599915a5a46b362bbcbb84174610995.jpg"
-                ],
-                "url": "https://times.abema.tv/mwimgs/0/f/-/img_0feaf20599915a5a46b362bbcbb84174610995.jpg"
-            }
-        ]);
+        dummyItems(14));
 });
 
 test("articles/-/10094454", async () => {
