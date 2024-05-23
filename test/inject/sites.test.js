@@ -92,7 +92,6 @@ test("Test sites.all", () => {
         "cmnow.jp",
         "www.thefirsttimes.jp",
         "hanako.tokyo",
-        "okmusic.jp",
         "www.cinemacafe.net",
         "25jigen.jp",
         "more.hpplus.jp",

@@ -47,19 +47,19 @@ test("fashion2/488823.html/attachment/00-9317?pg=488823&mv=0", async () => {
 test("news2/222467.html?view=more", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://wws-channel.com/news2/222467.html?view=more",
-        "wws-channel.com-news2-222467.html/",
+        "https://www.wws-channel.com/news2/222467.html?view=more",
+        "www.wws-channel.com-news2-222467.html/",
         [
-            "https://wws-channel.com/wp-content/uploads/2020/09/SK00.jpg"
+            "https://www.wws-channel.com/wp-content/uploads/2020/09/SK00.jpg"
         ]);
 });
 
 test("news2/222467.html/attachment/sk00-20?pg=222467&mv=0", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://wws-channel.com/news2/222467.html/attachment/sk00-20?pg=222467&mv=0",
-        "wws-channel.com-news2-222467.html-attachment-sk00-20/",
+        "https://www.wws-channel.com/news2/222467.html/attachment/sk00-20?pg=222467&mv=0",
+        "www.wws-channel.com-news2-222467.html-attachment-sk00-20/",
         [
-            "https://wws-channel.com/wp-content/uploads/2020/09/SK00.jpg"
+            "https://www.wws-channel.com/wp-content/uploads/2020/09/SK00.jpg"
         ]);
 });

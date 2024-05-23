@@ -108,7 +108,6 @@ function register(siteModule) {
     require("./www.billboard-japan.com"),
     require("./realsound.jp"),
     require("./www.musicvoice.jp"),
-    require("./okmusic.jp"),
     require("./seigura.com"),
     require("./25jigen.jp"),
     require("./www.astage-ent.com"),
