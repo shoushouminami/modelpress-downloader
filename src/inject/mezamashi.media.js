@@ -7,6 +7,8 @@ module.exports = {
             "#__next .chakra-stack div > a.chakra-link > div.css-weezue > img[srcset]", // thumbnail images
             "#__next main > div.chakra-container > div > a.chakra-link > div > img[srcset]", // article images
             "#__next main > div.chakra-container > p > div > a.chakra-link > div > img[srcset]", // article images
+            "#__next main > div.chakra-container > div.chakra-stack > div > p > div > a.chakra-link > div > img[srcset]", // article images
+            "#__next main > div.chakra-container > div.chakra-stack > div > div > a.chakra-link > div > img[srcset]", // article images
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
