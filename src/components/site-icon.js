@@ -2,6 +2,7 @@ const React = require("react");
 const ga = require("../google-analytics");
 const globals = require("../globals");
 const {addRecentSite} = require("../recent-sites");
+const asyncUtils = require("../utils/async-utils");
 
 class SiteIcon extends React.Component {
     constructor(props) {
@@ -20,7 +21,9 @@ class SiteIcon extends React.Component {
         }
         addRecentSite(host);
         if (globals.isChromeExtension()) {
-            chrome.tabs.update({url: href});
+            chrome.tabs.update({url: href}, function () {
+                asyncUtils.wait(200).then(() => window.close());
+            });
         }
     }
 

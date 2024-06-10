@@ -72,7 +72,9 @@ function addClickListenerForLinks(element, callback) {
             if (typeof callback === "function") {
                 callback();
             }
-            chrome.tabs.update({url:element.href});
+            chrome.tabs.update({url:element.href}, function () {
+                asyncUtils.wait(1000).then(() => window.close());
+            });
         })
     }
 
