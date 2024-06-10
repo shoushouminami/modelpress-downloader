@@ -133,7 +133,6 @@ function register(siteModule) {
     require("./www.tvlife.jp"),
     require("./tvbros.jp"),
     require("./www.tvguide.or.jp"),
-    require("./sumabo.jp"),
     require("./entamenext.com"),
     require("./entameclip.com"),
     require("./qjweb.jp"),
