@@ -254,7 +254,7 @@ function startFetchMdprMobileImages(articleId) {
 }
 
 function updateMessage(result, tabId) {
-    logger.debug(result);
+    logger.debug("func=updateMessage result=", result, "tabId=", tabId);
     if (result) {
         logger.debug("\n!!!! TEST CASE !!!!\n\n" + utils.printTestAssertion(result));
         message = result;
@@ -293,7 +293,8 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         },
         function (results) {
             if (results && results.length > 0) {
-                let result = results[0];
+                let result = results[0].result;
+                logger.debug("results[0].result=", result, "retry=", result.retry);
                 if (result.retry) {
                     // retry in 100ms
                     asyncUtils

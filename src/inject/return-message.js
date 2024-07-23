@@ -40,7 +40,6 @@ module.exports = {
     loading: function (message) {
         let o = message || this.init();
         o.loading = true;
-
         return o;
     },
 

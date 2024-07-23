@@ -37,6 +37,7 @@ module.exports = {
             // inject helper script and wait
             require("../utils/func-utils")
                 .injectScriptFileToDOM(chrome.runtime.getURL("helper/rbbtoday-check-size.js"));
+            require("./return-message.js").loading(o);
             o.retry = true;
         }
 
