@@ -50,3 +50,28 @@ test("entertainment/post/128536", async () => {
         ]);
 });
 
+test("fashion/coordinate/132410/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://nonno.hpplus.jp/fashion/coordinate/132410/",
+        "nonno.hpplus.jp-fashion-coordinate-132410-/",
+        [
+            "https://nonno.hpplus.jp/wp-content/uploads/0247.jpg",
+            "https://nonno.hpplus.jp/wp-content/uploads/0292-1.jpg",
+            "https://nonno.hpplus.jp/wp-content/uploads/0240-1.jpg",
+            "https://nonno.hpplus.jp/wp-content/uploads/27703a05374508bfa91ad24d8235e2c9.jpg"
+        ]);
+});
+
+test("fashion/coordinate/132410/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://nonno.hpplus.jp/fashion/coordinate/132410/",
+        "nonno.hpplus.jp-fashion-coordinate-132410-/",
+        [
+            "https://nonno.hpplus.jp/wp-content/uploads/0247.jpg",
+            "https://nonno.hpplus.jp/wp-content/uploads/0292-1.jpg",
+            "https://nonno.hpplus.jp/wp-content/uploads/0240-1.jpg",
+            "https://nonno.hpplus.jp/wp-content/uploads/27703a05374508bfa91ad24d8235e2c9.jpg"
+        ]);
+});
