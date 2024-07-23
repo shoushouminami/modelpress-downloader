@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.22 (2024/07/23)
+* Add www.sponichi.co.jp
+* Add glassgirl.info
+* Fixes on lp.p.pia.jp and nonno.hpplus.jp
+
 ###### 4.21 (2024/05/23)
 * Add add www.sanspo.com and prtimes.jp
 * Fixes on classy-online.jp, plus.tver.jp, nonno.hpplus.jp and mezamashi.media
