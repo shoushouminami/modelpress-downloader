@@ -182,7 +182,8 @@ function register(siteModule) {
     require("./m.ex-m.jp"),
     require("./www.tfm.co.jp"),
     require("./storage.mainichikirei.jp"),
-    require("./www.nhk.or.jp")
+    require("./www.nhk.or.jp"),
+    require("./www.bubkaweb.com")
 ]);
 
 function all() {

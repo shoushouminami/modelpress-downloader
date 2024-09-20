@@ -18,5 +18,7 @@ module.exports = {
         }
         return o;
     },
-    host: "www.bubkaweb.com"
+    host: "www.bubkaweb.com",
+    altHosts: ["www.idol-culture.jp"],
+    hidden: true
 };
