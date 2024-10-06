@@ -143,18 +143,25 @@ test("articles/-/69544", async () => {
         ]);
 });
 
-test("articles/-/70202", async () => {
+test("articles/-/73938", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://bunshun.jp/articles/-/70202",
-        "bunshun.jp-articles---70202/",
+        "https://bunshun.jp/articles/-/73938",
+        "bunshun.jp-articles---73938/",
         [
             {
-                "filename": "img_854598d7edb9fe04376c8d00e791657e183078.jpg",
-                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/8/5/-/img_854598d7edb9fe04376c8d00e791657e183078.jpg",
+                "filename": "img_e4c58283d71a8772093e1dd25c963f054744499.jpg",
+                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/e/4/-/img_e4c58283d71a8772093e1dd25c963f054744499.jpg",
                 "type": "tab",
                 "websiteCS": "inject-cs.js",
-                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvOC81Ly0vaW1nXzg1NDU5OGQ3ZWRiOWZlMDQzNzZjOGQwMGU3OTE2NTdlMTgzMDc4LmpwZw=="
+                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvZS80Ly0vaW1nX2U0YzU4MjgzZDcxYTg3NzIwOTNlMWRkMjVjOTYzZjA1NDc0NDQ5OS5qcGc="
+            },
+            {
+                "filename": "img_657cf9114bb4faf6b74a68f8a924ad374182336.jpg",
+                "imageUrl": "https://bunshun.ismcdn.jp/mwimgs/6/5/-/img_657cf9114bb4faf6b74a68f8a924ad374182336.jpg",
+                "type": "tab",
+                "websiteCS": "inject-cs.js",
+                "websiteUrl": "https://bunshun.jp/common/css/bunshun/v1/smartphone/flickity.min.css#mid_aHR0cHM6Ly9idW5zaHVuLmlzbWNkbi5qcC9td2ltZ3MvNi81Ly0vaW1nXzY1N2NmOTExNGJiNGZhZjZiNzRhNjhmOGE5MjRhZDM3NDE4MjMzNi5qcGc="
             }
         ]);
 });

@@ -128,55 +128,62 @@ const inject = function () {
         logger.debug("retrieved from pagecache images=", images);
         pushToMessage(o, images);
     } else {
-        let jsonUrl = getCoordInfoUrl();
-        logger.debug("jsonUrl=", jsonUrl)
-        if (jsonUrl) {
-            utils.fetchUrl(jsonUrl)
-                .then(respText => {
-                        require("./return-message.js").init(o);
-                        o.folder = getFolderName();
-                        try {
-                            const coord = JSON.parse(respText);
-                            logger.debug("coord=", coord)
-                            if (coord &&
-                                coord.readableProduct &&
-                                coord.readableProduct.pageStructure &&
-                                coord.readableProduct.pageStructure.pages &&
-                                coord.readableProduct.pageStructure.pages.length > 0) {
-                                let id = 1;
-                                for (let i = 0; i < coord.readableProduct.pageStructure.pages.length; i++) {
-                                    const image = coord.readableProduct.pageStructure.pages[i];
-                                    if (image.type === "main") {
-                                        let dom = document.createElement("img");
-                                        images.push({
-                                            dom: dom,
-                                            scramble: "[0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15]",
-                                            filename: id++ + ".jpg",
-                                            promise: new Promise(function (resolve) {
-                                                dom.crossOrigin = "*";
-                                                dom.onload = function (){
-                                                    resolve(dom);
-                                                };
-                                                dom.src = image.src;
-                                            })
-                                        })
+        function fetchPages(episodeJson) {
+            try {
+                const coord = JSON.parse(episodeJson);
+                logger.debug("coord=", coord)
+                if (coord &&
+                    coord.readableProduct &&
+                    coord.readableProduct.pageStructure &&
+                    coord.readableProduct.pageStructure.pages &&
+                    coord.readableProduct.pageStructure.pages.length > 0) {
+                    let id = 1;
+                    for (let i = 0; i < coord.readableProduct.pageStructure.pages.length; i++) {
+                        const image = coord.readableProduct.pageStructure.pages[i];
+                        if (image.type === "main") {
+                            let dom = document.createElement("img");
+                            images.push({
+                                dom: dom,
+                                scramble: "[0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15]",
+                                filename: id++ + ".jpg",
+                                promise: new Promise(function (resolve) {
+                                    dom.crossOrigin = "*";
+                                    dom.onload = function (){
+                                        resolve(dom);
+                                    };
+                                    dom.src = image.src;
+                                })
+                            })
 
-                                    }
-                                }
-
-                                pushToMessage(o, images);
-                            }
-                        } catch (e) {
-                            logger.error("failed to parse JSON with error", e);
-                            logger.error("failed to parse JSON", respText);
                         }
-                        messaging.sendToRuntime("updateResult", o);
-                    },
-                    () => {
-                        messaging.sendToRuntime("updateResult", o);
                     }
-                );
+                    pushToMessage(o, images);
+                }
+            } catch (e) {
+                logger.error("failed to parse JSON with error", e);
+                logger.error("failed to parse JSON", episodeJson);
+            }
+            messaging.sendToRuntime("updateResult", o);
+        }
+
+        // Use episode JSON if already embedded in page. Otherwise try coord info url.
+        const scriptDoms = utils.findDomsWithCssSelector(document,"script#episode-json");
+        if (scriptDoms && scriptDoms.length > 0 && scriptDoms[0].dataset && scriptDoms[0].dataset.value) {
+            // logger.debug("episode json in page", scriptDoms[0].dataset.value)
+            fetchPages(scriptDoms[0].dataset.value);
             require("./return-message.js").loading(o);
+        } else {
+            const jsonUrl = getCoordInfoUrl();
+            logger.debug("jsonUrl=", jsonUrl)
+            if (jsonUrl) {
+                utils.fetchUrl(jsonUrl)
+                    .then(fetchPages,
+                        () => {
+                            messaging.sendToRuntime("updateResult", o);
+                        }
+                    );
+                require("./return-message.js").loading(o);
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
-const pageutils = require("../pageutils");
 
 test("Test manga page 1", async () => {
     await testDirectDownload(
