@@ -1,15 +1,6 @@
-const {testDirectDownload, launchBrowser, dummyItems} = require("./testbase");
+const {testDirectDownload, launchBrowser, dummyItems, getBrowserFactory} = require("./testbase");
 const bisweb = require("../../src/inject/bisweb.jp");
-const pageutils = require("../pageutils");
-
-let browser;
-beforeAll(async () => {
-    browser = await launchBrowser();
-});
-
-afterAll(async () => {
-    await browser.close();
-});
+const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test filter function ", () => {
     expect(bisweb.getLargeImg("https://img.bisweb.jp/wp-content/uploads/2020/08/30122336/044bcc39ece486c887a8e6849116039b-1-scaled.jpeg"))
@@ -39,7 +30,7 @@ test("Test filter function ", () => {
 
 test("Test beauty article", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://bisweb.jp/beauty/97224",
         "bisweb.jp-beauty-97224/",
         [
@@ -204,7 +195,7 @@ test("Test beauty article", async () => {
 
 test("Test fashion article", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://bisweb.jp/fashion/97626",
         "bisweb.jp-fashion-97626/",
         [
@@ -297,7 +288,7 @@ test("Test fashion article", async () => {
 
 test("Test lifestyle article", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://bisweb.jp/lifestyle/97582",
         "bisweb.jp-lifestyle-97582/",
         [
@@ -390,7 +381,7 @@ test("Test lifestyle article", async () => {
 
 test("Test mote article", async () => {
     await testDirectDownload(
-        browser,
+        getBrowser(),
         "https://bisweb.jp/mote/96926",
         "bisweb.jp-mote-96926/",
         [

@@ -163,6 +163,7 @@ function register(siteModule) {
     require("./spur.hpplus.jp"),
     require("./more.hpplus.jp"),
     require("./baila.hpplus.jp"),
+    require("./maquia.hpplus.jp"),
     require("./trilltrill.jp"),
     require("./www.vivi.tv"),
     require("./domani.shogakukan.co.jp"),
