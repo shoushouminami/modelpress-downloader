@@ -12,14 +12,13 @@ test("entertainment/news/2024/05/22/gazo/20240522s00041000582000p.html", async (
         ]);
 });
 
-test("entertainment/news/2024/07/23/kiji/20240723c000413K1019000c.html", async () => {
+test("entertainment/news/2024/10/05/gazo/20241005s10041000074000p.html", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.sponichi.co.jp/entertainment/news/2024/07/23/kiji/20240723c000413K1019000c.html",
-        "www.sponichi.co.jp-entertainment-news-2024-07-23-kiji-20240723c000413K1019000c.html/",
+        "https://www.sponichi.co.jp/entertainment/news/2024/10/05/gazo/20241005s10041000074000p.html",
+        "www.sponichi.co.jp-entertainment-news-2024-10-05-gazo-20241005s10041000074000p.html/",
         [
-            "https://cdn.livedoor.jp/kstyle/b7bb0db996a395b8aed12497aae25f89.jpg",
-            "https://cdn.livedoor.jp/kstyle/d9b597c9a79797d69276b2d18825446d.jpg"
+            "https://www.sponichi.co.jp/entertainment/news/2024/10/05/jpeg/20241005s10041000074000p_view.webp"
         ]);
 });
 
