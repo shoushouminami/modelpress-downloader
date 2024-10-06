@@ -60,3 +60,16 @@ test("142819", async () => {
             "https://cdn.ray-web.jp/images/78/23/42/08/jpg/bqkpcce52x3q4pyeutxkkgklffkwp6.webp"
         ]);
 });
+
+test("505952", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://ray-web.jp/505952",
+        "ray-web.jp-505952/",
+        [
+            "https://cdn.ray-web.jp/images/51/43/16/59/jpg/4x220wpipaw1jwlxmnij1zpcban0yc.webp",
+            "https://cdn.ray-web.jp/images/20/71/82/90/jpg/tw9cph5yrbpkoqyxlsdjz4lnwuylbv.webp",
+            "https://cdn.ray-web.jp/images/53/47/84/54/jpg/cde5jwgwflh5yjwb52e2xrubo8w6iv.webp",
+            "https://cdn.ray-web.jp/images/94/99/49/97/jpg/eqvdblrvy4rix7vfiadyaoff9qln6q.webp"
+        ]);
+});
