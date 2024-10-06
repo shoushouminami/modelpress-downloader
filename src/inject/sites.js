@@ -117,7 +117,7 @@ function register(siteModule) {
     require("./www.cinemacafe.net"),
     require("./www.cinema-life.net"),
     require("./www.news-postseven.com"),
-    require("./8760.news-postseven.com"),
+    require("./j7p.jp"),
     require("./popwave.jp"),
     require("./popnroll.tv"),
     require("./spice.eplus.jp"),
