@@ -84,5 +84,6 @@ module.exports = {
     },
     host: "twitter.com",
     altHosts: ["x.com"],
-    getLargeImg: getLargeImg
+    getLargeImg: getLargeImg,
+    hidden: true
 };

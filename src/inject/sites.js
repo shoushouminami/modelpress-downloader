@@ -135,6 +135,7 @@ function register(siteModule) {
     require("./www.tvguide.or.jp"),
     require("./entamenext.com"),
     require("./entameclip.com"),
+    require("./www.entax.news"),
     require("./qjweb.jp"),
     require("./korepo.com"),
     require("./news.kstyle.com"),
