@@ -1,41 +1,13 @@
-const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("article/post-21446/", async () => {
+test("article/post-22119/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://glassgirl.info/article/post-21446/",
-        "glassgirl.info-article-post-21446-/",
+        "https://glassgirl.info/article/post-22119/",
+        "glassgirl.info-article-post-22119-/",
         [
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_001.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_002.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_003.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_004.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_005.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_006.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_007.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_008.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_009.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_010.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_011.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_012.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_013.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_014.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_015.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_016.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_017.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_018.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_019.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_020.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_021.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_022.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_023.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_024.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_025-1.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_026.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_027.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_028.jpg",
-            "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/ASUKA_G_029.jpg"
+            "https://glassgirl.info/ggwp/wp-content/uploads/2024/08/TAK5327.jpg"
         ]);
 });
 
@@ -66,4 +38,26 @@ test("article/post-21341/", async () => {
                     "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/funaimiku_vol1_07.jpg",
                     "https://glassgirl.info/ggwp/wp-content/uploads/2024/07/funaimiku_vol1_08.jpg"
             ]);
+});
+
+test("article/post-22606/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://glassgirl.info/article/post-22606/",
+        "glassgirl.info-article-post-22606-/",
+        [
+            "https://glassgirl.info/ggwp/wp-content/uploads/2024/09/01mikurin.jpg",
+            "https://glassgirl.info/ggwp/wp-content/uploads/2024/09/02mikurin.jpg",
+            "https://glassgirl.info/ggwp/wp-content/uploads/2024/09/03mikurin.jpg",
+            "https://glassgirl.info/ggwp/wp-content/uploads/2024/09/nakamen01.jpg",
+            "https://glassgirl.info/ggwp/wp-content/uploads/2024/09/nakamen02.jpg"
+        ]);
+});
+
+test("article/post-22506/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://glassgirl.info/article/post-22506/",
+        "glassgirl.info-article-post-22506-/",
+        dummyItems(84));
 });
