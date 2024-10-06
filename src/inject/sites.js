@@ -129,7 +129,6 @@ function register(siteModule) {
     require("./mikan-incomplete.com"),
     require("./sirabee.com"),
     require("./e-talentbank.co.jp"),
-    require("./plus.tver.jp"),
     require("./www.tvlife.jp"),
     require("./tvbros.jp"),
     require("./www.tvguide.or.jp"),
