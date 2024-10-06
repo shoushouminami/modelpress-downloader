@@ -33,14 +33,14 @@ test("archives/60103", async () => {
         ]);
 });
 
-test("archives/77280", async () => {
+test("archives/77280/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://sweetweb.jp/archives/77280",
-        "sweetweb.jp-archives-77280/",
+        "https://sweetweb.jp/archives/77280/",
+        "sweetweb.jp-archives-77280-/",
         [
-            "https://sweetweb.jp/sweet_cms/wp-content/uploads/2023/08/45A6441-i-scaled.jpg",
-            "https://sweetweb.jp/sweet_cms/wp-content/uploads/2023/08/45A6387-i-scaled.jpg",
-            "https://sweetweb.jp/sweet_cms/wp-content/uploads/2023/08/45A6637-i-scaled.jpg"
+            "https://sweetweb.jp/sweet_cms/wp-content/uploads/2023/08/45A6441-i.jpg",
+            "https://sweetweb.jp/sweet_cms/wp-content/uploads/2023/08/45A6387-i.jpg",
+            "https://sweetweb.jp/sweet_cms/wp-content/uploads/2023/08/45A6637-i.jpg"
         ]);
 });

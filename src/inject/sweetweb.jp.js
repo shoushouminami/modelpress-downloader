@@ -13,6 +13,12 @@ const inject = function() {
                         return null;
                     }
 
+                    url = utils.removeTrailingResolutionNumbers(url);
+
+                    if (url.endsWith("-scaled.jpg")) {
+                        url = url.replace("-scaled.jpg", ".jpg");
+                    }
+
                     return url;
                 })
         );
