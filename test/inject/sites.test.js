@@ -66,7 +66,6 @@ test("Test sites.all", () => {
         "www.nikkansports.com",
         "yanmaga.jp",
         "ar-mag.jp",
-        "hustlepress.co.jp",
         "jj-jj.net",
         "i-voce.jp",
         "taishu.jp",

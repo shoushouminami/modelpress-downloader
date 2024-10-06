@@ -106,7 +106,6 @@ function register(siteModule) {
     require("./apress.jp"),
     require("./encount.press"),
     require("./girlsnews.tv"),
-    require("./hustlepress.co.jp"),
     require("./www.crank-in.net"),
     require("./www.billboard-japan.com"),
     require("./realsound.jp"),
