@@ -19,6 +19,13 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.23 (2024/10/06)
+* Add www.entax.news and maquia.hpplus.jp
+* Move 8760.news-postseven.com -> j7p.jp
+* Move www.bubkaweb.com -> www.idol-culture.jp
+* Remove plus.tver.jp
+* Fixes on sweetweb.jp, ray-web.jp, and eiga.com
+
 ###### 4.22 (2024/07/23)
 * Add www.sponichi.co.jp
 * Add glassgirl.info
