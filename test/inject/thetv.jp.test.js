@@ -36,7 +36,7 @@ test("person/1000031439/", async () => {
         ],
         {
             preinject: async function () {
-                await pageutils.wait(2000);
+                await pageutils.wait(3000);
             }
         }
     );

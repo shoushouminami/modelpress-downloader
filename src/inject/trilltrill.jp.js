@@ -12,15 +12,19 @@ const getLargeImg = function (url) {
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        // special top image
-        utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(
-                document,
-                [
-                    ".main article figure img"
-                ].join(","),
-                getLargeImg)
-        );
+        for (let selector of [
+            ".main article figure img",
+            ".main .photos-Article .swiper-wrapper img",
+            ".main .photos-Article .article-photo-Images img", //
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    selector,
+                    getLargeImg
+                )
+            );
+        }
 
         o.ext = "jpg";
         return o;

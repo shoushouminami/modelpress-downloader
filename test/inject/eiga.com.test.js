@@ -81,35 +81,37 @@ test("news/20220609/5/", async () => {
         ]);
 });
 
-test("movie/98960/special/?lid=tp_top_special", async () => {
-        await testDirectDownload(
-            getBrowser(),
-            "https://eiga.com/movie/98960/special/?lid=tp_top_special",
-            "eiga.com-movie-98960-special-/",
-            [
-                    "https://eiga.k-img.com/images/special/3530/7f09d3f947d68170.jpg",
-                    "https://eiga.k-img.com/images/special/3530/e2b07e9384d151ce.jpg",
-                    "https://eiga.k-img.com/images/special/3530/04c242a973622cd0.jpg",
-                    "https://eiga.k-img.com/images/special/3530/f1658ea6a08faf67.jpg",
-                    "https://eiga.k-img.com/images/special/3530/718110052ac05aaf.jpg",
-                    "https://eiga.k-img.com/images/special/3530/03a8e9d56c68ba44.jpg",
-                    "https://eiga.k-img.com/images/special/3530/6afde63199f610c5.jpg",
-                    "https://eiga.k-img.com/images/special/3530/22b59da17183e7ee.jpg",
-                    "https://eiga.k-img.com/images/special/3530/78fc0bfc498a3959.jpg",
-                    "https://eiga.k-img.com/images/special/3530/41cc2ccd8cd3c783.jpg",
-                    "https://eiga.k-img.com/images/special/3530/6e7403a2ac7f5f24.jpg",
-                    "https://eiga.k-img.com/images/special/3530/06dda129916d50dd.jpg",
-                    "https://eiga.k-img.com/images/special/3530/938d959704662723.jpg",
-                    "https://eiga.k-img.com/images/special/3530/f6d59e3834b78b3b.jpg",
-                    "https://eiga.k-img.com/images/special/3530/ca39327e8c0e882d.jpg",
-                    "https://eiga.k-img.com/images/special/3530/df0f764416c2be61.jpg",
-                    "https://eiga.k-img.com/images/special/3530/fcf2f03ae63746d1.jpg",
-                    "https://eiga.k-img.com/images/special/3530/43decb529304b57f.jpg",
-                    "https://eiga.k-img.com/images/special/3530/80f972d096a4b517.jpg",
-                    "https://eiga.k-img.com/images/special/3530/e06d73423978b805.jpg",
-                    "https://eiga.k-img.com/images/special/3530/89a0495c4d846449.jpg",
-                    "https://eiga.k-img.com/images/special/3530/fc7bea87871f14d2.jpg",
-                    "https://eiga.k-img.com/images/special/3530/20d2efe8e93bc85d.jpg",
-                    "https://eiga.k-img.com/images/special/3530/41727ee1b56a2000.jpg"
-            ]);
+test("movie/98960/special/?lid=tp_top_special#google_vignette", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://eiga.com/movie/98960/special/?lid=tp_top_special#google_vignette",
+        "eiga.com-movie-98960-special-/",
+        [
+            "https://eiga.k-img.com/images/special/3530/0c12998566f86481.jpg",
+            "https://eiga.k-img.com/images/special/3530/e2b07e9384d151ce.jpg",
+            "https://eiga.k-img.com/images/special/3530/04c242a973622cd0.jpg",
+            "https://eiga.k-img.com/images/special/3530/f1658ea6a08faf67.jpg",
+            "https://eiga.k-img.com/images/special/3530/718110052ac05aaf.jpg",
+            "https://eiga.k-img.com/images/special/3530/03a8e9d56c68ba44.jpg",
+            "https://eiga.k-img.com/images/special/3530/6afde63199f610c5.jpg",
+            "https://eiga.k-img.com/images/special/3530/80f972d096a4b517.jpg",
+            "https://eiga.k-img.com/images/special/3530/e06d73423978b805.jpg",
+            "https://eiga.k-img.com/images/special/3530/89a0495c4d846449.jpg",
+            "https://eiga.k-img.com/images/special/3530/fc7bea87871f14d2.jpg",
+            "https://eiga.k-img.com/images/special/3530/20d2efe8e93bc85d.jpg",
+            "https://eiga.k-img.com/images/special/3530/41727ee1b56a2000.jpg",
+            "https://eiga.k-img.com/images/special/3530/22b59da17183e7ee.jpg",
+            "https://eiga.k-img.com/images/special/3530/78fc0bfc498a3959.jpg",
+            "https://eiga.k-img.com/images/special/3530/41cc2ccd8cd3c783.jpg",
+            "https://eiga.k-img.com/images/special/3530/6e7403a2ac7f5f24.jpg",
+            "https://eiga.k-img.com/images/special/3530/938d959704662723.jpg",
+            "https://eiga.k-img.com/images/special/3530/06dda129916d50dd.jpg",
+            "https://eiga.k-img.com/images/special/3530/ca39327e8c0e882d.jpg",
+            "https://eiga.k-img.com/images/special/3530/df1b75b114c80ef4.jpg",
+            "https://eiga.k-img.com/images/special/3530/f6d59e3834b78b3b.jpg",
+            "https://eiga.k-img.com/images/special/3530/7f09d3f947d68170.jpg",
+            "https://eiga.k-img.com/images/special/3530/df0f764416c2be61.jpg",
+            "https://eiga.k-img.com/images/special/3530/fcf2f03ae63746d1.jpg",
+            "https://eiga.k-img.com/images/special/3530/43decb529304b57f.jpg"
+        ]);
 });

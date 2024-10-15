@@ -44,14 +44,15 @@ test("article/20240523-2950574/", async () => {
             ]);
 });
 
-test("article/20240413-2926737/", async () => {
-        await testDirectDownload(
-            getBrowser(),
-            "https://news.mynavi.jp/article/20240413-2926737/",
-            "news.mynavi.jp-article-20240413-2926737-/",
-            [
-                    "https://news.mynavi.jp/article/20240413-2926737/index_images/index.jpg"
-            ]);
+test("article/20241009-3041691/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://news.mynavi.jp/article/20241009-3041691/",
+        "news.mynavi.jp-article-20241009-3041691-/",
+        [
+            "https://news.mynavi.jp/article/20241009-3041691/index_images/index.jpg",
+            "https://news.mynavi.jp/article/20241009-3041691/images/001_large.jpg"
+        ]);
 });
 
 test("photo/article/20190612-842046/images/001l.jpg", async () => {

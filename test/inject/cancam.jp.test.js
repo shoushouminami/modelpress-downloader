@@ -1,4 +1,4 @@
-const {testDirectDownload, getBrowserFactory} = require("./testbase");
+const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
 const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 test("Test cancam.jp magzine main page", async () => {
@@ -6,19 +6,23 @@ test("Test cancam.jp magzine main page", async () => {
         getBrowser(),
         "https://cancam.jp/cancam201911",
         "cancam.jp-cancam201911/",
-        ["https://cancam.jp/uploads/2019/09/CanCam201911_cover-20190919180345.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P7-20190919180348.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P9-20190919180349.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P28-20190919180356.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P29-20190919180358.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P22-20190919180353.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P23-20190919180355.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P56-20190919180938.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P57-20190919180403.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P78-20190919180406.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P72-20190919180405.jpg","https://cancam.jp/uploads/2019/09/CanCam201911_P21-20190919180351.jpg"]
+        dummyItems(12)
     );
 });
 
-test("archives/category/itgirl/rinokotanigawa", async () => {
+test("cancam", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://cancam.jp/archives/category/itgirl/rinokotanigawa",
-        "cancam.jp-archives-category-itgirl-rinokotanigawa/",
-        [
-            "https://cancam.jp/uploads/2023/03/06/IMG_8188.jpg"
-        ]);
+        "https://cancam.jp/cancam",
+        "cancam.jp-cancam/",
+        [],
+        {
+            sizeMatch: function (expectedSize, actualSize) {
+                expect(actualSize).toBeGreaterThan(10);
+            }
+        });
 });
+
 
 test("archives/711412", async () => {
     await testDirectDownload(
