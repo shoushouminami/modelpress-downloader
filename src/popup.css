@@ -50,7 +50,7 @@ button:disabled {
 }
 
 #supportedSites, #recentSites {
-    width: 672px;
+    width: 660px;
 }
 
 #appName {
@@ -78,7 +78,7 @@ used by popup.js
  */
 
 .siteIcon {
-    height: 40px;
+    height: 36px;
 }
 
 .siteIcon, .controlButton {

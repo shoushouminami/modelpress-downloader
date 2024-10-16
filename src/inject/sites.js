@@ -172,6 +172,7 @@ function register(siteModule) {
     require("./seventeen-web.jp"),
     require("./withonline.jp"),
     require("./cmnow.jp"),
+    require("./dot.asahi.com"),
     require("./www.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),
