@@ -16,11 +16,14 @@ function getArticleId() {
     }
 }
 
-function getFullUrl() {
+function getFilename(url, assertId) {
+    const re = /^https:\/\/.*\/([^\/]+\.(jpg|jpeg|png|webp))\/.*\?.*$/;
+    let m = url.match(re);
+    if (m) {
+        return m[1];
+    }
 
-}
-function getLargeImg(url) {
-    return url;
+    return assertId + ".jpg";
 }
 
 module.exports = {
@@ -35,7 +38,13 @@ module.exports = {
                         let data = JSON.parse(respText);
                         if (data.assets != null) {
                             data.assets.filter(asset => asset.mediaType === "image")
-                                .forEach(asset => utils.pushIfNew(o.images, asset.url))
+                                .forEach(
+                                    asset => utils.pushIfNew(o.images,
+                                        {
+                                            url: asset.url,
+                                            filename: getFilename(asset.url, asset.id)
+                                        }
+                                    ))
                         }
                     } catch (e) {
                         logger.error("Failed to fetch assets", e);
@@ -47,5 +56,6 @@ module.exports = {
 
         return o;
     },
-    host: "friday.gold"
+    host: "friday.gold",
+    getFilename: getFilename
 };

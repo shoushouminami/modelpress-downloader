@@ -166,7 +166,7 @@ async function testDirectDownload(browser, url, folder, expectedImages, ops= {})
             "actualSize=", actualImages.length);
         ops.sizeMatch(expectedImages.length, actualImages.length);
     } else {
-        expectedLength = expectedImages.length;
+        let expectedLength = expectedImages.length;
         for (const expectedImage of expectedImages) {
             if (expectedImage.prefix && expectedImage.count) {
                 expectedLength += expectedImage.count - 1;
@@ -179,28 +179,39 @@ async function testDirectDownload(browser, url, folder, expectedImages, ops= {})
     // 2. regex: [{regex: /regex/, count: 1}, ...]
     // 3. object match: [{url: "url1", retries: ["retry_url1", "retry_url2", ...]}, ...]
     // 4. prefix match:  [{prefix: "prefix-string", count: 1}, ...]
-    for (const image of expectedImages) {
-        if (image instanceof String || typeof image === "string") {
-            expect(actualImages).toContain(image);
-        } else if (typeof image === "object") {
-            if (image.regex) {
-                let count = image.count || 1;
+    for (const expectedImage of expectedImages) {
+        if (expectedImage instanceof String || typeof expectedImage === "string") {
+            expect(actualImages).toContain(expectedImage);
+        } else if (typeof expectedImage === "object") {
+            if (expectedImage.regex) {
+                const expectedCount = expectedImage.count || 1;
+                let count = 0;
                 actualImages.forEach((m) => {
-                    if (typeof m === "string" && m.match(image.regex)) {
-                        count--;
+                    if (typeof m === "string" && m.match(expectedImage.regex)) {
+                        count++;
                     }
                 });
-                expect(count).toBe(0);
-            } else if (image.url) {
-                expect(actualImages).toContainEqual(image);
-            } else if (image.prefix) {
-                let count = image.count || 1;
+                expect(count)
+                    // .withContext(`Regex matched ${count}. Expected ${expectedCount}: ${image.regex}`)
+                    .toBe(expectedCount);
+            } else if (expectedImage.url) {
+                expect(actualImages).toContainEqual(expectedImage);
+            } else if (expectedImage.prefix) {
+                const expectedCount = expectedImage.count || 1;
+                let count = 0;
                 actualImages.forEach((m) => {
-                    if (typeof m === "string" && m.startsWith(image.prefix)) {
-                        count--;
+                    // {"prefix": "bla" } to match url strings ["https://bla", "https://bla"]
+                    if (typeof m === "string" && m.startsWith(expectedImage.prefix)) {
+                        count++;
+                    }
+                    // {"prefix": "bla" } to match object [{"url":"https://bla"}, {"url":"https://bla"}]
+                    if (typeof m === "object" && m.url && m.url.startsWith(expectedImage.prefix)) {
+                        count++;
                     }
                 });
-                expect(count).toBe(0);
+                expect(count)
+                    // .withContext(`Prefix matched ${count}. Expected ${expectedCount}: ${image.prefix}`)
+                    .toBe(expectedCount);
             }
             // empty object for dummy item
         }
