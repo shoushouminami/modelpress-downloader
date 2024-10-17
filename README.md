@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.24 (2024/10/17)
+* Add wpb.shueisha.co.jp
+* Add dot.asahi.com
+* Other fixes
+
 ###### 4.23 (2024/10/06)
 * Add www.entax.news and maquia.hpplus.jp
 * Move 8760.news-postseven.com -> j7p.jp
