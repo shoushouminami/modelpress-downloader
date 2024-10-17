@@ -67,6 +67,7 @@ function register(siteModule) {
     require("./www.oricon.co.jp"),
     require("./times.abema.tv"),
     require("./shueisha.online"),
+    require("./wpb.shueisha.co.jp"),
     require("./www.rbbtoday.com"),
     require("./www.nikkansports.com"),
     require("./moment.nikkan-gendai.com"),

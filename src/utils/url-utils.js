@@ -3,7 +3,7 @@ function toFull(url, window) {
         return url;
     }
 
-    if (window === undefined) {
+    if (window == null || window.window !== window) {
         window = require("../globals").getWindow();
     }
 
