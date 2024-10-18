@@ -151,11 +151,11 @@ function downloadHandler(resolve) {
                 image.context = context;
                 image.jobId = setJobId ? jobId : null;
                 imagesNeedTab.push(image);
-            } else if (typeof image === "object" && (image.url != null || image.type === "msg")) {
+            } else if (typeof image === "object" && (image.url != null || image.type === "msg" || image.type === "msg_seq")) {
                 image.context = context;
                 image.jobId = setJobId ? jobId : null;
 
-                if (image.type === "msg") {
+                if (image.type === "msg" || image.type === "msg_seq") {
                     image.host = message.host;
                     downloadWithMsg.push(image);
                 } else {
@@ -172,7 +172,7 @@ function downloadHandler(resolve) {
             downloadInBackgroundOrPopup(chrome,
                 {
                     images: downloadWithMsg,
-                    type: "msg",
+                    type: downloadWithMsg[0].type,
                     context: context
                 },
                 function () {
@@ -296,9 +296,10 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 let result = results[0].result;
                 logger.debug("results[0].result=", result, "retry=", result.retry);
                 if (result.retry) {
-                    // retry in 100ms
+                    // retry in result.retryAfterMs or by default 100ms
+                    const retryMs = result.retryAfterMs || 100;
                     asyncUtils
-                        .wait(100)
+                        .wait(retryMs)
                         .then(() => {
                             chrome.scripting.executeScript(
                                 {

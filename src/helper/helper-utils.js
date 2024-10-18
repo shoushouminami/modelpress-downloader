@@ -124,25 +124,3 @@ exports.cachedId = function (id) {
     utils.pushIfNew(l, id);
     div.dataset.cachedIds = JSON.stringify(l);
 }
-
-exports.mazeStatus = function (status) {
-    let div = exports.getOrCreateDataDiv();
-    let oldStatus = div.dataset.mazeStatus;
-    if (status) {
-        div.dataset.mazeStatus = status;
-    }
-
-    return oldStatus;
-}
-
-exports.solvingMaze = function () {
-    return exports.mazeStatus() === "solving";
-}
-
-exports.startSolvingMaze = function () {
-    return exports.mazeStatus("solving");
-}
-
-exports.doneSolvingMaze = function () {
-    return exports.mazeStatus("done");
-}

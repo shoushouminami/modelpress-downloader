@@ -12,6 +12,7 @@ module.exports = {
             host: window.location.host,
             supported: true,
             retry: false,
+            retryAfterMs: undefined, // popup will retry inject script 1 more time (if retry is true). defaults to 100ms.
             scan: false, // if there is smart scan support for this page
             scanState: "", // "started" or "stopped"
             images: [],

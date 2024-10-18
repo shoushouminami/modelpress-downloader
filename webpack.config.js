@@ -15,6 +15,7 @@ module.exports = env => {
             "helper/twitter-react": "./src/helper/twitter-react.js",
             "helper/my.ebook5.net-helper": "./src/helper/my.ebook5.net-helper.js",
             "helper/glassgirl-info-helper": "./src/helper/glassgirl-info-helper.js",
+            "helper/www.grajapa.shueisha.co.jp-helper": "./src/helper/www.grajapa.shueisha.co.jp-helper.js",
             "google-analytics-bootstrap": "./src/google-analytics-bootstrap.js",
             "github-pages/sites-html": "./src/github-pages/sites-html.js",
         },

@@ -236,7 +236,7 @@ const utils = {
      * @param filterFunc a function to transform the found dom to another object. Input is the dom.
      * @returns {[]}
      */
-    findDomsWithCssSelector: function(rootDom, cssSelector, filterFunc) {
+    findDomsWithCssSelector: function(rootDom, cssSelector, filterFunc = null) {
         let logger = require("./logger2")(module.id);
         let ret = [];
         let doms = rootDom.querySelectorAll(cssSelector);

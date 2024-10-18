@@ -92,7 +92,7 @@ function sendToCS(tabId, key, msg, onResponse) {
 /**
  * Content script relays the message from page to extension runtime (popup or background).
  */
-function relayMsgToRuntime(key, transformerFunc) {
+function relayMsgFromPageToRuntime(key, transformerFunc) {
     listenOnPage(key, function (msg){
         if (transformerFunc instanceof Function) {
             let newMsg = transformerFunc(msg);
@@ -108,7 +108,7 @@ function relayMsgToRuntime(key, transformerFunc) {
 /**
  * Content script relays the message from extension runtime (popup or background) to page.
  */
-function relayMsgToPage(key, transformerFunc) {
+function relayMsgFromRuntimeToPage(key, transformerFunc) {
     listenOnRuntime(key, function (msg, sendResponse) {
         if (transformerFunc instanceof Function) {
             let newMsg = transformerFunc(msg);
@@ -124,7 +124,7 @@ function relayMsgToPage(key, transformerFunc) {
 
 function relayAllMsgsToRuntime(...keys) {
     keys.forEach(key => {
-        relayMsgToRuntime(key);
+        relayMsgFromPageToRuntime(key);
     })
 }
 
@@ -243,8 +243,8 @@ exports.listen = listen;
 exports.send = send;
 exports.listenOnPage = listenOnPage;
 exports.relayAllMsgsToRuntime = relayAllMsgsToRuntime;
-exports.relayMsgToPage = relayMsgToPage;
-exports.relayMsgToRuntime = relayMsgToRuntime;
+exports.relayMsgFromRuntimeToPage = relayMsgFromRuntimeToPage;
+exports.relayMsgFromPageToRuntime = relayMsgFromPageToRuntime;
 exports.sendToCS = sendToCS;
 exports.sendToRuntime = sendToRuntime;
 exports.sendToPage = sendToPage;

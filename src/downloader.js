@@ -27,6 +27,7 @@ function getFilename(image) {
  * @param resolve
  */
 function download(chrome, image, resolve) {
+    logger.debug("download image=", image);
     chrome.downloads.download(
         {
             url: image.url,
@@ -148,6 +149,60 @@ function downloadWithMsg(chrome, context, images, done) {
                 }
             });
     }
+}
+
+/**
+ * Similar to {@link downloadWithMsg} but download sequentially.
+ * @param chrome
+ * @param job.context {{tabId:number, folder:string, host:string}}
+ * @param job.images {any[]}
+ // * @param done {function():void} is called when all downloads are initiated in Chrome.
+ * @return Promise
+ */
+function downloadWithMsgSeq(chrome, job) {
+    const context = job.context;
+    const images = job.images;
+    let p = Promise.resolve();
+    if (images.length > 0) {
+        let count = 0;
+        let startMs = new Date().getTime();
+        logger.debug("downloadWithMsgSeq images.length=", images.length);
+        ga.trackEventGA4("msg_dl_start", {
+            "domain": context.host,
+            "count": images.length
+        });
+
+        for (const image of images) {
+            p = p.then(function () {
+                return new Promise(function (resolve) {
+                    messaging.sendToCS(context.tabId, "getImageUrl", image, function (respMsg) {
+                        // logger.debug("received getImageUrl message filename=", image.filename, " imageWithUrl=",
+                        //     imageWithUrl);
+                        let completed = ++count === images.length;
+                        if (respMsg && respMsg.url) {
+                            respMsg.context = context;
+                            respMsg.jobId = image.jobId;
+                            download(chrome, respMsg, function () {
+                                if (completed) {
+                                    ga.trackEventGA4("msg_dl_comp", {
+                                        "domain": context.host,
+                                        "count": images.length,
+                                        "latency_s": Math.round((new Date().getTime() - startMs) / 1000.0)
+                                    });
+                                }
+                                resolve();
+                            });
+                        } else {
+                            ga.trackEventGA4("msg_dl_null", {
+                                "domain": context.host
+                            });
+                        }
+                    })
+                })
+            });
+        }
+    }
+    return p;
 }
 
 /**
@@ -298,6 +353,8 @@ function downloadJob(job, sendResponse) {
     utils.clearObjectProperties(errorMap);
     if (job.type && job.type === "msg") {
         downloadWithMsg(chrome, job.context, job.images, sendResponse);
+    } else if (job.type && job.type === "msg_seq") {
+        downloadWithMsgSeq(chrome, job).then(() => sendResponse());
     } else {
         let count = 0;
         let downloadIds = [];
