@@ -1,7 +1,6 @@
 const utils = require("../utils.js");
 const messaging = require("../messaging");
 const logger = require("../logger2")(module.id);
-const {getObjectId} = require("../utils/js-utils");
 
 module.exports = {
     inject: function () {
@@ -25,9 +24,9 @@ module.exports = {
 
         // find images on page
         for (const query of [
-            // ".post-entry img",
+            ".post-entry img",
             ".l-post img",
-            // ".l-news__details img",
+            ".l-news__details img",
             ".l-content__block .column-contents img",
             ".details-img img"
         ]) {
@@ -44,13 +43,11 @@ module.exports = {
         }
 
         // logger.debug("Return from inject getObjectId(o)=", getObjectId(o), "o=", o);
-
         // inject helper script
         require("../utils/func-utils")
             .injectScriptFileToDOM(chrome.runtime.getURL("helper/www.grajapa.shueisha.co.jp-helper.js"));
         // show loading UI
         require("./return-message.js").loading(o);
-
         return o;
     },
     host: "www.grajapa.shueisha.co.jp"
