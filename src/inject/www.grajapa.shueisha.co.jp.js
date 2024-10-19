@@ -1,21 +1,7 @@
 const utils = require("../utils.js");
-const helperUtils = require("../helper/helper-utils");
 const messaging = require("../messaging");
 const logger = require("../logger2")(module.id);
-
-// function checkImgDomsAndUpdateResult(imgDoms, o) {
-//     if (imgDoms.length > 0) {
-//         utils.pushArray(o.images,
-//             imgDoms.map((imgDom) => {
-//                 return {
-//                     url: imgDom.dataset.name,
-//                     filename: imgDom.dataset.name,
-//                     type: "msg"
-//                 }
-//             })
-//         );
-//     }
-// }
+const {getObjectId} = require("../utils/js-utils");
 
 module.exports = {
     inject: function () {
@@ -31,32 +17,39 @@ module.exports = {
                 utils.pushArray(o.images, msg.images);
             }
             o.loading = false;
+            // logger.debug("sendToRuntime getObjectId(o)=", getObjectId(o), "o=", o);
             messaging.sendToRuntime("updateResult", o);
         });
 
         messaging.relayMsgFromRuntimeToPage("getImageUrl");
-        // messaging.listenOnRuntime("getImageUrl", function (msg, sendResponse) {
-        //     if (msg.filename) {
-        //         const imgDoms = utils.findDomsWithCssSelector(helperUtils.getOrCreateDataDiv(), "img");
-        //         for (const imgDom of imgDoms) {
-        //             if (imgDom.dataset.name === msg.filename) {
-        //                 sendResponse({
-        //                     url: imgDom.src,
-        //                     filename: msg.filename
-        //                 });
-        //             }
-        //         }
-        //     }
-        // });
 
-        // if (helperUtils.getDataDiv() === null) {
-            // inject helper script
-            require("../utils/func-utils")
-                .injectScriptFileToDOM(chrome.runtime.getURL("helper/www.grajapa.shueisha.co.jp-helper.js"));
-            // show loading UI
-            require("./return-message.js").loading(o);
-            // o.retry = true;
-        // }
+        // find images on page
+        for (const query of [
+            // ".post-entry img",
+            ".l-post img",
+            // ".l-news__details img",
+            ".l-content__block .column-contents img",
+            ".details-img img"
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    query,
+                )
+            );
+
+            if (o.images.length > 0) {
+                o.ext = "jpg";
+            }
+        }
+
+        // logger.debug("Return from inject getObjectId(o)=", getObjectId(o), "o=", o);
+
+        // inject helper script
+        require("../utils/func-utils")
+            .injectScriptFileToDOM(chrome.runtime.getURL("helper/www.grajapa.shueisha.co.jp-helper.js"));
+        // show loading UI
+        require("./return-message.js").loading(o);
 
         return o;
     },

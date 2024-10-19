@@ -1,6 +1,5 @@
 (function () {
     "use strict";
-    const helperUtils = require("./helper-utils");
     const messaging = require("../messaging");
     const logger = require("../logger2")(module.id);
 
@@ -10,13 +9,11 @@
         return;
     }
 
-    const r = READIUM && READIUM.reader;
+    const r = READIUM.reader;
     const hrefToIndexMap = {};
     const hrefAndCallback = [] // [href, callback] stored at 0
-    // const div = require("../helper/helper-utils").getOrCreateDataDiv();
 
-    // Also save some metadata
-    // div.dataset.title = READIUM.packageDocument.getMetadata().title;
+    // collect images from reader.spine().items
     const images = [];
 
     let i = 0;
@@ -54,8 +51,7 @@
         }
     });
 
-    // The event might be trigger multiple times.
-    // Check the iframe is the wanted one.
+    // The event might emit multiple times. Check the iframe is the wanted one.
     r.on("ContentDocumentLoaded", function ($iframe) {
         logger.debug("ContentDocumentLoaded", $iframe)
         const ifr = $iframe[0];
@@ -82,6 +78,4 @@
             logger.error(e);
         }
     }
-
-    helperUtils.getOrCreateDataDiv();
 })();
