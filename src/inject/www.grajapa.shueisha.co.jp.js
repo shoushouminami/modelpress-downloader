@@ -50,5 +50,9 @@ module.exports = {
         require("./return-message.js").loading(o);
         return o;
     },
+    tearDown: function () {
+        logger.debug("Tear down all event listeners")
+        messaging.tearDownAllListeners();
+    },
     host: "www.grajapa.shueisha.co.jp"
 };

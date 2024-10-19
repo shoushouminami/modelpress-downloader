@@ -5,7 +5,7 @@ const isRuntime = runtime.isRuntime();
 const isPage = runtime.isPage();
 const isCS = runtime.isCS();
 const thisSender = (isServiceWorker ? "sw" : (isRuntime ? "popup" : (isCS ? "content_script" : "page"))) + Math.round(Math.random() * 1000000000); // random sender id
-const logger = require("./logger2")(thisSender);
+const logger = require("./logger2")(module.id + " " + thisSender);
 
 logger.debug("isServiceWorker", isServiceWorker, "isRuntime", isRuntime, "isPage", isPage, "isCS", isCS);
 
@@ -40,8 +40,8 @@ function getOrCreateProperties(obj, ...path) {
 
 // Make sure every key is only listened once
 // bootstrap listenerMap by checking the property on window object
-const listenerMap = getOrCreateProperties(window, "_mid_", "messaging").listenerMap || {};
-getOrCreateProperties(window, "_mid_", "messaging").listenerMap = listenerMap;
+const _listenerMap = getOrCreateProperties(window, "_mid_", "messaging").listenerMap || {};
+getOrCreateProperties(window, "_mid_", "messaging").listenerMap = _listenerMap;
 
 function nextMsgId(){
     return thisSender + "-" + (msgCount++);
@@ -52,8 +52,8 @@ function nextMsgId(){
  * Subsequent calls will return false.
  */
 function tryAndListenOnKey(key) {
-    if (listenerMap[key] === undefined) {
-        return listenerMap[key] = true;
+    if (_listenerMap[key] === undefined) {
+        return _listenerMap[key] = true;
     }
 
     return false;
@@ -164,7 +164,7 @@ function listenOnPage(key, callback) {
             }
         };
         window.addEventListener("message", listener, false);
-        listenerMap[key] = listener;
+        _listenerMap[key] = listener;
         return true;
     } else {
         return false;
@@ -183,15 +183,16 @@ function listenOnPage(key, callback) {
 function listenOnRuntime(key, callback) {
     if (tryAndListenOnKey(key)) {
         logger.debug("listeningOnRuntime", key);
-        let listener = function(data, sender, sendResponse) {
+        const listener = function(data, sender, sendResponse) {
             if (data && data.what && data.what === key && data.sender !== thisSender) {
-                logger.debug("Received on runtime", data.what, data.msg, sendResponse);
+                logger.debug("Received on runtime", data.what, data.msg, "chrome sender=", sender, "sender=", data.sender);
                 // if callback returns true, async replying mode is enabled and calling sendResponse can reply
                 return callback(data.msg, sendResponse);
             }
+            return false;
         }
         chrome.runtime.onMessage.addListener(listener);
-        listenerMap[key] = listener;
+        _listenerMap[key] = listener;
         return true;
     } else {
         return false;
@@ -220,7 +221,7 @@ function send(key, msg, onResponse) {
  * @return {boolean} Returns true if it was successful to listen on the key, otherwise false.
  */
 function listen(key, callback) {
-    clear(key);
+    tearDownListenerByKey(key);
     let ret;
     if (isPage) {
         ret = listenOnPage(key, callback);
@@ -239,9 +240,9 @@ function listen(key, callback) {
  * there is only one method to unregister a key.
  * @param key {string} Message key
  */
-function clear(key) {
-    if (typeof listenerMap[key] === "function") {
-        let listener = listenerMap[key];
+function tearDownListenerByKey(key) {
+    if (typeof _listenerMap[key] === "function") {
+        let listener = _listenerMap[key];
         if (isPage) {
             window.removeEventListener("message", listener);
         }
@@ -250,17 +251,26 @@ function clear(key) {
         }
     }
 
-    delete listenerMap[key];
+    delete _listenerMap[key];
 }
 
-exports.listenOnRuntime = listenOnRuntime;
-exports.listen = listen;
-exports.send = send;
-exports.listenOnPage = listenOnPage;
-exports.relayAllMsgsToRuntime = relayAllMsgsToRuntime;
-exports.relayMsgFromRuntimeToPage = relayMsgFromRuntimeToPage;
-exports.relayMsgFromPageToRuntime = relayMsgFromPageToRuntime;
-exports.sendToCS = sendToCS;
-exports.sendToRuntime = sendToRuntime;
-exports.sendToPage = sendToPage;
-exports.clear = clear;
+function tearDownAllListeners() {
+    for (const k of Object.keys(_listenerMap)) {
+        tearDownListenerByKey(k);
+    }
+}
+
+module.exports = {
+    listenOnRuntime: listenOnRuntime,
+    listen: listen,
+    send: send,
+    listenOnPage: listenOnPage,
+    relayAllMsgsToRuntime: relayAllMsgsToRuntime,
+    relayMsgFromRuntimeToPage: relayMsgFromRuntimeToPage,
+    relayMsgFromPageToRuntime: relayMsgFromPageToRuntime,
+    sendToCS: sendToCS,
+    sendToRuntime: sendToRuntime,
+    sendToPage: sendToPage,
+    tearDownListenerByKey: tearDownListenerByKey,
+    tearDownAllListeners: tearDownAllListeners
+}

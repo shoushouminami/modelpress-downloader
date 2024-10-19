@@ -239,6 +239,10 @@ const inject = function () {
 
 module.exports = {
     inject: inject,
+    tearDown: function () {
+        logger.debug("Tear down all event listeners")
+        messaging.tearDownAllListeners();
+    },
     host: "yanmaga.jp.old",
     getImg: getImg
 };
