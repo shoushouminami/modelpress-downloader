@@ -11,9 +11,24 @@ logger.debug("isServiceWorker", isServiceWorker, "isRuntime", isRuntime, "isPage
 
 let msgCount = 0; // id of message == (sender + msgCount)
 
-function path(obj, ...path) {
+/**
+ * Returns the nested property from obj. For example
+ *  {@linkcode getOrCreateProperties}(obj, "a", "b") returns obj.a.b
+ *
+ * If any of the property along the way does not exist, it will be created as an empty object ({}).
+ *
+ * This allows for not only reading but also quick assignment on a nested property:
+ * <pre>
+ *     getOrCreateProperties(obj, "a", "b").newProperty = "bla";
+ * </pre>
+ *
+ * @param obj {object}
+ * @param path {string}
+ * @returns {*}
+ */
+function getOrCreateProperties(obj, ...path) {
     for (const p of path) {
-        if (!obj[p]) {
+        if (obj[p] == null) {
             obj[p] = {}
         }
 
@@ -25,8 +40,8 @@ function path(obj, ...path) {
 
 // Make sure every key is only listened once
 // bootstrap listenerMap by checking the property on window object
-const listenerMap = path(window, "_mid_", "messaging").listenerMap || {};
-path(window, "_mid_", "messaging").listenerMap = listenerMap;
+const listenerMap = getOrCreateProperties(window, "_mid_", "messaging").listenerMap || {};
+getOrCreateProperties(window, "_mid_", "messaging").listenerMap = listenerMap;
 
 function nextMsgId(){
     return thisSender + "-" + (msgCount++);
