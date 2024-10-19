@@ -286,6 +286,10 @@ messaging.listen("updateResult", function (msg){
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     // inject script with 1 retry.
     const tabId = tabs[0].id;
+    // tear down the content script injected before. removing event listeners etc.
+    messaging.sendToCS(tabId, "tearDown", {
+        before: Date.now()
+    });
     chrome.scripting.executeScript(
         {
             target: {"tabId": tabId},

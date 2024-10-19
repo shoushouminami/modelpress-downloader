@@ -27,28 +27,28 @@ function getSiteModule(location) {
     }
 }
 
-/**
- * Injects "inject-cs.js" file.
- * @param chrome
- * @param tabId
- * @param callback {function(results, tabId)}
- */
-function injectInjectScript(chrome, tabId, callback) {
-
-    chrome.scripting.executeScript(
-        {
-            target: {tabId: tabId},
-            files: ["inject-cs.js"],
-            matchAboutBlank: true
-        },
-        results => callback(results, tabId)
-    );
-}
-
 module.exports = {
     inject: function (){
         const site = getSiteModule(window.location);
+        const ageSec = Date.now();
         if (site != null) {
+            // if tearDown function is defined, run it before running inject
+            if (typeof site.tearDown === "function") {
+                require("./messaging").listenOnRuntime("tearDown", function (msg) {
+                    // gating by timestamp
+                    if (ageSec < msg.before) {
+                        try{
+                            logger.debug("Running site.tearDown()");
+                            site.tearDown();
+                        } catch (e) {
+                            logger.error("Error running site.tearDown()", e);
+                        }
+                    } else {
+                        logger.error("Received stale tear down message. ageSec=", ageSec, msg);
+                    }
+                    return false;
+                })
+            }
             return site.inject();
         } else {
             return require("./inject/return-message.js").notSupported();

@@ -136,5 +136,9 @@ module.exports = {
         }
         return o;
     },
+    tearDown: function () {
+        logger.debug("Tear down all event listeners")
+        messaging.tearDownAllListeners();
+    },
     host: "binb.bricks.pub",
 };

@@ -1,9 +1,9 @@
-const inject = function () {
-    o = require("./binb.bricks.pub").inject();
-    return o;
-};
-
 module.exports = {
-    inject: inject,
+    inject: function () {
+        return require("./binb.bricks.pub").inject();
+    },
+    tearDown: function () {
+        require("./binb.bricks.pub").tearDown();
+    },
     host: "yanmaga.jp",
 };
