@@ -7,6 +7,8 @@ module.exports = {
             ".main-content .post-container .ws > a > img", // article image
             ".main-content .post-container .ws .wp-caption img",
             ".main-content .post-container .gallery .gallery-item img",
+            ".main-content .post-container .ws img",
+            "body .single .content img"
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
