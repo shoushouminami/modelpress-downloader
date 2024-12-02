@@ -5,9 +5,9 @@ const getBrowser = getBrowserFactory(beforeAll, afterAll);
 test("Test samplebook page", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.comic-valkyrie.com/samplebook/val_bakesyo18/",
-        "www.comic-valkyrie.com-samplebook-val_bakesyo18-/",
-        dummyItems(23),
+        "https://www.comic-valkyrie.com/samplebook/val_bomber03/",
+        "www.comic-valkyrie.com-samplebook-val_bomber03-/",
+        dummyItems(34),
         {
             pagetimeout: 20000,
             preinject: async function () {

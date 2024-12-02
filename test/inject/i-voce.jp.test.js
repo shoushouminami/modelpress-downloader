@@ -106,7 +106,7 @@ test("feed/459549/", async () => {
         getBrowser(),
         "https://i-voce.jp/feed/459549/",
         "i-voce.jp-feed-459549-/",
-        dummyItems(13));
+        dummyItems(11));
 });
 
 test("Test cover beauty article", async () => {
