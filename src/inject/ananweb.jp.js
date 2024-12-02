@@ -9,17 +9,19 @@ const getLargeImg = function (url) {
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document,
-                "main article .the_content figure > img", function (dom) {
-                //data-lazy-src="https://img.ananweb.jp/2020/08/01100737/4-578x600.jpg"
-                    if (dom.dataset["lazySrc"]) {
-                        return getLargeImg(dom.dataset["lazySrc"]);
-                    } else {
-                        return getLargeImg(dom.src);
-                    }
-                })
-        );
+        for (const selector of [
+            "article figure > img", // old contents
+            "body > div > div > div > div > img", // article top image
+            "#postContents img", // article images
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    selector,
+                    getLargeImg)
+            );
+        }
+
         return o;
     },
     host: "ananweb.jp",

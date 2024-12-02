@@ -155,3 +155,107 @@ test("Test plus.ananweb.jp article", async () => {
     );
 });
 
+test("categories/lifestyle/214", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://ananweb.jp/categories/lifestyle/214",
+        "ananweb.jp-categories-lifestyle-214/",
+        [
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/12/241014_AN0303-1.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/12/241014_AN0303-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/12/20241022-1-1.png"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/12/20241022-1-1.png"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/12/20241022-2.png"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/12/20241022-2.png"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/12/241014_AN0379-1.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/12/241014_AN0379-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/12/95b5f7d7cba856aa880c1a893169b37a.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/12/95b5f7d7cba856aa880c1a893169b37a.jpg"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/12/20241022-3.png"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/12/20241022-3.png"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/12/241014_AN0455-1.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/12/241014_AN0455-1.jpg"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/12/4e723ee78a56ce42013478e9ff11a733.png"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/12/4e723ee78a56ce42013478e9ff11a733.png"
+            }
+        ]);
+});
+
+test("categories/entertainment/32122", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://ananweb.jp/categories/entertainment/32122",
+        "ananweb.jp-categories-entertainment-32122/",
+        [
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/11/2424-ISSUE0.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/11/2424-ISSUE0.jpg"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/11/2424-ISSUE-NANO.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/11/2424-ISSUE-NANO.jpg"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/11/2424-ISSUE-RINO.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/11/2424-ISSUE-RINO.jpg"
+            },
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/11/2424-ISSUE-YUUKI.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/11/2424-ISSUE-YUUKI.jpg"
+            }
+        ]);
+});
+
+test("categories/star/24504", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://ananweb.jp/categories/star/24504",
+        "ananweb.jp-categories-star-24504/",
+        [
+            {
+                "retries": [
+                    "https://api.ananweb.jp/wp-content/uploads/2024/10/2420-Perfume2.jpg"
+                ],
+                "url": "https://api.ananweb.jp/wp-content/uploads/2024/10/2420-Perfume2.jpg"
+            }
+        ]);
+});
