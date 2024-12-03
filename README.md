@@ -19,6 +19,10 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.25 (2024/12/02)
+* Fix on ananweb.jp, seventeen-web.jp and kstyle.com
+* Remove taishu.jp (retired)
+
 ###### 4.24 (2024/10/17)
 * Add wpb.shueisha.co.jp
 * Add dot.asahi.com
