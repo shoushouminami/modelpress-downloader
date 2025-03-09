@@ -168,7 +168,7 @@ async function testDirectDownload(browser, url, folder, expectedImages, ops= {})
     } else {
         let expectedLength = expectedImages.length;
         for (const expectedImage of expectedImages) {
-            if (expectedImage.prefix && expectedImage.count) {
+            if ((expectedImage.prefix || expectedImage.regex) && expectedImage.count) {
                 expectedLength += expectedImage.count - 1;
             }
         }

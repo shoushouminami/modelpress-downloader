@@ -246,7 +246,7 @@ test("Test news article page with instagram photos", async () => {
         "mdpr.jp-news-detail-2587451/",
         [
             {
-                prefix: "https://scontent.cdninstagram.com/v/",
+                regex: /.*\.cdninstagram\.com\/.*/,
                 count: 3
             },
             "https://img-mdpr.freetls.fastly.net/article/tyJU/wm/tyJUVAtLPKFIyc6Q-yyf-w395mRFXcZxexrdBWf2EME.jpg?quality=100",

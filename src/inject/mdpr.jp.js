@@ -5,7 +5,7 @@ function getLargeImg(url) {
     }
 
     // return instagram url as is
-    if (url.startsWith("https://scontent.cdninstagram.com/")) {
+    if (url.indexOf(".cdninstagram.com/") > -1) {
         return url;
     }
 
