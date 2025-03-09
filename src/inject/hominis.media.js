@@ -17,9 +17,20 @@ module.exports = {
         );
         // images list at the end of article
         utils.pushArray(o.images,
-            utils.findImagesWithCssSelector(document,
+            utils.findLazyImagesWithCssSelector(document,
                 "#mainContents article .picture.list figure img", getLargeImg)
         );
+
+        // new UI 2025
+        for (const selector of [
+            "#main .gallery-main .gallery-image img", // top image
+            "#main .gallery-images img"
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(document, selector, getLargeImg)
+            );
+        }
+
         return o;
     },
     host: "hominis.media",

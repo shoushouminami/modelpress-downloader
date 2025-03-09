@@ -14,12 +14,7 @@ test("Test image gallery page", async () => {
             "https://hominis.media/2020/08/images/kimioi04.jpg",
             "https://hominis.media/2020/08/images/kimioi05.jpg",
             "https://hominis.media/2020/09/images/banner_nogizaka46.jpg"
-        ],
-        {
-            preinject: async function (page) {
-                await pageutils.scrollTo(page, 50);
-            }
-        });
+        ]);
 });
 
 test("Test news article page", async () => {
@@ -30,12 +25,22 @@ test("Test news article page", async () => {
             [
                 "https://hominis.media/2020/08/images/ikuta01.jpg",
                 "https://hominis.media/2020/08/images/ikuta02.jpg"
-            ],
-            {
-                preinject: async function (page) {
-                    await pageutils.scrollTo(page, 70);
-                }
-            });
+            ]);
+});
+
+test("category/idol/post6256/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://hominis.media/category/idol/post6256/",
+        "hominis.media-category-idol-post6256-/",
+        [
+            "https://hominis.media/2020/08/images/kimioi01.jpg",
+            "https://hominis.media/2020/08/images/kimioi02.jpg",
+            "https://hominis.media/2020/08/images/kimioi03.jpg",
+            "https://hominis.media/2020/08/images/kimioi04.jpg",
+            "https://hominis.media/2020/08/images/kimioi05.jpg",
+            "https://hominis.media/2020/09/images/banner_nogizaka46.jpg"
+        ]);
 });
 
 test("Test news article lazy loading 1st image", async () => {
