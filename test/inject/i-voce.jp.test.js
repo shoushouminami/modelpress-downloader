@@ -100,13 +100,12 @@ test("Test magazine feed article", async () => {
     );
 });
 
-
 test("feed/459549/", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://i-voce.jp/feed/459549/",
         "i-voce.jp-feed-459549-/",
-        dummyItems(11));
+        dummyItems(13));
 });
 
 test("Test cover beauty article", async () => {

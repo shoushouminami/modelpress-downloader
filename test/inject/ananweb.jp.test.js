@@ -103,56 +103,49 @@ test("Test entame article", async () => {
     );
 });
 
-test("Test plus.ananweb.jp article", async () => {
+test("categories/beauty/45811", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://plus.ananweb.jp/beauty/yukirin/16590/",
-        "plus.ananweb.jp-beauty-yukirin-16590-/",
+        "https://ananweb.jp/categories/beauty/45811",
+        "ananweb.jp-categories-beauty-45811/",
         [
             {
                 "retries": [
-                    "https://img.ananweb.jp/anan-plus/2021/05/25134236/2247.2.97374-1024x683.jpg"
+                    "https://api.ananweb.jp/wp-content/uploads/2025/02/55f02aaf5c3ef69d16ff4f0f232051b4.jpg"
                 ],
-                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134236/2247.2.97374.jpg"
+                "url": "https://api.ananweb.jp/wp-content/uploads/2025/02/55f02aaf5c3ef69d16ff4f0f232051b4.jpg"
             },
             {
                 "retries": [
-                    "https://img.ananweb.jp/anan-plus/2021/05/25134303/2247.2.97360-1024x683.jpg"
+                    "https://api.ananweb.jp/wp-content/uploads/2025/02/d36f1be12f26d0592c6753138d67ef7d.jpg"
                 ],
-                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134303/2247.2.97360.jpg"
+                "url": "https://api.ananweb.jp/wp-content/uploads/2025/02/d36f1be12f26d0592c6753138d67ef7d.jpg"
             },
             {
                 "retries": [
-                    "https://img.ananweb.jp/anan-plus/2021/05/25134301/2247.2.97335-1024x683.jpg"
+                    "https://api.ananweb.jp/wp-content/uploads/2025/02/2c1bbf835902baa41fcf28a6f9fa050f.jpg"
                 ],
-                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134301/2247.2.97335.jpg"
+                "url": "https://api.ananweb.jp/wp-content/uploads/2025/02/2c1bbf835902baa41fcf28a6f9fa050f.jpg"
             },
             {
                 "retries": [
-                    "https://img.ananweb.jp/anan-plus/2021/05/25134305/2247.2.97371-1024x683.jpg"
+                    "https://api.ananweb.jp/wp-content/uploads/2025/02/0d7c2b3a521865c2fa972e576712026e.jpg"
                 ],
-                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134305/2247.2.97371.jpg"
+                "url": "https://api.ananweb.jp/wp-content/uploads/2025/02/0d7c2b3a521865c2fa972e576712026e.jpg"
             },
             {
                 "retries": [
-                    "https://img.ananweb.jp/anan-plus/2021/05/25134307/2247.2.97473-1024x683.jpg"
+                    "https://api.ananweb.jp/wp-content/uploads/2025/02/f1f51144d8289a36f38190d360de01c7.jpg"
                 ],
-                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134307/2247.2.97473.jpg"
+                "url": "https://api.ananweb.jp/wp-content/uploads/2025/02/f1f51144d8289a36f38190d360de01c7.jpg"
             },
             {
                 "retries": [
-                    "https://img.ananweb.jp/anan-plus/2021/05/27233013/2247.2.97478-1-1024x682.jpg"
+                    "https://api.ananweb.jp/wp-content/uploads/2025/02/b59277819502ea46c4ef8d76d9d693d3.jpg"
                 ],
-                "url": "https://img.ananweb.jp/anan-plus/2021/05/27233013/2247.2.97478-1.jpg"
-            },
-            {
-                "retries": [
-                    "https://img.ananweb.jp/anan-plus/2021/05/25134259/2247.2.97225-1-683x1024.jpg"
-                ],
-                "url": "https://img.ananweb.jp/anan-plus/2021/05/25134259/2247.2.97225-1.jpg"
+                "url": "https://api.ananweb.jp/wp-content/uploads/2025/02/b59277819502ea46c4ef8d76d9d693d3.jpg"
             }
-        ]
-    );
+        ]);
 });
 
 test("categories/lifestyle/214", async () => {

@@ -18,19 +18,19 @@ test("Test gravure article intro", async () => {
     );
 });
 
-test("gravure/article/274863", async () => {
+test("article/322833", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://friday.gold/gravure/article/274863",
-        "friday.gold-gravure-article-274863/",
+        "https://friday.gold/article/322833",
+        "friday.gold-article-322833/",
         [
             {
-                "prefix": "https://assets.friday.gold/friday-wp-production-assets/app/uploads/2024/09/03147-12082934778312.jpg",
+                "prefix": "https://assets.friday.gold/friday-wp-production-assets/app/uploads/2025/02/",
             },
             {
-                "prefix": "https://assets.friday.gold/friday-wp-production-assets/app/uploads/2024/09/02949-12082934079706.jpg",
+                "prefix": "https://assets.friday.gold/friday-wp-production-assets/app/uploads/2025/02",
             }
-        ].concat(dummyItems(5)));
+        ]);
 });
 
 test("Test news article", async () => {
