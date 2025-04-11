@@ -9,14 +9,14 @@ const getLargeImg = (url) => {
         url = url.replace(".jpg/webp", ".jpg");
     }
 
-    if (url.endsWith(".jpg")) {
+    if (url.endsWith(".jpg") && !url.endsWith("l.jpg")) {
         return  {
             url: url.replace(".jpg", "l.jpg"),
             retries: [url]
         }
     }
 
-    return url;
+    return {url: url};
 };
 const inject = function () {
     let o = require("./return-message.js").init();

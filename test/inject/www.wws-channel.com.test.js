@@ -54,12 +54,22 @@ test("news2/222467.html?view=more", async () => {
         ]);
 });
 
-test("news2/222467.html/attachment/sk00-20?pg=222467&mv=0", async () => {
+test("girls2/543803.html", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.wws-channel.com/news2/222467.html/attachment/sk00-20?pg=222467&mv=0",
-        "www.wws-channel.com-news2-222467.html-attachment-sk00-20/",
+        "https://www.wws-channel.com/girls2/543803.html",
+        "www.wws-channel.com-girls2-543803.html/",
         [
-            "https://www.wws-channel.com/wp-content/uploads/2020/09/SK00.jpg"
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2025/02/VpDVO1AP-00.jpg"
+        ]);
+});
+
+test("girls2/543803.html/attachment/00-10692?pg=543803&mv=0", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.wws-channel.com/girls2/543803.html/attachment/00-10692?pg=543803&mv=0",
+        "www.wws-channel.com-girls2-543803.html-attachment-00-10692/",
+        [
+            "https://pub-6e6736ba37d64d4aa5ae63b074884090.r2.dev/2025/02/VpDVO1AP-00.jpg"
         ]);
 });
