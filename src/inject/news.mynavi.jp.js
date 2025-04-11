@@ -4,9 +4,18 @@ const getLargeImg = (url) => {
     if (!url || url.endsWith("/index.jpg")) {
         return url;
     }
-    if (url.endsWith(".jpg") && !url.endsWith("_large.jpg")) {
-        return url.replace(".jpg", "_large.jpg");
+
+    if (url.endsWith(".jpg/webp")) {
+        url = url.replace(".jpg/webp", ".jpg");
     }
+
+    if (url.endsWith(".jpg")) {
+        return  {
+            url: url.replace(".jpg", "l.jpg"),
+            retries: [url]
+        }
+    }
+
     return url;
 };
 const inject = function () {
