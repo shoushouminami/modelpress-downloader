@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.26 (2025/04/11)
+* Varies fixes
+
 ###### 4.25 (2024/12/02)
 * Fix on ananweb.jp, seventeen-web.jp and kstyle.com
 * Remove taishu.jp (retired)
