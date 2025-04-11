@@ -1,5 +1,9 @@
 const utils = require("../utils.js");
 const getLargeImg = function (url) {
+    if (url.indexOf("static%2Fmedia") > -1 && url.indexOf("static%.png")) {
+        return null;
+    }
+    
     return {
         url: utils.removeTrailingResolutionNumbers(url),
         retries: [url]
