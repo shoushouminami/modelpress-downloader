@@ -9,7 +9,7 @@ test("nogizaka46/status/1773336164650676599", async () => {
         "https://x.com/nogizaka46/status/1773336164650676599",
         "x.com-nogizaka46-status-1773336164650676599/",
         [
-            "https://pbs.twimg.com/media/GJwn12GbwAAFkmE?format=jpg&name=large"
+            "https://pbs.twimg.com/media/GJwn12GbwAAFkmE?format=jpg&name=4096x4096"
         ],
         {
             preinject: async function (page) {
@@ -30,9 +30,9 @@ test("nogizaka46/status/1312658348064428032", async () => {
         "https://x.com/nogizaka46/status/1312658348064428032",
         "x.com-nogizaka46-status-1312658348064428032/",
         [
-            "https://pbs.twimg.com/media/Ejd_zkyVoAAAWxK?format=jpg&name=large",
-            "https://pbs.twimg.com/media/Ejd_zkwU0AAvYze?format=jpg&name=large",
-            "https://pbs.twimg.com/media/Ejd_zkwVoAEBXmV?format=jpg&name=large"
+            "https://pbs.twimg.com/media/Ejd_zkyVoAAAWxK?format=jpg&name=4096x4096",
+            "https://pbs.twimg.com/media/Ejd_zkwU0AAvYze?format=jpg&name=4096x4096",
+            "https://pbs.twimg.com/media/Ejd_zkwVoAEBXmV?format=jpg&name=4096x4096"
         ],
         {
             preinject: async function (page) {
@@ -47,7 +47,7 @@ test("nogizaka46/status/1312710164730970117", async () => {
         "https://x.com/nogizaka46/status/1312710164730970117",
         "x.com-nogizaka46-status-1312710164730970117/",
         [
-            "https://pbs.twimg.com/media/Ejeu7fDU0AIBJjC?format=jpg&name=large"
+            "https://pbs.twimg.com/media/Ejeu7fDU0AIBJjC?format=jpg&name=4096x4096"
         ],
         {
             preinject: async function (page) {

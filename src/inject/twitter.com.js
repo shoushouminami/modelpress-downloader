@@ -15,7 +15,7 @@ const getLargeImg = function (src) {
                 }
 
                 if (search[i].startsWith("name=")) {
-                    search[i] = "name=large";
+                    search[i] = "name=4096x4096";
                 }
             }
 
