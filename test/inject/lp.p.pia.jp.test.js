@@ -8,12 +8,10 @@ test("article/news/414051/index.html", async () => {
         "https://lp.p.pia.jp/article/news/414051/index.html",
         "lp.p.pia.jp-article-news-414051-index.html/",
         [
-            [
-                {
-                    prefix: "https://lp.p.pia.jp/shared/materials/",
-                    count: 16
-                }
-            ]
+            {
+                prefix: "https://lp.p.pia.jp/shared/materials/",
+                count: 16
+            }
         ]);
 });
 
