@@ -1,61 +1,82 @@
 const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("article/15201196?page=2", async () => {
+test("articles/-/7421", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://mezamashi.media/article/15201196?page=2",
-        "mezamashi.media-article-15201196/",
+        "https://mezamashi.media/articles/-/7421",
+        "mezamashi.media-articles---7421/",
         [
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2Ff86e-p%2Fpicture%2F28343826%2F64b8299d1597b8a5c7b9cb9c88642f6c.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2Fb4f4-p%2Fpicture%2F28343824%2F1058abae0dc372f4432cbea7fa123512.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F602d-p%2Fpicture%2F28343823%2F8df7b73a7820f4aef47864f2a6c5fccf.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F5acb-p%2Fpicture%2F28343825%2F9414a8f5b810972c3c9a0e2860c07532.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F133b-p%2Fpicture%2F28343827%2Fbd107b6809e4688fa1b0ce4077691bb8.jpg&w=3840&q=100"
+            "https://mezamashi.ismcdn.jp/mwimgs/2/3/-/img_230c573a510a4b06b6b52fba385fad35124348.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/f/0/-/img_f074d5677df930967d58fafc9f1cbf7a181559.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/0/3/-/img_0362ad4959c248eb91bdb0925f716a76135404.jpg?q=100"
         ]);
 });
 
-test("article/15201522", async () => {
+test("articles/gallery/7421", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://mezamashi.media/article/15201522",
-        "mezamashi.media-article-15201522/",
+        "https://mezamashi.media/articles/gallery/7421",
+        "mezamashi.media-articles-gallery-7421/",
         [
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F99bc-p%2Fpicture%2F28344542%2Fbaf2b48530efe1649bbb596a8126dd3c.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F2c39-p%2Fpicture%2F28344531%2F70f40241dea19a91af68c3f79ff3cdd9.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F898a-p%2Fpicture%2F28344532%2Fd928d6a934dea1219f1c350282300b3d.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2Fde34-p%2Fpicture%2F28344533%2F5218891d239fac7350ef4229e460cbc5.jpg&w=3840&q=100"
+            "https://mezamashi.ismcdn.jp/mwimgs/2/3/-/img_230c573a510a4b06b6b52fba385fad35124348.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/f/0/-/img_f074d5677df930967d58fafc9f1cbf7a181559.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/0/3/-/img_0362ad4959c248eb91bdb0925f716a76135404.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/1/e/-/img_1ecf832e52a9f936272270052b80864876963.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/6/4/-/img_6441e0884bc0f363ad15f879f9c549c7182959.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/9/8/-/img_98a12611c011d18482a3e6678c2a57ce99349.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/2/9/-/img_29d3d84632ab8d48e630e2922bc745aa96856.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/4/f/-/img_4fcac1f2ed79f3e15b14aea2ef706178150143.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/8/4/-/img_847d6d957cfeb8b3d88850d52ae99e73197128.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/4/5/-/img_4554ecbce7d75ddabc85cdf6b625cb8c121536.jpg?q=100"
+        ]);
+});
+
+test("articles/-/138512", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://mezamashi.media/articles/-/138512",
+        "mezamashi.media-articles---138512/",
+        [
+            "https://mezamashi.ismcdn.jp/mwimgs/8/7/-/img_87552f7c035239cb73e4ac1060c6e8c5182028.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/6/8/-/img_68033b9f259ce6f46cee0290bb488396527407.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/6/c/-/img_6c5339b08a052015c907cf8e8f5463ea824642.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/8/d/-/img_8de906d7642a818ca6ca48ccf580524a828830.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/a/6/-/img_a69beb5cbfa5d1864f464d5b6fbe8c2c793657.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/e/f/-/img_efab3f0710507d6bd6a46c48927b13511042562.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/a/8/-/img_a8c6e2b8e5f7474030c4a4edafc79c8e975765.jpg?q=100"
         ]);
 });
 
 
-test("article/15201522/28344531", async () => {
+test("articles/-/138512?page=2", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://mezamashi.media/article/15201522/28344531",
-        "mezamashi.media-article-15201522-28344531/",
-        dummyItems(13));
-});
-
-test("article/15201572", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://mezamashi.media/article/15201572",
-        "mezamashi.media-article-15201572/",
+        "https://mezamashi.media/articles/-/138512?page=2#google_vignette",
+        "mezamashi.media-articles---138512/",
         [
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2Ff295-p%2Fpicture%2F28344707%2Fd0c7eb0a2eca73a96e23a1d8f192cd16.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F0064-p%2Fpicture%2F28344711%2Fb8587d307888b5f1a8eb023330f95fa0.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F7e38-p%2Fpicture%2F28344712%2Fd1305d9e7e71bc4471737fdbf9ace16b.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F0b26-p%2Fpicture%2F28344713%2Fe7aad8feb6dc4040b1dd28a57e2de345.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2Ff180-p%2Fpicture%2F28344710%2F5652399ffc681e930b198ff05f86fddf.jpg&w=3840&q=100",
-            "https://mezamashi.media/_next/image?url=https%3A%2F%2Fp.potaufeu.asahi.com%2F1d6c-p%2Fpicture%2F28344704%2Fe8621835594dfd1496933bfb85325d7f.jpg&w=3840&q=100"
+            "https://mezamashi.ismcdn.jp/mwimgs/8/7/-/img_87552f7c035239cb73e4ac1060c6e8c5182028.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/c/0/-/img_c0d3ebd4ef65af1bda6051c532a339ea529390.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/2/b/-/img_2b93ca9db093598d6ec0f7f6383eb964872302.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/8/0/-/img_801f27c94e52bca254c7fb2509c474ac883217.jpg?q=100"
         ]);
 });
 
-test("article/15201572/28344711", async () => {
+test("articles/gallery/138512?image=2", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://mezamashi.media/article/15201572/28344711",
-        "mezamashi.media-article-15201572-28344711/",
-        dummyItems(13));
+        "https://mezamashi.media/articles/gallery/138512?image=2",
+        "mezamashi.media-articles-gallery-138512/",
+        [
+            "https://mezamashi.ismcdn.jp/mwimgs/8/7/-/img_87552f7c035239cb73e4ac1060c6e8c5182028.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/6/8/-/img_68033b9f259ce6f46cee0290bb488396527407.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/6/c/-/img_6c5339b08a052015c907cf8e8f5463ea824642.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/8/d/-/img_8de906d7642a818ca6ca48ccf580524a828830.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/a/6/-/img_a69beb5cbfa5d1864f464d5b6fbe8c2c793657.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/e/f/-/img_efab3f0710507d6bd6a46c48927b13511042562.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/a/8/-/img_a8c6e2b8e5f7474030c4a4edafc79c8e975765.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/c/0/-/img_c0d3ebd4ef65af1bda6051c532a339ea529390.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/2/b/-/img_2b93ca9db093598d6ec0f7f6383eb964872302.jpg?q=100",
+            "https://mezamashi.ismcdn.jp/mwimgs/8/0/-/img_801f27c94e52bca254c7fb2509c474ac883217.jpg?q=100"
+        ]);
 });

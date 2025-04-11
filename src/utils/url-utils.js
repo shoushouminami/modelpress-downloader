@@ -12,7 +12,7 @@ function toFull(url, window) {
 
 function removeMwimgsSize(url) {
     if (url == null) return url;
-    let m = url.match(/^https:\/\/[a-z0-9.-]+\/mwimgs\/.+\/.+(\/\d+[a-z]+\/).+\.(jpg|png|jpeg)$/)
+    let m = url.match(/^https:\/\/[a-z0-9.-]+\/mwimgs\/.+\/.+(\/\d+[a-z]*\/).+\.(jpg|png|jpeg)(\?.*)?$/)
     if (m && m[1]) {
         url = url.replace(m[1], "/-/")
     }
