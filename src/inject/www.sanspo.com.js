@@ -1,4 +1,20 @@
 const utils = require("../utils.js");
+const getLargeImg = function (url) {
+    const re = /https:\/\/www\.sanspo\.com\/resizer\/.+(\/cloudfront-.*\.jpg)/;
+    const m = url.match(re);
+    if (m) {
+        return "https:/" + m[1];
+    }
+
+    const re2 = /https:\/\/www\.sanspo\.com\/resizer\/v2(\/.*\.jpg)\?.*/;
+    const m2 = url.match(re2);
+    if (m2) {
+        return "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei" + m2[1];
+    }
+
+    return url;
+}
+
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
@@ -12,14 +28,8 @@ module.exports = {
                 utils.findLazyImagesWithCssSelector(
                     document,
                     selector,
-                    function (url) {
-                        const re = /https:\/\/www\.sanspo\.com\/resizer\/.+(\/cloudfront-.*\.jpg)/;
-                        const m = url.match(re);
-                        if (m) {
-                            return "https:/" + m[1];
-                        }
-                        return url;
-                    })
+                    getLargeImg
+                )
             );
         }
         return o;

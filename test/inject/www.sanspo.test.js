@@ -4,7 +4,7 @@ const getBrowser = getBrowserFactory(beforeAll, afterAll);
 test("article/20240523-JJXHFCPINFHHNDT7SRLE6YT3ZM/?outputType=theme_mlb", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.sanspo.com/article/20240523-JJXHFCPINFHHNDT7SRLE6YT3ZM/?outputType=theme_mlb",
+        "https://www.sanspo.com/article/20240523-JJXHFCPINFHHNDT7SRLE6YT3ZM/",
         "www.sanspo.com-article-20240523-JJXHFCPINFHHNDT7SRLE6YT3ZM-/",
         [
             "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/CVGOIPMDKBKWLLV2Q6KDPS27YI.jpg",
@@ -23,34 +23,34 @@ test("article/20240523-JJXHFCPINFHHNDT7SRLE6YT3ZM/?outputType=theme_mlb", async 
         ]);
 });
 
-test("article/20240523-GL5HWNIAFVEMVEDU6TMLGNCBPI/", async () => {
-        await testDirectDownload(
-            getBrowser(),
-            "https://www.sanspo.com/article/20240523-GL5HWNIAFVEMVEDU6TMLGNCBPI/",
-            "www.sanspo.com-article-20240523-GL5HWNIAFVEMVEDU6TMLGNCBPI-/",
-            [
-                    "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/NYSTUQAZKZD4BNYK7HUMRTW2UE.jpg"
-            ]);
-});
-
-
-test("article/20240523-GL5HWNIAFVEMVEDU6TMLGNCBPI/photo/NYSTUQAZKZD4BNYK7HUMRTW2UE/", async () => {
+test("article/20250411-KXU2DZLC6RCEZJWMVO4OU63OVQ/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.sanspo.com/article/20240523-GL5HWNIAFVEMVEDU6TMLGNCBPI/photo/NYSTUQAZKZD4BNYK7HUMRTW2UE/",
-        "www.sanspo.com-article-20240523-GL5HWNIAFVEMVEDU6TMLGNCBPI-photo-NYSTUQAZKZD4BNYK7HUMRTW2UE-/",
+        "https://www.sanspo.com/article/20250411-KXU2DZLC6RCEZJWMVO4OU63OVQ/",
+        "www.sanspo.com-article-20250411-KXU2DZLC6RCEZJWMVO4OU63OVQ-/",
         [
-            "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/NYSTUQAZKZD4BNYK7HUMRTW2UE.jpg"
+            "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/ICR2VYIKPBOE7OHBTCI4IADNBM.jpg"
         ]);
 });
 
 
-test("article/20240518-EBIG4TTWD5EO5C6TWH2RBNOPOU/", async () => {
+test("article/20250411-3ICJUMJ5TVOSBBMQAS7MMVB3MQ/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://www.sanspo.com/article/20240518-EBIG4TTWD5EO5C6TWH2RBNOPOU/",
-        "www.sanspo.com-article-20240518-EBIG4TTWD5EO5C6TWH2RBNOPOU-/",
+        "https://www.sanspo.com/article/20250411-3ICJUMJ5TVOSBBMQAS7MMVB3MQ/",
+        "www.sanspo.com-article-20250411-3ICJUMJ5TVOSBBMQAS7MMVB3MQ-/",
         [
-            "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/XG7TVIJR3VJZLGBB3JI2UEBX64.jpg"
+            "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/I5Y3XEIYJBA2ROYW7EABUEROJY.jpg"
+        ]);
+});
+
+test("article/20250410-FUGJVKIGTZL6ZEGOM7CGZ2HKEE/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.sanspo.com/article/20250410-FUGJVKIGTZL6ZEGOM7CGZ2HKEE/",
+        "www.sanspo.com-article-20250410-FUGJVKIGTZL6ZEGOM7CGZ2HKEE-/",
+        [
+            "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/XVYG43MF3NOMNE63EYD5O5Z5L4.jpg",
+            "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/4NTCU6IL7JO6LFVDDGMB533VB4.jpg"
         ]);
 });
