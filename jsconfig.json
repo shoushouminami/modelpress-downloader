@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "baseUrl": ".", 
+        "paths": {
+            "*": [
+                "*",
+                "modules/*"
+            ] 
+        }
+    },
+    "include": [
+        "src/**/*",
+        "test/**/*"
+    ]
+}

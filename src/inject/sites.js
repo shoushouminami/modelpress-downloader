@@ -185,7 +185,8 @@ function register(siteModule) {
     require("./www.tfm.co.jp"),
     require("./storage.mainichikirei.jp"),
     require("./www.nhk.or.jp"),
-    require("./www.bubkaweb.com")
+    require("./www.bubkaweb.com"),
+    require("./hitocinema.mainichi.jp")
 ]);
 
 function all() {
