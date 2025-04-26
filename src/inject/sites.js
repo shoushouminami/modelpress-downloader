@@ -87,6 +87,7 @@ function register(siteModule) {
     require("./yorozoonews.jp"),
     require("./mantan-web.jp"),
     require("./mainichikirei.jp"),
+    require("./hitocinema.mainichi.jp"),
     require("./news.merumo.ne.jp"),
     require("./www.excite.co.jp"),
     require("./natalie.mu"),
@@ -186,7 +187,6 @@ function register(siteModule) {
     require("./storage.mainichikirei.jp"),
     require("./www.nhk.or.jp"),
     require("./www.bubkaweb.com"),
-    require("./hitocinema.mainichi.jp")
 ]);
 
 function all() {
