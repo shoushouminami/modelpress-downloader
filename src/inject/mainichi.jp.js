@@ -1,15 +1,16 @@
 const utils = require("../utils.js");
 function getLargeImg(url) {
+    if (url == null || url.endsWith(".svg")) {
+        return null;
+    }
+
     return utils.removeQuery(url);
 }
 function inject() {
     let o = require("./return-message.js").init();
     for (const selector of [
-        "main .main-container .image-wrap picture img ", // article top image
-        "main .main-container .content-body picture img", // article body
-        "main .main-container .article-gallery img", // article gallery
-        "main .main-container .photo-gallery picture img", // gallery page 
-        
+        "article #articledetail-body figure img ", // article images
+        "article #photo-body .thumbphotolist-main-list .swiper-slide img ", // slider images
     ]) {
         utils.pushArray(o.images,
             utils.findLazyImagesWithCssSelector(
@@ -25,5 +26,5 @@ function inject() {
 
 module.exports = {
     inject: inject,
-    host: "hitocinema.mainichi.jp"
+    host: "mainichi.jp",
 };

@@ -87,7 +87,7 @@ function register(siteModule) {
     require("./yorozoonews.jp"),
     require("./mantan-web.jp"),
     require("./mainichikirei.jp"),
-    require("./hitocinema.mainichi.jp"),
+    require("./mainichi.jp"),
     require("./news.merumo.ne.jp"),
     require("./www.excite.co.jp"),
     require("./natalie.mu"),

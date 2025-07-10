@@ -128,7 +128,7 @@ test("Test sites.all", () => {
         "www.entax.news",
         "dot.asahi.com",
         "wpb.shueisha.co.jp",
-        "hitocinema.mainichi.jp"
+        "mainichi.jp"
     ].forEach(
         h => expect(hosts).toContain(h)
     )
