@@ -19,5 +19,14 @@ function removeMwimgsSize(url) {
     return url;
 }
 
+function getEpisodeId(url) {
+    if (url == null) return url;
+    let m = url.match(/^https:\/\/.*\/episode\/(\d+)$/);
+    if (m && m[1]) {
+        return m[1]
+    }
+}
+
 exports.toFull = toFull;
 exports.removeMwimgsSize = removeMwimgsSize;
+exports.getEpisodeId = getEpisodeId;
