@@ -41,7 +41,7 @@ test("news/391685/attachment/pic20240317soundorion2/", async () => {
         "https://entameclip.com/news/391685/attachment/pic20240317soundorion2/",
         "entameclip.com-news-391685-attachment-pic20240317soundorion2-/",
         [
-            "https://img.youtube.com/vi/7BL9WPOGsKE/maxresdefault.jpg"
+            "https://cdn.entameclip.com/2024/03/pic20240317soundorion2.jpg"
         ]);
 });
 
