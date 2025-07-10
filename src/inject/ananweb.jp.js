@@ -16,7 +16,10 @@ module.exports = {
         for (const selector of [
             "article figure > img", // old contents
             "body > div > div > div > div > img", // article top image
-            "#postContents img", // article images
+            "body > div > div > div > div > div > img", // article top image
+            "#postContents .image-block img", // article images
+            "#postContents .row-image-col img",
+            "#postContents .profile-image img", //profile-image
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
