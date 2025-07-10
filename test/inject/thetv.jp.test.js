@@ -32,14 +32,14 @@ test("person/1000031439/", async () => {
         "https://thetv.jp/person/1000031439/",
         "thetv.jp-person-1000031439-/",
         [
+            "https://thetv.jp/i/nw/1259154/14416974.jpg",
+            "https://thetv.jp/i/nw/1259154/14416976.jpg",
+            "https://thetv.jp/i/nw/1259154/14416982.jpg",
+            "https://thetv.jp/i/nw/1259154/14416983.jpg",
+            "https://thetv.jp/i/nw/1259154/14416991.jpg",
+            "https://thetv.jp/i/nw/1259154/14417000.jpg",
             "https://thetv.jp/i/tl/100/0031/1000031439_r.jpg"
-        ],
-        {
-            preinject: async function () {
-                await pageutils.wait(3000);
-            }
-        }
-    );
+        ]);
 });
 
 test("Test thetv.jp program home page", async () => {
