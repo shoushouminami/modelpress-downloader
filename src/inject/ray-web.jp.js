@@ -22,6 +22,8 @@ const inject = function () {
         "#post .post_cont .wp-block-image img",
         "#post .post_cont #item_slide .slider img",
         "#post .post_cont figure.image img",
+        "#post .post_cont .post_cont > p > img",
+        "#post .post_cont .slick-list .image-slide img.image-slide-image",
     ]) {
         utils.pushArray(o.images,
             utils.findLazyImagesWithCssSelector(

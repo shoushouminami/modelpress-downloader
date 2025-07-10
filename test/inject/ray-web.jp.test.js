@@ -73,3 +73,29 @@ test("505952", async () => {
             "https://cdn.ray-web.jp/images/94/99/49/97/jpg/eqvdblrvy4rix7vfiadyaoff9qln6q.webp"
         ]);
 });
+
+test("517515", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://ray-web.jp/517515",
+        "ray-web.jp-517515/",
+        [
+            "https://cdn.ray-web.jp/images/38/78/81/23/jpg/al2trdqaorvz9zlehorrc6jbibkygl.webp",
+            "https://cdn.ray-web.jp/images/81/84/42/25/jpg/n7xzolzu8jqj33gooreogs3vo9rssq.webp",
+            "https://cdn.ray-web.jp/images/42/74/30/56/jpg/3p0uf7aijwitkyemxvmqvqrgp6qhra.webp",
+            "https://cdn.ray-web.jp/images/84/42/47/27/jpg/spsqv6dqivh213ov5vwaqujo3gkv4e.webp"
+        ]);
+});
+
+test("517519", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://ray-web.jp/517519",
+        "ray-web.jp-517519/",
+        [
+            "https://cdn.ray-web.jp/images/56/78/85/43/jpg/pgoaujh5jrxrtfqx8u2tmxybbqa4gn.webp",
+            "https://cdn.ray-web.jp/images/40/83/04/25/jpg/t1erimnv2wqp05mxxjdhyfqawenspq.webp",
+            "https://cdn.ray-web.jp/images/99/14/41/83/jpg/1urajbrxwviau3fjpglarxiswolzdb.webp",
+            "https://cdn.ray-web.jp/images/49/64/10/84/jpg/rzs2oapllbzgtsq7ie9zhyu1mreavx.webp"
+        ]);
+});
