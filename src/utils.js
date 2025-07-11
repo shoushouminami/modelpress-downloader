@@ -316,9 +316,9 @@ function removeGIF(url) {
 /**
  * Returns the background image url from the DOM's style attribute.
  */
-function getDomBackgroundImage(dom) {
+function getBackgroundImageFromDOM(dom) {
     if (dom && dom.style && dom.style.backgroundImage) {
-        return getBackgroundImage(dom.style.backgroundImage)
+        return getBackgroundImageFromString(dom.style.backgroundImage)
     }
 
     return null;
@@ -327,7 +327,7 @@ function getDomBackgroundImage(dom) {
 /**
  * Returns the background image url from the background-image string.
  */
-function getBackgroundImage(backgroundImageString) {
+function getBackgroundImageFromString(backgroundImageString) {
     const pattern = /url\(['"]?((https?:\/)?\/?[^'"]*(\.(jpg|jpeg|webp|png))?(\?[^'"]*)?)['"]?\);?$/i;
     if (backgroundImageString && backgroundImageString.match(pattern)) {
         return backgroundImageString.match(pattern)[1];
@@ -529,8 +529,8 @@ module.exports = {
     findMdprArticleId: findMdprArticleId,
     removeDataUrl: removeDataUrl,
     removeGIF: removeGIF,
-    getDomBackgroundImage: getDomBackgroundImage,
-    getBackgroundImage: getBackgroundImage,
+    getBackgroundImageFromDOM: getBackgroundImageFromDOM,
+    getBackgroundImageFromString: getBackgroundImageFromString,
     printTestAssertion: printTestAssertion,
     getSizeGuessingFunc: getSizeGuessingFunc,
     getChildElement: getChildElement,

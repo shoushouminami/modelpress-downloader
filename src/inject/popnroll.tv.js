@@ -25,7 +25,7 @@ const inject = function () {
             utils.findDomsWithCssSelector(document, "#app article a[href^='/'] > div:empty", function (dom) {
                 let backgroundImage = getComputedStyle(dom)["background-image"];
                 if (backgroundImage) {
-                    return getLargeImg(utils.getBackgroundImage(backgroundImage));
+                    return getLargeImg(utils.getBackgroundImageFromString(backgroundImage));
                 }
             })
         );
@@ -35,7 +35,7 @@ const inject = function () {
             utils.findDomsWithCssSelector(document, "#app a[href^='/'] > div:empty", function (dom) {
                 let backgroundImage = getComputedStyle(dom)["background-image"];
                 if (backgroundImage) {
-                    return getLargeImg(utils.getBackgroundImage(backgroundImage));
+                    return getLargeImg(utils.getBackgroundImageFromString(backgroundImage));
                 }
             })
         );

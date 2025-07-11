@@ -1,7 +1,7 @@
 const utils = require("../utils.js");
 const re = /^(https:\/\/www\.nikkansports\.com)?\/.*(-w\d+_)\d+\.(jpg|jpeg|png)$/i;
 const getLargeImgFromDom = function (imgDom) {
-    let url = utils.getDomBackgroundImage(imgDom);
+    let url = utils.getBackgroundImageFromDOM(imgDom);
     if (url) {
         return getLargeImg(url);
     }

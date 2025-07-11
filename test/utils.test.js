@@ -1,43 +1,43 @@
 const utils = require("../src/utils.js");
 
 test("Test getDomBackgroundImage", () => {
-    expect(utils.getDomBackgroundImage(null)).toBeNull();
-    expect(utils.getDomBackgroundImage(
+    expect(utils.getBackgroundImageFromDOM(null)).toBeNull();
+    expect(utils.getBackgroundImageFromDOM(
         {
             style: {
                 backgroundImage: " url(\"https://thetv.jp/i/nw/204813/1245283.jpg?w=125&h=125&f=1\")"
             }
         }))
         .toBe("https://thetv.jp/i/nw/204813/1245283.jpg?w=125&h=125&f=1");
-    expect(utils.getDomBackgroundImage(
+    expect(utils.getBackgroundImageFromDOM(
         {
             style: {
                 backgroundImage: "url(https://images.entamenext.com/articles_photos/4000/4011/478x850/aef621b8d71c50e985c8872510939652.jpg);"
             }
         }))
         .toBe("https://images.entamenext.com/articles_photos/4000/4011/478x850/aef621b8d71c50e985c8872510939652.jpg");
-    expect(utils.getDomBackgroundImage(
+    expect(utils.getBackgroundImageFromDOM(
         {
             style: {
                 backgroundImage: "url('https://images.entamenext.com/articles_photos/4000/4011/478x850/aef621b8d71c50e985c8872510939652.jpg');"
             }
         }))
         .toBe("https://images.entamenext.com/articles_photos/4000/4011/478x850/aef621b8d71c50e985c8872510939652.jpg");
-    expect(utils.getDomBackgroundImage(
+    expect(utils.getBackgroundImageFromDOM(
         {
             style: {
                 backgroundImage: "url(\"https://movie.walkerplus.com/api/resizeimage/news/article/1009954/10082388?w=615\")"
             }
         }))
         .toBe("https://movie.walkerplus.com/api/resizeimage/news/article/1009954/10082388?w=615");
-    expect(utils.getDomBackgroundImage(
+    expect(utils.getBackgroundImageFromDOM(
         {
             style: {
                 backgroundImage: "url('/wp-content/uploads/2020/08/20200805-yodayuuki-sub2.jpeg')"
             }
         }))
         .toBe("/wp-content/uploads/2020/08/20200805-yodayuuki-sub2.jpeg");
-    expect(utils.getDomBackgroundImage(
+    expect(utils.getBackgroundImageFromDOM(
         {
             style: {
                 backgroundImage: "url(\"content/images/_gravure-style/2022ym17cover01_oyeitHAsBTLG.jpg\")"
@@ -47,8 +47,8 @@ test("Test getDomBackgroundImage", () => {
 });
 
 test("Test getBackgroundImage", () => {
-    expect(utils.getBackgroundImage(null)).toBeNull();
-    expect(utils.getBackgroundImage("url(\"https://img.popnroll.tv/uploads/news_item/image/17304/thumb_A-sha_S.jpg\")"))
+    expect(utils.getBackgroundImageFromString(null)).toBeNull();
+    expect(utils.getBackgroundImageFromString("url(\"https://img.popnroll.tv/uploads/news_item/image/17304/thumb_A-sha_S.jpg\")"))
         .toBe("https://img.popnroll.tv/uploads/news_item/image/17304/thumb_A-sha_S.jpg");
 });
 

@@ -33,7 +33,7 @@ module.exports = {
         utils.pushArray(o.images,
             utils.findDomsWithCssSelector(document,
                 ".page .container main .entry-body .n2-ss-slide-background-image", function (dom) {
-                    return getLargeImg(utils.getDomBackgroundImage(dom));
+                    return getLargeImg(utils.getBackgroundImageFromDOM(dom));
                 })
         );
         return o;

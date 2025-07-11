@@ -65,6 +65,7 @@ function register(siteModule) {
 })([
     require("./mdpr.jp"),
     require("./www.oricon.co.jp"),
+    require("./bezzy.jp"),
     require("./times.abema.tv"),
     require("./shueisha.online"),
     require("./wpb.shueisha.co.jp"),

@@ -8,7 +8,7 @@ const inject = function() {
             document,
             "#gs-mainImg",  // main image
             function (dom) {
-                return urlUtils.toFull(utils.getDomBackgroundImage(dom), window);
+                return urlUtils.toFull(utils.getBackgroundImageFromDOM(dom), window);
             })
     );
 

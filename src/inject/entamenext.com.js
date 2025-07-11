@@ -1,7 +1,7 @@
 const utils = require("../utils.js");
 
 const getLargeImgFromDom = function (dom) {
-    return getLargeImgFromUrl(utils.getDomBackgroundImage(dom));
+    return getLargeImgFromUrl(utils.getBackgroundImageFromDOM(dom));
 };
 
 const pattern = /^https?:\/\/images\.entamenext\.com\/articles_photos\/\d+\/\d+\/(\d+x\d+)\/.*\.(jpg|png)$/i;

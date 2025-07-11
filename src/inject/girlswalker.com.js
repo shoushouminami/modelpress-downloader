@@ -36,7 +36,7 @@ const inject = function () {
         utils.findDomsWithCssSelector(document,
             "article.gw-content-wrap ul.gw-content__entry-thumbnail-list a div.gw-content__entry-thumbnail-list__item-image",
             function (dom){
-                return getLargeImg(utils.getDomBackgroundImage(dom));
+                return getLargeImg(utils.getBackgroundImageFromDOM(dom));
             })
     );
     return o;

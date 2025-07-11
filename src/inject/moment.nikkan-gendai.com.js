@@ -18,7 +18,7 @@ function guessFolderPath() {
     let mainImgUrl = utils.findDomsWithCssSelector(
         document,
         ".wrapper div.main_img",
-        utils.getDomBackgroundImage);
+        utils.getBackgroundImageFromDOM);
 
     if (mainImgUrl && mainImgUrl[0]) {
         logger.debug("mainImgUrl=", mainImgUrl[0]);
@@ -104,7 +104,7 @@ function inject() {
         utils.findDomsWithCssSelector(
             document,
             "main .main_img", // top image
-            utils.getDomBackgroundImage
+            utils.getBackgroundImageFromDOM
         )
     );
     return o;

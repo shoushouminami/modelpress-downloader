@@ -34,7 +34,7 @@ module.exports = {
                 document,
                 "main .sakura-history-detail-list .c-item .c-thumb-img img",
                 function (dom) {
-                    let url = utils.getDomBackgroundImage(dom);
+                    let url = utils.getBackgroundImageFromDOM(dom);
                     if (url == null) {
                         return null;
                     }
