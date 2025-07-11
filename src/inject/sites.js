@@ -143,6 +143,7 @@ function register(siteModule) {
     require("./news.kstyle.com"),
     require("./www.koari.net"),
     require("./bltweb.jp"),
+    require("./websunday.net"),
     require("./smart-flash.jp"),
     require("./yanmaga.jp"),
     require("./www.animatetimes.com"),
