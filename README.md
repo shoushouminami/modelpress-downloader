@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 4.27 (2025/07/12)
+* Add mainichi.jp, bokuao.com, bezzy.jp, and websunday.net
+* Update sakamichi sites to include news article & member profile
+* Varies fixes
+
 ###### 4.26 (2025/04/11)
 * Varies fixes
 
