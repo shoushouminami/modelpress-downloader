@@ -13,8 +13,8 @@ const inject = function() {
             )
         );
     }
-    const divDOMs = utils.findDomsWithCssSelector(document, "#main #center div.entry", function (divDOM) {
-        const h2Divs = utils.findDomsWithCssSelector(divDOM, "h2", function (h2Div) {
+    const divDOMs = utils.findDOMsWithCssSelector(document, "#main #center div.entry", function (divDOM) {
+        const h2Divs = utils.findDOMsWithCssSelector(divDOM, "h2", function (h2Div) {
             if (h2Div.innerText.indexOf("らじらー！サンデー") > -1) {
                 return h2Div;
             }

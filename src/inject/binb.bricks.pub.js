@@ -116,7 +116,7 @@ module.exports = {
                 let template = document.createElement('template');
                 template.innerHTML = ttx;
                 utils.pushArray(o.images,
-                    utils.findDomsWithCssSelector(
+                    utils.findDOMsWithCssSelector(
                         template.content,
                         [
                             "t-img",

@@ -14,8 +14,8 @@ const getLargeImgFromUrl = function (url) {
 
 const inject = function () {
     let o = require("./return-message.js").init();
-    utils.pushArray(o.images, utils.findDomsWithCssSelector(document, "div.cont section div.articleGalleryImg div.img", getLargeImgFromDom));
-    utils.pushArray(o.images, utils.findDomsWithCssSelector(document, "div.cont section div.articleGalleryList ul li p.img", getLargeImgFromDom));
+    utils.pushArray(o.images, utils.findDOMsWithCssSelector(document, "div.cont section div.articleGalleryImg div.img", getLargeImgFromDom));
+    utils.pushArray(o.images, utils.findDOMsWithCssSelector(document, "div.cont section div.articleGalleryList ul li p.img", getLargeImgFromDom));
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.cont section div.articleDetailImg div.img img", getLargeImgFromUrl));
     utils.pushArray(o.images, utils.findImagesWithCssSelector(document, "div.cont section div.article_detail img", getLargeImgFromUrl));
     return o;

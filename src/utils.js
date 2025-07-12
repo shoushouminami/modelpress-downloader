@@ -7,7 +7,7 @@
 function findImagesOfClass(clazz) {
     let logger = require("./logger2")(module.id);
     let dom = document.getElementsByClassName(clazz);
-    let list = this.findImageUrlsFromDOMList(dom && dom.length && dom);
+    let list = findImageUrlsFromDOMList(dom && dom.length && dom);
     logger.debug("Found " + list.length + " images of class " + clazz);
     return list;
 }
@@ -24,7 +24,7 @@ function findImagesOfContainerClass(clazz) {
     let dom = document.getElementsByClassName(clazz);
     if (dom && dom.length) {
         for (var i = 0; i < dom.length; i++) {
-            list = list.concat(this.findImagesFromContainerDOM(dom[i]));
+            list = list.concat(findImagesFromContainerDOM(dom[i]));
         }
     }
     logger.debug("Found " + list.length + " images of container class " + clazz);
@@ -38,7 +38,7 @@ function findImagesOfContainerClass(clazz) {
  */
 function findImagesFromContainerDOM (dom) {
     if (dom.children) {
-        return this.findImageUrlsFromDOMList(dom.children);
+        return findImageUrlsFromDOMList(dom.children);
     }
     return [];
 }
@@ -51,9 +51,9 @@ function findImageUrlsFromDOMList(domArray) {
     var list = [];
     if (domArray && domArray.length) {
         for (var i = 0; i < domArray.length; i++) {
-            var img = this.findImageDOMFromRoot(domArray[i]);
+            var img = findImageDOMFromRoot(domArray[i]);
             if (img) {
-                list.push(this.removeQuery(img.src));
+                list.push(removeQuery(img.src));
             }
         }
     }
@@ -66,7 +66,7 @@ function findImageUrlsFromDOMList(domArray) {
  * @returns null if no img element was found
  */
 function findImageDOMFromRoot(dom) {
-    var list = this.findAllImageDOMsFromRoot(dom);
+    var list = findAllImageDOMsFromRoot(dom);
     if (list && list.length) {
         return list[0];
     }
@@ -108,7 +108,7 @@ function findAllImageDOMsFromRoot(dom, excludes, depth) {
 
     if (dom && dom.children) {
         for (var i = 0; i < dom.children.length; i++) {
-            var subList = this.findAllImageDOMsFromRoot(dom.children[i], excludes, depth + 1);
+            var subList = findAllImageDOMsFromRoot(dom.children[i], excludes, depth + 1);
             if (subList) {
                 list = list.concat(subList);
             }
@@ -132,7 +132,7 @@ function removeQuery(url) {
 function pushArray(list, newList) {
     if (newList && newList.length) {
         for (const value of newList.values()) {
-            this.pushIfNew(list, value);
+            pushIfNew(list, value);
         }
     }
 }
@@ -187,7 +187,7 @@ function getAwalkerImgUrl(link) {
  * @returns {[]}
  */
 function findImagesWithCssSelector(rootDom, cssSelector, filterFunc) {
-    return findDomsWithCssSelector(rootDom, cssSelector, function (dom) {
+    return findDOMsWithCssSelector(rootDom, cssSelector, function (dom) {
         if (typeof filterFunc === "function") {
             return filterFunc(dom.src, dom.width, dom.height);
         } else {
@@ -205,7 +205,7 @@ function findImagesWithCssSelector(rootDom, cssSelector, filterFunc) {
  * @returns {[]}
  */
 function findLazyImagesWithCssSelector(rootDom, cssSelector, filterFunc = null) {
-    return findDomsWithCssSelector(rootDom, cssSelector, function (dom) {
+    return findDOMsWithCssSelector(rootDom, cssSelector, function (dom) {
         let src = getLazyImageFromDOM(dom);
         if (typeof filterFunc === "function") {
             return filterFunc(src, dom.width, dom.height);
@@ -246,7 +246,7 @@ function getLazyImageFromDOM(dom) {
  * @param filterFunc a function to transform the found dom to another object. Input is the dom.
  * @returns {[]}
  */
-function findDomsWithCssSelector(rootDom, cssSelector, filterFunc = null) {
+function findDOMsWithCssSelector(rootDom, cssSelector, filterFunc = null) {
     let logger = require("./logger2")(module.id);
     let ret = [];
     let doms = rootDom.querySelectorAll(cssSelector);
@@ -474,7 +474,7 @@ function replaceSpecialChars(s, replacement) {
 
 function getFileName(url, ext, preferredName) {
     if (preferredName != null) {
-        return this.replaceSpecialChars(preferredName);
+        return replaceSpecialChars(preferredName);
     }
 
     let filename = url.split("?")[0].split("/");
@@ -490,7 +490,7 @@ function getFileName(url, ext, preferredName) {
         filename += ext;
     }
 
-    return this.replaceSpecialChars(decodeURI(filename));
+    return replaceSpecialChars(decodeURI(filename));
 }
 
 function getFileExt(filename) {
@@ -523,7 +523,7 @@ module.exports = {
     findImagesWithCssSelector: findImagesWithCssSelector,
     findLazyImagesWithCssSelector: findLazyImagesWithCssSelector,
     getLazyImageFromDOM: getLazyImageFromDOM,
-    findDomsWithCssSelector: findDomsWithCssSelector,
+    findDOMsWithCssSelector: findDOMsWithCssSelector,
     trailingResolutionPattern: trailingResolutionPattern,
     removeTrailingResolutionNumbers: removeTrailingResolutionNumbers,
     findMdprArticleId: findMdprArticleId,

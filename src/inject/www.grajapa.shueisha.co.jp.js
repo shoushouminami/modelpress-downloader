@@ -23,10 +23,10 @@ module.exports = {
         messaging.relayMsgFromRuntimeToPage("getImageUrl");
 
         // handle special page header images
-        if (utils.findDomsWithCssSelector(
+        if (utils.findDOMsWithCssSelector(
             document,
             ".l-content__block .special-header-image #special-header-large-image").length > 0) {
-            const imgDom = utils.findDomsWithCssSelector(document,
+            const imgDom = utils.findDOMsWithCssSelector(document,
                 ".l-content__block .special-header-image #special-header-large-image")[0];
             const count = imgDom.dataset.headerImageCount;
             const urlBase = imgDom.src.split("sample-header-large-")[0];

@@ -11,7 +11,7 @@ function getLargeImg(url) {
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        utils.pushArray(o.images, utils.findDomsWithCssSelector(document, "div.maincontents div.newsimage .thumblist .thumblist__item img", (dom) => {
+        utils.pushArray(o.images, utils.findDOMsWithCssSelector(document, "div.maincontents div.newsimage .thumblist .thumblist__item img", (dom) => {
             logger.log(dom, dom.dataset);
             let url = (dom.dataset && dom.dataset["original"]) || dom.src;
             if (url != null) {

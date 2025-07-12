@@ -14,32 +14,21 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         for (const selector of [
-            "main article img",
-            "main .gallery_kv img",
+            "main .ph > img",
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
                     document,
                     selector,
-                    filters.first(
-                        function (url) {
-                            if (!url.endsWith(".svg")) {
-                                return url;
-                            }
-                        }
-                    ).then(
-                        toFull,
-                        getYoutubeImgMaxRes,
-                        utils.removeTrailingResolutionNumbers
+                    filters.chain(
+                        utils.removeGIF
                     )
-
                 )
             );
         }
 
         for (const selector of [
-            "main article .article_kv div > p",
-            "main .gallerySlider a > div > p", // get background images of slider p
+            "main .ph > img",
         ]) {
             utils.pushArray(o.images,
                 utils.findDOMsWithCssSelector(
@@ -48,9 +37,7 @@ module.exports = {
                     filters.first(
                         utils.getBackgroundImageFromDOM
                     ).then(
-                        toFull,
-                        getYoutubeImgMaxRes,
-                        utils.removeTrailingResolutionNumbers
+                        utils.removeGIF,
                     )
                 )
             );
@@ -58,5 +45,6 @@ module.exports = {
 
         return o;
     },
-    host: "bezzy.jp",
+    host: "bokuao.com",
+    url: "https://bokuao.com/blog/list/1/0/"
 };

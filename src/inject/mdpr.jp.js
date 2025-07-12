@@ -65,7 +65,7 @@ function inject() {
     let mobileImages2 = utils.findLazyImagesWithCssSelector(document, ".p-readAppImages  .p-readAppImages__list img", getLargeImg);
     if (mobileImages2.length > 0) {
         utils.pushArray(o.images, mobileImages2);
-        let articleIdDoms = utils.findDomsWithCssSelector(document, ".p-readAppImages  button[data-article-id]")
+        let articleIdDoms = utils.findDOMsWithCssSelector(document, ".p-readAppImages  button[data-article-id]")
         if (articleIdDoms.length > 0) {
             o.remoteImages["mdpr.jp"] = articleIdDoms[0].dataset["articleId"];
         }

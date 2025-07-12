@@ -20,9 +20,9 @@ const inject = function () {
     let o = require("./return-message.js").init();
 
     // check article first
-    if (utils.findDomsWithCssSelector(document, "#app article a[href^='/'] > div:empty").length > 0) {
+    if (utils.findDOMsWithCssSelector(document, "#app article a[href^='/'] > div:empty").length > 0) {
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document, "#app article a[href^='/'] > div:empty", function (dom) {
+            utils.findDOMsWithCssSelector(document, "#app article a[href^='/'] > div:empty", function (dom) {
                 let backgroundImage = getComputedStyle(dom)["background-image"];
                 if (backgroundImage) {
                     return getLargeImg(utils.getBackgroundImageFromString(backgroundImage));
@@ -32,7 +32,7 @@ const inject = function () {
     } else {
         // then check for thumbnails
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document, "#app a[href^='/'] > div:empty", function (dom) {
+            utils.findDOMsWithCssSelector(document, "#app a[href^='/'] > div:empty", function (dom) {
                 let backgroundImage = getComputedStyle(dom)["background-image"];
                 if (backgroundImage) {
                     return getLargeImg(utils.getBackgroundImageFromString(backgroundImage));
@@ -42,7 +42,7 @@ const inject = function () {
 
         // image slide show page
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document, "#app div figure img", function (dom) {
+            utils.findDOMsWithCssSelector(document, "#app div figure img", function (dom) {
                 let url = dom.dataset["src"] || dom.src;
                 if (url) {
                     return getLargeImg(url);

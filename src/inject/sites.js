@@ -180,6 +180,7 @@ function register(siteModule) {
     require("./www.keyakizaka46.com"),
     require("./www.hinatazaka46.com"),
     require("./sakurazaka46.com"),
+    require("./bokuao.com"),
     require("./7gogo.jp"),
     require("./twitter.com"),
     require("./www.bilibili.com"),

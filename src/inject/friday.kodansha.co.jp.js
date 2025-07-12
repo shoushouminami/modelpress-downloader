@@ -24,7 +24,7 @@ module.exports = {
             "main ul[class^='detail_thumbnails'] li a img", //photo page thumbnail images
         ]) {
             utils.pushArray(o.images,
-                utils.findDomsWithCssSelector(
+                utils.findDOMsWithCssSelector(
                     document,
                     query,
                     function (dom) {

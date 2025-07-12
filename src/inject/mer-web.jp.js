@@ -4,7 +4,7 @@ module.exports = {
         let o = require("./return-message.js").init();
         // article top image
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(
+            utils.findDOMsWithCssSelector(
                 document,
                 "main article .entry-content img",
                 function (dom) {

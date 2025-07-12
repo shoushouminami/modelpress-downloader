@@ -14,7 +14,7 @@ const getLargeImg = function (url) {
 const inject = function () {
     let o = require("./return-message.js").init();
     // gallery page image list
-    utils.pushArray(o.images, utils.findDomsWithCssSelector(document, "main article#post div.thumb_list ul img", getLargeImgFromDom));
+    utils.pushArray(o.images, utils.findDOMsWithCssSelector(document, "main article#post div.thumb_list ul img", getLargeImgFromDom));
     for (let selector of [
         "main article#post div.current_photo img", // gallery page top image
         "main article#post div.top_photo img", // article image

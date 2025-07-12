@@ -30,7 +30,7 @@ module.exports = {
         // FC history images
         utils.pushArray(
             o.images,
-            utils.findDomsWithCssSelector(
+            utils.findDOMsWithCssSelector(
                 document,
                 "main .sakura-history-detail-list .c-item .c-thumb-img img",
                 function (dom) {

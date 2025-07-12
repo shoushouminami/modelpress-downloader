@@ -31,7 +31,7 @@ module.exports = {
 
         // images in article div bg
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document,
+            utils.findDOMsWithCssSelector(document,
                 ".page .container main .entry-body .n2-ss-slide-background-image", function (dom) {
                     return getLargeImg(utils.getBackgroundImageFromDOM(dom));
                 })

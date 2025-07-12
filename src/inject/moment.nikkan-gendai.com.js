@@ -15,7 +15,7 @@ function replaceFilename(url) {
 }
 
 function guessFolderPath() {
-    let mainImgUrl = utils.findDomsWithCssSelector(
+    let mainImgUrl = utils.findDOMsWithCssSelector(
         document,
         ".wrapper div.main_img",
         utils.getBackgroundImageFromDOM);
@@ -101,7 +101,7 @@ function inject() {
     );
 
     utils.pushArray(o.images,
-        utils.findDomsWithCssSelector(
+        utils.findDOMsWithCssSelector(
             document,
             "main .main_img", // top image
             utils.getBackgroundImageFromDOM

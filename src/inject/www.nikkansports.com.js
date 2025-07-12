@@ -30,7 +30,7 @@ module.exports = {
         let o = require("./return-message.js").init();
 
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document,
+            utils.findDOMsWithCssSelector(document,
                 [
                     "#main .article-main .article-photo-area a img", // news article
                     "#main .article-photo .photo a img" // new images

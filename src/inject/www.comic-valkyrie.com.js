@@ -123,7 +123,7 @@ module.exports = {
         let o = require("./return-message.js").init();
         // Images already loaded on current page
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document,
+            utils.findDOMsWithCssSelector(document,
                 [
                     "#content div[data-ptimg]",
                 ].join(","),
@@ -137,7 +137,7 @@ module.exports = {
                     let template = document.createElement('template');
                     template.innerHTML = respText;
                     utils.pushArray(o.images,
-                        utils.findDomsWithCssSelector(
+                        utils.findDOMsWithCssSelector(
                             template.content,
                             [
                                 "#content div[data-ptimg]",

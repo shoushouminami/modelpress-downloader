@@ -2,7 +2,7 @@ const utils = require("../utils.js");
 const messaging = require("../messaging");
 const logger = require("../logger2")(module.id);
 function getLargeImgFromPage(document) {
-    let urls = utils.findDomsWithCssSelector(document, "meta[property='og:image'", function (dom) {
+    let urls = utils.findDOMsWithCssSelector(document, "meta[property='og:image'", function (dom) {
         let content = dom.getAttribute("content");
         let arr = content.split("/");
         if (arr[3] === "cdn-cgi" && arr[4] === "image") {
@@ -16,7 +16,7 @@ function getLargeImgFromPage(document) {
 }
 function inject() {
     let o = require("./return-message.js").init();
-    let links = utils.findDomsWithCssSelector(
+    let links = utils.findDOMsWithCssSelector(
         document,
         ".photo_thumbs li a", // image gallery page
         function (dom) {
@@ -24,7 +24,7 @@ function inject() {
         }
     );
     if (links.length === 0) {
-        links = utils.findDomsWithCssSelector(
+        links = utils.findDOMsWithCssSelector(
             document,
             ".block-photo-preview ul li a", // image gallery page
             function (dom) {

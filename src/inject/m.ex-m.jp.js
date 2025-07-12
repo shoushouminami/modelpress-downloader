@@ -25,7 +25,7 @@ const inject = function () {
     }
 
     utils.pushArray(o.images,
-        utils.findDomsWithCssSelector(document,
+        utils.findDOMsWithCssSelector(document,
             [
                 ".ldhOffShotList a", // offshot photo
                 ".item__image a", // offshot photo legacy

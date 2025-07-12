@@ -48,7 +48,7 @@ const inject =  function() {
         "main article .article-body .article-thumb figure img",
     ]) {
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(
+            utils.findDOMsWithCssSelector(
                 document,
                 selector,
                 function (dom) {

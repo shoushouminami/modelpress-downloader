@@ -33,7 +33,7 @@ const inject = function () {
 
     // thumbnail list at the end of article
     utils.pushArray(o.images,
-        utils.findDomsWithCssSelector(document,
+        utils.findDOMsWithCssSelector(document,
             "article.gw-content-wrap ul.gw-content__entry-thumbnail-list a div.gw-content__entry-thumbnail-list__item-image",
             function (dom){
                 return getLargeImg(utils.getBackgroundImageFromDOM(dom));

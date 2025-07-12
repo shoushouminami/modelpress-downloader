@@ -167,7 +167,7 @@ const inject = function () {
         }
 
         // Use episode JSON if already embedded in page. Otherwise try coord info url.
-        const scriptDoms = utils.findDomsWithCssSelector(document,"script#episode-json");
+        const scriptDoms = utils.findDOMsWithCssSelector(document,"script#episode-json");
         if (scriptDoms && scriptDoms.length > 0 && scriptDoms[0].dataset && scriptDoms[0].dataset.value) {
             // logger.debug("episode json in page", scriptDoms[0].dataset.value)
             fetchPages(scriptDoms[0].dataset.value);

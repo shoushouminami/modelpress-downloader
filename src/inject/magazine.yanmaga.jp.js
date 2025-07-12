@@ -4,7 +4,7 @@ const inject = function() {
     let o = require("./return-message.js").init()
 
     utils.pushArray(o.images,
-        utils.findDomsWithCssSelector(
+        utils.findDOMsWithCssSelector(
             document,
             "#gs-mainImg",  // main image
             function (dom) {
@@ -13,7 +13,7 @@ const inject = function() {
     );
 
     utils.pushArray(o.images,
-        utils.findDomsWithCssSelector(
+        utils.findDOMsWithCssSelector(
             document,
             "#gs-spec a",
             function (dom) {

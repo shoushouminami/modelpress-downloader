@@ -4,7 +4,7 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(document,
+            utils.findDOMsWithCssSelector(document,
                 [
                     "#content #main article .page-content img", // article page images
                     "#main #kv img", // weekly jjnet top image

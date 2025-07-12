@@ -57,7 +57,7 @@ module.exports = {
         }
         // updated UI on 2022-02-16
         pushToOutput(
-            utils.findDomsWithCssSelector(
+            utils.findDOMsWithCssSelector(
                 document,
                 [
                     ".bd--edit img",

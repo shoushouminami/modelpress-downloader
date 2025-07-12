@@ -40,7 +40,7 @@ module.exports = {
 
         // gallery images
         utils.pushArray(o.images,
-            utils.findDomsWithCssSelector(
+            utils.findDOMsWithCssSelector(
                 document,
                 "#mainContents .md-gallery .md-gallery__thumbnail a",
                 function (dom) {

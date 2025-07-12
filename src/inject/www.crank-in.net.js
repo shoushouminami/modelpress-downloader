@@ -37,7 +37,7 @@ module.exports = {
             );
         }
         // try all page links
-        let pageNum = utils.findDomsWithCssSelector(document, ".photo-link .photo-link-num", function (dom) {
+        let pageNum = utils.findDOMsWithCssSelector(document, ".photo-link .photo-link-num", function (dom) {
             if (dom.innerText) {
                 try {
                     return Number.parseInt(dom.innerText.split("/")[1]);
