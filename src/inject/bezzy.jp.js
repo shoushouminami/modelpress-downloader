@@ -14,8 +14,8 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         for (const selector of [
-            "main article img",
-            "main .gallery_kv img",
+            "main article img", // article
+            "main .gallery_kv img", // slider
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(

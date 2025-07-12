@@ -44,7 +44,7 @@ test("2025/07/69726/", async () => {
         getBrowser(),
         "https://bezzy.jp/2025/07/69726/",
         "bezzy.jp-2025-07-69726-/",
-        dummyItems(15)
+        dummyItems(16)
     );
 });
 
