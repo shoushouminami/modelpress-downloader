@@ -1,5 +1,7 @@
 const utils = require("../utils");
-const globals = require("../globals");
+const { replaceIllegalChars, removeSpace } = require("../utils/str-utils.js");
+const { getDocument, getSearchParamValue } = require("../globals.js");
+
 function filterIcon(url) {
     if (url.indexOf("twemoji.maxcdn.com") > -1) {
         return null;
@@ -15,18 +17,44 @@ function getLargeImg(url) {
     return url;
 }
 
+function getFolderFromBlogTitle(original) {
+    let nameP = document.querySelector('.com-hero-title > .inner');
+    const yearSpan = document.querySelector(".ym-year");
+    const monthSpan = document.querySelector(".ym-month");
+    let titleP = document.querySelector(".title-wrap > .title");
+    if (nameP && yearSpan && monthSpan && titleP) {
+        return removeSpace(
+            replaceIllegalChars(
+                nameP.innerText
+                + '-' + yearSpan.innerText.replace(' ', '_').replace(':', '.')
+                + '-' + monthSpan.innerText.replace(' ', '_').replace(':', '.')
+                + '-' + (titleP.innerText.length > 35 ? titleP.innerText.substring(0, 35) + '…' : titleP.innerText)
+            ))
+            + '/';
+    }
+
+    return removeSpace(replaceIllegalChars(getDocument().title));
+}
+
 module.exports = {
     inject: function () {
-        // Member blog
+        // Member blog & news
         let o = require("./return-message.js").init();
-        utils.pushArray(
-            o.images,
-            utils.findImagesWithCssSelector(
-                document,
-                "main .col-l-wrap .post .box-article img",
-                filterIcon
+        for (const selector of [
+            "main .col-l-wrap .post .box-article img",
+            "main .news-detailcont .article img",
+            "main .member-profcont .ph img"
+        ]) {
+            utils.pushArray(
+                o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    selector,
+                    filterIcon
+                )
             )
-        );
+        }
+
         // FC history images
         utils.pushArray(
             o.images,
@@ -56,12 +84,15 @@ module.exports = {
                 }
             )
         );
-        let ct= globals.getSearchParamValue("ct");
+        let ct = getSearchParamValue("ct");
         if (ct) {
             o.folder = o.folder.substring(0, o.folder.length - 1) + "-" + ct + "/";
+        } else {
+            o.folder = getFolderFromBlogTitle(o.folder);
         }
         return o;
     },
     host: "sakurazaka46.com",
+    url: "https://sakurazaka46.com/s/s46/diary/blog/list",
     re: re
 };

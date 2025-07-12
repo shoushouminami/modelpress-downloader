@@ -1,4 +1,7 @@
+const { replaceIllegalChars, removeSpace } = require("../utils/str-utils.js");
+const { getDocument } = require("../globals.js");
 const utils = require("../utils.js");
+const { filters, toFull } = require("../utils/url-utils.js");
 
 function pushToOutput(imgDoms, o) {
     for (const imgDom of imgDoms) {
@@ -19,32 +22,25 @@ function pushToOutput(imgDoms, o) {
     }
 }
 
-function replaceIllegalChars(path) {
-    //   < (less than)
-    //   > (greater than)
-    //   : (colon - sometimes works, but is actually NTFS Alternate Data Streams)
-    //   " (double quote)
-    //   / (forward slash)
-    //   \ (backslash)
-    //   | (vertical bar or pipe)
-    //   ? (question mark)
-    //   * (asterisk)
-    return path.replace(/[<>:"'\/\\|?*]/g, '-');
-}
-
-function getFolder(original) {
+function getFolderFromBlogTitle(original) {
     let nameP = document.querySelector('.bd--prof__name');
     let timeP = document.querySelector(".bd--hd__date");
     let titleP = document.querySelector(".bd--hd__ttl");
+    const member = document.querySelector('.md--hd__ttl');
     if (nameP && timeP && titleP) {
-        return replaceIllegalChars(
-                nameP.innerText.replaceAll(' ', '')
-                + '-' + timeP.innerText.replace(' ', '_').replace(':', '.')
-                + '-' + (titleP.innerText.length > 35 ? titleP.innerText.substring(0, 35) + '…' : titleP.innerText)
-            )
-            + '/';
+        return removeSpace(replaceIllegalChars(
+            nameP.innerText.replaceAll(' ', '')
+            + '-' + timeP.innerText.replace(' ', '_').replace(':', '.')
+            + '-' + (titleP.innerText.length > 35 ? titleP.innerText.substring(0, 35) + '…' : titleP.innerText)
+        )
+            + '/');
+    } else if (member) {
+        //md--hd__ttl
+        const member = document.querySelector('.md--hd__ttl');
+        return removeSpace(replaceIllegalChars(member.innerText + "-" + getDocument().title));
     }
-    return original;
+
+    return removeSpace(replaceIllegalChars(getDocument().title));
 }
 
 module.exports = {
@@ -52,7 +48,7 @@ module.exports = {
         let o = require("./return-message.js").init();
         let sheet = document.getElementById("sheet");
         if (sheet) {
-            let imgs = utils.findAllImageDOMsFromRoot(sheet, {"ids": ["comments"]});
+            let imgs = utils.findAllImageDOMsFromRoot(sheet, { "ids": ["comments"] });
             pushToOutput(imgs, o);
         }
         // updated UI on 2022-02-16
@@ -66,7 +62,34 @@ module.exports = {
             o
         );
 
-        o.folder = getFolder(o.folder);
+        for (const selector of [
+            "main section > img", // news article
+        ]) {
+            utils.pushArray(o.images,
+                utils.findLazyImagesWithCssSelector(
+                    document,
+                    selector,
+                )
+            );
+        }
+
+        for (const selector of [
+            "main .md--hd .md--hd__fig .m--bg", // member profile
+        ]) {
+            utils.pushArray(o.images,
+                utils.findDOMsWithCssSelector(
+                    document,
+                    selector,
+                    filters.chain(
+                        utils.getBackgroundImageFromDOM,
+                        toFull,
+                        removeSpace
+                    )
+                )
+            );
+        }
+
+        o.folder = getFolderFromBlogTitle(o.folder);
         return o;
     },
     host: "www.nogizaka46.com",
