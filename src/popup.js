@@ -135,9 +135,10 @@ function downloadHandler(resolve) {
             title: message.title,
             configMap: config.getConfigMap(),
             ext: message.ext,
-            headers: message.headers
+            headers: message.headers,
+            ignoreJobId: message.ignoreJobId
         };
-        let jobId = 1;
+        let jobId = 1; // seq number on downloaded images
         for (const image of images) {
             if (typeof image === "string") {
                 downloadInBg.push(

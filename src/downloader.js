@@ -16,8 +16,16 @@ const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
 function getFilename(image) {
     return decodeURI(image.context.folder)
         + (image.context.folder.endsWith("/") ? "" : "/")
-        + (image.jobId != null ?  image.jobId + "-" : "")
+        + getFileNamePrefix(image)
         + utils.getFileName(image.url, image.context.ext, image.filename);
+}
+
+function getFileNamePrefix(image) {
+    if (image.context.ignoreJobId) {
+        return "";
+    }
+    
+    return image.jobId != null ? image.jobId + "-" : "";
 }
 
 /**

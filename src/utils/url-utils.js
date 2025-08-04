@@ -16,6 +16,19 @@ function toFull(url, window) {
     return window.origin + (url.startsWith("/") ? "" : "/") + url;
 }
 
+function basename(url) {
+    let arr = url.split("/");
+    return arr[arr.length - 1];
+}
+
+function pathname(url) {
+    if (url == null || url.startsWith("/")) {
+        return url;
+    }
+
+    return new URL(url).pathname;
+}
+
 function removeMwimgsSize(url) {
     if (url == null) return url;
     let m = url.match(/^https:\/\/[a-z0-9.-]+\/mwimgs\/.+\/.+(\/\d+[a-z]*\/).+\.(jpg|png|jpeg)(\?.*)?$/)
@@ -100,3 +113,5 @@ exports.getEpisodeId = getEpisodeId;
 exports.removeYoutubeImg = removeYoutubeImg;
 exports.getYoutubeImgMaxRes = getYoutubeImgMaxRes;
 exports.filters = filters;
+exports.basename = basename;
+exports.pathname = pathname;

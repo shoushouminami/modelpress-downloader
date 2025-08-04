@@ -23,7 +23,9 @@ module.exports = {
             fromTabId: 0, // tabId,
             loading: false, //  tells the runtime to show an in progress icon indicating images are loading
             headers: [], // extra HTTP headers to send when calling chrome.download(). such as [{ "name": "myname", "value": "myvalue"}]
-            permissionRequest: undefined  // request for optional permissions
+            permissionRequest: undefined,  // request for optional permissions
+            ignoreJobId: false // CS level override to ignore config DOWNLOAD_PREPEND_JOBID
+                                // if true then the config is ignored. othewise it is honored.
         });
 
         o.originalFolder = o.folder;
