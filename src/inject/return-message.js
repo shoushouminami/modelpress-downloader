@@ -15,7 +15,10 @@ module.exports = {
             retryAfterMs: undefined, // popup will retry inject script 1 more time (if retry is true). defaults to 100ms.
             scan: false, // if there is smart scan support for this page
             scanState: "", // "started" or "stopped"
-            images: [],
+            images: [], // images: [] an array of image urls. Instead of string representing the url directly, it can also be an object type like
+                        // {url: "url", retries: ["retry url1", "retry url2"]}. The retry url is used if the url fails.
+                        // {type: "msg", filename: "1.jpg"} download through messaging exchange
+                        // {type: "tab", imageUrl: "", websiteUrl: ""} // download through background tab
             remoteImages: {}, // for example {"mdpr.jp": "1234567"}
             ext: undefined,
             title: window.document.title.replace(/\//g, "-"),
@@ -74,11 +77,3 @@ module.exports = {
         return o;
     }
 };
-
-
-// images: [] an array of image urls. Instead of string representing the url directly, it can also be an object type like
-// {url: "url", retries: ["retry url1", "retry url2"]}. The retry url is used if the url fails.
-// {type: "msg", filename: "1.jpg"} download through messaging exchange
-// {type: "tab", imageUrl: "", websiteUrl: ""} // download through background tab
-
-

@@ -119,3 +119,14 @@ test("test getFileExt", function () {
 test("test clearObjectProperties", function () {
     expect(utils.clearObjectProperties({"a": "b"})).toEqual({});
 });
+
+test("test getFileName", function(){
+    expect(utils.getFileName("abc.png", null, null)).toBe("abc.png");
+    expect(utils.getFileName("https://domain.com/path/abc.jpg", null, null)).toBe("abc.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc", "jpg", null)).toBe("abc.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc.jpg?arg=val", null, null)).toBe("abc.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc.jpg:bla?arg=val", null, null)).toBe("abc.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc.jpg", null, "def.jpg")).toBe("def.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc.jpg", "jpg", "def")).toBe("def.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc", "jpg", "def.jpg")).toBe("def.jpg");
+});

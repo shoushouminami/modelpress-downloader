@@ -473,12 +473,14 @@ function replaceSpecialChars(s, replacement) {
 }
 
 function getFileName(url, ext, preferredName) {
+    let filename;
     if (preferredName != null) {
-        return replaceSpecialChars(preferredName);
+        filename = replaceSpecialChars(preferredName);
+    } else {
+        filename = url.split("?")[0].split("/");
+        filename = filename[filename.length - 1];
     }
-
-    let filename = url.split("?")[0].split("/");
-    filename = filename[filename.length - 1];
+    
     if (filename.indexOf(":") > -1) {
         filename = filename.split(":")[0];
     }

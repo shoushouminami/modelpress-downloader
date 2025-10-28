@@ -97,7 +97,42 @@ module.exports = {
             );
         }
 
+        // all member profile photos
+        utils.findDOMsWithCssSelector(
+            document,
+            "main .m--mem", // lookup each member div
+            function(dom) {
+                const urls = utils.findDOMsWithCssSelector(
+                    dom,
+                    ".m--mem__img .m--bg", // find the bg photo from member div
+                    utils.getBackgroundImageFromDOM
+                );
+                if (urls.length) {
+                    const img = {
+                        "url": urls[0],
+                    };
+
+                    const names = utils.findDOMsWithCssSelector(
+                        dom,
+                        ".m--mem__names .m--mem__name", // from the name from member div
+                        function(nameDom) {
+                            return removeSpace(nameDom.innerText);
+                        }
+                    );
+
+                    if (names.length) {
+                        img["filename"] = names[0];
+                    }
+
+                    utils.pushIfNew(o.images, img);
+                    o.ext = "jpg";
+                }
+            }
+        )
+
         o.folder = getFolderFromBlogTitle(o.folder);
+        
+        // Download blog HTML
         if (isBlog()) {
 
             // download web page HTML if set

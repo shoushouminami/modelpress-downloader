@@ -13,6 +13,7 @@ function replaceIllegalChars(path) {
 }
 
 function removeSpace(s) {
+    if (s == null) return s;
     return s.replace(/\s|\u3000/g, '');
 }
 
