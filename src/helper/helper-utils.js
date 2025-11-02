@@ -10,7 +10,6 @@ exports.getOrCreateDataDiv = function () {
         document.body.appendChild(div);
         div = document.getElementById(id);
     }
-
     return div;
 };
 

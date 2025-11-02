@@ -16,6 +16,7 @@ module.exports = env => {
             "helper/my.ebook5.net-helper": "./src/helper/my.ebook5.net-helper.js",
             "helper/glassgirl-info-helper": "./src/helper/glassgirl-info-helper.js",
             "helper/www.grajapa.shueisha.co.jp-helper": "./src/helper/www.grajapa.shueisha.co.jp-helper.js",
+            "helper/message.nogizaka46.com-helper": "./src/helper/message.nogizaka46.com-helper.js",
             "google-analytics-bootstrap": "./src/google-analytics-bootstrap.js",
             "github-pages/sites-html": "./src/github-pages/sites-html.js",
         },

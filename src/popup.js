@@ -315,9 +315,9 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                                     updateMessage(results && results[0].result, tabId);
                                 });
                         });
-                } else {
-                    updateMessage(results[0].result, tabId);
-                }
+                } 
+                
+                updateMessage(results[0].result, tabId);
             } else {
                 updateMessage(null, tabs[0].id);
             }

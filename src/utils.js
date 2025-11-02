@@ -416,6 +416,12 @@ function getSearchParam(url) {
 }
 
 let _concurrency_count = 0;
+/***
+ * config: {
+ *      'withCredentials': true|false
+ *      
+ * }
+ */
 function fetchUrl(url, retry = 1, concurrency_limit = 8, config = {}) {
     const logger = require("./logger2")(module.id);
     logger.debug("fetchUrl retry=", retry, "concurrency_limit=", concurrency_limit, "config=", config, "url=", url);
