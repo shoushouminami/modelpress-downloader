@@ -70,8 +70,10 @@ class PopupComponent extends React.Component {
             appFetchStatus: props.appFetchStatus, // null, "started", "200", "404", "error"
             appImageCount: props.appImageCount,
             downloadDisabled: false,
+            options: props.options,
         };
         this.downloadHandler = props.downloadHandler;
+        this.optionHandler = props.optionHandler;
         this.downloadClicked = this.downloadClicked.bind(this);
     }
 
@@ -79,9 +81,82 @@ class PopupComponent extends React.Component {
         this.setState({
             downloadDisabled: true
         });
-        this.downloadHandler(function (){
+        
+        this.downloadHandler({}, function (){
             window.close();
         });
+    }
+
+    handleOptionChange(name, newValue) {
+        const options = this.state.options;
+
+        options[name].value = newValue;
+        this.setState({
+            options: options
+        });
+    }
+
+    handleOptionCommit(name, newValue) {
+        this.handleOptionChange(name, newValue);
+
+        if (this.optionHandler) {
+            this.optionHandler(this.state.options);
+        }
+    }
+
+    createOptionsUI(stOptions) {
+        // sort entries by index
+        const optionMapEntries = Object.entries(stOptions).sort((a, b) => a[1].index - b[1].index);
+
+        if (!optionMapEntries.length) {
+            return null;
+        }
+        
+        return (
+            <div>
+                {optionMapEntries.map((entry, i) => {
+                    const name = entry[0];
+                    const stOpt = entry[1];
+                    const id = "option" + i;
+
+                    switch (stOpt.type) {
+                        case "checkbox":
+                            return (
+                                <div key={id}>
+                                    <label htmlFor={id}>{stOpt.label}</label>
+                                    <input
+                                        id={id}
+                                        type="checkbox"
+                                        checked={stOpt.checked}
+                                    />
+                                </div>
+                            );
+
+                        case "range":
+                            return (
+                                <div key={id}>
+                                    <label htmlFor={id}>{stOpt.label}</label>
+                                    <input
+                                        id={id}
+                                        type="range"
+                                        min={stOpt.min}
+                                        max={stOpt.max}
+                                        value={stOpt.value}
+                                        onChange={e => this.handleOptionChange(name, e.target.value)}
+                                        // onMouseUp={e => this.handleOptionCommit(name, e.target.value)}
+                                        // onTouchEnd={e => this.handleOptionCommit(name, e.target.value)}
+                                        onPointerUp={e => this.handleOptionCommit(name, e.target.value)}
+                                    />
+                                    <span>{stOpt.value}</span>
+                                </div>
+                            );
+
+                        default:
+                            return null;
+                    }
+                })}
+            </div>
+        );
     }
 
     render() {
@@ -102,6 +177,8 @@ class PopupComponent extends React.Component {
                 }
             }
 
+            const optionsUI = st.options ? this.createOptionsUI(st.options): "";
+
             return (
                 <div>
                     <DownloadButton
@@ -111,6 +188,7 @@ class PopupComponent extends React.Component {
                         disabled={this.state.downloadDisabled}
                     />
                     {permOrStatus}
+                    {optionsUI}
                 </div>
             );
         } else {

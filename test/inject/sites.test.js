@@ -1,7 +1,7 @@
 const sites = require("../../src/inject/sites");
 
 test("Test sites.all", () => {
-    expect(sites.all().length).toBe(127);
+    expect(sites.all().length).toBe(128);
     let hosts = [];
     let urls = [];
     sites.all().forEach((module) => {

@@ -190,6 +190,7 @@ function register(siteModule) {
     require("./storage.mainichikirei.jp"),
     require("./www.nhk.or.jp"),
     require("./www.bubkaweb.com"),
+    require("./message.nogizaka46.com"),
 ]);
 
 function all() {

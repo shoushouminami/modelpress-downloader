@@ -27,8 +27,11 @@ module.exports = {
             loading: false, //  tells the runtime to show an in progress icon indicating images are loading
             headers: [], // extra HTTP headers to send when calling chrome.download(). such as [{ "name": "myname", "value": "myvalue"}]
             permissionRequest: undefined,  // request for optional permissions
-            ignoreJobId: false // CS level override to ignore config DOWNLOAD_PREPEND_JOBID
+            ignoreJobId: false, // CS level override to ignore config DOWNLOAD_PREPEND_JOBID
                                 // if true then the config is ignored. othewise it is honored.
+            options: {
+                // "key": {"value": 1, "label": "Option Label", type: "range"|"checkbox"}
+            }
         });
 
         o.originalFolder = o.folder;

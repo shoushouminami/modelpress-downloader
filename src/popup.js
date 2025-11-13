@@ -103,6 +103,8 @@ function updatePopupUI() {
             appFetchStatus={mdprApp.getAppFetchStatus()}
             appImageCount={mdprApp.getAddedCount()}
             downloadHandler={downloadHandler}
+            optionHandler={optionHandler}
+            options={message.options}
         />,
         document.getElementById("react-root"),
         function () {
@@ -114,7 +116,8 @@ function updatePopupUI() {
     );
 }
 
-function downloadHandler(resolve) {
+
+function downloadHandler(downloadOptions, resolve) {
     const imagesNeedTab = [];
     const downloadInBg = [];
     const downloadWithMsg = [];
@@ -246,6 +249,17 @@ function downloadHandler(resolve) {
     }
 }
 
+function optionHandler(updatedOptions) {
+    logger.debug("optionHandler updatedOptions=", updatedOptions);
+    message.options = updatedOptions;
+    messaging.sendToCS(message.fromTabId, "optionsChanged", {
+        options: updatedOptions
+    }, function(resp){
+        logger.debug("Received optionsChanged event response from CS resp=", resp);
+        updateMessage(resp.o, message.fromTabId);
+    });
+}
+
 function startFetchMdprMobileImages(articleId) {
     mdprApp.fetchMdprMobileImages(articleId, message.images,function (newImages) {
         utils.pushArray(message.images, newImages);
@@ -316,7 +330,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                                 });
                         });
                 } 
-                
+
                 updateMessage(results[0].result, tabId);
             } else {
                 updateMessage(null, tabs[0].id);

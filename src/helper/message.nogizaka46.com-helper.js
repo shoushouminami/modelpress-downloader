@@ -1,10 +1,26 @@
 (async function(){
     "use strict";
 
+    const API_DOMAIN_MAP = {
+        "message.nogizaka46.com": "api.message.nogizaka46.com",
+        "message.hinatazaka46.com": "api.message.hinatazaka46.com",
+        "message.sakurazaka46.com": "api.message.sakurazaka46.com",
+    }
+
+    const API_APP_ID_MAP = {
+        "message.nogizaka46.com": "jp.co.sonymusic.communication.nogizaka 2.5",
+        "message.hinatazaka46.com": "jp.co.sonymusic.communication.keyakizaka 2.5",
+        "message.sakurazaka46.com": "jp.co.sonymusic.communication.sakurazaka 2.5",
+    }
+
     const urlUtils = require("../../src/utils/url-utils");
     const logger = require("../../src/logger2")(module.id);
     const helper = require("./helper-utils");
     const CACHE = {}; // {group_id -> {msg_id: message} }
+
+    const hostname = new URL(window.location.href).hostname;
+    const API_DOMAIN = API_DOMAIN_MAP[hostname];
+    const API_APP_ID = API_APP_ID_MAP[hostname];
     
     // prevents the helper to run again
     if (helper.getDataDiv() != null) {
@@ -30,13 +46,13 @@
 
     async function getToken() {
         const resp = await fetch(
-            "https://api.message.nogizaka46.com/v2/update_token",
+            `https://${API_DOMAIN}/v2/update_token`,
             {
                 method: "POST",
                 body: JSON.stringify({ refresh_token: null }),
                 credentials: "include",
                 headers: {
-                    "x-talk-app-id": "jp.co.sonymusic.communication.nogizaka 2.5",
+                    "x-talk-app-id": API_APP_ID,
                     "x-talk-app-platform": "web"
                 }
             }
@@ -50,13 +66,14 @@
     }
 
     async function getTimelineMessages(token, groupId, secondsAgo) {
+        logger.debug("Getting timeline of", groupId, " in the past", secondsAgo, "seconds");
         const timelineResp = await fetch(
-            `https://api.message.nogizaka46.com/v2/groups/${groupId}/timeline?updated_from=${getEncodedTimestampUTC(secondsAgo)}&count=200&order=asc&clear_unread=false`,
+            `https://${API_DOMAIN}/v2/groups/${groupId}/timeline?updated_from=${getEncodedTimestampUTC(secondsAgo)}&count=200&order=asc&clear_unread=false`,
             {
                 credentials: "include",
                 headers: {
                     "Authorization": "Bearer " + token,
-                    "x-talk-app-id": "jp.co.sonymusic.communication.nogizaka 2.5",
+                    "x-talk-app-id": API_APP_ID,
                     "x-talk-app-platform": "web",
                     "Accept": "application/json"
                 }
@@ -81,7 +98,7 @@
     }
 
     try {
-        // Fetch OAUTH token https://api.message.nogizaka46.com/v2/update_token
+        // Fetch OAUTH token https://${API_DOMAIN}/v2/update_token
         let TOKEN;
         let TOKEN_EXP_TS_MS = 0;
 
