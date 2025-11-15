@@ -72,7 +72,7 @@
     "description": "Text label in config setting: keep recent clicks"
   },
   "configDownloadPrependJobId": {
-    "message": "Add sequence number to file name",
+    "message": "Prepend sequence number to file name",
     "description": "Text label in config setting: Add sequence number to file name"
   }
 }

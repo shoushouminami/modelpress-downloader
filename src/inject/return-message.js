@@ -32,6 +32,12 @@ module.exports = {
                                 // if true then the config is ignored. othewise it is honored.
             options: {
                 // "key": {"value": 1, "label": "Option Label", type: "range"|"checkbox"}
+                "configDownloadPrependJobId": {
+                    index: 999,
+                    label: "Prepend sequence number to file name",
+                    type: "checkbox",
+                    checked: true
+                }
             }
         });
 

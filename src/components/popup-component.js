@@ -3,24 +3,26 @@ const i18n = require("../i18n");
 const SupportedSites = require("./supported-sites");
 const logger = require("../logger2")(module.id);
 const window = require("../globals").getWindow();
-const ScrollableImagePicker = require("./scrollable-image-picker");
+const ScrollableImagePicker = require("./scrollable-image-picker-component");
+const DownloadOptions = require("./options-component");
 
-function DownloadButton(props) {
+function DownloadButton({ count, disabled, hasImage, loading , onClick}) {
     document.title = "Download Button";
+    let btnDisabled = disabled;
     let text;
-    if (props.hasImage) {
-        text = i18n.getText("downloadButtonMessage", null, [props.count]);
+    if (hasImage) {
+        text = i18n.getText("downloadButtonMessage", null, [count]);
     } else {
-        disabled = true;
-        if (props.loading) {
+        if (loading) {
             text = "⌛";
         } else {
+            btnDisabled = true;
             text = i18n.getText("noImageMessage")
         }
     }
 
     return (
-        <button id="download" className="row" disabled={props.disabled ? "disabled": null} onClick={props.onClick}>
+        <button id="download" className="row" disabled={btnDisabled ? "disabled": null} onClick={onClick}>
             <span id="buttonText"><span id="count">{text}</span></span>
         </button>
     );
@@ -84,7 +86,7 @@ class PopupComponent extends React.Component {
             // no image selected, no op
             return ;
         }
-        
+
         this.setState({
             downloadDisabled: true
         });
@@ -118,61 +120,6 @@ class PopupComponent extends React.Component {
         }
     }
 
-    createOptionsUI(stOptions) {
-        // sort entries by index
-        const optionMapEntries = Object.entries(stOptions).sort((a, b) => a[1].index - b[1].index);
-
-        if (!optionMapEntries.length) {
-            return null;
-        }
-        
-        return (
-            <div>
-                {optionMapEntries.map((entry, i) => {
-                    const name = entry[0];
-                    const stOpt = entry[1];
-                    const id = "option" + i;
-
-                    switch (stOpt.type) {
-                        case "checkbox":
-                            return (
-                                <div key={id}>
-                                    <label htmlFor={id}>{stOpt.label}</label>
-                                    <input
-                                        id={id}
-                                        type="checkbox"
-                                        checked={stOpt.checked}
-                                        onChange={e => this.handleOptionCommit(name, e.target.checked)}
-                                    />
-                                </div>
-                            );
-
-                        case "range":
-                            return (
-                                <div key={id}>
-                                    <label htmlFor={id}>{stOpt.label}</label>
-                                    <input
-                                        id={id}
-                                        type="range"
-                                        min={stOpt.min}
-                                        max={stOpt.max}
-                                        value={stOpt.value}
-                                        onChange={e => this.handleOptionChange(name, e.target.value)}
-                                        // onMouseUp={e => this.handleOptionCommit(name, e.target.value)}
-                                        // onTouchEnd={e => this.handleOptionCommit(name, e.target.value)}
-                                        onPointerUp={e => this.handleOptionCommit(name, e.target.value)}
-                                    />
-                                    <span>{stOpt.value}</span>
-                                </div>
-                            );
-
-                        default:
-                            return null;
-                    }
-                })}
-            </div>
-        );
-    }
 
     handleImagePicker(selectedIndexes) {
         this.setState({ selectedIndexes, downloadDisabled: false });
@@ -198,20 +145,19 @@ class PopupComponent extends React.Component {
                 }
             }
 
-            const optionsUI = st.options ? this.createOptionsUI(st.options): "";
-
+            const hasImage = this.state.imageThumbnails.length > 0;
             return (
                 <div>
                     <DownloadButton
                         count={this.state.selectedIndexes ? this.state.selectedIndexes.length : this.state.imageThumbnails.length}
-                        hasImage={this.state.imageThumbnails.length > 0}
+                        hasImage={hasImage}
                         loading={st.loading}
                         onClick={() => this.downloadClicked()}
                         disabled={this.state.downloadDisabled}
                     />
                     {permOrStatus}
-                    {optionsUI}
-                    <ScrollableImagePicker images={this.state.imageThumbnails} onChange={(e) => this.handleImagePicker(e)}/>
+                    {hasImage && <DownloadOptions stOptions={st.options} handleOptionChange={(n,v) => this.handleOptionChange(n,v)} handleOptionCommit={(n,v) => this.handleOptionCommit(n,v)} /> }
+                    {hasImage &&<ScrollableImagePicker images={this.state.imageThumbnails} onChange={(e) => this.handleImagePicker(e)}/> }
                 </div>
             );
         } else {
