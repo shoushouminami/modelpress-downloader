@@ -25,18 +25,25 @@ function pushMediaIntoReturnMessageWithOptions(groupMsg, o) {
         .forEach(m => {
             switch (m.type) {
                 case "voice":
-                case "picture":
-                case "video":
-                    o.images.push(m.file);
+                    if (o.options.downloadVoice.checked && m.file) {
+                        o.images.push(m.file);
+                    }
                     break;
-                case "text":
-                    // noop
+                case "picture":
+                    if (m.file) {
+                        o.images.push(m.file);
+                    }
+                    break;
+                case "video":
+                    if (o.options.downloadVideo.checked && m.file) {
+                        o.images.push(m.file);
+                    }
                     break;
                 default:
                     logger.debug("Unknown media type", m.type);
             }
 
-            if (m.text) {
+            if (m.text && o.options.downloadText.checked) {
                 const imgTag = m.type === "picture" ? `<img src="./${utils.getFileName(m.file)}"/><br>` : "";
                 const webpage = `<html lang="ja"><head><meta charset="UTF-8"></head><body>${imgTag}<pre>${m.text}</pre></body></html>`;
                 o.images.push({
@@ -45,6 +52,16 @@ function pushMediaIntoReturnMessageWithOptions(groupMsg, o) {
                 });
             }
         });
+}
+
+function getGroupId() {
+    const pathname = urlUtils.pathname(getWindow().location.href);
+    const parts = pathname.split("/");
+    if (parts[parts.length - 2] === "timeline") {
+       return parts[parts.length - 1];
+    }
+
+    return null;
 }
 
 function inject() {
@@ -62,27 +79,39 @@ function inject() {
         max: 7,
         value: 1
     }
+    o.options["downloadVideo"] = {
+        index: 2,
+        label: "Download Video",
+        type: "checkbox",
+        checked: true
+    }
+    o.options["downloadVoice"] = {
+        index: 3,
+        label: "Download Voice",
+        type: "checkbox",
+        checked: true
+    }
+    o.options["downloadText"] = {
+        index: 4,
+        label: "Download Text as HTML",
+        type: "checkbox",
+        checked: true
+    }
 
-    const pathname = urlUtils.pathname(getWindow().location.href);
-    const parts = pathname.split("/");
-    if (parts[parts.length - 2] === "timeline") {
-        const groupId = parts[parts.length - 1];
+    const groupId = getGroupId();
+    if (groupId != null) {
         if (helper.getDataDiv()) {
             // helper script injected
-
             // setup event listener to update options 
             messaging.listenOnRuntime("optionsChanged", function (msg) {
                 logger.debug("Received event optionsChanged", msg.options);
-
-                o.options = msg.options
-
+                o.options = msg.options;
                 // temporarily set loading icon on
                 o.loading = true;
                 o.images = [];
                 messaging.sendToRuntime("updateResult", o);
-
                 // get media 
-                getMediaFromPage(groupId, o.options, function (groupMsg) {
+                getMediaFromPage(getGroupId(), o.options, function (groupMsg) {
                     pushMediaIntoReturnMessageWithOptions(groupMsg, o);
                     o.loading = false;
                     messaging.sendToRuntime("updateResult", o);

@@ -90,7 +90,14 @@ class PopupComponent extends React.Component {
     handleOptionChange(name, newValue) {
         const options = this.state.options;
 
-        options[name].value = newValue;
+        logger.debug("handleOptionChange", name, newValue);
+
+        if (options[name].type === "checkbox") {
+            options[name].checked = newValue;
+        } else {
+            options[name].value = newValue;
+        }
+        
         this.setState({
             options: options
         });
@@ -128,6 +135,7 @@ class PopupComponent extends React.Component {
                                         id={id}
                                         type="checkbox"
                                         checked={stOpt.checked}
+                                        onChange={e => this.handleOptionCommit(name, e.target.checked)}
                                     />
                                 </div>
                             );
