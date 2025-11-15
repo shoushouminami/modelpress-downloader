@@ -29,7 +29,7 @@ module.exports = env => {
                         loader: "babel-loader",
                         options: {
                             presets: ['@babel/preset-react'],
-                            plugins: ["@babel/plugin-transform-class-properties"]
+                            plugins: ["@babel/plugin-transform-class-properties", "@babel/plugin-proposal-optional-chaining"]
                         }
                     }
                 }

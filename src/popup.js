@@ -105,6 +105,8 @@ function updatePopupUI() {
             downloadHandler={downloadHandler}
             optionHandler={optionHandler}
             options={message.options}
+            imageThumbnails={message.images}
+            imagePickerHandler={imagePickerHandler}
         />,
         document.getElementById("react-root"),
         function () {
@@ -121,7 +123,11 @@ function downloadHandler(downloadOptions, resolve) {
     const imagesNeedTab = [];
     const downloadInBg = [];
     const downloadWithMsg = [];
-    const images = message.images.slice(0, message.images.length);
+    const images = message.selectedIndexes ?
+        message.selectedIndexes.map(i => message.images[i]) :
+        message.images.slice(0, message.images.length);
+
+    logger.debug("downloadHandler images=", images, "selectedIndexes=", message.selectedIndexes);
 
     function _downloadHandler() {
         ga.trackDownload(message.host, images.length);
@@ -258,6 +264,11 @@ function optionHandler(updatedOptions) {
         logger.debug("Received optionsChanged event response from CS resp=", resp);
         updateMessage(resp.o, message.fromTabId);
     });
+}
+
+function imagePickerHandler(selectedIndexes = []) {
+    message.selectedIndexes = selectedIndexes;
+    // no need to update UI as this event is propogated from UI
 }
 
 function startFetchMdprMobileImages(articleId) {

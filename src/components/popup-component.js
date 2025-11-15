@@ -3,12 +3,12 @@ const i18n = require("../i18n");
 const SupportedSites = require("./supported-sites");
 const logger = require("../logger2")(module.id);
 const window = require("../globals").getWindow();
+const ScrollableImagePicker = require("./scrollable-image-picker");
 
 function DownloadButton(props) {
     document.title = "Download Button";
     let text;
-    let disabled = props.disabled;
-    if (props.count) {
+    if (props.hasImage) {
         text = i18n.getText("downloadButtonMessage", null, [props.count]);
     } else {
         disabled = true;
@@ -20,7 +20,7 @@ function DownloadButton(props) {
     }
 
     return (
-        <button id="download" className="row" disabled={disabled ? "disabled": null} onClick={props.onClick}>
+        <button id="download" className="row" disabled={props.disabled ? "disabled": null} onClick={props.onClick}>
             <span id="buttonText"><span id="count">{text}</span></span>
         </button>
     );
@@ -63,7 +63,6 @@ class PopupComponent extends React.Component {
         logger.debug("initializing with props", props);
         this.state = {
             supported: props.supported,
-            count: props.count,
             loading: props.loading,
             hasAppImage: props.hasAppImage,
             hasAppPerm: props.hasAppPerm,
@@ -71,13 +70,21 @@ class PopupComponent extends React.Component {
             appImageCount: props.appImageCount,
             downloadDisabled: false,
             options: props.options,
+            imageThumbnails: props.imageThumbnails,
+            selectedIndexes: null
         };
         this.downloadHandler = props.downloadHandler;
         this.optionHandler = props.optionHandler;
+        this.imagePickerHandler = props.imagePickerHandler;
         this.downloadClicked = this.downloadClicked.bind(this);
     }
 
     downloadClicked() {
+        if (this.state.selectedIndexes && this.state.selectedIndexes.length === 0) {
+            // no image selected, no op
+            return ;
+        }
+        
         this.setState({
             downloadDisabled: true
         });
@@ -167,6 +174,12 @@ class PopupComponent extends React.Component {
         );
     }
 
+    handleImagePicker(selectedIndexes) {
+        this.setState({ selectedIndexes, downloadDisabled: false });
+        this.imagePickerHandler?.(selectedIndexes);
+        logger.debug("handleImagePicker", selectedIndexes);
+    }
+
     render() {
         let st = this.state;
         if (st.supported) {
@@ -190,13 +203,15 @@ class PopupComponent extends React.Component {
             return (
                 <div>
                     <DownloadButton
-                        count={st.count}
+                        count={this.state.selectedIndexes ? this.state.selectedIndexes.length : this.state.imageThumbnails.length}
+                        hasImage={this.state.imageThumbnails.length > 0}
                         loading={st.loading}
-                        onClick={this.downloadClicked}
+                        onClick={() => this.downloadClicked()}
                         disabled={this.state.downloadDisabled}
                     />
                     {permOrStatus}
                     {optionsUI}
+                    <ScrollableImagePicker images={this.state.imageThumbnails} onChange={(e) => this.handleImagePicker(e)}/>
                 </div>
             );
         } else {

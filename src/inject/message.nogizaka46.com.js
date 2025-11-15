@@ -70,7 +70,6 @@ function inject() {
     let o = returnMessage.init();
     o.ignoreJobId = true;
     // TODO load default values from local storage
-    // default values
     o.options["daysAgo"] = {
         index: 1,
         label: "Days Ago",

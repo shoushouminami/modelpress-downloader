@@ -19,6 +19,7 @@ module.exports = {
                         // {url: "url", retries: ["retry url1", "retry url2"]}. The retry url is used if the url fails.
                         // {type: "msg", filename: "1.jpg"} download through messaging exchange
                         // {type: "tab", imageUrl: "", websiteUrl: ""} // download through background tab
+            selectedIndexes: null, // allow user to select which images to download
             remoteImages: {}, // for example {"mdpr.jp": "1234567"}
             ext: undefined,
             title: window.document.title.replace(/\//g, "-"),
