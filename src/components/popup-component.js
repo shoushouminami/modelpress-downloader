@@ -106,6 +106,9 @@ class PopupComponent extends React.Component {
         } else {
             options[name].value = newValue;
         }
+
+        // update userInteracted flag
+        options[name].userInteracted = true;
         
         this.setState({
             options: options

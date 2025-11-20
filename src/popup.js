@@ -135,7 +135,7 @@ function downloadHandler(downloadOptions, resolve) {
             "domain": message.host,
             "count": images.length
         });
-        const setJobId = config.getConf(config.DOWNLOAD_PREPEND_JOBID);
+        const setJobId = getConfigSetJobId();
         const context = {
             tabId: message.fromTabId,
             folder: message.folder,
@@ -255,6 +255,15 @@ function downloadHandler(downloadOptions, resolve) {
     }
 }
 
+function getConfigSetJobId() {
+    // prefer site level config
+    if (message.options.downloadPrependJobId && message.options.downloadPrependJobId.userInteracted) {
+        return message.options.downloadPrependJobId.checked;
+    }
+    // then use the extension persisted config
+    return config.getConf(config.DOWNLOAD_PREPEND_JOBID);
+}
+
 function optionHandler(updatedOptions) {
     logger.debug("optionHandler updatedOptions=", updatedOptions);
     message.options = updatedOptions;
@@ -284,6 +293,13 @@ function updateMessage(result, tabId) {
     if (result) {
         logger.debug("\n!!!! TEST CASE !!!!\n\n" + utils.printTestAssertion(result));
         message = result;
+        // Patch the config flag config.DOWNLOAD_PREPEND_JOBID
+        // in messsage.options so the UI displays the correct checkbox.
+        // User the CS level flag if user clicked, otherwise use the extension level flag
+        if (message.options && message.options.downloadPrependJobId) {
+            message.options.downloadPrependJobId.checked = getConfigSetJobId();
+        }
+
         message.fromTabId = tabId;
         if (message.remoteImages && message.remoteImages["mdpr.jp"]) {
             mdprApp.checkAppPerm(function (granted) {
