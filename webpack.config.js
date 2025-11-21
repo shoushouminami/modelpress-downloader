@@ -32,6 +32,13 @@ module.exports = env => {
                             plugins: ["@babel/plugin-transform-class-properties", "@babel/plugin-proposal-optional-chaining"]
                         }
                     }
+                },
+                {
+                    test: /\.css$/i,
+                    use: [
+                        "style-loader", // injects CSS into <style> tags
+                        "css-loader"    // lets JS import/require CSS files
+                    ]
                 }
             ]
         },

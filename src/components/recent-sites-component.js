@@ -4,6 +4,8 @@ const sites = require("../inject/sites");
 const {SiteIcon} = require("./site-icon");
 const ga = require("../google-analytics");
 const {getRecentSites, clearRecentSites} = require("../recent-sites");
+const Toggle = require("./toggle");
+const config = require("../config");
 
 class RecentSitesComponent extends React.Component {
     constructor(props) {
@@ -29,6 +31,16 @@ class RecentSitesComponent extends React.Component {
         });
     }
 
+    handleRecentSitesToggle(checked) {
+        config.setKeepRecentClicks(checked);
+        ga.trackEvent("config_change", config.KEEP_RECENT_CLICKS, checked + "");
+        ga.trackEventGA4(`cfg_${config.KEEP_RECENT_CLICKS}_${String(checked)}`);
+        // check side effects on config change
+        if (!checked) {
+            this.clearRecentSites(); 
+        }
+    }
+
     render() {
         let recentSites = this.state.recentSites.map(
             host => sites.getByWindowLocation({host:host})
@@ -43,23 +55,23 @@ class RecentSitesComponent extends React.Component {
                     handleSiteClick={this.handleSiteClick}
                 />
             )
-        if (recentSites.length > 0) {
-            return (
-                <div id="recentSites">
-                    <div className="controlButton" onClick={(e) => this.clearRecentSites()}>
-                        <img src="images/delete.svg" className="controlButtonImg" />
-                    </div>
-                    <div className="sectionTitle">
-                        {/*recent sites*/}
-                        <div>{i18n.getText("recentClicks")}</div>
-                    </div>
-                    {recentSites}
-                    <hr/>
+        return (
+            <div id="recentSites">
+                <Toggle
+                    checked={config.keepRecentClicks()}
+                    handleToggle={(checked) => this.handleRecentSitesToggle(checked)}
+                />
+                <div className="controlButton" onClick={(e) => this.clearRecentSites()}>
+                    <img src="images/delete.svg" className="controlButtonImg" />
                 </div>
-            );
-        } else {
-             return null;
-        }
+                <div className="sectionTitle">
+                    {/*recent sites*/}
+                    <div>{i18n.getText("recentClicks")} </div>
+                </div>
+                {recentSites}
+                <hr />
+            </div>
+        );
     }
 }
 

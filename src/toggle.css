@@ -1,0 +1,42 @@
+.toggle-container {
+    position: relative;
+    width: 25px;
+    height: 13px;
+}
+
+.toggle-input {
+    display: none;
+    /* hide checkbox */
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    background: #ccc;
+    border-radius: 13px;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 13px;
+    transition: background 0.2s;
+}
+
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    left: 1px;
+    top: 1px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s;
+}
+
+.toggle-input:checked+.toggle-slider {
+    background: #4caf50;
+}
+
+.toggle-input:checked+.toggle-slider::before {
+    transform: translateX(12px);
+}
