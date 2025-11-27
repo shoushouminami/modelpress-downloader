@@ -5,6 +5,7 @@ const urlUtils = require("../../src/utils/url-utils");
 const {getWindow} = require("../globals.js");
 const { altHosts } = require("./www.oricon.co.jp.js");
 const logger = require("../../src/logger2")(module.id);
+const { siteOptionsWithDefault } = require("../site-options.js");
 
 function getMediaFromPage(groupId, options, onResponse) {
     logger.debug("getting messages of group", groupId);
@@ -70,32 +71,40 @@ function inject() {
     let o = returnMessage.init();
     o.ignoreJobId = true;
     // TODO load default values from local storage
-    o.options["daysAgo"] = {
-        index: 1,
-        label: "Days Ago",
-        type: "range",
-        min: 1,
-        max: 7,
-        value: 1
-    }
-    o.options["downloadVideo"] = {
-        index: 2,
-        label: "Download Video",
-        type: "checkbox",
-        checked: true
-    }
-    o.options["downloadVoice"] = {
-        index: 3,
-        label: "Download Voice",
-        type: "checkbox",
-        checked: true
-    }
-    o.options["downloadText"] = {
-        index: 4,
-        label: "Download Text as HTML",
-        type: "checkbox",
-        checked: true
-    }
+    const {
+        getAllOptions,
+        updateOption,
+        userInteracted
+    } = siteOptionsWithDefault({
+        "daysAgo": {
+            index: 1,
+            label: "Days Ago",
+            type: "range",
+            min: 1,
+            max: 7,
+            value: 1
+        },
+        "downloadVideo": {
+            index: 2,
+            label: "Download Video",
+            type: "checkbox",
+            checked: true
+        },
+        "downloadVoice": {
+            index: 3,
+            label: "Download Voice",
+            type: "checkbox",
+            checked: true
+        },
+        "downloadText": {
+            index: 4,
+            label: "Download Text as HTML",
+            type: "checkbox",
+            checked: true
+        }
+    });
+
+    o.options = getAllOptions();
 
     const groupId = getGroupId();
     if (groupId != null) {
@@ -105,6 +114,12 @@ function inject() {
             messaging.listenOnRuntime("optionsChanged", function (msg) {
                 logger.debug("Received event optionsChanged", msg.options);
                 o.options = msg.options;
+                // persist options that is user interacted
+                Object.keys(o.options).forEach((optName) => {
+                    if (userInteracted(o.options[optName])) {
+                        updateOption(optName, o.options[optName]);
+                    }
+                });
                 // temporarily set loading icon on
                 o.loading = true;
                 o.images = [];
@@ -147,5 +162,3 @@ module.exports = {
     altHosts: ["message.hinatazaka46.com", "message.sakurazaka46.com"],
     hidden: true
 };
-
-

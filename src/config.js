@@ -1,5 +1,6 @@
 const storage = require("./storage");
 const logger = require("./logger2")(module.id);
+const { createConfigManager } = require("./config-manager");
 
 const STORAGE_KEY = "config";
 const VERSION = 1;
@@ -15,42 +16,32 @@ const defaultConfigV1 = {
 defaultConfigV1[KEEP_RECENT_CLICKS] = true
 defaultConfigV1[DOWNLOAD_PREPEND_JOBID] = true
 
-const config = {}
 
-/**
- * Checks if the config is loaded from storage, if not then load it once.
- */
-function checkInitLoad() {
-    logger.debug("config check init load");
-    if (!("v" in config)) {
-        const serialized = storage.get(STORAGE_KEY);
-        logger.debug("config loaded from storage", serialized);
-        if (serialized) {
-            let deserialized = JSON.parse(serialized);
-            logger.debug("config deserialized from storage", deserialized);
-            if (deserialized.v < VERSION) {
-                // TODO migrate older version to latest version
-            }
-            Object.assign(config, deserialized);
-        }
-
-        // Copy over missing keys
-        for (let key of Object.keys(defaultConfigV1)) {
-            if (!(key in config)) {
-                logger.debug("config copying default key", key);
-                config[key] = defaultConfigV1[key];
-            }
-        }
-    }
+function checkConstraints(config) {
+    // noop
 }
 
+// optional migration function for older versions (you had a TODO)
+// For now, just returns the old config unchanged.
+function migrate(oldConfig) {
+    // Example:
+    // if (oldConfig.v === 0) { ... }
+    return oldConfig;
+}
+
+// Create one manager instance for this config
+const manager = createConfigManager({
+    storageKey: STORAGE_KEY,
+    version: VERSION,
+    defaults: defaultConfigV1,
+    storage,
+    logger,
+    checkConstraints,
+    migrate
+});
+
 function getConf(key) {
-    checkInitLoad();
-    checkConstraints();
-    if (!(key in config)) {
-        logger.debug("Trying to read key not in config: ", key);
-    }
-    return config[key];
+    return manager.getConf(key);
 }
 
 /**
@@ -58,33 +49,24 @@ function getConf(key) {
  * @return {unknown}
  */
 function getConfigMap() {
-    checkInitLoad();
-    checkConstraints();
-    return Object.assign({}, config);
+    return manager.getConfigMap();
 }
 
 function setConf(key, value) {
-    checkInitLoad();
-    if (!(key in config)) {
-        logger.debug("Trying to set key not in config: ", key);
-    } else {
-        logger.debug("Set config ", key, "=", value);
-        config[key] = value;
-        checkConstraints();
-        storage.set(STORAGE_KEY, JSON.stringify(config));
-    }
+    return manager.setConf(key, value);
 }
 
-function checkConstraints() {
-    // noop
-}
 
 function keepRecentClicks() {
     return getConf(KEEP_RECENT_CLICKS);
 }
 
 function setKeepRecentClicks(keep) {
-    setConf(KEEP_RECENT_CLICKS, keep === true);
+    setConf(KEEP_RECENT_CLICKS, Boolean(keep));
+}
+
+function isPersisted(key) {
+    return manager.isPersisted(key);
 }
 
 exports.getConf = getConf;
@@ -92,5 +74,6 @@ exports.setConf = setConf;
 exports.getConfigMap = getConfigMap;
 exports.keepRecentClicks = keepRecentClicks;
 exports.setKeepRecentClicks = setKeepRecentClicks;
+exports.isPersisted = isPersisted;
 exports.KEEP_RECENT_CLICKS = KEEP_RECENT_CLICKS;
 exports.DOWNLOAD_PREPEND_JOBID = DOWNLOAD_PREPEND_JOBID;

@@ -30,8 +30,8 @@ module.exports = {
             permissionRequest: undefined,  // request for optional permissions
             ignoreJobId: false, // CS level override to ignore config DOWNLOAD_PREPEND_JOBID
                                 // if true then the config is ignored. othewise it is honored.
-            options: {
-                // "key": {"value": 1, "label": "Option Label", type: "range"|"checkbox"}
+            options: {} /**
+                         // "key": {"value": 1, "label": "Option Label", type: "range"|"checkbox"}
                 "downloadPrependJobId": { // same as config.DOWNLOAD_PREPEND_JOBID
                     index: 999,
                     label: "Prepend sequence number to file name",
@@ -39,7 +39,7 @@ module.exports = {
                     checked: true,
                     userInteracted: false // whether this config is clicked by user on UI
                 }
-            }
+            */
         });
 
         o.originalFolder = o.folder;
