@@ -75,12 +75,16 @@ function siteOptionsWithDefault(options) {
     });
 }
 
-function createSiteOptions({ 
+function createSiteOptions({
+    host, 
     version = 1,
     options, // default options hard coded in code
     migrate,
     checkConstraints
 }) {
+    if (!host) {
+        throw new Error("createSiteOptions: host is required");
+    }
     if (!options || typeof options !== "object") {
         throw new Error("createSiteOptions: options must be an object keyed by option name");
     }
@@ -91,7 +95,7 @@ function createSiteOptions({
 
     // Create one manager instance for this config
     const manager = createConfigManager({
-        storageKey: STORAGE_KEY,
+        storageKey: STORAGE_KEY + ":" + host,
         version: version,
         defaults: {
             v: version,

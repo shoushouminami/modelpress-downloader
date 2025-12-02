@@ -14,11 +14,14 @@ jest.mock("../src/logger2", () => {
     });
 });
 
+let lastCreateConfigManagerArgs = null;
+
 // Simple in-memory config manager: respects defaults, getConfigMap, setConf
 jest.mock("../src/config-manager", () => ({
-    createConfigManager: ({ defaults }) => {
+    createConfigManager: (args) => {
+        lastCreateConfigManagerArgs = args;
         // Deep copy defaults so tests can't accidentally mutate them
-        let config = JSON.parse(JSON.stringify(defaults || {}));
+        let config = JSON.parse(JSON.stringify(args.defaults || {}));
 
         return {
             getConfigMap: () => JSON.parse(JSON.stringify(config)),
@@ -115,6 +118,7 @@ describe("site-options", () => {
 
     test("getOption returns COMMON_OPTIONS value even if not passed into createSiteOptions", () => {
         const siteOpts = createSiteOptions({
+            host: "host",
             // site-specific options does NOT include DOWNLOAD_PREPEND_JOBID
             options: {
                 anotherOpt: {
@@ -136,6 +140,7 @@ describe("site-options", () => {
 
     test("getAllOptions returns union of COMMON_OPTIONS and site-specific options", () => {
         const siteOpts = createSiteOptions({
+            host: "host",
             options: {
                 siteOnly: {
                     index: 5,
@@ -159,6 +164,7 @@ describe("site-options", () => {
 
     test("updateOption persists only whitelisted fields for site-specific option", () => {
         const siteOpts = createSiteOptions({
+            host: "host",
             options: {
                 opt1: {
                     index: 10,
@@ -191,6 +197,7 @@ describe("site-options", () => {
 
     test("updateOption persists only whitelisted fields for COMMON_OPTION", () => {
         const siteOpts = createSiteOptions({
+            host: "host",
             options: {
                 // no override for DOWNLOAD_PREPEND_JOBID
             }
@@ -215,6 +222,7 @@ describe("site-options", () => {
 
     test("updateOption throws when updating unknown option", () => {
         const siteOpts = createSiteOptions({
+            host: "host",
             options: {
                 opt1: {
                     index: 1,
@@ -229,5 +237,23 @@ describe("site-options", () => {
         expect(() =>
             siteOpts.updateOption("unknownOpt", { checked: true })
         ).toThrow(/unknown option/i);
+    });
+
+    test("storageKey passed to createConfigManager includes host", () => {
+        createSiteOptions({
+            host: "host",
+            options: {
+                opt1: {
+                    index: 1,
+                    label: "Sample",
+                    type: "checkbox",
+                    checked: false,
+                    userInteracted: false
+                }
+            }
+        });
+
+        expect(lastCreateConfigManagerArgs).not.toBeNull();
+        expect(lastCreateConfigManagerArgs.storageKey).toBe("options:host");
     });
 });
