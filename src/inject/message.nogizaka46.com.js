@@ -5,7 +5,7 @@ const urlUtils = require("../../src/utils/url-utils");
 const {getWindow} = require("../globals.js");
 const { altHosts } = require("./www.oricon.co.jp.js");
 const logger = require("../../src/logger2")(module.id);
-const { siteOptionsWithDefault } = require("../site-options.js");
+const { loadSiteOptions, onOptionsChanged } = require("../site-options");
 
 function getMediaFromPage(groupId, options, onResponse) {
     logger.debug("getting messages of group", groupId);
@@ -40,6 +40,8 @@ function pushMediaIntoReturnMessageWithOptions(groupMsg, o) {
                         o.images.push(m.file);
                     }
                     break;
+                case "text":
+                    break;
                 default:
                     logger.debug("Unknown media type", m.type);
             }
@@ -67,15 +69,10 @@ function getGroupId() {
 
 function inject() {
     const returnMessage = require("./return-message.js");
-
     let o = returnMessage.init();
     o.ignoreJobId = true;
-    // TODO load default values from local storage
-    const {
-        getAllOptions,
-        updateOption,
-        userInteracted
-    } = siteOptionsWithDefault({
+    // default options
+    o.options = {
         "daysAgo": {
             index: 1,
             label: "Days Ago",
@@ -102,42 +99,37 @@ function inject() {
             type: "checkbox",
             checked: true
         }
-    });
+    };
 
-    o.options = getAllOptions();
+    // setup event listener to update options 
+    onOptionsChanged(({options}) => {
+        o.options = options;
+        // temporarily set loading icon on
+        o.loading = true;
+        o.images = [];
+        messaging.sendToRuntime("updateResult", o);
+        // get media 
+        getMediaFromPage(getGroupId(), o.options, function (groupMsg) {
+            pushMediaIntoReturnMessageWithOptions(groupMsg, o);
+            o.loading = false;
+            messaging.sendToRuntime("updateResult", o);
+        });
+    });
 
     const groupId = getGroupId();
     if (groupId != null) {
         if (helper.getDataDiv()) {
             // helper script injected
-            // setup event listener to update options 
-            messaging.listenOnRuntime("optionsChanged", function (msg) {
-                logger.debug("Received event optionsChanged", msg.options);
-                o.options = msg.options;
-                // persist options that is user interacted
-                Object.keys(o.options).forEach((optName) => {
-                    if (userInteracted(o.options[optName])) {
-                        updateOption(optName, o.options[optName]);
-                    }
+            loadSiteOptions(o.host, o.options)
+                .then(({ options }) => {
+                    o.options = options;
+                    // get media from helper
+                    getMediaFromPage(groupId, o.options, function (groupMsg) {
+                        pushMediaIntoReturnMessageWithOptions(groupMsg, o);
+                        o.loading = false;
+                        messaging.sendToRuntime("updateResult", o);
+                    });
                 });
-                // temporarily set loading icon on
-                o.loading = true;
-                o.images = [];
-                messaging.sendToRuntime("updateResult", o);
-                // get media 
-                getMediaFromPage(getGroupId(), o.options, function (groupMsg) {
-                    pushMediaIntoReturnMessageWithOptions(groupMsg, o);
-                    o.loading = false;
-                    messaging.sendToRuntime("updateResult", o);
-                });
-            });
-
-            // get media from helper
-            getMediaFromPage(groupId, o.options, function (groupMsg) {
-                pushMediaIntoReturnMessageWithOptions(groupMsg, o);
-                o.loading = false;
-                messaging.sendToRuntime("updateResult", o);
-            });
             
         } else {
             // inject helper script and wait

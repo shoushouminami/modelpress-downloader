@@ -1,9 +1,11 @@
 /**
- * Persisted site options.
+ * Persisted site options. Options are persisted in the extension's (popup.js) local storage, keyed by the site's domain hence
+ * each site has its own namespace.
  */
 const storage = require("./storage");
 const logger = require("./logger2")(module.id);
 const { createConfigManager } = require("./config-manager");
+const runtime = require("./runtime");
 
 const STORAGE_KEY = "options";
 const USER_INTERACTED = "userInteracted";
@@ -69,9 +71,52 @@ function patchObjectProperties(target, src) {
     );
 }
 
-function siteOptionsWithDefault(options) {
-    return createSiteOptions({
-        options
+/**
+ * Helper method for site module code (ie content scripts) to load site options through messaging.
+ * @param {*} host 
+ * @param {*} defaultOptions 
+ */
+function loadSiteOptions(host, defaultOptions, callback) {
+    if (runtime.isRuntime() && !runtime.isServiceWorker()) {
+        throw new Error(`Calling ${loadSiteOptions.name} in popup.`);
+    }
+
+    const messaging = require("./messaging");
+
+    const handler = (resolve) => {
+        messaging.sendToRuntime("getSiteOptions", {
+            host: host,
+            options: defaultOptions
+        }, function (resp) {
+            logger.debug("Loaded options=", resp.options);
+            resolve(resp);
+        });
+    }
+
+    // return undefined for callback style;
+    if (typeof callback === "function") {
+        handler(callback);
+        return;        
+    }
+    // return Promise
+    return new Promise(handler);
+}
+
+/**
+ * Helper method for site module code (ie content scripts) to register a messaging listenr for options changed.
+ * @param {*} host 
+ * @param {*} defaultOptions 
+ */
+function onOptionsChanged(callback) {
+    if (runtime.isRuntime() && !runtime.isServiceWorker()) {
+        throw new Error(`Calling ${onOptionsChanged.name} in popup.`);
+    }
+
+    const messaging = require("./messaging");
+    // setup event listener to update options 
+    messaging.listenOnRuntime("optionsChanged", function (msg) {
+        logger.debug("Received event optionsChanged options=", msg.options);
+        callback(msg);
     });
 }
 
@@ -186,7 +231,9 @@ module.exports = {
     COMMON_OPTIONS,
     PERSISTENT_FIELDS,
     createSiteOptions,
-    siteOptionsWithDefault,
+    loadSiteOptions,
+    onOptionsChanged,
+    // below are for tests
     removeNonPersistentKeys,
     patchObjectProperties
 }

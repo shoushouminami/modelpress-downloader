@@ -261,16 +261,16 @@ function tearDownAllListeners() {
 }
 
 module.exports = {
-    listenOnRuntime: listenOnRuntime,
-    listen: listen,
-    send: send,
-    listenOnPage: listenOnPage,
-    relayAllMsgsToRuntime: relayAllMsgsToRuntime,
-    relayMsgFromRuntimeToPage: relayMsgFromRuntimeToPage,
-    relayMsgFromPageToRuntime: relayMsgFromPageToRuntime,
-    sendToCS: sendToCS,
-    sendToRuntime: sendToRuntime,
-    sendToPage: sendToPage,
-    tearDownListenerByKey: tearDownListenerByKey,
-    tearDownAllListeners: tearDownAllListeners
+    listenOnRuntime,
+    listen,
+    send,
+    listenOnPage,
+    relayAllMsgsToRuntime,
+    relayMsgFromRuntimeToPage,
+    relayMsgFromPageToRuntime,
+    sendToCS,
+    sendToRuntime,
+    sendToPage,
+    tearDownListenerByKey,
+    tearDownAllListeners
 }

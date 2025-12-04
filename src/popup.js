@@ -10,6 +10,7 @@ const asyncUtils = require("./utils/async-utils");
 const config = require("./config");
 const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
+const { createSiteOptions } = require("./site-options.js");
 
 
 ga.bootstrapGA4();
@@ -86,6 +87,7 @@ function addClickListenerForLinks(element, callback) {
 }
 
 let message = require("./inject/return-message").notSupported();
+let getAllOptions, updateOption, userInteracted = null;
 
 const PopupComponent = require("./components/popup-component").PopupComponent;
 let popupKey = 1;
@@ -264,14 +266,35 @@ function getConfigSetJobId() {
     return config.getConf(config.DOWNLOAD_PREPEND_JOBID);
 }
 
+/** 
+ * Call createSiteOptions() for the 1st time to initialize functions getAllOptions, updateOption, and userInteracted
+*/
+function createSiteOptionsOnce(host, defaultOptions) {
+    if (getAllOptions == null) {
+        logger.debug("createSiteOptionsOnce with host=", host, "defaultOptions=", defaultOptions);
+        ({ getAllOptions, updateOption, userInteracted } = createSiteOptions({
+            host: host,
+            options: defaultOptions
+        }));
+    }
+}
+
 function optionHandler(updatedOptions) {
     logger.debug("optionHandler updatedOptions=", updatedOptions);
-    message.options = updatedOptions;
+    // persist options that is user interacted
+    Object.keys(updatedOptions).forEach((optName) => {
+        if (userInteracted(updatedOptions[optName])) {
+            updateOption(optName, updatedOptions[optName]);
+        }
+    });
+    message.options = getAllOptions();
+    notifyCSOptionsChanged();
+}
+
+function notifyCSOptionsChanged() {
     messaging.sendToCS(message.fromTabId, "optionsChanged", {
-        options: updatedOptions
-    }, function(resp){
-        logger.debug("Received optionsChanged event response from CS resp=", resp);
-        updateMessage(resp.o, message.fromTabId);
+        host: message.host,
+        options: getAllOptions()
     });
 }
 
@@ -293,6 +316,12 @@ function updateMessage(result, tabId) {
     if (result) {
         logger.debug("\n!!!! TEST CASE !!!!\n\n" + utils.printTestAssertion(result));
         message = result;
+
+        // Fetch site options from local storage (if not yet done so)
+        createSiteOptionsOnce(message.host, message.options);
+        
+        message.options = getAllOptions();
+
         // Patch the config flag config.DOWNLOAD_PREPEND_JOBID
         // in messsage.options so the UI displays the correct checkbox.
         // User the CS level flag if user clicked, otherwise use the extension level flag
@@ -317,11 +346,24 @@ function updateMessage(result, tabId) {
     updatePopupUI();
 }
 
-// process updateResult message (from content script)
+// listen for updateResult message from content script
 messaging.listen("updateResult", function (msg){
     if (msg) {
         logger.debug("updating message", msg);
         updateMessage(msg, message.fromTabId);
+    }
+});
+
+// listen for getSiteOptions message from content script
+messaging.listen("getSiteOptions", function (msg, sendResp) {
+    if (msg && msg.host && msg.options) {
+        createSiteOptionsOnce(msg.host, msg.options);
+        const allOptions = getAllOptions();
+        logger.debug("options=", allOptions);
+        sendResp({
+            host: msg.host,
+            options: allOptions
+        });
     }
 });
 
@@ -364,4 +406,3 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             }
         });
 });
-
