@@ -28,8 +28,12 @@ module.exports = env => {
                     use: {
                         loader: "babel-loader",
                         options: {
-                            presets: ['@babel/preset-react'],
-                            plugins: ["@babel/plugin-transform-class-properties", "@babel/plugin-proposal-optional-chaining"]
+                            presets: ["@babel/preset-react"],
+                            plugins: [
+                                "@babel/plugin-transform-class-properties", 
+                                "@babel/plugin-proposal-optional-chaining", 
+                                "@babel/plugin-proposal-nullish-coalescing-operator"
+                            ]
                         }
                     }
                 },
