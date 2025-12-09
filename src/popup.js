@@ -17,6 +17,8 @@ ga.bootstrapGA4();
 downloader.listenForDownloadFailureAndRetry();
 
 /**
+ * Sends jobs to service worker for download. When failed, fall back to download in popup.js.
+ * This is for job type "msg", "msg_seq", and "reg"
  * @param chrome
  * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg", context: {}}}
  * @param resolve Invoked when all download jobs are started (not necessarily finished)
@@ -120,8 +122,10 @@ function updatePopupUI() {
     );
 }
 
-
-function downloadHandler(downloadOptions, resolve) {
+/** 
+ * Prepare download job from parsing {@link message}. The job is then sent to service worker for download in the background.
+*/
+function prepareDownloadJobs() {
     const imagesNeedTab = [];
     const downloadInBg = [];
     const downloadWithMsg = [];
@@ -129,118 +133,142 @@ function downloadHandler(downloadOptions, resolve) {
         message.selectedIndexes.map(i => message.images[i]) :
         message.images.slice(0, message.images.length);
 
-    logger.debug("downloadHandler images=", images, "selectedIndexes=", message.selectedIndexes);
+    logger.debug(`func=${prepareDownloadJobs.name} images=${images} selectedIndexes=${message.selectedIndexes}`);
 
-    function _downloadHandler() {
-        ga.trackDownload(message.host, images.length);
-        ga.trackEventGA4("download", {
-            "domain": message.host,
-            "count": images.length
-        });
-        const setJobId = getConfigSetJobId();
-        const context = {
-            tabId: message.fromTabId,
-            folder: message.folder,
-            originalFolder: message.originalFolder,
-            host: message.host,
-            title: message.title,
-            configMap: config.getConfigMap(),
-            ext: message.ext,
-            headers: message.headers,
-            ignoreJobId: message.ignoreJobId
-        };
-        let jobId = 1; // seq number on downloaded images
-        for (const image of images) {
-            if (typeof image === "string") {
-                downloadInBg.push(
-                    {
-                        context: context,
-                        url: image,
-                        jobId: setJobId ? jobId : null
-                    }
-                );
-            } else if (typeof image === "object" && image.type === "tab") {
-                image.context = context;
-                image.jobId = setJobId ? jobId : null;
-                imagesNeedTab.push(image);
-            } else if (typeof image === "object" && (image.url != null || image.type === "msg" || image.type === "msg_seq")) {
-                image.context = context;
-                image.jobId = setJobId ? jobId : null;
-
-                if (image.type === "msg" || image.type === "msg_seq") {
-                    image.host = message.host;
-                    downloadWithMsg.push(image);
-                } else {
-                    downloadInBg.push(image);
+    const setJobId = getConfigSetJobId();
+    const context = {
+        tabId: message.fromTabId,
+        folder: message.folder,
+        originalFolder: message.originalFolder,
+        host: message.host,
+        title: message.title,
+        configMap: config.getConfigMap(),
+        ext: message.ext,
+        headers: message.headers,
+        ignoreJobId: message.ignoreJobId
+    };
+    let jobId = 1; // seq number on downloaded images
+    for (const image of images) {
+        if (typeof image === "string") {
+            downloadInBg.push(
+                {
+                    context: context,
+                    url: image,
+                    jobId: setJobId ? jobId : null
                 }
+            );
+        } else if (typeof image === "object" && image.type === "tab") {
+            image.context = context;
+            image.jobId = setJobId ? jobId : null;
+            imagesNeedTab.push(image);
+        } else if (typeof image === "object" && (image.url != null || image.type === "msg" || image.type === "msg_seq")) {
+            image.context = context;
+            image.jobId = setJobId ? jobId : null;
+
+            if (image.type === "msg" || image.type === "msg_seq") {
+                image.host = message.host;
+                downloadWithMsg.push(image);
             } else {
-                logger.error("event=unknown_type image=" + JSON.stringify(image));
+                downloadInBg.push(image);
             }
-
-            jobId++;
+        } else {
+            logger.error("event=unknown_type image=" + JSON.stringify(image));
         }
 
-        if (downloadWithMsg.length > 0) {
-            downloadInBackgroundOrPopup(chrome,
-                {
-                    images: downloadWithMsg,
-                    type: downloadWithMsg[0].type,
-                    context: context
-                },
-                function () {
-                    if (downloadInBg.length === 0 && imagesNeedTab.length === 0) {
-                        resolve();
-                    }
-                });
-        }
-
-        if (downloadInBg.length > 0) {
-            downloadInBackgroundOrPopup(chrome,
-                {
-                    images: downloadInBg,
-                    type: "reg",
-                    context: context
-                },
-                function () {
-                    if (imagesNeedTab.length === 0) {
-                        resolve();
-                    }
-                });
-        }
-
-        if (imagesNeedTab.length) {
-            ga.trackEvent("tab_download", "started", message.host, imagesNeedTab.length);
-            ga.trackEventGA4("tab_dl_start", {
-                "domain": message.host,
-                "count": imagesNeedTab.length
-            })
-            let downloadViaTabContext = {
-                p: Promise.resolve(),
-                folder: message.folder,
-                finishCount: 0,
-                errorCount: 0,
-                totalCount: imagesNeedTab.length,
-                host: message.host,
-                title: message.title,
-                configMap: config.getConfigMap()
-            };
-
-            downloadViaTabContext.totalCount = imagesNeedTab.length;
-            for (let image of imagesNeedTab) {
-                downloader.downloadWithNewTab(chrome, image, downloadViaTabContext);
-            }
-            // after download finishes
-            downloadViaTabContext.p = downloadViaTabContext.p.then(resolve);
-        }
+        jobId++;
     }
 
-    if (message.permissionRequest) {
-        ga.trackEventGA4("optional_perm_req", {
-            "domain": message.host
+    const jobs = [];
+    if (downloadWithMsg.length > 0) {
+        jobs.push({
+            images: downloadWithMsg,
+            type: downloadWithMsg[0].type,
+            context: context
         });
-        chrome.permissions.request(
-            message.permissionRequest,
-            (granted) => {
+    }
+
+    if (downloadInBg.length > 0) {
+        jobs.push({
+            images: downloadInBg,
+            type: "reg",
+            context: context
+        });
+    }
+
+    if (imagesNeedTab.length) {
+        // a few extra properties needed in context
+        Object.assign(context, {
+            p: Promise.resolve(),
+            finishCount: 0,
+            errorCount: 0,
+            totalCount: imagesNeedTab.length,
+        });
+
+        jobs.push({
+            images: imagesNeedTab,
+            type: imagesNeedTab[0].type,
+            context: context,
+        });
+    }
+
+    return jobs;
+}
+
+function downloadHandler(resolve) {
+    function _downloadHandler() {
+        const jobs = prepareDownloadJobs();
+        const totalImageCount = jobs.reduce((sum, job) => sum + job.images.length, 0);
+        ga.trackDownload(message.host, totalImageCount);
+        ga.trackEventGA4("download", {
+            "domain": message.host,
+            "count": totalImageCount
+        });
+        
+        jobs.forEach((job, index) => {
+            switch (job.type) {
+                case "reg": // fall through
+                case "msg": // fall through
+                case "msg_seq":
+                    downloadInBackgroundOrPopup(
+                        chrome,
+                        job,
+                        function () {
+                            // only the last job calls resolve, which closes the popup window
+                            if (index === jobs.length - 1) {
+                                resolve();
+                            }
+                        });
+                    break;
+                case "tab":
+                    ga.trackEvent("tab_download", "started", message.host, job.images.length);
+                    ga.trackEventGA4("tab_dl_start", {
+                        "domain": message.host,
+                        "count": job.images.length
+                    })
+                    for (const image of job.images) {
+                        downloader.downloadWithNewTab(chrome, image, job.context);
+                    }
+                    // close popup window after download finishes
+                    job.context.p = job.context.p.then(resolve);
+                    break;
+            }
+        });
+    }
+
+    // proceed to download when no permission request
+    if (message.permissionRequest == null) {
+        _downloadHandler();
+        return;
+    }
+
+    // needs permission request before download
+    ga.trackEventGA4("optional_perm_req", {
+        "domain": message.host
+    });
+
+    chrome.permissions.request(
+        message.permissionRequest,
+        (granted) => {
             if (granted) {
                 ga.trackEventGA4("optional_perm_granted", {
                     "domain": message.host
@@ -252,9 +280,6 @@ function downloadHandler(downloadOptions, resolve) {
                 });
             }
         });
-    } else {
-        _downloadHandler();
-    }
 }
 
 function getConfigSetJobId() {
