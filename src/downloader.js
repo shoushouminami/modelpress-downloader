@@ -294,11 +294,8 @@ function listenForOnDeterminingFilename() {
             }
 
             // fix folder path
-            if (folderFilename.indexOf(downloadItem.filename) > -1) {
-                logger.debug("func=listenForOnDeterminingFilename suggest=", folderFilename)
-                suggest({ filename: folderFilename });
-                return;
-            }
+            logger.debug("func=listenForOnDeterminingFilename suggest=", folderFilename)
+            suggest({ filename: folderFilename });
         }
     });
 }

@@ -7,6 +7,8 @@ const { altHosts } = require("./www.oricon.co.jp.js");
 const logger = require("../../src/logger2")(module.id);
 const { loadSiteOptions, onOptionsChanged } = require("../site-options");
 
+let lastGroupMsg = null;
+
 function getMediaFromPage(groupId, options, onResponse) {
     logger.debug("getting messages of group", groupId);
     messaging.sendToPage("getImageUrl", {
@@ -15,6 +17,7 @@ function getMediaFromPage(groupId, options, onResponse) {
     }, function (resp) {
         logger.debug("Received messages of group", groupId, resp);
         onResponse(resp.groupMsg);
+        lastGroupMsg = resp.groupMsg;
     });
 }
 
@@ -60,7 +63,8 @@ function pushMediaIntoReturnMessageWithOptions(groupMsg, o) {
                 const webpage = `<html lang="ja"><head><meta charset="UTF-8"></head><body>${imgTag}<pre>${m.text}</pre></body></html>`;
                 o.images.push({
                     url: "data:text/html;charset=utf-8," + encodeURIComponent(webpage),
-                    filename: m.id + ".html"
+                    filename: m.id + ".html",
+                    thumbnail: "../images/fixedTalkOutlineIcon.svg"
                 });
             }
         });
@@ -112,17 +116,32 @@ function inject() {
 
     // setup event listener to update options 
     onOptionsChanged(({options}) => {
+        const prevOptions = o.options;
         o.options = options;
-        // temporarily set loading icon on
-        o.loading = true;
-        o.images = [];
-        messaging.sendToRuntime("updateResult", o);
-        // get media 
-        getMediaFromPage(getGroupId(), o.options, function (groupMsg) {
-            pushMediaIntoReturnMessageWithOptions(groupMsg, o);
-            o.loading = false;
+
+        // refetch data when "daysAgo" changed
+        if (prevOptions.daysAgo?.value !== options.daysAgo?.value) {
+            // temporarily set loading icon on
+            o.loading = true;
+            o.images = [];
             messaging.sendToRuntime("updateResult", o);
-        });
+            // get media 
+            getMediaFromPage(getGroupId(), o.options, function (groupMsg) {
+                pushMediaIntoReturnMessageWithOptions(groupMsg, o);
+                o.loading = false;
+                messaging.sendToRuntime("updateResult", o);
+            });
+
+        } else if (prevOptions.downloadVideo?.checked !== options.downloadVideo?.checked
+            || prevOptions.downloadVoice?.checked !== options.downloadVoice?.checked
+            || prevOptions.downloadText?.checked !== options.downloadText?.checked
+        ) { // if download media type changed, re-filter 
+            if (lastGroupMsg) {
+                o.images = [];
+                pushMediaIntoReturnMessageWithOptions(lastGroupMsg, o);
+                messaging.sendToRuntime("updateResult", o);
+            }
+        }
     });
 
     const groupId = getGroupId();

@@ -92,7 +92,7 @@ function addClickListenerForLinks(element, callback) {
 let message = require("./inject/return-message").notSupported();
 let getAllOptions, updateOption, userInteracted = null;
 
-const PopupComponent = require("./components/popup-component").PopupComponent;
+const { PopupComponent } = require("./components/popup-component");
 let popupKey = 1;
 
 function updatePopupUI() {
@@ -360,6 +360,10 @@ function notifyCSOptionsChanged() {
     });
 }
 
+/**
+ * Called when image picker is used to select images to download. 
+ * @param {int[]} selectedIndexes 
+ */
 function imagePickerHandler(selectedIndexes = []) {
     message.selectedIndexes = selectedIndexes;
     // no need to update UI as this event is propogated from UI

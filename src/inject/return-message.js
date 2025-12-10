@@ -10,6 +10,7 @@ module.exports = {
         Object.assign(o, {
             href: window.location.href,
             host: window.location.host,
+            pathname: window.location.pathname,
             supported: true,
             retry: false,
             retryAfterMs: undefined, // popup will retry inject script 1 more time (if retry is true). defaults to 100ms.
