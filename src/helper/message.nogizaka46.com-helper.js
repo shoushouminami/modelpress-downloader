@@ -122,29 +122,6 @@
             return TOKEN;
         }
 
-        // Find group ID from path
-        // const pathname = urlUtils.pathname(window.location.href);
-        // const parts = pathname.split("/");
-        // if (parts[parts.length - 2] !== "timeline") {
-        //     // no-op
-        //     return;
-        // }
-        // const groupId = parts[parts.length - 1];
-
-        // // call timeline to get latest messages
-        // const timelineRespBody = await getTimelineMessages(TOKEN, groupId, 3600 * 24); // get msg of last 24 hours
-        // logger.debug("Received response from timeline resp=", timelineRespBody);
-        // // save pictures into data DIV
-        // timelineRespBody.messages
-        //     .forEach(m => {
-        //         const k = str(m.id);
-        //         if (CACHE[m.group_id] == null) {
-        //             CACHE[m.group_id] = { k : m }
-        //         } else {
-        //             CACHE[m.group_id][k] = m;
-        //         }  
-        //     });
-
         const messaging = require("../../src/messaging");
         messaging.listenOnPage("getImageUrl", function (msg, sendResponse) {
             logger.debug("Got getImageUrl msg", msg);
@@ -171,9 +148,8 @@
                     logger.error("Error during handling getImageUrl", error);
                 });
                 ;
-                
             } else {
-                logger.debug("Not found href in spine index ", msg.url);
+                logger.error("Bad message msg=", msg);
             }
         });
 

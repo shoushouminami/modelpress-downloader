@@ -134,7 +134,7 @@ function prepareDownloadJobs() {
         message.selectedIndexes.map(i => message.images[i]) :
         message.images.slice(0, message.images.length);
 
-    logger.debug(`func=${prepareDownloadJobs.name} images=${images} selectedIndexes=${message.selectedIndexes}`);
+    logger.debug("func=", prepareDownloadJobs.name, "images=", images, "selectedIndexes=", message.selectedIndexes);
 
     const setJobId = getConfigSetJobId();
     const context = {
@@ -150,31 +150,22 @@ function prepareDownloadJobs() {
     };
     let jobId = 1; // seq number on downloaded images
     for (const image of images) {
+        const imageJob = typeof image === "string" ? {url: image} : image;
+        imageJob.context = context;
+        imageJob.jobId = setJobId ? jobId : null;
+        imageJob.seqId = jobId;
+        imageJob.host = message.host;
+        
         if (typeof image === "string") {
-            downloadInBg.push(
-                {
-                    context: context,
-                    url: image,
-                    jobId: setJobId ? jobId : null,
-                    seqId: jobId
-                }
-            );
+            // "reg"
+            downloadInBg.push(imageJob);
         } else if (typeof image === "object" && image.type === "tab") {
-            image.context = context;
-            image.jobId = setJobId ? jobId : null;
-            image.seqId = jobId;
-            imagesNeedTab.push(image);
-        } else if (typeof image === "object" && (image.url != null || image.type === "msg" || image.type === "msg_seq")) {
-            image.context = context;
-            image.jobId = setJobId ? jobId : null;
-            image.seqId = jobId;
-
-            if (image.type === "msg" || image.type === "msg_seq") {
-                image.host = message.host;
-                downloadWithMsg.push(image);
-            } else {
-                downloadInBg.push(image);
-            }
+            imagesNeedTab.push(imageJob);
+        } else if (typeof image === "object" && (image.type === "msg" || image.type === "msg_seq")) {
+            downloadWithMsg.push(imageJob);
+        } else if (typeof image === "object" && image.url != null) {
+            // assume "reg"
+            downloadInBg.push(imageJob);
         } else {
             logger.error("event=unknown_type image=" + JSON.stringify(image));
         }
@@ -183,6 +174,7 @@ function prepareDownloadJobs() {
     }
 
     const jobs = [];
+    // "tab" or "tab_seq"
     if (downloadWithMsg.length > 0) {
         jobs.push({
             images: downloadWithMsg,
@@ -191,6 +183,7 @@ function prepareDownloadJobs() {
         });
     }
 
+    // "reg"
     if (downloadInBg.length > 0) {
         jobs.push({
             images: downloadInBg,
@@ -199,6 +192,7 @@ function prepareDownloadJobs() {
         });
     }
 
+    // "tab"
     if (imagesNeedTab.length) {
         // a few extra properties needed in context
         Object.assign(context, {
@@ -215,6 +209,7 @@ function prepareDownloadJobs() {
         });
     }
 
+    logger.debug("func=", prepareDownloadJobs.name, "jobs=", jobs);
     return jobs;
 }
 
@@ -291,6 +286,8 @@ function downloadHandler(resolve) {
                     // close popup window after download finishes
                     job.context.p = job.context.p.then(resolve);
                     break;
+                default:
+                    logger.error("func=downloadHandler unknown job type=", job.type, "job=", job);
             }
         });
     }

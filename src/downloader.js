@@ -410,9 +410,9 @@ function downloadJob(job, sendResponse) {
     logger.debug("Clearing retryMap and errorMap");
     utils.clearObjectProperties(retryMap);
     utils.clearObjectProperties(errorMap);
-    if (job.type && job.type === "msg") {
+    if (job.type === "msg") {
         downloadWithMsg(chrome, job.context, job.images, sendResponse);
-    } else if (job.type && job.type === "msg_seq") {
+    } else if (job.type === "msg_seq") {
         downloadWithMsgSeq(chrome, job).then(() => sendResponse());
     } else {
         let count = 0;
