@@ -12,13 +12,14 @@ function ScrollableImagePicker({ images = [], onChange }) {
             return {
                 index,
                 src: img,
-                label: img         // you can prettify this if you want
+                label: img
             };
         } else {
             // object form: { src }
             return {
                 index,
                 src: img.src,
+                label: img.label
             };
         }
     });
@@ -118,6 +119,9 @@ function ScrollableImagePicker({ images = [], onChange }) {
                                     flexShrink: 0
                                 }}
                             />
+                            <span style={{ marginLeft: 8, fontSize: 12 }}>
+                                {img.label}
+                            </span>
                         </label>
                     );
                 })}

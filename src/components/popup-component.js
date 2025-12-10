@@ -91,7 +91,7 @@ class PopupComponent extends React.Component {
             downloadDisabled: true
         });
         
-        this.downloadHandler({}, function (){
+        this.downloadHandler(function (){
             window.close();
         });
     }

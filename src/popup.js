@@ -11,6 +11,7 @@ const config = require("./config");
 const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
 const { createSiteOptions } = require("./site-options.js");
+const { guessMediaType } = require("./utils/url-utils");
 
 
 ga.bootstrapGA4();
@@ -109,7 +110,7 @@ function updatePopupUI() {
             downloadHandler={downloadHandler}
             optionHandler={optionHandler}
             options={message.options}
-            imageThumbnails={message.images}
+            imageThumbnails={getImageThumbnails()}
             imagePickerHandler={imagePickerHandler}
         />,
         document.getElementById("react-root"),
@@ -154,16 +155,19 @@ function prepareDownloadJobs() {
                 {
                     context: context,
                     url: image,
-                    jobId: setJobId ? jobId : null
+                    jobId: setJobId ? jobId : null,
+                    seqId: jobId
                 }
             );
         } else if (typeof image === "object" && image.type === "tab") {
             image.context = context;
             image.jobId = setJobId ? jobId : null;
+            image.seqId = jobId;
             imagesNeedTab.push(image);
         } else if (typeof image === "object" && (image.url != null || image.type === "msg" || image.type === "msg_seq")) {
             image.context = context;
             image.jobId = setJobId ? jobId : null;
+            image.seqId = jobId;
 
             if (image.type === "msg" || image.type === "msg_seq") {
                 image.host = message.host;
@@ -212,6 +216,42 @@ function prepareDownloadJobs() {
     }
 
     return jobs;
+}
+
+function getImageThumbnails() {
+    const jobs = prepareDownloadJobs();
+    const thumbnails = message.images.map((img, index) => {
+        if (img.thumbnail) {
+            return {
+                src: img.thumbnail
+            };
+        }
+
+        
+        const mediaType = guessMediaType(typeof img === "string" ? img : img.url);
+        switch (mediaType) {
+            case "image":
+                return {
+                    src: typeof img === "string" ? img : img.url
+                };
+            case "video":
+            case "audio":
+            case "html":
+            case "text":
+            case "unknown":
+                return {
+                    src: "../images/thumbnail-" + mediaType + ".png"
+                };
+        }
+    });
+
+    jobs.forEach(job => {
+        job.images.forEach((img) => {
+            thumbnails[img.seqId - 1].label = downloader.getFolderFilename(img);
+        });
+    });
+
+    return thumbnails;
 }
 
 function downloadHandler(resolve) {

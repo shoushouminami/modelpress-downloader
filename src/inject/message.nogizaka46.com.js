@@ -27,17 +27,26 @@ function pushMediaIntoReturnMessageWithOptions(groupMsg, o) {
             switch (m.type) {
                 case "voice":
                     if (o.options.downloadVoice.checked && m.file) {
-                        o.images.push(m.file);
+                        o.images.push({
+                            url: m.file,
+                            thumbnail: "../images/fixedAudioIcon.svg"
+                        });
                     }
                     break;
                 case "picture":
                     if (m.file) {
-                        o.images.push(m.file);
+                        o.images.push({
+                            url: m.file,
+                            thumbnail: m.thumbnail
+                        });
                     }
                     break;
                 case "video":
                     if (o.options.downloadVideo.checked && m.file) {
-                        o.images.push(m.file);
+                        o.images.push({
+                            url: m.file,
+                            thumbnail: m.thumbnail
+                        });
                     }
                     break;
                 case "text":
