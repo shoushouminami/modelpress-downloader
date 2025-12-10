@@ -114,6 +114,9 @@ test("test getFileExt", function () {
     expect(utils.getFileExt("abc.png")).toBe("png");
     expect(utils.getFileExt("abc")).toBeNull();
     expect(utils.getFileExt("abc.png?blal.good")).toBe("png");
+    expect(utils.getFileExt("http://www.domain.com/abc.png?blal.good")).toBe("png");
+    expect(utils.getFileExt("http://www.domain.com/abc.png#blal.good")).toBe("png");
+    expect(utils.getFileExt("http://www.domain.com/abc.jpeg?what#blal.good")).toBe("jpeg");
 });
 
 test("test clearObjectProperties", function () {
@@ -125,6 +128,8 @@ test("test getFileName", function(){
     expect(utils.getFileName("https://domain.com/path/abc.jpg", null, null)).toBe("abc.jpg");
     expect(utils.getFileName("https://domain.com/path/abc", "jpg", null)).toBe("abc.jpg");
     expect(utils.getFileName("https://domain.com/path/abc.jpg?arg=val", null, null)).toBe("abc.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc.jpg?arg=val#hashtag", null, null)).toBe("abc.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc.jpg#hashtag", null, null)).toBe("abc.jpg");
     expect(utils.getFileName("https://domain.com/path/abc.jpg:bla?arg=val", null, null)).toBe("abc.jpg");
     expect(utils.getFileName("https://domain.com/path/abc.jpg", null, "def.jpg")).toBe("def.jpg");
     expect(utils.getFileName("https://domain.com/path/abc.jpg", "jpg", "def")).toBe("def.jpg");

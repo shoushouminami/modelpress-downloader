@@ -9,6 +9,7 @@ const {setGA4UID} = require("./ga/ga4-uid");
 ga.bootstrapGA4();
 
 downloader.listenForDownloadFailureAndRetry();
+downloader.listenForOnDeterminingFilename();
 
 logger.debug("listening for download messages.")
 // listen for download message from popup.js

@@ -70,6 +70,7 @@ function getYoutubeImgMaxRes(url) {
  * Instead of write func1(func2(func3(targetOjb))),
  * one can write filters.on(targetObj).apply(func1, func2, func3, ...)
  * Or filters.on(targetObj).first(func1, ...).then(func2, func3, ...)
+ * Or filters.first(func1, ...).then(func2, func3, ...)(targetObj)
  */
 const filters = {
     on: function(targetObj) {
@@ -107,6 +108,73 @@ const filters = {
     }
 }
 
+/**
+ * Guess the media type. Returns a string in "image", "video", "audio", "html", "text", or "unknown".
+ * @param {string} url 
+ */
+function guessMediaType(url) {
+    if (typeof url !== "string") return "unknown";
+
+    // Special handling for data URLs: data:[<mediatype>][;base64],<data>
+    if (url.startsWith("data:")) {
+        // Strip "data:"
+        const rest = url.slice(5);
+        const commaIdx = rest.indexOf(",");
+        if (commaIdx === -1) return "unknown";
+
+        const meta = rest.slice(0, commaIdx); // e.g. "image/png;base64" or "text/html;charset=utf-8"
+        const [mimePart] = meta.split(";");
+        const mime = mimePart || "text/plain";
+
+        const lowerMime = mime.toLowerCase();
+
+        if (lowerMime.startsWith("image/")) return "image";
+        if (lowerMime.startsWith("video/")) return "video";
+        if (lowerMime.startsWith("audio/")) return "audio";
+        if (
+            lowerMime === "text/html" ||
+            lowerMime === "application/xhtml+xml"
+        ) {
+            return "html";
+        }
+        if (
+            lowerMime.startsWith("text/") ||
+            lowerMime === "application/json" ||
+            lowerMime === "application/xml" ||
+            lowerMime === "application/javascript" ||
+            lowerMime === "application/x-javascript"
+        ) {
+            return "text";
+        }
+
+        return "unknown";
+    }
+
+    const ext = require("../utils").getFileExt(url);
+    // Image extensions
+    const imageExt = new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "svg", "tiff", "ico"]);
+
+    // Video extensions
+    const videoExt = new Set(["mp4", "webm", "ogv", "mov", "avi", "mkv", "flv", "wmv", "m4v"]);
+
+    // Audio extensions
+    const audioExt = new Set(["mp3", "wav", "ogg", "m4a", "aac", "flac", "opus"]);
+
+    // HTML extensions
+    const htmlExt = new Set(["html", "htm"]);
+
+    // Text extensions
+    const textExt = new Set(["txt", "csv", "json", "xml", "js", "css"]);
+
+    if (imageExt.has(ext)) return "image";
+    if (videoExt.has(ext)) return "video";
+    if (audioExt.has(ext)) return "audio";
+    if (htmlExt.has(ext)) return "html";
+    if (textExt.has(ext)) return "text";
+
+    return "unknown";
+}
+
 exports.toFull = toFull;
 exports.removeMwimgsSize = removeMwimgsSize;
 exports.getEpisodeId = getEpisodeId;
@@ -115,3 +183,4 @@ exports.getYoutubeImgMaxRes = getYoutubeImgMaxRes;
 exports.filters = filters;
 exports.basename = basename;
 exports.pathname = pathname;
+exports.guessMediaType = guessMediaType;

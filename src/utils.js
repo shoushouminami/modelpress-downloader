@@ -483,7 +483,7 @@ function getFileName(url, ext, preferredName) {
     if (preferredName != null) {
         filename = replaceSpecialChars(preferredName);
     } else {
-        filename = url.split("?")[0].split("/");
+        filename = url.split(/[#?]/)[0].split("/");
         filename = filename[filename.length - 1];
     }
     
@@ -502,7 +502,7 @@ function getFileName(url, ext, preferredName) {
 }
 
 function getFileExt(filename) {
-    filename = filename.split("?")[0];
+    filename = filename.split(/[#?]/)[0].toLowerCase();
     let dot = filename.lastIndexOf(".");
     if (dot > -1) {
         return filename.substring(dot + 1);

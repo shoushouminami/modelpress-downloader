@@ -12,5 +12,5 @@ function getObjectId(obj) {
 }
 
 module.exports = {
-    getObjectId: getObjectId
+    getObjectId
 };

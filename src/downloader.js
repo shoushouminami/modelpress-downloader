@@ -1,26 +1,33 @@
 const messaging = require("./messaging");
 const {wait, every} = require("./utils/async-utils");
 const utils = require("./utils");
+
 const retryMap = {}; // for keeping retry urls
 const errorMap = {}; // for keeping USER_CANCELED errors; downloadId => error
 const tabIdOnUpdatedFunctionMap = {}; // tabId => function
+const downloadIdToFolderFilenameMap = {}; // downloadId => original folderFilename. used to fix download filename
+
 const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
+
 const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";
 const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
 const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
+
+const EXTENSION_ID = require("./globals").getExtensionID()
+
 /**
  * @param image {{context: {folder: "", ext: ""}, url: "", filename: "", folder: "abc/", ext: "jpg", jobId: 123}}
  */
-function getFilename(image) {
+function getFolderFilename(image) {
     return decodeURI(image.context.folder)
         + (image.context.folder.endsWith("/") ? "" : "/")
-        + getFileNamePrefix(image)
+        + getFilenamePrefix(image)
         + utils.getFileName(image.url, image.context.ext, image.filename);
 }
 
-function getFileNamePrefix(image) {
+function getFilenamePrefix(image) {
     if (image.context.ignoreJobId) {
         return "";
     }
@@ -35,16 +42,22 @@ function getFileNamePrefix(image) {
  * @param resolve
  */
 function download(chrome, image, resolve) {
-    logger.debug("download image=", image);
+    const folderFilename = image.folderFilename ?? getFolderFilename(image);
+    const headers = image.context?.headers ?? [];
+    logger.debug("func=download image=", image, "folderFilename=", folderFilename, "headers=", headers);
     chrome.downloads.download(
         {
             url: image.url,
             saveAs: false,
             method: "GET",
-            filename: getFilename(image),
-            headers: image.context && image.context.headers || []
+            filename: folderFilename,
+            headers: headers
         }, function (downloadId) {
-            logger.debug("downloadId=" + downloadId);
+            logger.debug("func=download downloadId=", downloadId, "folderFilename=", folderFilename);
+            if (downloadId) {
+                downloadIdToFolderFilenameMap[downloadId] = folderFilename;
+            }
+            
             if (downloadId && image.retries && image.retries.length > 0) {
                 retryMap[downloadId] = image;
             }
@@ -252,6 +265,44 @@ function listenForDownloadFailureAndRetry() {
     });
 }
 
+/**
+ * Register listener to fix download filename. For example, enforce .m4a if Chrome tries to rename to .mp4
+ * Also to mitigate Chromium bug https://issues.chromium.org/issues/40146766. 
+ * In this bug ANY extension which registered an `onDeterminingFilename` event listener 
+ * will impact downloads initiated by ALL other extenstions. For MID this causes the custom subfolder to be ignored.
+ */
+function listenForOnDeterminingFilename() {
+    // track filename renames
+    chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
+        if (downloadItem.byExtensionId !== EXTENSION_ID) {
+            return; // be a good citizen don't change the names of downloads initiated by other Exts.
+            // however, this is still impacting other extensions because of Chromium bug.
+        }
+
+        if (downloadIdToFolderFilenameMap[downloadItem.id]) {
+            const folderFilename = downloadIdToFolderFilenameMap[downloadItem.id];
+            delete downloadIdToFolderFilenameMap[downloadItem.id]; // cleanup
+            logger.debug("func=listenForOnDeterminingFilename downloadItem.id=", downloadItem.id, 
+                "downloadItem.mime=", downloadItem.mime,
+                "folderFilename=", folderFilename, "downloadItem.filename=", downloadItem.filename
+            );
+            // rename to m4a if Chrome had changed to mp4
+            if (utils.getFileExt(downloadItem.filename) === "mp4" && utils.getFileExt(folderFilename) === "m4a") {
+                logger.debug("func=listenForOnDeterminingFilename suggest=", folderFilename)
+                suggest({ filename: folderFilename });
+                return;
+            }
+
+            // fix folder path
+            if (folderFilename.indexOf(downloadItem.filename) > -1) {
+                logger.debug("func=listenForOnDeterminingFilename suggest=", folderFilename)
+                suggest({ filename: folderFilename });
+                return;
+            }
+        }
+    });
+}
+
 function downloadWithNewTab(chrome, image, context, tabId) {
     if (image.websiteUrl) {
         context.p = context.p.then(function () {
@@ -396,4 +447,6 @@ exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
 exports.downloadWithNewTab = downloadWithNewTab;
 exports.downloadJob = downloadJob;
 exports.queryUserCanceledCount = queryUserCanceledCount;
+exports.getFolderFilename = getFolderFilename;
+exports.listenForOnDeterminingFilename = listenForOnDeterminingFilename;
 exports.CHROME_ERROR_USER_CANCELED = CHROME_ERROR_USER_CANCELED;
