@@ -22,7 +22,6 @@ function getMediaFromPage(groupId, options, onResponse) {
 }
 
 function pushMediaIntoReturnMessageWithOptions(groupMsg, o) {
-    // TODO
     // filter out media type if o.options selects types
     groupMsg && groupMsg.length && groupMsg
         .filter(m => m.type === "picture" || m.type === "video" || m.type === "voice" || m.type === "text")

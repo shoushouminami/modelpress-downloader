@@ -7,21 +7,11 @@ const { useState, useEffect } = React;
 function ScrollableImagePicker({ images = [], onChange }) {
     // Normalize images into a consistent internal shape
     const normalizedImages = images.map((img, index) => {
-        if (typeof img === "string") {
-            // list of URLs
-            return {
-                index,
-                src: img,
-                label: img
-            };
-        } else {
-            // object form: { src }
-            return {
-                index,
-                src: img.src,
-                label: img.label
-            };
-        }
+        return {
+            index,
+            src: img.src,
+            label: img.label
+        };
     });
     const all = normalizedImages.map(img => img.index);
 
@@ -30,10 +20,10 @@ function ScrollableImagePicker({ images = [], onChange }) {
         normalizedImages.map(img => img.index)
     );
 
-    // if images prop changes, reset selection to all
-    useEffect(() => {
-        setSelectedIds(all);
-    }, [images]);
+    // // if images prop changes, reset selection to all
+    // useEffect(() => {
+    //     setSelectedIds(all);
+    // }, [images]);
 
     const toggle = (index) => {
         setSelectedIds(prev => {

@@ -46,6 +46,40 @@ function DownloadOptions({ stOptions, handleOptionChange, handleOptionCommit}) {
                             </div>
                         );
 
+                    case "text":
+                        return (
+                            <div key={id}>
+                                <label htmlFor={id}>{stOpt.label}</label>
+                                {/* clickable pattern tags */}
+                                {Array.isArray(stOpt.possiblePatternList) && stOpt.possiblePatternList.length > 0 && (
+                                    <div style={{ margin: "4px 0" }}>
+                                        {stOpt.possiblePatternList.map((pattern) => (
+                                            <span
+                                                key={pattern}
+                                                onClick={() => handleOptionCommit(name, stOpt.value + pattern)} // or append: stOpt.value + pattern
+                                                style={{
+                                                    padding: "3px 6px",
+                                                    backgroundColor: "#eee",
+                                                    borderRadius: "4px",
+                                                    cursor: "pointer",
+                                                    fontSize: "0.85em",
+                                                    userSelect: "none",
+                                                }}
+                                            >
+                                                {pattern}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                                <input
+                                    id={id}
+                                    type="text"
+                                    value={stOpt.value}
+                                    onChange={e => handleOptionCommit(name, e.target.value)}
+                                />
+                            </div>
+                        );
+
                     default:
                         return null;
                 }

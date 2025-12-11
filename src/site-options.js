@@ -18,8 +18,10 @@ const PERSISTENT_FIELDS = new Set([
     USER_INTERACTED
 ]);
 
-// V1 configs
-const DOWNLOAD_PREPEND_JOBID = "downloadPrependJobId"
+// V1 options
+const DOWNLOAD_PREPEND_JOBID = "downloadPrependJobId";
+const DOWNLOAD_FOLDER_PATTERN = "downloadFolderPattern";
+const DOWNLOAD_FILENAME_PATTERN = "downloadFilenamePattern";
 
 /**
  * Options shared cross sites.
@@ -31,6 +33,24 @@ COMMON_OPTIONS[DOWNLOAD_PREPEND_JOBID] = {
     label: "Prepend sequence number to file name",
     type: "checkbox",
     checked: true,
+    userInteracted: false // whether this config is clicked by user on UI
+}
+
+COMMON_OPTIONS[DOWNLOAD_FOLDER_PATTERN] = {
+    index: 997,
+    label: "Folder pattern",
+    type: "text",
+    value: "{host}-{pathname}",
+    possiblePatternList: ["{host}", "{pathname}"],
+    userInteracted: false // whether this config is clicked by user on UI
+}
+
+COMMON_OPTIONS[DOWNLOAD_FILENAME_PATTERN] = {
+    index: 998,
+    label: "Filename pattern",
+    type: "text",
+    value: "{filename}",
+    possiblePatternList: ["{host}", "{pathname}", "{filename}"],
     userInteracted: false // whether this config is clicked by user on UI
 }
 
@@ -211,8 +231,6 @@ function createSiteOptions({
         }
     }
 
-    const setOption = updateOption;
-
     function userInteracted(opt) {
         return opt != null && (opt[USER_INTERACTED] === true);
     }
@@ -221,13 +239,14 @@ function createSiteOptions({
         getOption,
         getAllOptions,
         updateOption,
-        setOption,
         userInteracted
     };
 }
 
 module.exports = {
     DOWNLOAD_PREPEND_JOBID,
+    DOWNLOAD_FOLDER_PATTERN,
+    DOWNLOAD_FILENAME_PATTERN,
     COMMON_OPTIONS,
     PERSISTENT_FIELDS,
     createSiteOptions,

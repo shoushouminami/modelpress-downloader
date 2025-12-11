@@ -10,8 +10,9 @@ const asyncUtils = require("./utils/async-utils");
 const config = require("./config");
 const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
-const { createSiteOptions } = require("./site-options.js");
+const { createSiteOptions, DOWNLOAD_FOLDER_PATTERN, DOWNLOAD_FILENAME_PATTERN } = require("./site-options.js");
 const { guessMediaType } = require("./utils/url-utils");
+const { resolvePattern, getFolderFilenameV2} = require("./utils/filename-utils");
 
 
 ga.bootstrapGA4();
@@ -90,7 +91,7 @@ function addClickListenerForLinks(element, callback) {
 }
 
 let message = require("./inject/return-message").notSupported();
-let getAllOptions, updateOption, userInteracted = null;
+let getAllOptions, getOption, updateOption, userInteracted = null;
 
 const { PopupComponent } = require("./components/popup-component");
 let popupKey = 1;
@@ -110,7 +111,7 @@ function updatePopupUI() {
             downloadHandler={downloadHandler}
             optionHandler={optionHandler}
             options={message.options}
-            imageThumbnails={getImageThumbnails()}
+            getImageThumbnails={getImageThumbnails}
             imagePickerHandler={imagePickerHandler}
         />,
         document.getElementById("react-root"),
@@ -123,6 +124,27 @@ function updatePopupUI() {
     );
 }
 
+function createDownloadContext() {
+    const context = {
+        tabId: message.fromTabId,
+        folder: message.folder,
+        originalFolder: message.originalFolder,
+        host: message.host,
+        title: message.title,
+        pathname: message.pathname,
+        configMap: config.getConfigMap(),
+        ext: message.ext,
+        headers: message.headers,
+        ignoreJobId: message.ignoreJobId
+    };
+
+    // copies over customizable context keys
+    message.additionalContextKeys?.forEach(k => {
+        context[k] = message[k];
+    });
+
+    return context;
+}
 /** 
  * Prepare download job from parsing {@link message}. The job is then sent to service worker for download in the background.
 */
@@ -136,25 +158,15 @@ function prepareDownloadJobs() {
 
     logger.debug("func=", prepareDownloadJobs.name, "images=", images, "selectedIndexes=", message.selectedIndexes);
 
-    const setJobId = getConfigSetJobId();
-    const context = {
-        tabId: message.fromTabId,
-        folder: message.folder,
-        originalFolder: message.originalFolder,
-        host: message.host,
-        title: message.title,
-        configMap: config.getConfigMap(),
-        ext: message.ext,
-        headers: message.headers,
-        ignoreJobId: message.ignoreJobId
-    };
+    const context = createDownloadContext();
     let jobId = 1; // seq number on downloaded images
     for (const image of images) {
         const imageJob = typeof image === "string" ? {url: image} : image;
         imageJob.context = context;
-        imageJob.jobId = setJobId ? jobId : null;
+        imageJob.jobId = getConfigSetJobId() ? jobId : null;
         imageJob.seqId = jobId;
         imageJob.host = message.host;
+        imageJob.folderFilename = getFolderFilenameV2(imageJob, message.options[DOWNLOAD_FOLDER_PATTERN], message.options[DOWNLOAD_FILENAME_PATTERN]);
         
         if (typeof image === "string") {
             // "reg"
@@ -242,7 +254,7 @@ function getImageThumbnails() {
 
     jobs.forEach(job => {
         job.images.forEach((img) => {
-            thumbnails[img.seqId - 1].label = downloader.getFolderFilename(img);
+            thumbnails[message.images.findIndex(item => ((typeof item === "string") ? item === img.url : item.url === img.url))].label = img.folderFilename;
         });
     });
 
@@ -334,7 +346,7 @@ function getConfigSetJobId() {
 function createSiteOptionsOnce(host, defaultOptions) {
     if (getAllOptions == null) {
         logger.debug("createSiteOptionsOnce with host=", host, "defaultOptions=", defaultOptions);
-        ({ getAllOptions, updateOption, userInteracted } = createSiteOptions({
+        ({ getAllOptions, getOption, updateOption, userInteracted } = createSiteOptions({
             host: host,
             options: defaultOptions
         }));

@@ -72,12 +72,13 @@ class PopupComponent extends React.Component {
             appImageCount: props.appImageCount,
             downloadDisabled: false,
             options: props.options,
-            imageThumbnails: props.imageThumbnails,
+            imageThumbnails: props.getImageThumbnails?.(),
             selectedIndexes: null
         };
         this.downloadHandler = props.downloadHandler;
         this.optionHandler = props.optionHandler;
         this.imagePickerHandler = props.imagePickerHandler;
+        this.getImageThumbnails = props.getImageThumbnails;
         this.downloadClicked = this.downloadClicked.bind(this);
     }
 
@@ -111,7 +112,7 @@ class PopupComponent extends React.Component {
         options[name].userInteracted = true;
         
         this.setState({
-            options: options
+            options: options,
         });
     }
 
@@ -121,13 +122,23 @@ class PopupComponent extends React.Component {
         if (this.optionHandler) {
             this.optionHandler(this.state.options);
         }
+
+        this.reRenderThumbnails();
     }
 
+    reRenderThumbnails() {
+        if (this.getImageThumbnails) {
+            this.setState({
+                imageThumbnails: this.getImageThumbnails()
+            });
+        }
+    }
 
     handleImagePicker(selectedIndexes) {
         this.setState({ selectedIndexes, downloadDisabled: false });
         this.imagePickerHandler?.(selectedIndexes);
         logger.debug("handleImagePicker", selectedIndexes);
+        this.reRenderThumbnails();
     }
 
     render() {
@@ -160,7 +171,7 @@ class PopupComponent extends React.Component {
                     />
                     {permOrStatus}
                     {hasImage && <DownloadOptions stOptions={st.options} handleOptionChange={(n,v) => this.handleOptionChange(n,v)} handleOptionCommit={(n,v) => this.handleOptionCommit(n,v)} /> }
-                    {hasImage &&<ScrollableImagePicker images={this.state.imageThumbnails} onChange={(e) => this.handleImagePicker(e)}/> }
+                    {hasImage && <ScrollableImagePicker images={this.state.imageThumbnails} onChange={(e) => this.handleImagePicker(e)}/> }
                 </div>
             );
         } else {
