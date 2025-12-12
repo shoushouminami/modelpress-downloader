@@ -13,6 +13,9 @@ module.exports = {
                 o.folder = window.location.host + "-" + msg.title.replace(/\//g, "-") +  "/";
             }
             if (msg.images) {
+                msg.images.forEach((img) => {
+                    img.thumbnail = require("../utils/url-utils.js").thumbnail("image");
+                });
                 utils.pushArray(o.images, msg.images);
             }
             o.loading = false;

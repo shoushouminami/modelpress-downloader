@@ -6,13 +6,12 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const mdprApp = require("./remote/mdpr-app");
 const logger = require("./logger2")(module.id);
-const asyncUtils = require("./utils/async-utils");
+const { wait } = require("./utils/async-utils");
 const config = require("./config");
 const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
 const { createSiteOptions, DOWNLOAD_FOLDER_PATTERN, DOWNLOAD_FILENAME_PATTERN } = require("./site-options.js");
 const { guessMediaType } = require("./utils/url-utils");
-const { getFolderFilenameV2} = require("./utils/filename-utils");
 
 
 ga.bootstrapGA4();
@@ -42,7 +41,7 @@ function downloadInBackgroundOrPopup(chrome, job, resolve) {
                 job.context.folder = job.context.originalFolder;
                 messaging.sendToRuntime("download", job); // not listening to the response
             } else {
-                asyncUtils.wait(200).then(() => {
+                wait(200).then(() => {
                     messaging.sendToRuntime("queryUserCanceled", null,
                         function (queryResp) {
                             logger.debug("queryResp=", queryResp);
@@ -78,7 +77,7 @@ function addClickListenerForLinks(element, callback) {
                 callback();
             }
             chrome.tabs.update({url:element.href}, function () {
-                asyncUtils.wait(1000).then(() => window.close());
+                wait(1000).then(() => window.close());
             });
         })
     }
@@ -93,7 +92,8 @@ function addClickListenerForLinks(element, callback) {
 let message = require("./inject/return-message").notSupported();
 let getAllOptions, getOption, updateOption, userInteracted = null;
 
-const { PopupComponent } = require("./components/popup-component");
+const { PopupComponent, createThrottledEventEmitter } = require("./components/popup-component");
+let renderEventEmitter = createThrottledEventEmitter(); // used to notify the PopupComponent to re-render.
 let popupKey = 1;
 
 function updatePopupUI() {
@@ -113,6 +113,7 @@ function updatePopupUI() {
             options={message.options}
             getImageThumbnails={getImageThumbnails}
             imagePickerHandler={imagePickerHandler}
+            renderEvent={renderEventEmitter}
         />,
         document.getElementById("react-root"),
         function () {
@@ -175,6 +176,22 @@ function prepareDownloadJobs() {
             imagesNeedTab.push(imageJob);
         } else if (typeof image === "object" && (image.type === "msg" || image.type === "msg_seq")) {
             downloadWithMsg.push(imageJob);
+            if (imageJob.loaded) {
+                imageJob.thumbnail = imageJob.url;
+            } else if (!image.loading) {
+                // pre-fetch image.url as thumbnail
+                const setThumbnail = (imageFromResp) => {
+                    if (imageFromResp) {
+                        imageJob.thumbnail = imageFromResp.url;
+                        renderEventEmitter.emit();
+                    }
+                };
+                if (image.type === "msg") {
+                    downloader.getImageUrlFromContentScriptIfNotLoaded(imageJob, context, setThumbnail);
+                } else {
+                    downloader.getImageUrlFromContentScriptInSeq(imageJob, context, setThumbnail, 250);
+                }
+            } 
         } else if (typeof image === "object" && image.url != null) {
             // assume "reg"
             downloadInBg.push(imageJob);
@@ -464,8 +481,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 if (result.retry) {
                     // retry in result.retryAfterMs or by default 100ms
                     const retryMs = result.retryAfterMs || 100;
-                    asyncUtils
-                        .wait(retryMs)
+                    wait(retryMs)
                         .then(() => {
                             chrome.scripting.executeScript(
                                 {

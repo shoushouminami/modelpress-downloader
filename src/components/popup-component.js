@@ -5,6 +5,7 @@ const logger = require("../logger2")(module.id);
 const window = require("../globals").getWindow();
 const ScrollableImagePicker = require("./scrollable-image-picker-component");
 const DownloadOptions = require("./options-component");
+const { wait } = require("../utils/async-utils");
 
 function DownloadButton({ count, disabled, hasImage, loading , onClick}) {
     document.title = "Download Button";
@@ -59,6 +60,58 @@ function DownloadMobileStatus(props) {
     );
 }
 
+function createThrottledEventEmitter({interval = 1000} = {}) {
+    const target = new EventTarget();
+    let listener = null;
+    let waiting = null;
+    let lastEmit = 0;
+
+    function _emit() {
+        lastEmit = Date.now();
+        target.dispatchEvent(new Event("render"));
+    }
+
+    return {
+        emit() {
+            // another emit is scheduled. no-op
+            if (waiting) {
+                return;
+            }
+
+            waiting = wait(interval);
+            waiting.then(() => {
+                waiting = null;
+                _emit()
+            }, () => {
+                waiting = null;
+                logger.debug("waiting cancelled");
+            });
+        },
+
+        addListener(fn) {
+            if (typeof fn !== "function") {
+                throw new TypeError("listener must be a function");
+            }
+
+            // Replace existing listener if present
+            if (listener) {
+                target.removeEventListener("render", listener);
+            }
+
+            listener = fn;
+            target.addEventListener("render", listener);
+
+            // Optional unsubscribe for this listener
+            return () => {
+                if (listener === fn) {
+                    target.removeEventListener("render", fn);
+                    listener = null;
+                }
+            };
+        }
+    };
+}
+
 class PopupComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -80,6 +133,10 @@ class PopupComponent extends React.Component {
         this.imagePickerHandler = props.imagePickerHandler;
         this.getImageThumbnails = props.getImageThumbnails;
         this.downloadClicked = this.downloadClicked.bind(this);
+
+        props.renderEvent?.addListener(() => {
+            this.reRenderThumbnails();
+        });
     }
 
     downloadClicked() {
@@ -185,3 +242,4 @@ class PopupComponent extends React.Component {
 exports.DownloadButton = DownloadButton;
 exports.DownloadMobileStatus = DownloadMobileStatus;
 exports.PopupComponent = PopupComponent;
+exports.createThrottledEventEmitter = createThrottledEventEmitter;

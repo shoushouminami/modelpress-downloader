@@ -77,16 +77,13 @@ function downloadWithMsg(chrome, context, images, done) {
             "domain": context.host,
             "count": images.length
         });
+
+        const downloadIds = []; // collect download ids of all images
+
         for (const image of images) {
-            // logger.debug("sending getImageUrl message to cs filename=", image.filename);
-            messaging.sendToCS(context.tabId, "getImageUrl", image, function (imageFromResp) {
-                // logger.debug("received getImageUrl message filename=", image.filename, " imageWithUrl=",
-                //     imageWithUrl);
-                let completed = ++count === images.length;
-                let downloadIds = [];
-                if (imageFromResp && imageFromResp.url) {
-                    imageFromResp = Object.assign({}, image, imageFromResp);
-                    // logger.debug("downloading filename=", image.filename);
+            getImageUrlFromContentScriptIfNotLoaded(image, context, function (imageFromResp){
+                const completed = ++count === images.length;
+                if (imageFromResp) {
                     download(chrome, imageFromResp, function (downloadId) {
                         downloadIds.push(downloadId);
                         if (completed) {
@@ -119,7 +116,7 @@ function downloadWithMsg(chrome, context, images, done) {
                         "domain": context.host
                     });
                 }
-            })
+            });
         }
 
         wait(15000)
@@ -174,7 +171,6 @@ function downloadWithMsg(chrome, context, images, done) {
 function downloadWithMsgSeq(chrome, job) {
     const context = job.context;
     const images = job.images;
-    let p = Promise.resolve();
     if (images.length > 0) {
         let count = 0;
         let startMs = new Date().getTime();
@@ -185,36 +181,26 @@ function downloadWithMsgSeq(chrome, job) {
         });
 
         for (const image of images) {
-            p = p.then(function () {
-                return new Promise(function (resolve) {
-                    messaging.sendToCS(context.tabId, "getImageUrl", image, function (respMsg) {
-                        // logger.debug("received getImageUrl message filename=", image.filename, " imageWithUrl=",
-                        //     imageWithUrl);
-                        let completed = ++count === images.length;
-                        if (respMsg && respMsg.url) {
-                            respMsg.context = context;
-                            respMsg.jobId = image.jobId;
-                            download(chrome, respMsg, function () {
-                                if (completed) {
-                                    ga.trackEventGA4("msg_dl_comp", {
-                                        "domain": context.host,
-                                        "count": images.length,
-                                        "latency_s": Math.round((new Date().getTime() - startMs) / 1000.0)
-                                    });
-                                }
-                                resolve();
-                            });
-                        } else {
-                            ga.trackEventGA4("msg_dl_null", {
-                                "domain": context.host
+            getImageUrlFromContentScriptInSeq(image, context, (imageFromResp) => {
+                const completed = ++count === images.length;
+                if (imageFromResp) {
+                    download(chrome, imageFromResp, () => {
+                        if (completed) {
+                            ga.trackEventGA4("msg_dl_comp", {
+                                "domain": context.host,
+                                "count": images.length,
+                                "latency_s": Math.round((new Date().getTime() - startMs) / 1000.0)
                             });
                         }
-                    })
-                })
-            });
+                    });
+                } else {
+                    ga.trackEventGA4("msg_dl_null", {
+                        "domain": context.host
+                    });
+                }
+            }, 0);
         }
     }
-    return p;
 }
 
 /**
@@ -431,6 +417,87 @@ function queryUserCanceledCount() {
     return c;
 }
 
+/**
+ * Helper function to send message to content script to get image url. (for download type "msg" and "msg_seq").
+ * Once url is loaded from response of messaging, image.url is set and image.loaded is set to true to prevent loading again.
+ * 
+ * @param {*} image 
+ * @param {*} context 
+ * @param {*} callback 
+ */
+function getImageUrlFromContentScriptIfNotLoaded(image, context, callback) {
+    if (image.loaded) {
+        logger.debug("func=getImageUrlFromContentScriptIfNotLoaded image already loaded image=", image);
+        callback?.(image);
+        return;
+    }
+
+    image.loading = true;
+    messaging.sendToCS(context.tabId, "getImageUrl", image, function (imageFromResp) {
+        if (imageFromResp && imageFromResp.url) {
+            image.loaded = true;
+            image.loading = false;
+            image.url = imageFromResp.url;
+            logger.debug("func=getImageUrlFromContentScriptIfNotLoaded successfully loaded image=", image);
+            callback?.(image);
+        } else {
+            logger.error("func=getImageUrlFromContentScriptIfNotLoaded error getting image url imageFromResp=", imageFromResp);
+            // call callback with undefined to indicate failure
+            callback?.();
+        }
+    });
+}
+
+let getImageUrlPromise = null;
+/**
+ * Same as `getImageUrlFromContentScriptIfNotLoaded()` but loads urls in sequence if there is another loading in progress.
+ * @param {*} image 
+ * @param {*} context 
+ * @param {*} callback 
+ * @param {number} delayMs defaults to 500
+ */
+function getImageUrlFromContentScriptInSeq(image, context, callback, delayMs = 500) {
+    if (image.loaded) {
+        logger.debug("func=getImageUrlFromContentScriptInSeq image already loaded image=", image);
+        callback?.(image);
+        return;
+    }
+
+    image.loading = true;
+
+    if (getImageUrlPromise == null) {
+        getImageUrlPromise = Promise.resolve();
+    }
+
+    // Capture the "tail" promise we are chaining onto
+    const prev = getImageUrlPromise;
+    // Create the next link in the chain
+    const next = prev
+        .then(() => (delayMs > 0 ? wait(delayMs) : null))
+        .then(() => {
+            // Wrap the callback-style API into a Promise so chaining works
+            return new Promise((resolve) => {
+                getImageUrlFromContentScriptIfNotLoaded(image, context, (imageFromResp) => {
+                    image.loading = false;
+                    callback?.(imageFromResp);
+                    resolve();
+                });
+            });
+        })
+        .finally(() => {
+            // Only clear if no one else has appended after us
+            if (getImageUrlPromise === next) {
+                getImageUrlPromise = null;
+            }
+        });
+
+    // Update global tail
+    getImageUrlPromise = next;
+
+    // Return the promise so callers can await/then if they want
+    return next;
+}
+
 exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
 exports.downloadWithNewTab = downloadWithNewTab;
 exports.downloadJob = downloadJob;
@@ -438,3 +505,5 @@ exports.queryUserCanceledCount = queryUserCanceledCount;
 exports.getFolderFilename = getFolderFilename;
 exports.listenForOnDeterminingFilename = listenForOnDeterminingFilename;
 exports.CHROME_ERROR_USER_CANCELED = CHROME_ERROR_USER_CANCELED;
+exports.getImageUrlFromContentScriptIfNotLoaded = getImageUrlFromContentScriptIfNotLoaded;
+exports.getImageUrlFromContentScriptInSeq = getImageUrlFromContentScriptInSeq;
