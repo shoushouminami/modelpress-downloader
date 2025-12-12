@@ -36,23 +36,23 @@ COMMON_OPTIONS[DOWNLOAD_PREPEND_JOBID] = {
     userInteracted: false // whether this config is clicked by user on UI
 }
 
-COMMON_OPTIONS[DOWNLOAD_FOLDER_PATTERN] = {
-    index: 997,
-    label: "Folder pattern",
-    type: "text",
-    value: "{host}-{pathname}",
-    possiblePatternList: ["{host}", "{pathname}"],
-    userInteracted: false // whether this config is clicked by user on UI
-}
+// COMMON_OPTIONS[DOWNLOAD_FOLDER_PATTERN] = {
+//     index: 997,
+//     label: "Folder pattern",
+//     type: "text",
+//     value: "{host}-{pathname}",
+//     possiblePatternList: ["{host}", "{pathname}"],
+//     userInteracted: false // whether this config is clicked by user on UI
+// }
 
-COMMON_OPTIONS[DOWNLOAD_FILENAME_PATTERN] = {
-    index: 998,
-    label: "Filename pattern",
-    type: "text",
-    value: "{filename}",
-    possiblePatternList: ["{host}", "{pathname}", "{filename}"],
-    userInteracted: false // whether this config is clicked by user on UI
-}
+// COMMON_OPTIONS[DOWNLOAD_FILENAME_PATTERN] = {
+//     index: 998,
+//     label: "Filename pattern",
+//     type: "text",
+//     value: "{filename}",
+//     possiblePatternList: ["{host}", "{pathname}", "{filename}"],
+//     userInteracted: false // whether this config is clicked by user on UI
+// }
 
 
 // Build default "persistedOptions" map from the provided definitions

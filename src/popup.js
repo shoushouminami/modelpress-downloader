@@ -12,7 +12,7 @@ const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
 const { createSiteOptions, DOWNLOAD_FOLDER_PATTERN, DOWNLOAD_FILENAME_PATTERN } = require("./site-options.js");
 const { guessMediaType } = require("./utils/url-utils");
-const { resolvePattern, getFolderFilenameV2} = require("./utils/filename-utils");
+const { getFolderFilenameV2} = require("./utils/filename-utils");
 
 
 ga.bootstrapGA4();
@@ -166,7 +166,7 @@ function prepareDownloadJobs() {
         imageJob.jobId = getConfigSetJobId() ? jobId : null;
         imageJob.seqId = jobId;
         imageJob.host = message.host;
-        imageJob.folderFilename = getFolderFilenameV2(imageJob, message.options[DOWNLOAD_FOLDER_PATTERN], message.options[DOWNLOAD_FILENAME_PATTERN]);
+        imageJob.folderFilename = downloader.getFolderFilename(imageJob);
         
         if (typeof image === "string") {
             // "reg"

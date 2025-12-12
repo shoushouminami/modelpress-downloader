@@ -23,16 +23,8 @@ const EXTENSION_ID = require("./globals").getExtensionID()
 function getFolderFilename(image) {
     return decodeURI(image.context.folder)
         + (image.context.folder.endsWith("/") ? "" : "/")
-        + getFilenamePrefix(image)
+        + (image.jobId != null ? image.jobId + "-" : "")
         + utils.getFileName(image.url, image.context.ext, image.filename);
-}
-
-function getFilenamePrefix(image) {
-    if (image.context.ignoreJobId) {
-        return "";
-    }
-    
-    return image.jobId != null ? image.jobId + "-" : "";
 }
 
 /**
