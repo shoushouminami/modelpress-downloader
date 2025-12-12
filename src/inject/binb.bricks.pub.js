@@ -8,6 +8,7 @@ const Descrambler = require("./binb.bricks.pub/descrambler");
 // cache
 const data = window.midData = window.midData || [];
 const descrambler = new Descrambler();
+const { thumbnail } = require("../utils/url-utils.js");
 
 function addToDataIfNew(dom) {
     let src = dom.getAttribute("src");
@@ -37,7 +38,8 @@ function addToDataIfNew(dom) {
     return {
         url: url,
         filename: filename,
-        type: "msg"
+        type: "msg",
+        thumbnail: thumbnail("image")
     };
 }
 
@@ -127,6 +129,10 @@ module.exports = {
                 o.folder = window.location.host + "-" + window.document.title.replace(/\//g, "-") +  "/";
                 if (isYanmaga) {
                     o.folder = getFolderName();
+                    o.pathname = window.location.pathname
+                        .split("/")
+                        .slice(2, 5)
+                        .join("-")
                 }
                 messaging.sendToRuntime("updateResult", o);
             }, function (e) {

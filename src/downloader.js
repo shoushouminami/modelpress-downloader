@@ -87,16 +87,15 @@ function downloadWithMsg(chrome, context, images, done) {
         });
         for (const image of images) {
             // logger.debug("sending getImageUrl message to cs filename=", image.filename);
-            messaging.sendToCS(context.tabId, "getImageUrl", image, function (imageWithUrl) {
+            messaging.sendToCS(context.tabId, "getImageUrl", image, function (imageFromResp) {
                 // logger.debug("received getImageUrl message filename=", image.filename, " imageWithUrl=",
                 //     imageWithUrl);
                 let completed = ++count === images.length;
                 let downloadIds = [];
-                if (imageWithUrl && imageWithUrl.url) {
-                    imageWithUrl.context = context;
-                    imageWithUrl.jobId = image.jobId;
+                if (imageFromResp && imageFromResp.url) {
+                    imageFromResp = Object.assign({}, image, imageFromResp);
                     // logger.debug("downloading filename=", image.filename);
-                    download(chrome, imageWithUrl, function (downloadId) {
+                    download(chrome, imageFromResp, function (downloadId) {
                         downloadIds.push(downloadId);
                         if (completed) {
                             // logger.debug("downloadWithMsg done count=", count);

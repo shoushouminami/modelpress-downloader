@@ -175,6 +175,20 @@ function guessMediaType(url) {
     return "unknown";
 }
 
+function thumbnail(mediaType) {
+    switch (mediaType) {
+        case "image":
+        case "video":
+        case "audio":
+        case "html":
+        case "text":
+        case "unknown":
+            return "../images/thumbnail-" + mediaType + ".png";
+        default:
+            require("../logger2")(module.id).error("func=thumbnail unknown media type");
+    }
+}
+
 exports.toFull = toFull;
 exports.removeMwimgsSize = removeMwimgsSize;
 exports.getEpisodeId = getEpisodeId;
@@ -184,3 +198,4 @@ exports.filters = filters;
 exports.basename = basename;
 exports.pathname = pathname;
 exports.guessMediaType = guessMediaType;
+exports.thumbnail = thumbnail;

@@ -96,9 +96,9 @@ function patchObjectProperties(target, src) {
  * @param {*} host 
  * @param {*} defaultOptions 
  */
-function loadSiteOptions(host, defaultOptions, callback) {
+function withDefaultSiteOptions(host, defaultOptions, callback) {
     if (runtime.isRuntime() && !runtime.isServiceWorker()) {
-        throw new Error(`Calling ${loadSiteOptions.name} in popup.`);
+        throw new Error(`Calling ${withDefaultSiteOptions.name} in popup.`);
     }
 
     const messaging = require("./messaging");
@@ -250,7 +250,7 @@ module.exports = {
     COMMON_OPTIONS,
     PERSISTENT_FIELDS,
     createSiteOptions,
-    loadSiteOptions,
+    withDefaultSiteOptions,
     onOptionsChanged,
     // below are for tests
     removeNonPersistentKeys,
