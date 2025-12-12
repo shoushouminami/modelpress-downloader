@@ -11,7 +11,7 @@ const config = require("./config");
 const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
 const { createSiteOptions, DOWNLOAD_FOLDER_PATTERN, DOWNLOAD_FILENAME_PATTERN } = require("./site-options.js");
-const { guessMediaType } = require("./utils/url-utils");
+const { guessMediaType, thumbnail } = require("./utils/url-utils");
 
 
 ga.bootstrapGA4();
@@ -203,12 +203,16 @@ function prepareDownloadJobs() {
     }
 
     const jobs = [];
-    // "tab" or "tab_seq"
+    // "msg" or "msg_seq"
     if (downloadWithMsg.length > 0) {
-        jobs.push({
-            images: downloadWithMsg,
-            type: downloadWithMsg[0].type,
-            context: context
+        // split each image as 1 job
+        // in case the total size is over 64MB (messaging limit)
+        downloadWithMsg.forEach(imageJob => {
+            jobs.push({
+                images: [imageJob],
+                type: imageJob.type,
+                context: context
+            });
         });
     }
 
@@ -252,9 +256,14 @@ function getImageThumbnails() {
         }
 
         
-        const mediaType = guessMediaType(typeof img === "string" ? img : img.url);
+        const mediaType = guessMediaType(typeof img === "string" ? img : img.url, img.filename);
         switch (mediaType) {
             case "image":
+                if (img.type == "msg" || img.type == "msg_seq") {
+                    return {
+                        src: thumbnail(mediaType)
+                    };
+                }
                 return {
                     src: typeof img === "string" ? img : img.url
                 };
@@ -264,7 +273,7 @@ function getImageThumbnails() {
             case "text":
             case "unknown":
                 return {
-                    src: "../images/thumbnail-" + mediaType + ".png"
+                    src: thumbnail(mediaType)
                 };
         }
     });

@@ -42,9 +42,11 @@ module.exports = {
                                     asset => utils.pushIfNew(o.images,
                                         {
                                             url: asset.url,
-                                            filename: getFilename(asset.url, asset.id)
+                                            filename: getFilename(asset.url, asset.id),
+                                            thumbnail: asset.thumbnails?.[0]?.url
                                         }
-                                    ))
+                                    )
+                                )
                         }
                     } catch (e) {
                         logger.error("Failed to fetch assets", e);

@@ -8,7 +8,6 @@ const Descrambler = require("./binb.bricks.pub/descrambler");
 // cache
 const data = window.midData = window.midData || [];
 const descrambler = new Descrambler();
-const { thumbnail } = require("../utils/url-utils.js");
 
 function addToDataIfNew(dom) {
     let src = dom.getAttribute("src");
@@ -38,8 +37,7 @@ function addToDataIfNew(dom) {
     return {
         url: url,
         filename: filename,
-        type: "msg",
-        thumbnail: thumbnail("image")
+        type: "msg"
     };
 }
 

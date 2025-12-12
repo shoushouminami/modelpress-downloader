@@ -112,7 +112,8 @@ const filters = {
  * Guess the media type. Returns a string in "image", "video", "audio", "html", "text", or "unknown".
  * @param {string} url 
  */
-function guessMediaType(url) {
+function guessMediaType(url, filename) {
+    url = url || filename;
     if (typeof url !== "string") return "unknown";
 
     // Special handling for data URLs: data:[<mediatype>][;base64],<data>
