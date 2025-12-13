@@ -10,7 +10,7 @@ const { wait } = require("./utils/async-utils");
 const config = require("./config");
 const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
-const { createSiteOptions, DOWNLOAD_FOLDER_PATTERN, DOWNLOAD_FILENAME_PATTERN } = require("./site-options.js");
+const { createSiteOptions, DOWNLOAD_PREPEND_JOBID } = require("./site-options.js");
 const { guessMediaType, thumbnail } = require("./utils/url-utils");
 const { getCallStack } = require("./utils/js-utils");
 
@@ -358,11 +358,13 @@ function downloadHandler(resolve) {
 }
 
 function getConfigSetJobId() {
+    const siteOpt = message.options[DOWNLOAD_PREPEND_JOBID];
     // prefer site level config
-    if (message.options.downloadPrependJobId && message.options.downloadPrependJobId.userInteracted) {
-        return message.options.downloadPrependJobId.checked;
+    if (siteOpt && // when this option is hidden, we always use the site level default value, which likely is false
+        (siteOpt.userInteracted || siteOpt.hidden)) { 
+        return siteOpt.checked;
     }
-    // then use the extension persisted config
+    // then use the global extension persisted config
     return config.getConf(config.DOWNLOAD_PREPEND_JOBID);
 }
 
@@ -430,9 +432,9 @@ function updateMessage(result, tabId) {
 
         // Patch the config flag config.DOWNLOAD_PREPEND_JOBID
         // in messsage.options so the UI displays the correct checkbox.
-        // User the CS level flag if user clicked, otherwise use the extension level flag
-        if (message.options && message.options.downloadPrependJobId) {
-            message.options.downloadPrependJobId.checked = getConfigSetJobId();
+        // Use the CS level flag if user clicked, otherwise use the extension level flag
+        if (message.options && message.options[DOWNLOAD_PREPEND_JOBID]) {
+            message.options[DOWNLOAD_PREPEND_JOBID].checked = getConfigSetJobId();
         }
 
         message.fromTabId = tabId;

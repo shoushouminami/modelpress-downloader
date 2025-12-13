@@ -269,6 +269,7 @@ module.exports = {
     DOWNLOAD_FILENAME_PATTERN,
     COMMON_OPTIONS,
     PERSISTENT_FIELDS,
+    USER_INTERACTED,
     createSiteOptions,
     loadPerisistedSiteOptions,
     onOptionsChanged,
