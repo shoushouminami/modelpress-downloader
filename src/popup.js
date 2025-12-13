@@ -12,7 +12,7 @@ const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
 const { createSiteOptions, DOWNLOAD_FOLDER_PATTERN, DOWNLOAD_FILENAME_PATTERN } = require("./site-options.js");
 const { guessMediaType, thumbnail } = require("./utils/url-utils");
-
+const { getCallStack } = require("./utils/js-utils");
 
 ga.bootstrapGA4();
 downloader.listenForDownloadFailureAndRetry();
@@ -261,7 +261,7 @@ function getImageThumbnails() {
             case "image":
                 if (img.type == "msg" || img.type == "msg_seq") {
                     return {
-                        src: thumbnail(mediaType)
+                        src: thumbnail("spinner")
                     };
                 }
                 return {
@@ -371,11 +371,13 @@ function getConfigSetJobId() {
 */
 function createSiteOptionsOnce(host, defaultOptions) {
     if (getAllOptions == null) {
-        logger.debug("createSiteOptionsOnce with host=", host, "defaultOptions=", defaultOptions);
+        logger.debug("func=createSiteOptionsOnce with host=", host, "defaultOptions=", defaultOptions, "stack=", getCallStack());
         ({ getAllOptions, getOption, updateOption, userInteracted } = createSiteOptions({
             host: host,
             options: defaultOptions
         }));
+    } else {
+        logger.debug("func=createSiteOptionsOnce site options already created stack=", getCallStack())
     }
 }
 
@@ -463,7 +465,7 @@ messaging.listen("getSiteOptions", function (msg, sendResp) {
     if (msg && msg.host && msg.options) {
         createSiteOptionsOnce(msg.host, msg.options);
         const allOptions = getAllOptions();
-        logger.debug("options=", allOptions);
+        logger.debug("host=", msg.host, "options=", allOptions);
         sendResp({
             host: msg.host,
             options: allOptions

@@ -11,6 +11,14 @@ function getObjectId(obj) {
     return idMap.get(obj);
 }
 
+/**
+ * @returns Call stack for debugging purpose
+ */
+function getCallStack() {
+    return new Error("Debug").stack;
+}
+
 module.exports = {
-    getObjectId
+    getObjectId,
+    getCallStack
 };

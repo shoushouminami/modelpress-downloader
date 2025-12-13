@@ -1,6 +1,14 @@
 /**
  * Persisted site options. Options are persisted in the extension's (popup.js) local storage, keyed by the site's domain hence
  * each site has its own namespace.
+ * To add site level option, or overwrite the common options defined in this file, each site module only need to add such options 
+ * to o.options (the return-message)
+ * 
+ * If the site module needs to read the persisted options before running its inject script, a helper function {@link loadPerisistedSiteOptions()}
+ * is provided for such task. It is done through messaging therefore async. IE, the content script needs to update result through
+ * messaging `{messaging.sendToRuntime("updateResult", o)}`.
+ * 
+ * 
  */
 const storage = require("./storage");
 const logger = require("./logger2")(module.id);
@@ -92,13 +100,18 @@ function patchObjectProperties(target, src) {
 }
 
 /**
- * Helper method for site module code (ie content scripts) to load site options through messaging.
- * @param {*} host 
- * @param {*} defaultOptions 
+ * Helper method for site module code (ie content scripts) to load persisted site options through messaging.
+ * 1) Because loading site options is async, whether this loads before or after the inject function returns is undeterministic.
+ * Therefore the defaultOptions needs to be passed the same as the `o.options` to ensure both init site options with the same defaults.
+ * 
+ * 2) The content script needs to update result through messaging `{messaging.sendToRuntime("updateResult", o)}`.
+ * @param {*} host The domain of site
+ * @param {*} defaultOptions The default options in `o.options`
+ * @returns {Promise} the function can either take a callback function or return a Promise
  */
-function withDefaultSiteOptions(host, defaultOptions, callback) {
+function loadPerisistedSiteOptions(host, defaultOptions, callback) {
     if (runtime.isRuntime() && !runtime.isServiceWorker()) {
-        throw new Error(`Calling ${withDefaultSiteOptions.name} in popup.`);
+        throw new Error(`Calling ${loadPerisistedSiteOptions.name} in popup.`);
     }
 
     const messaging = require("./messaging");
@@ -156,7 +169,14 @@ function createSiteOptions({
 
     // Merge COMMON_OPTIONS into site options.
     // Site-specific options override COMMON_OPTIONS on name clashes.
-    const allOptions = Object.assign({}, COMMON_OPTIONS, options);
+    // Allow default option to overwrite COMMON_OPTIONS at each key level
+    const updatedCommonOptions = Object.assign({}, COMMON_OPTIONS);
+    Object.keys(updatedCommonOptions).forEach(commonOptionName => {
+        // for each option, allow default to present key level overwrite
+        Object.assign(updatedCommonOptions[commonOptionName], options[commonOptionName]);
+    });
+    // Merge common option and default into all
+    const allOptions = Object.assign({}, options, updatedCommonOptions);
 
     // Create one manager instance for this config
     const manager = createConfigManager({
@@ -250,7 +270,7 @@ module.exports = {
     COMMON_OPTIONS,
     PERSISTENT_FIELDS,
     createSiteOptions,
-    withDefaultSiteOptions,
+    loadPerisistedSiteOptions,
     onOptionsChanged,
     // below are for tests
     removeNonPersistentKeys,

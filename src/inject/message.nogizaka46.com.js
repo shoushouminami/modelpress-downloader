@@ -5,7 +5,7 @@ const urlUtils = require("../../src/utils/url-utils");
 const {getWindow} = require("../globals.js");
 const { altHosts } = require("./www.oricon.co.jp.js");
 const logger = require("../../src/logger2")(module.id);
-const { withDefaultSiteOptions, onOptionsChanged } = require("../site-options");
+const { loadPerisistedSiteOptions, onOptionsChanged } = require("../site-options");
 
 let lastGroupMsg = null;
 
@@ -145,9 +145,8 @@ function inject() {
 
     const groupId = getGroupId();
     if (groupId != null) {
-        if (helper.getDataDiv()) {
-            // helper script injected
-            withDefaultSiteOptions(o.host, o.options)
+        if (helper.getDataDiv()) { // helper script injected
+            loadPerisistedSiteOptions(o.host, o.options)
                 .then(({ options }) => {
                     o.options = options;
                     // get media from helper

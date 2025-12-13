@@ -2,6 +2,8 @@ const { replaceIllegalChars, removeSpace } = require("../utils/str-utils.js");
 const { getDocument, getWindow } = require("../globals.js");
 const utils = require("../utils.js");
 const { filters, toFull, basename, pathname } = require("../utils/url-utils.js");
+const { loadPerisistedSiteOptions, onOptionsChanged, DOWNLOAD_PREPEND_JOBID } = require("../site-options");
+const logger = require("../logger2.js")(module.id);
 
 function pushToOutput(imgDoms, o) {
     for (const imgDom of imgDoms) {
@@ -51,9 +53,117 @@ function getFolderFromBlogTitle(original) {
     return removeSpace(replaceIllegalChars(getDocument().title));
 }
 
+function getPageHTML(o) {
+    // download web page HTML if set
+    // if (message.webPage) {
+    //     downloadInBg.push({
+    //         type: "html",
+    //         content: message.webPage,
+    //         context: context
+    //     });
+    // }
+    // supports downloading web page
+    // if (image.type == "html" && image.content) {
+    //     // const blob = new Blob([image.content], { type: "text/html" });
+    //     // image.url = URL.createObjectURL(blob);
+    //     image.url = "data:text/html;charset=utf-8," + encodeURIComponent(image.content);
+    //     image.filename = "index.html";
+    // }
+    const remap = [
+        {
+            from: "&quot;/files/46/assets/img/common/",
+            to: "&quot;" + toFull("/files/46/assets/img/common/")
+        },
+        {
+            from: "\"/files/46/assets/img/common/",
+            to: "\"" + toFull("/files/46/assets/img/common/")
+        },
+        {
+            from: "\"/files/46/assets/img/blog/",
+            to: "\"" + toFull("/files/46/assets/img/blog/")
+        },
+        {
+            from: "&quot;/files/46/assets/img/blog/",
+            to: "&quot;" + toFull("/files/46/assets/img/blog/")
+        },
+        {
+            from: "&quot;/files/46/assets/img/blog-detail/",
+            to: "&quot;" + toFull("/files/46/assets/img/blog-detail/")
+        },
+        {
+            from: "src=\"//www.google-analytics.com/",
+            to: "src=\"" + toFull("//www.google-analytics.com/")
+        },
+        // Fix data-api for these 2 DOMs. They were removed after page is loaded.
+        {
+            from: " id=\"js-ns\"",
+            to: " id=\"js-ns\" data-api=\"https://www.nogizaka46.com/s/n46/api/list/member\""
+        },
+        {
+            from: "class=\"bd--cmt__in js-apicomment\"",
+            to: "class=\"bd--cmt__in js-apicomment\" data-api=\"https://www.nogizaka46.com/s/n46/api/list/comment?kiji=" + getBlogId() + "\""
+        }
+    ];
+    // prepend domain to path for web page assets
+    const toFullPath = [
+        "/files/46/assets/js/",
+        "/files/46/assets/js4/",
+        "/files/46/assets/css/",
+        "/files/46/assets/fonts/",
+        "/files/46/assets/config/",
+    ];
+
+    for (const p of toFullPath) {
+        remap.push({
+            from: p,
+            to: toFull(p)
+        });
+    }
+
+    // replace image url and point to local file path
+    for (const url of o.images) {
+        // replace <img src="https://.../full/path/filename"> to <img src="./filename">
+        remap.push({
+            from: "src=\"" + url + "\"",
+            to: "src=\"./" + basename(url) + "\""
+        });
+        // replace <img src="/full/path/filename"> to <img src="./filename">
+        remap.push({
+            from: "src=\"" + pathname(url) + "\"",
+            to: "src=\"./" + basename(url) + "\""
+        });
+    }
+
+    let webpage = "<!DOCTYPE html>" + getDocument().documentElement.outerHTML;
+    for (const m of remap) {
+        webpage = webpage.replaceAll(m.from, m.to);
+    }
+    return webpage;
+}
+
 module.exports = {
     inject: function () {
-        let o = require("./return-message.js").init();
+        let o = require("./return-message.js").init({
+            options: {
+                // in Blog HTML, image is loaded from current folder path ./
+                // Ignore the job id so the filename is not consistent
+                [DOWNLOAD_PREPEND_JOBID]: {
+                    hidden: true,
+                    checked: false
+                },
+            }
+        });
+
+        // Add downloadHTML option for blog
+        if (isBlog()) {
+            o.options["downloadHTML"] = {
+                index: 1,
+                label: "Download blog HTML",
+                type: "checkbox",
+                checked: false
+            }
+        }
+
         let sheet = document.getElementById("sheet");
         if (sheet) {
             let imgs = utils.findAllImageDOMsFromRoot(sheet, { "ids": ["comments"] });
@@ -132,102 +242,32 @@ module.exports = {
 
         o.folder = getFolderFromBlogTitle(o.folder);
         
+        const imagesWithoutBlog = o.images.slice();
         // Download blog HTML
         if (isBlog()) {
-
-            // download web page HTML if set
-            // if (message.webPage) {
-            //     downloadInBg.push({
-            //         type: "html",
-            //         content: message.webPage,
-            //         context: context
-            //     });
-            // }
-            // supports downloading web page
-            // if (image.type == "html" && image.content) {
-            //     // const blob = new Blob([image.content], { type: "text/html" });
-            //     // image.url = URL.createObjectURL(blob);
-            //     image.url = "data:text/html;charset=utf-8," + encodeURIComponent(image.content);
-            //     image.filename = "index.html";
-            // }
-            const remap =  [
-                {
-                    from: "&quot;/files/46/assets/img/common/",
-                    to: "&quot;" + toFull("/files/46/assets/img/common/")
-                },
-                {
-                    from: "\"/files/46/assets/img/common/",
-                    to: "\"" + toFull("/files/46/assets/img/common/")
-                },
-                {
-                    from: "\"/files/46/assets/img/blog/",
-                    to: "\"" + toFull("/files/46/assets/img/blog/")
-                },
-                {
-                    from: "&quot;/files/46/assets/img/blog/",
-                    to: "&quot;" + toFull("/files/46/assets/img/blog/")
-                },
-                {
-                    from: "&quot;/files/46/assets/img/blog-detail/",
-                    to: "&quot;" + toFull("/files/46/assets/img/blog-detail/")
-                },
-                {
-                    from: "src=\"//www.google-analytics.com/",
-                    to: "src=\"" + toFull("//www.google-analytics.com/")
-                },
-                // Fix data-api for these 2 DOMs. They were removed after page is loaded.
-                {
-                    from: " id=\"js-ns\"",
-                    to: " id=\"js-ns\" data-api=\"https://www.nogizaka46.com/s/n46/api/list/member\""
-                },
-                {
-                    from: "class=\"bd--cmt__in js-apicomment\"",
-                    to: "class=\"bd--cmt__in js-apicomment\" data-api=\"https://www.nogizaka46.com/s/n46/api/list/comment?kiji=" + getBlogId() + "\""
+            const sendBlogToUpdateResult = (options) => {
+                logger.debug("Updated options=", options, "imagesWithoutBlog=", imagesWithoutBlog);
+                o.images = imagesWithoutBlog.slice(); // reset images for generating page HTML
+                if (options["downloadHTML"].checked === true) {
+                    let webpage = getPageHTML(o);
+                    o.images.push({
+                        url: "data:text/html;charset=utf-8," + encodeURIComponent(webpage),
+                        filename: "index.html"
+                    })
                 }
-            ];
-            // prepend domain to path for web page assets
-            const toFullPath = [
-                "/files/46/assets/js/",
-                "/files/46/assets/js4/",
-                "/files/46/assets/css/",
-                "/files/46/assets/fonts/",
-                "/files/46/assets/config/",
-            ];
-            
-            for (const p of toFullPath) {
-                remap.push({
-                    from: p,
-                    to: toFull(p)
+                require("../messaging.js").sendToRuntime("updateResult", o);
+            };
+
+            loadPerisistedSiteOptions(o.host, o.options)
+                .then(({ options }) => {
+                    o.options = options;
+                    sendBlogToUpdateResult(o.options);
                 });
-            }
 
-            // replace image url and point to local file path
-            for (const url of o.images) {
-                // replace <img src="https://.../full/path/filename"> to <img src="./filename">
-                remap.push({
-                    from: "src=\"" + url + "\"",
-                    to: "src=\"./" + basename(url) + "\""
-                });
-                // replace <img src="/full/path/filename"> to <img src="./filename">
-                remap.push({
-                    from: "src=\"" + pathname(url) + "\"",
-                    to: "src=\"./" + basename(url) + "\""
-                });
-            }
-
-            let webpage = "<!DOCTYPE html>" + getDocument().documentElement.outerHTML;
-            for (const m of remap) {
-                webpage = webpage.replaceAll(m.from, m.to);
-            }
-
-            o.images.push({
-                url: "data:text/html;charset=utf-8," + encodeURIComponent(webpage),
-                filename: "index.html"
-            })
-
-            // remapping image file path to ./ folder
-            // ignore the job id so the filename is not changed
-            o.ignoreJobId = true;
+            onOptionsChanged(({options}) => {
+                o.options = options;
+                sendBlogToUpdateResult(options);
+            });
         }
         
         return o;

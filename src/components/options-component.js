@@ -15,6 +15,11 @@ function DownloadOptions({ stOptions, handleOptionChange, handleOptionCommit}) {
                 const stOpt = entry[1];
                 const id = "option" + i;
 
+                // Allow sites to disable certain options
+                if (stOpt.hidden === true) {
+                    return;
+                }
+
                 switch (stOpt.type) {
                     case "checkbox":
                         return (

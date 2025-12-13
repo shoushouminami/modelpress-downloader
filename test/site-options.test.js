@@ -156,6 +156,49 @@ describe("site-options", () => {
 
         // Should include common option
         expect(all[DOWNLOAD_PREPEND_JOBID]).toBeDefined();
+        expect(all[DOWNLOAD_PREPEND_JOBID]).toStrictEqual({
+            index: 999,
+            label: "Prepend sequence number to file name",
+            type: "checkbox",
+            checked: true,
+            userInteracted: false
+        });
+        // And site-specific
+        expect(all.siteOnly).toBeDefined();
+
+        expect(all.siteOnly.label).toBe("Site only option");
+    });
+
+    test("getAllOptions returns union of COMMON_OPTIONS and site-specific options plus overwriting common option at key level", () => {
+        const siteOpts = createSiteOptions({
+            host: "host",
+            options: {
+                siteOnly: {
+                    index: 5,
+                    label: "Site only option",
+                    type: "checkbox",
+                    checked: false,
+                    userInteracted: false
+                },
+                [DOWNLOAD_PREPEND_JOBID]: {
+                    checked: false,
+                    hidden: true
+                }
+            }
+        });
+
+        const all = siteOpts.getAllOptions();
+
+        // Should include common option
+        expect(all[DOWNLOAD_PREPEND_JOBID]).toBeDefined();
+        expect(all[DOWNLOAD_PREPEND_JOBID]).toStrictEqual({
+            index: 999,
+            label: "Prepend sequence number to file name",
+            type: "checkbox",
+            checked: false,
+            hidden: true,
+            userInteracted: false
+        });
         // And site-specific
         expect(all.siteOnly).toBeDefined();
 

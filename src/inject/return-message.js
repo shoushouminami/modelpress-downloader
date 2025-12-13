@@ -5,8 +5,8 @@
  */
 const utils = require("../utils");
 
-function init(message) {
-    let o = message || {};
+function init(overwrite) {
+    let o = {};
     Object.assign(o, {
         href: window.location.href,
         host: window.location.host,
@@ -41,22 +41,22 @@ function init(message) {
                     userInteracted: false // whether this config is clicked by user on UI
                 }
             */
-    });
+    }, overwrite);
 
     o.originalFolder = o.folder;
 
     return o;
 }
 
-function notSupported(message) {
-    let o = message || this.init();
+function notSupported(overwrite) {
+    let o = this.init(overwrite);
     o.supported = false;
 
     return o;
 }
 
 function loading(message) {
-    let o = message || this.init();
+    let o = this.init(message);
     o.loading = true;
     return o;
 }
