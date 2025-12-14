@@ -153,6 +153,21 @@ function onOptionsChanged(callback) {
     });
 }
 
+/**
+ * Helper function to test if the named option is changed across a prevous options map and a current options map.
+ * If fields is given, the fields are checked. Otherwise, depending on the option type, a proper field is checked. ("checked" or "value") 
+ * @param {*} prevOptions Previous options map
+ * @param {*} currentOptions Current options map
+ * @param {*} optionName The option name to check
+ * @param {*} fields Optional fields to check
+ */
+function isOptionValueChanged(prevOptions, currentOptions, optionName, fields = []) {
+    if (fields.length === 0) {
+        fields = (prevOptions[optionName] || {}).type === "checkbox" ? ["checked"] : ["value"];
+    }
+    return fields.some(f => (prevOptions[optionName] || {})[f] !== (currentOptions[optionName] || {})[f]);
+}
+
 function createSiteOptions({
     host, 
     version = 1,
@@ -275,5 +290,6 @@ module.exports = {
     onOptionsChanged,
     // below are for tests
     removeNonPersistentKeys,
-    patchObjectProperties
+    patchObjectProperties,
+    isOptionValueChanged
 }

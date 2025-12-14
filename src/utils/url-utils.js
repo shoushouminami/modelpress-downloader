@@ -112,8 +112,7 @@ const filters = {
  * Guess the media type. Returns a string in "image", "video", "audio", "html", "text", or "unknown".
  * @param {string} url 
  */
-function guessMediaType(url, filename) {
-    url = url || filename;
+function guessMediaType(url, ext, filename) {
     if (typeof url !== "string") return "unknown";
 
     // Special handling for data URLs: data:[<mediatype>][;base64],<data>
@@ -151,7 +150,8 @@ function guessMediaType(url, filename) {
         return "unknown";
     }
 
-    const ext = require("../utils").getFileExt(url);
+    const utils = require("../utils");
+    const fileExt = utils.getFileExt(utils.getFileName(url, ext, filename));
     // Image extensions
     const imageExt = new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "svg", "tiff", "ico"]);
 
@@ -167,11 +167,11 @@ function guessMediaType(url, filename) {
     // Text extensions
     const textExt = new Set(["txt", "csv", "json", "xml", "js", "css"]);
 
-    if (imageExt.has(ext)) return "image";
-    if (videoExt.has(ext)) return "video";
-    if (audioExt.has(ext)) return "audio";
-    if (htmlExt.has(ext)) return "html";
-    if (textExt.has(ext)) return "text";
+    if (imageExt.has(fileExt)) return "image";
+    if (videoExt.has(fileExt)) return "video";
+    if (audioExt.has(fileExt)) return "audio";
+    if (htmlExt.has(fileExt)) return "html";
+    if (textExt.has(fileExt)) return "text";
 
     return "unknown";
 }

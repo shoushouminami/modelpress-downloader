@@ -13,10 +13,10 @@
         "message.sakurazaka46.com": "jp.co.sonymusic.communication.sakurazaka 2.5",
     }
 
-    const urlUtils = require("../../src/utils/url-utils");
     const logger = require("../../src/logger2")(module.id);
     const helper = require("./helper-utils");
-    const CACHE = {}; // {group_id -> {msg_id: message} }
+    const CACHE = {}; // "members" -> {group_id -> resp from https://api.message.nogizaka46.com/v2/groups/64/members"
+                        // "groups" -> all groups info from /v2/groups?organization_id=1
 
     const hostname = new URL(window.location.href).hostname;
     const API_DOMAIN = API_DOMAIN_MAP[hostname];
@@ -29,9 +29,9 @@
     }
     helper.getOrCreateDataDiv();
 
-    function getEncodedTimestampUTC(secondsAgo) {
+    function getEncodedTimestampUTC(seconds_ago) {
         return encodeURIComponent(
-            new Date(Date.now() - secondsAgo * 1000).toISOString().split(".")[0] + "Z"
+            new Date(Date.now() - seconds_ago * 1000).toISOString().split(".")[0] + "Z"
         );
     }
 
@@ -65,18 +65,45 @@
         return respBody;
     }
 
-    async function getTimelineMessages(token, groupId, secondsAgo) {
-        logger.debug("Getting timeline of", groupId, " in the past", secondsAgo, "seconds");
-        const timelineResp = await fetch(
-            `https://${API_DOMAIN}/v2/groups/${groupId}/timeline?updated_from=${getEncodedTimestampUTC(secondsAgo)}&count=200&order=asc&clear_unread=false`,
+    async function getGroupMembers(token, group_id) {
+        const resp = await fetch(
+            `https://${API_DOMAIN}/v2/groups/${group_id}/members`,
             {
                 credentials: "include",
-                headers: {
-                    "Authorization": "Bearer " + token,
-                    "x-talk-app-id": API_APP_ID,
-                    "x-talk-app-platform": "web",
-                    "Accept": "application/json"
-                }
+                headers: createAppHeaders(token)
+            }
+        );
+
+        await checkResp(resp);
+        const respBody = await resp.json();
+
+        logger.debug("Received response from getGroupMembers resp=", respBody);
+        return respBody;
+    }
+
+    async function getAllGroupsUnderOrg(token, org_id = 1) {
+        logger.debug("Getting groups of org=", org_id);
+        const resp = await fetch(
+            `https://${API_DOMAIN}/v2/groups?organization_id=${org_id}`,
+            {
+                credentials: "include",
+                headers: createAppHeaders(token)
+            }
+        );
+
+        await checkResp(resp);
+        const respBody = await resp.json();
+        logger.debug("Received response from getGroupMembers resp=", respBody);
+        return respBody;
+    }
+
+    async function getTimelineMessages(token, group_id, seconds_ago) {
+        logger.debug("Getting timeline of", group_id, " in the past", seconds_ago, "seconds");
+        const timelineResp = await fetch(
+            `https://${API_DOMAIN}/v2/groups/${group_id}/timeline?updated_from=${getEncodedTimestampUTC(seconds_ago)}&count=200&order=asc&clear_unread=false`,
+            {
+                credentials: "include",
+                headers: createAppHeaders(token)
             }
         );
 
@@ -85,6 +112,14 @@
         return timelineRespBody;
     }
 
+    function createAppHeaders(token) {
+        return {
+            "Authorization": "Bearer " + token,
+            "x-talk-app-id": API_APP_ID,
+            "x-talk-app-platform": "web",
+            "Accept": "application/json"
+        };
+    }
 
     function addToCache(timelineRespBody, CACHE) {
         timelineRespBody.messages
@@ -123,42 +158,56 @@
         }
 
         const messaging = require("../../src/messaging");
-        messaging.listenOnPage("getImageUrl", function (msg, sendResponse) {
-            logger.debug("Got getImageUrl msg", msg);
-            // msg : {groupId: 123, secondsAgo?: 3600, onlyNew?: boolean}
-            if (msg.groupId) {
+        messaging.listenOnPage("getImageUrl", function ({group_id, seconds_ago}, sendResponse) {
+            logger.debug("Received getImageUrl requset msg=", { group_id, seconds_ago });
+            // msg : {group_id: 123, seconds_ago?: 3600}
+            if (group_id) {
                 refreshTokenIfNecessary()
-                .then(function(){
-                    return getTimelineMessages(TOKEN, msg.groupId, msg.secondsAgo ? msg.secondsAgo : 3600 * 24)
-                        .then(function (timelineRespBody) {
-                            logger.debug("Received response from timeline resp=", timelineRespBody);
-                            // get the messages that is not yet in CACHE
-                            const newMessages = timelineRespBody.messages.filter(m => CACHE[m.group_id] == null || !(m.id in CACHE[m.group_id]));
-                            // add all new messages to CACHE
-                            addToCache(timelineRespBody, CACHE);
-
-                            const groupMsg = msg.onlyNew ? newMessages : Object.keys(CACHE[msg.groupId]).sort().map(k => CACHE[msg.groupId][k]);
-                            sendResponse({
-                                groupId: msg.groupId,
-                                groupMsg: groupMsg
-                            });
+                    .then(() => {
+                        if (CACHE["groups"] == null) {
+                            return getAllGroupsUnderOrg(TOKEN)
+                        }
+                    })
+                    .then((groupsJson) => {
+                        if (groupsJson) {
+                            CACHE["groups"] = groupsJson;
+                        }
+                    })
+                    .then(() => {
+                        if (CACHE["members"]?.[group_id] == null) {
+                            return getGroupMembers(TOKEN, group_id)
+                        }
+                    })
+                    .then((membersJson) => {
+                        if (membersJson) {
+                            CACHE["members"] ??= {};
+                            CACHE["members"][group_id] = membersJson
+                        }
+                    })
+                    .then(
+                        () => getTimelineMessages(TOKEN, group_id, seconds_ago ? seconds_ago : 3600 * 24)
+                    )
+                    .then((timelineRespBody) => {
+                        logger.debug("Received response from timeline resp=", timelineRespBody);
+                        sendResponse({
+                            group_id: group_id,
+                            group_messages: timelineRespBody.messages,
+                            group: Object.values(CACHE["groups"] ?? {}).find(g => g.id == group_id),
+                            group_members: CACHE["members"]?.[group_id]
                         });
-                })
-                .catch(function(error){
-                    logger.error("Error during handling getImageUrl", error);
-                });
+                    })
+                    .catch(function (error) {
+                        logger.error("Error during handling getImageUrl", error);
+                    });
                 ;
             } else {
-                logger.error("Bad message msg=", msg);
+                logger.error("Bad message msg=", { group_id, seconds_ago });
             }
         });
 
     } catch (error) {
         logger.error(error);
     };
-
-
-    
 })();
 
 

@@ -256,7 +256,7 @@ function getImageThumbnails() {
         }
 
         
-        const mediaType = guessMediaType(typeof img === "string" ? img : img.url, img.filename);
+        const mediaType = guessMediaType(typeof img === "string" ? img : img.url, message.ext, img.filename);
         switch (mediaType) {
             case "image":
                 if (img.type == "msg" || img.type == "msg_seq") {

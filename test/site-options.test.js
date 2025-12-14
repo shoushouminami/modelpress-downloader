@@ -41,6 +41,7 @@ describe("site-options", () => {
     let PERSISTENT_FIELDS;
     let COMMON_OPTIONS;
     let DOWNLOAD_PREPEND_JOBID;
+    let isOptionValueChanged;
 
     beforeEach(() => {
         jest.resetModules();
@@ -53,6 +54,7 @@ describe("site-options", () => {
         PERSISTENT_FIELDS = mod.PERSISTENT_FIELDS;
         COMMON_OPTIONS = mod.COMMON_OPTIONS;
         DOWNLOAD_PREPEND_JOBID = mod.DOWNLOAD_PREPEND_JOBID;
+        isOptionValueChanged = mod.isOptionValueChanged;
     });
 
     test("PERSISTENT_FIELDS contains checked, value, userInteracted", () => {
@@ -298,5 +300,62 @@ describe("site-options", () => {
 
         expect(lastCreateConfigManagerArgs).not.toBeNull();
         expect(lastCreateConfigManagerArgs.storageKey).toBe("options:host");
+    });
+
+    describe("isOptionValueChanged", () => {
+        test("returns false when option missing on both sides", () => {
+            const prev = {};
+            const curr = {};
+            expect(isOptionValueChanged(prev, curr, "downloadVideo")).toBe(false);
+        });
+
+        test("returns true when option exists only on current side", () => {
+            const prev = {};
+            const curr = {
+                downloadVideo: { type: "checkbox", checked: true }
+            };
+            // default field is based on prev (missing) => uses ["value"]
+            // undefined !== undefined would be false, BUT since curr has no "value", still false.
+            // If you want "missing on one side = changed" for ALL types/fields, pass fields explicitly.
+            expect(isOptionValueChanged(prev, curr, "downloadVideo", ["checked"])).toBe(true);
+        });
+
+        test("returns true when option exists only on prev side", () => {
+            const prev = {
+                downloadVideo: { type: "checkbox", checked: true }
+            };
+            const curr = {};
+            expect(isOptionValueChanged(prev, curr, "downloadVideo")).toBe(true); // checkbox => checks "checked"
+        });
+
+        test("checkbox defaults to checking 'checked' and detects change", () => {
+            const prev = { opt: { type: "checkbox", checked: true } };
+            const curr = { opt: { type: "checkbox", checked: false } };
+            expect(isOptionValueChanged(prev, curr, "opt")).toBe(true);
+        });
+
+        test("checkbox defaults to checking 'checked' and returns false if same", () => {
+            const prev = { opt: { type: "checkbox", checked: true } };
+            const curr = { opt: { type: "checkbox", checked: true } };
+            expect(isOptionValueChanged(prev, curr, "opt")).toBe(false);
+        });
+
+        test("non-checkbox defaults to checking 'value' and detects change", () => {
+            const prev = { opt: { type: "text", value: "a" } };
+            const curr = { opt: { type: "text", value: "b" } };
+            expect(isOptionValueChanged(prev, curr, "opt")).toBe(true);
+        });
+
+        test("explicit fields override defaults (compare multiple fields)", () => {
+            const prev = { opt: { type: "text", value: "a", userInteracted: false } };
+            const curr = { opt: { type: "text", value: "a", userInteracted: true } };
+            expect(isOptionValueChanged(prev, curr, "opt", ["value", "userInteracted"])).toBe(true);
+        });
+
+        test("explicit fields: returns false if all specified fields match", () => {
+            const prev = { opt: { type: "text", value: "a", userInteracted: false } };
+            const curr = { opt: { type: "text", value: "a", userInteracted: false } };
+            expect(isOptionValueChanged(prev, curr, "opt", ["value", "userInteracted"])).toBe(false);
+        });
     });
 });
