@@ -227,7 +227,7 @@ class PopupComponent extends React.Component {
                         disabled={this.state.downloadDisabled}
                     />
                     {permOrStatus}
-                    {hasImage && <DownloadOptions stOptions={st.options} handleOptionChange={(n,v) => this.handleOptionChange(n,v)} handleOptionCommit={(n,v) => this.handleOptionCommit(n,v)} /> }
+                    {<DownloadOptions stOptions={st.options} handleOptionChange={(n,v) => this.handleOptionChange(n,v)} handleOptionCommit={(n,v) => this.handleOptionCommit(n,v)} /> }
                     {hasImage && <ScrollableImagePicker images={this.state.imageThumbnails} onChange={(e) => this.handleImagePicker(e)}/> }
                 </div>
             );
