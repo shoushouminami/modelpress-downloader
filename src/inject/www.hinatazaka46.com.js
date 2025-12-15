@@ -57,12 +57,25 @@ function getPageHTML(o) {
     return webpage;
 }
 
+function getFolder(o) {
+    if (isBlog()) {
+        return getFolderFromBlogTitle();
+    }
+    if (getWindow().location.pathname.startsWith("/s/official/gallery/")) {
+        const dom = getWindow().document.querySelectorAll(".p-photo-group-bottom .photo_item .photo-inner[href^='" + location.pathname + "']")[0]
+        if (dom && dom.querySelector("img")) {
+            return removeSpace(replaceIllegalChars(o.title)) + "-" + dom.querySelector("img").alt;
+        }
+    }
+    return removeSpace(replaceIllegalChars(o.title));
+}
+
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init({
             options: {
                 // in Blog HTML, image is loaded from current folder path ./
-                // Ignore the job id so the filename is not consistent
+                // Ignore the job id so the filename is consistent
                 [DOWNLOAD_PREPEND_JOBID]: {
                     hidden: true,
                     checked: false
@@ -84,6 +97,7 @@ module.exports = {
             ".l-container .l-maincontents--blog .p-blog-article .c-blog-article__text img", // blog
             ".l-container .l-maincontents--news-detail div > img", // news
             ".l-container .p-member__box .c-member__thumb img", // member profile
+            "main .l-contents .maincontents .p-photo-detail img", // 4/5th photo gallery
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
@@ -121,7 +135,7 @@ module.exports = {
             });
         }
 
-        o.folder = getFolderFromBlogTitle(o.folder);
+        o.folder = getFolder(o);
         return o;
     },
     host: "www.hinatazaka46.com",
