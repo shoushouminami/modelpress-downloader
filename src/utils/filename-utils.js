@@ -1,12 +1,24 @@
 const logger = require("../logger2")(module.id);
 const { replaceSpecialChars, getFileName } = require("../utils");
 
+/**
+ * Resolvs a pattern string such as "{host}-{pathname}-{filename}" with a possible pattern list and pattern mapping context. All the individual patterns
+ * are replaced with values given in the mapping context.
+ * 
+ * The pattern replacement is one-time without recursion. Therefore if a pattern value in the context contains another pattern, it will not be replaced again.
+ * 
+ * @param {*} pattern A pattern string such as "{host}-{pathname}-{filename}"
+ * @param {*} possiblePatternList A list of possible patterns (with {}). Only patterns given in this list are resolved.
+ * @param {*} downloadContext An object contains the value of what each pattern should replaced with. Such as `{"host": "www.example.com", "pathname": "/a/b/c/d.jpg"}`
+ *                              Note that the key should be without `{}`
+ * @returns The resolved string. Any pattern not given in the `possiblePatternList` or in the context is replaced with an empty string.
+ */
 function resolvePattern(pattern, possiblePatternList, downloadContext) {
     const replacementMap = {};
     possiblePatternList.forEach(p => {
         if (typeof p === "string" && p.length > 4 && p[0] === "{" && p[p.length - 1] === "}") {
             const patternName = p.slice(1, -1);
-            // the key is pattern with {} 
+            // the key is pattern without {} 
             replacementMap[patternName] = downloadContext[patternName]; // could be undefined
         } else {
             logger.error("func=resolvePattern bad pattern", p);

@@ -127,7 +127,7 @@ describe("resolvePattern", () => {
         const result = resolvePattern(pattern, possiblePatternList, downloadContext);
 
         // Only "{filename}" and "{pathname}" are valid: string, length > 4, starts with "{" and ends with "}"
-        expect(result).toBe("f-{host}-p");
+        expect(result).toBe("f--p");
     });
 
     test("returns empty string for unresolved placeholders when context lacks keys", () => {
@@ -164,6 +164,22 @@ describe("resolvePattern", () => {
 
         const result = resolvePattern(pattern, possiblePatternList, downloadContext);
 
-        expect(result).toBe("ONE-{abcd}-TWO");
+        expect(result).toBe("ONE--TWO");
+    });
+
+    test("pattern value contains another pattern is not resolved again", () => {
+        const pattern = "{abc}-{abcd}";
+        const possiblePatternList = [
+            "{abc}",     // ok
+            "{abcd}",   // ok
+        ];
+        const downloadContext = {
+            abc: "{abcd}",
+            abcd: "TWO",
+        };
+
+        const result = resolvePattern(pattern, possiblePatternList, downloadContext);
+
+        expect(result).toBe("{abcd}-TWO");
     });
 });

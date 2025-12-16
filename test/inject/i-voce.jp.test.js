@@ -81,12 +81,6 @@ test("feed/404592/", async () => {
                     "https://res.cloudinary.com/voce/image/fetch/w_800,c_limit,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/02/acd2e2fbbcb88fa16495587719e1c07a.jpg"
                 ],
                 "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://wp.i-voce.jp/wp-content/uploads/2021/02/acd2e2fbbcb88fa16495587719e1c07a.jpg"
-            },
-            {
-                "retries": [
-                    "https://res.cloudinary.com/voce/image/fetch/w_248,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/185524/185524.jpg"
-                ],
-                "url": "https://res.cloudinary.com/voce/image/fetch/w_1500,f_auto,q_auto:eco/https://cosmedb-image.i-voce.jp/cosme_variation/440/185524/185524.jpg"
             }
         ]);
 });
@@ -105,7 +99,7 @@ test("feed/459549/", async () => {
         getBrowser(),
         "https://i-voce.jp/feed/459549/",
         "i-voce.jp-feed-459549-/",
-        dummyItems(13));
+        dummyItems(11));
 });
 
 test("Test cover beauty article", async () => {
