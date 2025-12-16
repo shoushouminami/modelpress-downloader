@@ -5,9 +5,18 @@
  */
 const utils = require("../utils");
 
-function init(overwrite) {
-    let o = {};
-    Object.assign(o, {
+/**
+ * Initialize and return a return message object.
+ * 
+ * If `original` is passed in, initialization is done by adding missing properties to the `original` object.
+ * 
+ * The `original` is then returned. This effectively allows overwrite to some properties during init.
+ * 
+ * @param {object} original 
+ * @returns The `original` or a new return message object.
+ */
+function init(original = {}) {
+    const o = Object.assign(original, {
         href: window.location.href,
         host: window.location.host,
         pathname: window.location.pathname,
@@ -41,22 +50,26 @@ function init(overwrite) {
                     userInteracted: false // whether this config is clicked by user on UI
                 }
             */
-    }, overwrite);
+    }, Object.assign({}, original));
 
     o.originalFolder = o.folder;
 
     return o;
 }
 
-function notSupported(overwrite) {
-    let o = this.init(overwrite);
+function notSupported(message) {
+    let o = init(message);
     o.supported = false;
-
     return o;
 }
 
+/**
+ * Set property `loading` to true on the return message object.
+ * @param {*} message 
+ * @returns 
+ */
 function loading(message) {
-    let o = this.init(message);
+    let o = init(message);
     o.loading = true;
     return o;
 }
