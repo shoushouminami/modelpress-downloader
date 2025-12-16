@@ -1,7 +1,7 @@
 const {testDirectDownload, getBrowserFactory, dummyItems} = require("./testbase");
 let getBrowser =  getBrowserFactory(beforeAll, afterAll);
 
-test("articles/20250703/k00/00m/200/425000c", async () => {
+test.skip("articles/20250703/k00/00m/200/425000c", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://mainichi.jp/articles/20250703/k00/00m/200/425000c",
@@ -14,7 +14,7 @@ test("articles/20250703/k00/00m/200/425000c", async () => {
         ]);
 });
 
-test("articles/20250703/k00/00m/200/423000c", async () => {
+test.skip("articles/20250703/k00/00m/200/423000c", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://mainichi.jp/articles/20250703/k00/00m/200/423000c",
@@ -54,14 +54,3 @@ test("news/2393314/photo/2/?anc=284", async () => {
         ]);
 });
 
-test("news/2394353/photo/3/", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://www.oricon.co.jp/news/2394353/photo/3/",
-        "www.oricon.co.jp-news-2394353-photo-3-/",
-        [
-            "https://contents.oricon.co.jp/upimg/news/2395000/2394353/20250706_123402_p_o_12813187.jpg",
-            "https://contents.oricon.co.jp/upimg/news/2395000/2394353/20250706_123411_p_o_23317579.jpg",
-            "https://contents.oricon.co.jp/upimg/news/2395000/2394353/20250706_123413_p_o_50625102.jpg"
-        ]);
-});

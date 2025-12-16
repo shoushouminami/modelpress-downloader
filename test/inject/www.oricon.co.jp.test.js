@@ -121,3 +121,16 @@ test("news/2295884/photo/1/", async () => {
             "https://contents.oricon.co.jp/upimg/news/2296000/2295884/20230703_115045_p_o_36684499.jpg"
         ]);
 });
+
+test("news/2394353/photo/3/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.oricon.co.jp/news/2394353/photo/3/",
+        "www.oricon.co.jp-news-2394353-photo-3-/",
+        [
+            "https://contents.oricon.co.jp/upimg/news/2395000/2394353/20250706_123402_p_o_12813187.jpg",
+            "https://contents.oricon.co.jp/upimg/news/2395000/2394353/20250706_123411_p_o_23317579.jpg",
+            "https://contents.oricon.co.jp/upimg/news/2395000/2394353/20250706_123413_p_o_50625102.jpg"
+        ]);
+});
+
