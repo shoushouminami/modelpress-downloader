@@ -2,10 +2,31 @@
     "use strict";
     const messaging = require("../messaging");
     const logger = require("../logger2")(module.id);
+    const { removeSpace} = require("../utils/str-utils.js");
+    const { toFull } = require("../utils/url-utils");
 
     if (typeof READIUM === "undefined") {
+        // Check <script> tag just in case
+        // images from <script> tag
+        const result = {};
+        try {
+            for (const scriptNode of window.document.head.querySelectorAll("script")) {
+                if (removeSpace(scriptNode.text.split("\n")[1])?.startsWith("window.addEventListener")) {
+                    const script = "return (function(window){" +
+                        scriptNode.text +
+                        "; return sample_contents;})({\"addEventListener\": () => {}});";
+                    const f = new Function(script);
+                    const sampleContents = f();
+                    logger.debug("Adding images from js tag sampleContents=", sampleContents);
+                    result.images = sampleContents?.map(toFull);
+                }
+            }
+        } catch(e) {
+            logger.error("Error parsing script nodes", e);
+        }
+
         // notify CS that we are done
-        messaging.sendToPage("updateResultCS", {});
+        messaging.sendToPage("updateResultCS", result);
         return;
     }
 

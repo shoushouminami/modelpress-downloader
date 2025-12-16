@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+const { replaceIllegalChars } = require("../utils/str-utils.js");
 const messaging = require("../messaging");
 const logger = require("../logger2")(module.id);
 
@@ -10,7 +11,7 @@ module.exports = {
         messaging.listenOnPage("updateResultCS", function (msg) {
             logger.debug("Got updateResultCS", msg);
             if (msg.title) {
-                o.folder = window.location.host + "-" + msg.title.replace(/\//g, "-") +  "/";
+                o.folder = window.location.host + "-" + replaceIllegalChars(msg.title) +  "/";
             }
             if (msg.images) {
                 msg.images.forEach((img) => {
@@ -73,6 +74,7 @@ module.exports = {
             .injectScriptFileToDOM(chrome.runtime.getURL("helper/www.grajapa.shueisha.co.jp-helper.js"));
         // show loading UI
         require("./return-message.js").loading(o);
+        o.folder = window.location.host + "-" + replaceIllegalChars(window.document.title) + "/";
         return o;
     },
     tearDown: function () {
