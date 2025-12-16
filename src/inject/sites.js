@@ -76,6 +76,7 @@ function register(siteModule) {
     require("./www.sanspo.com"),
     require("./www.sponichi.co.jp"),
     require("./prtimes.jp"),
+    require("./www.tokyo-sports.co.jp"),
     require("./news.mynavi.jp"),
     require("./www.fujitv-view.jp"),
     require("./news.ntv.co.jp"),
