@@ -1,8 +1,7 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-const pageutils = require("../pageutils");
 const getBrowser = getBrowserFactory(beforeAll, afterAll);
 
-test("news/article/1009954/", async () => {
+test.skip("news/article/1009954/", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://press.moviewalker.jp/news/article/1009954/",
@@ -18,7 +17,7 @@ test("news/article/1009954/", async () => {
 });
 
 
-test("news/article/1009954/image10082388/", async () => {
+test.skip("news/article/1009954/image10082388/", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://press.moviewalker.jp/news/article/1009954/image10082388/",

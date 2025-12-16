@@ -15,7 +15,7 @@ module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
         for (const selector of [
-            "main .ly_content_main_inner .un_newsDetail_head img", // article top image
+            "main .ly_content_main_inner .un_newsDetail_head .un_newsDetail_head_imgWrap img", // article top image
             "main .ly_content_main_inner .un_newsDetail_content figure a img",  // in article images
             "main .un_newsDetail_pic .un_newsDetail_picListItem a img", // article end thumbnails
             "main .un_newsImages_tmb li a img", // image gallery page
