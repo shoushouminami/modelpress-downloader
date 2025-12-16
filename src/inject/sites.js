@@ -118,7 +118,7 @@ function register(siteModule) {
     require("./www.musicvoice.jp"),
     require("./www.music-culture.info"),
     require("./seigura.com"),
-    require("./25jigen.jp"),
+    // require("./25jigen.jp"),
     require("./www.astage-ent.com"),
     require("./www.cinematoday.jp"),
     require("./www.cinemacafe.net"),

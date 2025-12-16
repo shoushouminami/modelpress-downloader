@@ -1,7 +1,7 @@
 const sites = require("../../src/inject/sites");
 
 test("Test sites.all", () => {
-    expect(sites.all().length).toBe(131);
+    expect(sites.all().length).toBe(130);
     let hosts = [];
     let urls = [];
     sites.all().forEach((module) => {
@@ -88,7 +88,7 @@ test("Test sites.all", () => {
         "www.thefirsttimes.jp",
         "hanako.tokyo",
         "www.cinemacafe.net",
-        "25jigen.jp",
+        // "25jigen.jp",
         "more.hpplus.jp",
         "www.excite.co.jp",
         "yorozoonews.jp",
