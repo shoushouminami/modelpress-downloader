@@ -75,7 +75,7 @@ test("collections/13552", async () => {
         getBrowser(),
         "https://www.fashion-press.net/collections/13552",
         "www.fashion-press.net-collections-13552/",
-        dummyItems(60));
+        dummyItems(61));
 });
 
 test("snaps/5485", async () => {
@@ -85,57 +85,30 @@ test("snaps/5485", async () => {
         "www.fashion-press.net-snaps-5485/",
         [
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_-rQ.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/-rQ.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_jZo.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/jZo.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_cp8.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/cp8.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_Mrc.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/Mrc.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_hLw.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/hLw.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_Xjg.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/Xjg.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_1XI.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/1XI.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_SPE.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/SPE.jpg"
             },
             {
-                "retries": [
-                    "https://www.fashion-press.net/img/snaps/5485/w150_q2Y.jpg"
-                ],
                 "url": "https://www.fashion-press.net/img/snaps/5485/q2Y.jpg"
             }
         ]);

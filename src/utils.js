@@ -139,6 +139,11 @@ function pushArray(list, newList) {
 
 /**
  * Helper method to push value into list if it is not yet in the list.
+ * 
+ * If value is a string, it is first searched in the list, and is added when it is not yet found in the list.
+ * 
+ * if value is an object, value.url is searched and is added when no other object in the list has the same url property.
+ * 
  * null/undefined is not permitted.
  */
 function pushIfNew(list, value) {

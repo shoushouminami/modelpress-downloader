@@ -1,25 +1,33 @@
+const { removeSpace } = require("../utils/str-utils.js");
 const utils = require("../utils.js");
+const { toFull } = require("../utils/url-utils.js");
+const logger = require("../logger2")(module.id);
+
 const getLargeImg = function (url) {
     if (url == null || url.length === 0) {
         return null;
     }
 
+    url = toFull(url);
+
     if (url.indexOf("/w300_") > -1) {
         return {
             url: url.replace("/w300_", "/"),
-            retries: [url]
+            retries: [url],
+            thumbnail: url,
         };
     }
 
     if (url.indexOf("/w150_") > -1) {
         return {
             url: url.replace("/w150_", "/"),
-            retries: [url]
+            retries: [url],
+            thumbnail: url,
         };
     }
 
     return {
-        url: url
+        url: url,
     };
 };
 module.exports = {
@@ -30,13 +38,22 @@ module.exports = {
             for (const line of scriptNode.text.split("\n")) {
                 if (line.length > 0 && !line.startsWith("//")) {
                     try {
-                        const obj = JSON.parse(line);
-                        if (obj["image"]) {
-                            utils.pushArray(o.images, obj.image.map(i => window.location.origin + i).map(getLargeImg));
+                        const nospaceline = removeSpace(line);
+                        if (nospaceline.length == 0) {
+                            continue;
                         }
+                        
+                        const obj = JSON.parse(line);
+                        logger.debug("Parsed js tag result=", obj);
+                        obj["@graph"]?.forEach(g => {
+                            if (g.image) {
+                                const toAdd = g.image.map(toFull).map(getLargeImg).filter(i => i !== null);
+                                logger.debug("Adding images from js tag image=", toAdd);
+                                utils.pushArray(o.images, toAdd);
+                            }
+                        })
                     } catch (e) {
-                        const logger = require("../logger2")(module.id);
-                        logger.error("failed to parse line from ld+json", line);
+                        logger.error("failed to parse line from ld+json", line, e);
                     }
                 }
             }
