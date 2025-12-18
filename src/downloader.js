@@ -15,7 +15,7 @@ const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";
 const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
 const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
 
-const EXTENSION_ID = require("./globals").getExtensionID()
+const EXTENSION_ID = require("./runtime").getExtensionID()
 
 /**
  * @param image {{context: {folder: "", ext: ""}, url: "", filename: "", folder: "abc/", ext: "jpg", jobId: 123}}

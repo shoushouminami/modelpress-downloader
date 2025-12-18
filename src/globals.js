@@ -45,10 +45,6 @@ function getChromeVersion() {
     return String(m && m[1]);
 }
 
-function getExtensionID() {
-    return getChrome()?.runtime?.id;
-}
-
 exports.getWindow = getWindow;
 exports.getChrome = getChrome;
 exports.getDocument = getDocument;
@@ -56,4 +52,3 @@ exports.getSearchParamValue = getSearchParamValue;
 exports.getExtensionVersion = getExtensionVersion;
 exports.isChromeExtension = isChromeExtension;
 exports.getChromeVersion = getChromeVersion;
-exports.getExtensionID = getExtensionID;

@@ -4,9 +4,9 @@ const isServiceWorker = runtime.isServiceWorker();
 const isRuntime = runtime.isRuntime();
 const isPage = runtime.isPage();
 const isCS = runtime.isCS();
+const EXTENSION_ID = runtime.getExtensionID();
 const thisSender = (isServiceWorker ? "sw" : (isRuntime ? "popup" : (isCS ? "content_script" : "page"))) + Math.round(Math.random() * 1000000000); // random sender id
 const logger = require("./logger2")(module.id + " " + thisSender);
-
 logger.debug("isServiceWorker", isServiceWorker, "isRuntime", isRuntime, "isPage", isPage, "isCS", isCS);
 
 let msgCount = 0; // id of message == (sender + msgCount)
@@ -66,12 +66,16 @@ function tryAndListenOnKey(key) {
  * @param onResponse
  */
 function sendToPage(key, msg, onResponse) {
+    return sendToPageWindow(window, key, msg, onResponse);
+}
+
+function sendToPageWindow(targetWindow, key, msg, onResponse) {
     const replyKey = nextMsgId(); // get unique key for reply
     if (onResponse instanceof Function) {
         listenOnPage(replyKey, onResponse); // setup async reply channel
     }
     logger.debug("sendToPage", key, msg);
-    window.postMessage({
+    targetWindow.postMessage({
         what: key,
         sender: thisSender,
         msg: msg,
@@ -82,14 +86,26 @@ function sendToPage(key, msg, onResponse) {
 /**
  * Content script sends messages to extension runtime (popup or background),
  * or extension runtime sends to extension runtime.
+ * 
+ * Accepts a callback or if not provided, returns a Promise.
  */
 function sendToRuntime(key, msg, onResponse) {
     logger.debug("sendToRuntime", key, msg);
-    chrome.runtime.sendMessage({
-        what: key,
-        sender: thisSender,
-        msg: msg
-    }, onResponse);
+    const handleWith = (resolve) => {
+        chrome.runtime.sendMessage({
+            what: key,
+            sender: thisSender,
+            msg: msg
+        }, resolve);
+    }
+
+    if (typeof onResponse === "function") {
+        return handleWith(onResponse);
+    } else {
+        return new Promise((resolve, error) => {
+            handleWith(resolve);
+        });
+    }
 }
 
 /**
@@ -124,6 +140,10 @@ function relayMsgFromPageToRuntime(key, transformerFunc) {
  * Content script relays the message from extension runtime (popup or background) to page.
  */
 function relayMsgFromRuntimeToPage(key, transformerFunc) {
+    return relayMsgFromRuntimeToPageWindow(key, window, transformerFunc);
+}
+
+function relayMsgFromRuntimeToPageWindow(key, targetWindow, transformerFunc) {
     listenOnRuntime(key, function (msg, sendResponse) {
         if (transformerFunc instanceof Function) {
             let newMsg = transformerFunc(msg);
@@ -132,7 +152,7 @@ function relayMsgFromRuntimeToPage(key, transformerFunc) {
             }
         }
         logger.debug("relayMsgToPage", key, msg);
-        sendToPage(key, msg, sendResponse);
+        sendToPageWindow(targetWindow, key, msg, sendResponse);
         return true; // always enable async response
     });
 }
@@ -151,8 +171,9 @@ function relayAllMsgsToRuntime(...keys) {
 function listenOnPage(key, callback) {
     if (tryAndListenOnKey(key)) {
         logger.debug("listeningOnPage", key);
-        let listener = function(event) {
-            if (event.source !== window || event.origin !== window.origin) {
+        const listener = function(event) {
+            if (event.source !== window || event.origin !== window.location.origin) {
+                logger.error("Ingoring message sent by other page origin event=", event)
                 return;
             }
 
@@ -185,7 +206,11 @@ function listenOnRuntime(key, callback) {
         logger.debug("listeningOnRuntime", key);
         const listener = function(data, sender, sendResponse) {
             if (data && data.what && data.what === key && data.sender !== thisSender) {
-                logger.debug("Received on runtime", data.what, data.msg, "chrome sender=", sender, "sender=", data.sender);
+                logger.debug("Received on runtime data=", data, "chrome sender=", sender);
+                if (sender.id !== EXTENSION_ID) {
+                    logger.error("Ignoring messages sent by other extensions. sender=", sender, "message=", data);
+                    return false;
+                }
                 // if callback returns true, async replying mode is enabled and calling sendResponse can reply
                 return callback(data.msg, sendResponse);
             }
@@ -267,10 +292,12 @@ module.exports = {
     listenOnPage,
     relayAllMsgsToRuntime,
     relayMsgFromRuntimeToPage,
+    relayMsgFromRuntimeToPageWindow,
     relayMsgFromPageToRuntime,
     sendToCS,
     sendToRuntime,
     sendToPage,
+    sendToPageWindow,
     tearDownListenerByKey,
     tearDownAllListeners
 }
