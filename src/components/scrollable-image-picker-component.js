@@ -51,7 +51,7 @@ function ScrollableImagePicker({ images = [], onChange }) {
     }
 
     return (
-        <div className="image-picker">
+        <div className="image-picker-container">
             <div className="image-pick-button-row" style={{ marginBottom: 8 }}>
                 <button className="image-pick-button" type="button" onClick={selectAll}>
                     Select all

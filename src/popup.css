@@ -1,8 +1,8 @@
 .popup-download-container {
     display: block;
     width: 400px;
-    max-height: 600px;
     max-width: 400px;
+    max-height: 600px;
 }
 
 .row {
@@ -217,7 +217,7 @@ body::-webkit-scrollbar {
     margin-right: 15px;
 }
 
-.image-picker {
+.image-picker-container {
     padding: 4px 4px;
     height: 100%;
     width: 392px;
@@ -234,13 +234,12 @@ body::-webkit-scrollbar {
 }
 
 .image-picker-table {
-    max-height: 450px;
+    max-height: 400px;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 4px;
 }
 
 .image-picker-row {
@@ -254,7 +253,7 @@ body::-webkit-scrollbar {
 
 .image-picker-thumbnail {
     width: 80px;
-    height: 80px;
+    height: 60px;
     display: inline-block;
     padding: 4px;
     border-radius: 4px;
