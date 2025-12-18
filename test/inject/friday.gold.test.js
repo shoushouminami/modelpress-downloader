@@ -6,7 +6,7 @@ test("Test gravure article intro", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://friday.gold/gravure/article/86647",
-        "friday.gold-gravure-article-86647/",
+        "friday.gold-沢口愛華 Juicy Eighteen  (動画付き） - FRIDAY（フライデー）/",
         [
             {
                 prefix: "https://assets.friday.gold/friday-wp-production-assets/app/uploads/2021/06/01-777.jpg",
@@ -22,7 +22,7 @@ test("Test news article", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://friday.gold/article/88160",
-        "friday.gold-article-88160/",
+        "friday.gold-仮面女子　猪狩ともか「いつだって私は前向き思考で生きています」 - FRIDAY（フライデー）/",
         [
             {
                 prefix: "https://assets.friday.gold/friday-wp-production-assets/app/uploads/2021/07/SH482249.jpg",
@@ -47,23 +47,15 @@ test("gravure/article/343703", async () => {
     await testDirectDownload(
         getBrowser(),
         "https://friday.gold/gravure/article/343703",
-        "friday.gold-gravure-article-343703/",
+        "friday.gold-田中美久 恋しすぎて…夏（アザーカット付き） - FRIDAY（フライデー）/",
         dummyItems(18)
     );
 });
 
-test("article/348878", async () => {
+test("article/384268", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://friday.gold/article/348878",
-        "friday.gold-article-348878/",
-        dummyItems(2));
-});
-
-test("article/348881", async () => {
-    await testDirectDownload(
-        getBrowser(),
-        "https://friday.gold/article/348881",
-        "friday.gold-article-348881/",
+        "https://friday.gold/article/384268",
+        "friday.gold-乃木坂46　乃木撮　NOGI_SATSU Vol.328 - FRIDAY（フライデー）/",
         dummyItems(2));
 });
