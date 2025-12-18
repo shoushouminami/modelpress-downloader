@@ -23,7 +23,7 @@ function DownloadButton({ count, disabled, hasImage, loading , onClick}) {
     }
 
     return (
-        <button id="download" className="row" disabled={btnDisabled ? "disabled": null} onClick={onClick}>
+        <button id="download" className="row download-button" disabled={btnDisabled ? "disabled": null} onClick={onClick}>
             <span id="buttonText"><span id="count">{text}</span></span>
         </button>
     );
@@ -218,7 +218,7 @@ class PopupComponent extends React.Component {
 
             const hasImage = this.state.imageThumbnails.length > 0;
             return (
-                <div>
+                <div className="popup-download-container">
                     <DownloadButton
                         count={this.state.selectedIndexes ? this.state.selectedIndexes.length : this.state.imageThumbnails.length}
                         hasImage={hasImage}

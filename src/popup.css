@@ -1,9 +1,21 @@
+.popup-download-container {
+    display: block;
+    width: 400px;
+    max-height: 600px;
+    max-width: 400px;
+}
+
 .row {
     height: 30px;
     min-width: 180px;
     max-width: 250px;
     display: block;
     margin: 5px auto 0;
+}
+
+.download-button {
+    max-width: 350px;
+    width: 350px;
 }
 
 button {
@@ -158,6 +170,7 @@ body::-webkit-scrollbar {
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
+
 .configRow {
     height: 24px;
     line-height: 24px;
@@ -168,3 +181,98 @@ body::-webkit-scrollbar {
     float: right;
 }
 
+.site-option-container {
+    padding: 4px 4px;
+}
+
+.site-option {
+    height: 24px;
+    line-height: 24px;
+    width: 100%;
+    padding-top: 2px;
+    display: flex;
+    align-items: center; /* vertical alignment */
+}
+
+.site-option-label {
+    padding-left: 8px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.site-option-checkbox, .site-option-range, .site-option-text {
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.site-option-range-slider {
+    width: 100px;
+}
+.site-option-range-label {
+    width: 24;
+    text-align: center;
+    vertical-align: auto;
+    margin-left: 8px;
+    margin-right: 15px;
+}
+
+.image-picker {
+    padding: 4px 4px;
+    height: 100%;
+    width: 392px;
+    overflow: hidden;
+}
+
+.image-pick-button-row {
+    display: flex;
+}
+
+.image-pick-button {
+    /* margin-left: auto; */
+    margin: auto;
+}
+
+.image-picker-table {
+    max-height: 450px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.image-picker-row {
+    display: flex;
+    align-items: center;
+    padding: 4px 4px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    gap: 4px;
+}
+
+.image-picker-thumbnail {
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+    padding: 4px;
+    border-radius: 4px;
+    flex-shrink: 0px;
+    overflow: hidden;
+}
+
+.image-picker-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* fill & crop */
+}
+
+.image-picker-filename {
+    width: 246px;
+    margin-left: 4px;
+    padding-left: 5px;
+    overflow: hidden;
+    /* font-size: 12px; */
+}
