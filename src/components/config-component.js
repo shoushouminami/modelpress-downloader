@@ -1,7 +1,6 @@
 const React = require("react");
 const ga = require("../google-analytics");
 const i18n = require("../i18n");
-const logger = require("../logger2")(module.id);
 const config = require("../config");
 const {clearRecentSites} = require("../recent-sites");
 
@@ -27,11 +26,6 @@ class ConfigComponent extends React.Component {
         // ga.trackPageViewGA4("Config");
         return (
             <div id="configComponent">
-                <div className="configRow">
-                    <label htmlFor={config.KEEP_RECENT_CLICKS}>{i18n.getText("configKeepRecentClicks")}</label>
-                    <input id={config.KEEP_RECENT_CLICKS} type="checkbox" className="configCheckbox" checked={this.state[config.KEEP_RECENT_CLICKS]}
-                           onChange={(e) => this.inputChanged(e)}/>
-                </div>
                <div className="configRow">
                    <label htmlFor={config.DOWNLOAD_PREPEND_JOBID}>{i18n.getText("configDownloadPrependJobId")}</label>
                    <input id={config.DOWNLOAD_PREPEND_JOBID} type="checkbox" className="configCheckbox" checked={this.state[config.DOWNLOAD_PREPEND_JOBID]}
