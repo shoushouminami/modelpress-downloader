@@ -5,7 +5,7 @@ const urlUtils = require("../../src/utils/url-utils");
 const {getWindow} = require("../globals.js");
 const { altHosts } = require("./www.oricon.co.jp.js");
 const logger = require("../../src/logger2")(module.id);
-const { loadPerisistedSiteOptions, onOptionsChanged, isOptionValueChanged } = require("../site-options");
+const { loadPerisistedSiteOptions, onOptionsChanged, isOptionValueChanged, DOWNLOAD_PREPEND_JOBID } = require("../site-options");
 
 let lastGroupResp = null; // { group_d: 64, group_messages: [{}, ..], group: {id: 64, ...}, group_members: [{} ...]}
 
@@ -137,7 +137,11 @@ function inject() {
             label: "Download Text as HTML",
             type: "checkbox",
             checked: true
-        }
+        },
+        [DOWNLOAD_PREPEND_JOBID]: {
+            hidden: true,
+            checked: false
+        },
     };
 
     function sendResultToPopup({ group_messages, group, group_members }) {
