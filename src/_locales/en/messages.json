@@ -1,78 +1,110 @@
 {
-  "appName": {
-    "message": "Modelpress Image Downloader",
-    "description":"The name of this extension, displayed in the web store and extension menu."
-  },
-  "appDesc": {
-    "message": "One click to batch download the best resolution images from the current news article.",
-    "description":"The description of the application, displayed in the web store."
-  },
-  "downloadButtonMessage": {
-    "message": "Download $NUMBER$ Images",
-    "description": "The text on the button which user clicks to batch download all images",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "1"
-      }
+    "appName": {
+        "message": "Modelpress Image Downloader",
+        "description": "The name of this extension, displayed in the web store and extension menu."
+    },
+    "appDesc": {
+        "message": "One click to batch download the best resolution images from the current news article.",
+        "description": "The description of the application, displayed in the web store."
+    },
+    "downloadButtonMessage": {
+        "message": "Download $NUMBER$ Images",
+        "description": "The text on the button which user clicks to batch download all images",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "noImageMessage": {
+        "message": "No Image Detected",
+        "description": "The text on the button when there is no image found to download"
+    },
+    "supportedSitesTitle": {
+        "message": "Currently works on:",
+        "description": "The title of a list of supported websites shown when the active tab is not supported"
+    },
+    "recentClicks": {
+        "message": "Recent Clicks",
+        "description": "Recent sites the user clicked"
+    },
+    "supportMessageML": {
+        "message": "Modelpress Image Downloader supports the following websites. You can submit a request on this <a href=\"https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8\">Google Form</a> to add other sites.",
+        "description": "Shows the Google form url where the user can file a support request."
+    },
+    "downloadMobileLabel": {
+        "message": "Scan App only images ",
+        "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
+    },
+    "downloadMobileStatusTextInProgress": {
+        "message": "⌛ Only on App: Checking",
+        "description": "The text for in progress fetching extra images"
+    },
+    "downloadMobileStatusTextSuccess": {
+        "message": "\uD83D\uDCF1️ Only on App: $NUMBER$",
+        "description": "The text for successfully fetching extra images",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "downloadMobileStatusTextNotFound": {
+        "message": "\uD83E\uDD37 Only on App: Not found ",
+        "description": "The text for no extra images found (404)"
+    },
+    "downloadMobileStatusTextFailed": {
+        "message": "❌ Only on App: Failed ",
+        "description": "The text for failed fetching extra images with any failure other than 404"
+    },
+    "downloadMobileStatusFailedHelp": {
+        "message": "help/help_en.html",
+        "description": "The link of help page"
+    },
+    "downloadMobileStatusHelpLink": {
+        "message": "help/permission_en.html",
+        "description": "The link that explains additional permission"
+    },
+    "configKeepRecentClicks": {
+        "message": "Keep recent clicks",
+        "description": "Text label in config setting: keep recent clicks"
+    },
+    "configDownloadPrependJobId": {
+        "message": "Prepend sequence number to file name",
+        "description": "Text label in config setting: Add sequence number to file name"
+    },
+    "selectAllButton": {
+        "message": "Select All",
+        "description": "Text label for button in image picker that selects all images"
+    },
+    "DeselectAllButton": {
+        "message": "Deselect All",
+        "description": "Text label for button in image picker that deselects all images"
+    },
+    "selected": {
+        "message": "Selected",
+        "description": "Text label in image picker that shows selected count"
+    },
+    "downloadHTML": {
+        "message": "Download Blog HTML",
+        "description": "Option to download HTML page on sakamichi group website"
+    },
+    "daysAgo": {
+        "message": "Days Ago",
+        "description": "Option to select how many days ago on message.sakamichi group"
+    },
+    "downloadVideo": {
+        "message": "Download Video",
+        "description": "Option whether to download video on message.sakamichi group"
+    },
+    "downloadVoice": {
+        "message": "Download Voice", 
+        "description": "Option whether to download voice audio on message.sakamichi group"
+    },
+    "downloadText": {
+        "message": "Download Text",
+        "description": "Option whether to download text as HTML on message.sakamichi group"
     }
-  },
-  "noImageMessage": {
-    "message": "No Image Detected",
-    "description": "The text on the button when there is no image found to download"
-  },
-  "supportedSitesTitle": {
-    "message": "Currently works on:",
-    "description": "The title of a list of supported websites shown when the active tab is not supported"
-  },
-  "recentClicks": {
-    "message": "Recent Clicks",
-    "description": "Recent sites the user clicked"
-  },
-  "supportMessageML": {
-    "message": "Modelpress Image Downloader supports the following websites. You can submit a request on this <a href=\"https://docs.google.com/forms/d/1RVrtZfl22pGhGgvm8SFxmdTRG7yQ-er75s60-CpUK_8\">Google Form</a> to add other sites.",
-    "description": "Shows the Google form url where the user can file a support request."
-  },
-  "downloadMobileLabel": {
-    "message": "Scan App only images ",
-    "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
-  },
-  "downloadMobileStatusTextInProgress": {
-    "message": "⌛ Only on App: Checking",
-    "description": "The text for in progress fetching extra images"
-  },
-  "downloadMobileStatusTextSuccess": {
-    "message": "\uD83D\uDCF1️ Only on App: $NUMBER$",
-    "description": "The text for successfully fetching extra images",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
-  },
-  "downloadMobileStatusTextNotFound": {
-    "message": "\uD83E\uDD37 Only on App: Not found ",
-    "description": "The text for no extra images found (404)"
-  },
-  "downloadMobileStatusTextFailed": {
-    "message": "❌ Only on App: Failed ",
-    "description": "The text for failed fetching extra images with any failure other than 404"
-  },
-  "downloadMobileStatusFailedHelp": {
-    "message": "help/help_en.html",
-    "description": "The link of help page"
-  },
-  "downloadMobileStatusHelpLink": {
-    "message": "help/permission_en.html",
-    "description": "The link that explains additional permission"
-  },
-  "configKeepRecentClicks": {
-    "message": "Keep recent clicks",
-    "description": "Text label in config setting: keep recent clicks"
-  },
-  "configDownloadPrependJobId": {
-    "message": "Prepend sequence number to file name",
-    "description": "Text label in config setting: Add sequence number to file name"
-  }
 }

@@ -58,6 +58,7 @@ class RecentSitesComponent extends React.Component {
         return (
             <div id="recentSites">
                 <Toggle
+                    className="controlButton"
                     checked={config.keepRecentClicks()}
                     handleToggle={(checked) => this.handleRecentSitesToggle(checked)}
                 />

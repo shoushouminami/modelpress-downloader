@@ -1,74 +1,105 @@
 {
-  "appName": {
-    "message": "ミッチャン画像ダウンローダ"
-  },
-  "appDesc": {
-    "message": "ニュースページに表示されているすべての画像をワンクリックでダウンロードする事が出来るようになります。"
-  },
-  "downloadButtonMessage": {
-    "message": "$NUMBER$枚の画像をダウンロードする",
-    "description": "The text on the button which user clicks to batch download all images",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "1"
-      }
+    "appName": {
+        "message": "ミッチャン画像ダウンローダ"
+    },
+    "appDesc": {
+        "message": "ニュースページに表示されているすべての画像をワンクリックでダウンロードする事が出来るようになります。"
+    },
+    "downloadButtonMessage": {
+        "message": "画像を $NUMBER$ 枚ダウンロード",
+        "description": "The text on the button which user clicks to batch download all images",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "noImageMessage": {
+        "message": "画像が見つかりません",
+        "description": "The text on the button when there is no image found to download"
+    },
+    "supportedSitesTitle": {
+        "message": "現在対応しているサイト:"
+    },
+    "recentClicks": {
+        "message": "最近クリックしたサイト",
+        "description": "Recent sites the user clicked"
+    },
+    "supportMessageML": {
+        "message": "ミッチャン画像ダウンローダは以下のウェブサイトに対応しています。他のサイトへの対応をご希望の場合は、こちらの<a href=\"https://docs.google.com/forms/d/1RJpMZnxmjqbsy5qAvMcwZFKIl9FqYfIrfiXQU901xxM\">Google フォーム</a>からリクエストを送信してください。"
+    },
+    "downloadMobileLabel": {
+        "message": "アプリ限定画像を含める",
+        "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
+    },
+    "downloadMobileStatusTextInProgress": {
+        "message": "⌛ アプリ限定: 確認中",
+        "description": "The text for in progress fetching extra images"
+    },
+    "downloadMobileStatusTextSuccess": {
+        "message": "\uD83D\uDCF1 アプリ限定: $NUMBER$ 枚",
+        "description": "The text for successfully fetching extra images",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "downloadMobileStatusTextNotFound": {
+        "message": "\uD83E\uDD37 アプリ限定: 見つかりません",
+        "description": "The text for no extra images found (404)"
+    },
+    "downloadMobileStatusTextFailed": {
+        "message": "❌ アプリ限定: 取得失敗",
+        "description": "The text for failed fetching extra images with any failure other than 404"
+    },
+    "downloadMobileStatusFailedHelp": {
+        "message": "help/help_ja.html",
+        "description": "The link of help page"
+    },
+    "downloadMobileStatusHelpLink": {
+        "message": "help/permission_ja.html",
+        "description": "The link that explains additional permission"
+    },
+    "configKeepRecentClicks": {
+        "message": "最近のクリック履歴を保持する"
+    },
+    "configDownloadPrependJobId": {
+        "message": "ファイル名の先頭に連番を付ける",
+        "description": "Text label in config setting: Add sequence number to file name"
+    },
+    "selectAllButton": {
+        "message": "すべて選択",
+        "description": "Text label for button in image picker that selects all images"
+    },
+    "DeselectAllButton": {
+        "message": "すべて解除",
+        "description": "Text label for button in image picker that deselects all images"
+    },
+    "selected": {
+        "message": "選択中",
+        "description": "Text label in image picker that shows selected count"
+    },
+    "downloadHTML": {
+        "message": "ブログのHTMLをダウンロード",
+        "description": "Option to download HTML page on sakamichi group website"
+    },
+    "daysAgo": {
+        "message": "何日前まで",
+        "description": "Option to select how many days ago on message.sakamichi group"
+    },
+    "downloadVideo": {
+        "message": "動画をダウンロード",
+        "description": "Option whether to download video on message.sakamichi group"
+    },
+    "downloadVoice": {
+        "message": "音声をダウンロード",
+        "description": "Option whether to download voice audio on message.sakamichi group"
+    },
+    "downloadText": {
+        "message": "テキストをダウンロード",
+        "description": "Option whether to download text as HTML on message.sakamichi group"
     }
-  },
-  "noImageMessage": {
-    "message": "画像を検出しませんでした",
-    "description": "The text on the button when there is no image found to download"
-  },
-  "supportedSitesTitle": {
-    "message": "以下のサイトに利用出来ます："
-  },
-  "recentClicks": {
-    "message": "最近クリックしたサイト",
-    "description": "Recent sites the user clicked"
-  },
-  "supportMessageML": {
-    "message": "ミッチャン画像ダウンローダは、以下のWebサイトで使用できます。こちらの<a href=\"https://docs.google.com/forms/d/1RJpMZnxmjqbsy5qAvMcwZFKIl9FqYfIrfiXQU901xxM\">Google フォーム</a>で他のサイトのリクエストできます。"
-  },
-  "downloadMobileLabel": {
-    "message": "アプリのみも検出する ",
-    "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
-  },
-  "downloadMobileStatusTextInProgress": {
-    "message": "⌛ アプリのみ：検出中",
-    "description": "The text for in progress fetching extra images"
-  },
-  "downloadMobileStatusTextSuccess": {
-    "message": "\uD83D\uDCF1️ アプリのみの画像：$NUMBER$ 枚",
-    "description": "The text for successfully fetching extra images",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
-  },
-  "downloadMobileStatusTextNotFound": {
-    "message": "\uD83E\uDD37 アプリのみ：検出しませんでした ",
-    "description": "The text for no extra images found (404)"
-  },
-  "downloadMobileStatusTextFailed": {
-    "message": "❌ アプリのみ：エラー ",
-    "description": "The text for failed fetching extra images with any failure other than 404"
-  },
-  "downloadMobileStatusFailedHelp": {
-    "message": "help/help_ja.html",
-    "description": "The link of help page"
-  },
-  "downloadMobileStatusHelpLink": {
-    "message": "help/permission_ja.html",
-    "description": "The link that explains additional permission"
-  },
-  "configKeepRecentClicks": {
-    "message": "最近クリックしたサイトを表示する"
-  },
-  "configDownloadPrependJobId": {
-    "message": "ファイル名に番号を追加する",
-    "description": "Text label in config setting: Add sequence number to file name"
-  }
-
 }

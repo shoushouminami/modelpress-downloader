@@ -1,21 +1,8 @@
 const globals = require("./globals");
 const isExt = globals.isChromeExtension();
 
-function getScopedName(id, scope) {
-    if (id != null) {
-        if (scope != null) {
-            return scope + "_" + id;
-        }
-
-        return id;
-    }
-
-    return null;
-}
-
-function getText(id, scope, substitution) {
-    return (getMessage(getScopedName(id, scope), substitution) ||
-        getMessage(getScopedName(id, null), substitution));
+function getText(id, substitution) {
+    return getMessage(id, substitution);
 }
 
 function getMessage(messageName, substitutions) {

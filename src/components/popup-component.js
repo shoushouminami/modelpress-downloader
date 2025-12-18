@@ -12,7 +12,7 @@ function DownloadButton({ count, disabled, hasImage, loading , onClick}) {
     let btnDisabled = disabled;
     let text;
     if (hasImage) {
-        text = i18n.getText("downloadButtonMessage", null, [count]);
+        text = i18n.getText("downloadButtonMessage", [count]);
     } else {
         if (loading) {
             text = "⌛";

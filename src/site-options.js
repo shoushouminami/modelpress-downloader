@@ -14,6 +14,7 @@ const storage = require("./storage");
 const logger = require("./logger2")(module.id);
 const { createConfigManager } = require("./config-manager");
 const runtime = require("./runtime");
+const i18n = require("./i18n");
 
 const STORAGE_KEY = "options";
 const USER_INTERACTED = "userInteracted";
@@ -37,6 +38,7 @@ const DOWNLOAD_FILENAME_PATTERN = "downloadFilenamePattern";
 const COMMON_OPTIONS = {}
 
 COMMON_OPTIONS[DOWNLOAD_PREPEND_JOBID] = {
+    i18nName: "configDownloadPrependJobId",
     index: 999,
     label: "Prepend sequence number to file name",
     type: "checkbox",
@@ -192,6 +194,12 @@ function createSiteOptions({
     });
     // Merge common option and default into all
     const allOptions = Object.assign({}, options, updatedCommonOptions);
+
+    // i18n - replace label if there is an i18n version
+    Object.keys(allOptions).forEach(optName => {
+        const newLabel = i18n.getText(allOptions[optName].i18nName ?? optName);
+        allOptions[optName].label = newLabel != null ? newLabel : allOptions[optName].label; 
+    });
 
     // Create one manager instance for this config
     const manager = createConfigManager({

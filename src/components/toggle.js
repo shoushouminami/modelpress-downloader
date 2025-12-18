@@ -11,7 +11,7 @@ function Toggle({checked, handleToggle, className}) {
     };
 
     return (
-        <div className={"controlButton " + (className ?? "")} >
+        <div className={(className ?? "")} >
             <div className="toggle-container">
                 <input
                     type="checkbox"

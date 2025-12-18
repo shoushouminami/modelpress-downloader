@@ -1,5 +1,6 @@
 const React = require("react");
 const { useState } = React;
+const i18n = require("../i18n");
 
 // images: array of strings OR array of objects with at least { src }
 //   - string: "url"           → id = url, src = url
@@ -54,13 +55,13 @@ function ScrollableImagePicker({ images = [], onChange }) {
         <div className="image-picker-container">
             <div className="image-pick-button-row" style={{ marginBottom: 8 }}>
                 <button className="image-pick-button" type="button" onClick={selectAll}>
-                    Select all
+                    {i18n.getText("selectAllButton")}
                 </button>
                 <span className="image-pick-button"  style={{ fontSize: 12 }}>
-                    Selected: {selectedIds.length}/{normalizedImages.length}
+                    {i18n.getText("selected")}: {selectedIds.length}/{normalizedImages.length}
                 </span>
                 <button className="image-pick-button" type="button" onClick={deselectAll} >
-                    Deselect all
+                    {i18n.getText("deselectAllButton")}
                 </button>
             </div>
 

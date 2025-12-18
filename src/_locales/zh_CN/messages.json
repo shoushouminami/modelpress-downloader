@@ -1,71 +1,103 @@
 {
-  "appName": {
-    "message": "米酱图片一键下载"
-  },
-  "appDesc": {
-    "message": "一键批量下载当前新闻页面的相关图片（最大分辨率）。"
-  },
-  "downloadButtonMessage": {
-    "message": "下载 $NUMBER$ 张图片",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "1"
-      }
+    "appName": {
+        "message": "米酱图片一键下载"
+    },
+    "appDesc": {
+        "message": "一键批量下载当前新闻页面的相关图片（最大分辨率）。"
+    },
+    "downloadButtonMessage": {
+        "message": "下载 $NUMBER$ 张图片",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "noImageMessage": {
+        "message": "未检测到图片"
+    },
+    "supportedSitesTitle": {
+        "message": "本扩展可用在："
+    },
+    "recentClicks": {
+        "message": "最近点击的网站",
+        "description": "Recent sites the user clicked"
+    },
+    "supportMessageML": {
+        "message": "米酱支持以下网站。你可以通过 <a href=\"https://docs.google.com/forms/d/1it_kUTKcBH8MUT_wA7lvngOF6Ro-p4MQdN4xzyG8DFA\">这个Google 表单</a> 申请添加其他网站。"
+    },
+    "downloadMobileLabel": {
+        "message": "检测App专享图片 ",
+        "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
+    },
+    "downloadMobileStatusTextInProgress": {
+        "message": "⌛ App专享图片：检测中",
+        "description": "The text for in progress fetching extra images"
+    },
+    "downloadMobileStatusTextSuccess": {
+        "message": "\uD83D\uDCF1️ App专享图片：$NUMBER$ 张",
+        "description": "The text for successfully fetching extra images",
+        "placeholders": {
+            "number": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "downloadMobileStatusTextNotFound": {
+        "message": "\uD83E\uDD37 App专享图片：无",
+        "description": "The text for no extra images found (404)"
+    },
+    "downloadMobileStatusTextFailed": {
+        "message": "❌ App专享图片：检测失败",
+        "description": "The text for failed fetching extra images with any failure other than 404"
+    },
+    "downloadMobileStatusFailedHelp": {
+        "message": "help/help_zh_CN.html",
+        "description": "The link of help page"
+    },
+    "downloadMobileStatusHelpLink": {
+        "message": "help/permission_zh_CN.html",
+        "description": "The link that explains additional permission"
+    },
+    "configKeepRecentClicks": {
+        "message": "显示最近点击的网站"
+    },
+    "configDownloadPrependJobId": {
+        "message": "文件名添加序号前缀",
+        "description": "Text label in config setting: Add sequence number to file name"
+    },
+    "selectAllButton": {
+        "message": "全选",
+        "description": "Text label for button in image picker that selects all images"
+    },
+    "DeselectAllButton": {
+        "message": "取消全选",
+        "description": "Text label for button in image picker that deselects all images"
+    },
+    "selected": {
+        "message": "已选择",
+        "description": "Text label in image picker that shows selected count"
+    },
+    "downloadHTML": {
+        "message": "下载博客 HTML",
+        "description": "Option to download HTML page on sakamichi group website"
+    },
+    "daysAgo": {
+        "message": "显示至几天前",
+        "description": "Option to select how many days ago on message.sakamichi group"
+    },
+    "downloadVideo": {
+        "message": "下载视频",
+        "description": "Option whether to download video on message.sakamichi group"
+    },
+    "downloadVoice": {
+        "message": "下载电话音频",
+        "description": "Option whether to download voice audio on message.sakamichi group"
+    },
+    "downloadText": {
+        "message": "下载文本",
+        "description": "Option whether to download text as HTML on message.sakamichi group"
     }
-  },
-  "noImageMessage": {
-    "message": "未检测到图片"
-  },
-  "supportedSitesTitle": {
-    "message": "本扩展可用在："
-  },
-  "recentClicks": {
-    "message": "最近点击的网站",
-    "description": "Recent sites the user clicked"
-  },
-  "supportMessageML": {
-    "message": "米酱支持以下网站。你可以通过 <a href=\"https://docs.google.com/forms/d/1it_kUTKcBH8MUT_wA7lvngOF6Ro-p4MQdN4xzyG8DFA\">这个Google 表单</a> 申请添加其他网站。"
-  },
-  "downloadMobileLabel": {
-    "message": "检测App专享图片 ",
-    "description": "The text for checkbox that controls whether to include images that is exclusively for mobile apps on mdpr.jp"
-  },
-  "downloadMobileStatusTextInProgress": {
-    "message": "⌛ App专享图片：检测中",
-    "description": "The text for in progress fetching extra images"
-  },
-  "downloadMobileStatusTextSuccess": {
-    "message": "\uD83D\uDCF1️ App专享图片：$NUMBER$ 张",
-    "description": "The text for successfully fetching extra images",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
-  },
-  "downloadMobileStatusTextNotFound": {
-    "message": "\uD83E\uDD37 App专享图片：无",
-    "description": "The text for no extra images found (404)"
-  },
-  "downloadMobileStatusTextFailed": {
-    "message": "❌ App专享图片：检测失败",
-    "description": "The text for failed fetching extra images with any failure other than 404"
-  },
-  "downloadMobileStatusFailedHelp": {
-    "message": "help/help_zh_CN.html",
-    "description": "The link of help page"
-  },
-  "downloadMobileStatusHelpLink": {
-    "message": "help/permission_zh_CN.html",
-    "description": "The link that explains additional permission"
-  },
-  "configKeepRecentClicks": {
-    "message": "显示最近点击的网站"
-  },
-  "configDownloadPrependJobId": {
-    "message": "在下载文件名中添加序号",
-    "description": "Text label in config setting: Add sequence number to file name"
-  }
 }
