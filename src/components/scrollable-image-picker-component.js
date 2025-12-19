@@ -58,7 +58,14 @@ function ScrollableImagePicker({ images = [], onChange }) {
                     {i18n.getText("selectAllButton")}
                 </button>
                 <span className="image-pick-button"  style={{ fontSize: 12 }}>
-                    {i18n.getText("selected")}: {selectedIds.length}/{normalizedImages.length}
+                    {i18n.getText("selected")}: 
+                    <span style={{
+                        display: "inline-block",
+                        width: 55, 
+                        fontVariantNumeric: "tabular-nums" 
+                    }}>
+                        {String(selectedIds.length).padStart(3, "\u00A0")}/{String(normalizedImages.length).padEnd(3, "\u00A0")}
+                    </span>
                 </span>
                 <button className="image-pick-button" type="button" onClick={deselectAll} >
                     {i18n.getText("deselectAllButton")}

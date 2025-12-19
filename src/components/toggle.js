@@ -2,7 +2,7 @@ const React = require("react");
 const {useState} = React;
 require('../toggle.css');
 
-function Toggle({checked, handleToggle, className}) {
+function Toggle({id, checked, handleToggle, className}) {
     const [checkedState, setCheckedState] = useState(checked);
 
     const toggleCheckedState = (checked) => {
@@ -15,13 +15,13 @@ function Toggle({checked, handleToggle, className}) {
             <div className="toggle-container">
                 <input
                     type="checkbox"
-                    id="toggle"
+                    id={id}
                     className="toggle-input"
                     onChange={e => toggleCheckedState() && handleToggle(e.target.checked) }
                     checked={checkedState}
                 />
                 <label
-                    htmlFor="toggle"
+                    htmlFor={id}
                     className="toggle-slider"
                 />
             </div>
