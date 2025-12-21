@@ -14,6 +14,14 @@
             }
         }
     },
+    "downloadButtonTextPre": {
+        "message": "下载 ",
+        "description": "The 1st part of text on the download button"
+    },
+    "downloadButtonTextPost": {
+        "message": " 项",
+        "description": "The 2nd part of text on the download button"
+    },
     "noImageMessage": {
         "message": "未检测到图片"
     },

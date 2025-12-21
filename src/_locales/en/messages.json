@@ -17,6 +17,14 @@
             }
         }
     },
+    "downloadButtonTextPre": {
+        "message": "Download ",
+        "description": "The 1st part of text on the download button"
+    },
+    "downloadButtonTextPost": {
+        "message": " Items",
+        "description": "The 2nd part of text on the download button"
+    },
     "noImageMessage": {
         "message": "No Image Detected",
         "description": "The text on the button when there is no image found to download"

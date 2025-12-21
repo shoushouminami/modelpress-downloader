@@ -6,13 +6,26 @@ const window = require("../globals").getWindow();
 const ScrollableImagePicker = require("./scrollable-image-picker-component");
 const DownloadOptions = require("./options-component");
 const { wait } = require("../utils/async-utils");
+const { padSurround } = require("../utils/str-utils");
 
 function DownloadButton({ count, disabled, hasImage, loading , onClick}) {
     document.title = "Download Button";
     let btnDisabled = disabled;
     let text;
     if (hasImage) {
-        text = i18n.getText("downloadButtonMessage", [count]);
+        text = (
+            <span>
+                {i18n.getText("downloadButtonTextPre")}
+                <span style={{
+                    display: "inline-block",
+                    width: 25,
+                    fontVariantNumeric: "tabular-nums"
+                }}>
+                    {padSurround(count, 3)}
+                </span>
+                {i18n.getText("downloadButtonTextPost")}
+            </span>
+        );
     } else {
         if (loading) {
             text = "⌛";
@@ -23,8 +36,10 @@ function DownloadButton({ count, disabled, hasImage, loading , onClick}) {
     }
 
     return (
-        <button id="download" className="row download-button" disabled={btnDisabled ? "disabled": null} onClick={onClick}>
-            <span id="buttonText"><span id="count">{text}</span></span>
+        <button id="download" className="row download-button" disabled={btnDisabled ? "disabled" : null} onClick={onClick}>
+            <span id="buttonText">
+                <span id="count">{text}</span>
+            </span>
         </button>
     );
 

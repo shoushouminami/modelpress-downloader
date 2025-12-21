@@ -17,5 +17,19 @@ function removeSpace(s) {
     return s.replace(/\s|\u3000/g, '');
 }
 
-exports.replaceIllegalChars = replaceIllegalChars;
-exports.removeSpace = removeSpace;
+function padSurround(str, width, pad = " ") {
+    str = String(str);
+    if (str.length >= width) return str;
+
+    const total = width - str.length;
+    const right = Math.floor(total / 2);
+    const left = total - right;
+
+    return pad.repeat(left) + str + pad.repeat(right);
+}
+
+module.exports = {
+    replaceIllegalChars,
+    removeSpace,
+    padSurround
+}

@@ -2,6 +2,7 @@ const React = require("react");
 const { useState } = React;
 const i18n = require("../i18n");
 
+
 // images: array of strings OR array of objects with at least { src }
 //   - string: "url"           → id = url, src = url
 //   - object: { src, id? }    → id = id || src
