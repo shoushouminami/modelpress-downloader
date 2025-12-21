@@ -26,7 +26,6 @@ function fetchMdprMobileImages(articleId, currentImages, callback, domains){
         return;
     }
 
-    ga.trackEvent("mdpr_remote", "fetch");
     ga.trackEventGA4("mdpr_remote_start");
     state.startedFetchMobile = true;
 
@@ -64,7 +63,6 @@ function fetchMdprMobileImages(articleId, currentImages, callback, domains){
                     utils.pushArray(list, resp.list);
                 }
 
-                ga.trackEvent("mdpr_remote", "success", "count", list.length);
                 ga.trackEventGA4("mdpr_remote_success", {
                     "count": list.length
                 });
@@ -82,7 +80,6 @@ function fetchMdprMobileImages(articleId, currentImages, callback, domains){
                 state.finishedFetchMobile = true;
                 callback(added);
             }, function (status, statusText) {
-                ga.trackEvent("mdpr_remote", "failure", state.fetchStatus, 1);
                 ga.trackEventGA4("mdpr_remote_failure");
                 console.error("Failed loading remote images", url, status, statusText);
                 if (domains.length > 0) {
@@ -101,13 +98,11 @@ function fetchMdprMobileImages(articleId, currentImages, callback, domains){
 const ORIGINS = ["https://*.freetls.fastly.net/"];
 
 function requestAppPerm(callback) {
-    ga.trackEvent("mdpr_remote", "perm_ask");
     ga.trackEventGA4("mdpr_remote_perm_ask");
     chrome.permissions.request({
         origins: ORIGINS
     }, function(granted) {
         state.canDownloadMobile = granted;
-        ga.trackEvent("mdpr_remote", granted ? "perm_grant": "perm_deny");
         ga.trackEventGA4("mdpr_remote_perm_grant", {
             "granted": granted
         });

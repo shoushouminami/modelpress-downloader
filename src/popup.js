@@ -46,7 +46,6 @@ function downloadInBackgroundOrPopup(chrome, job, resolve) {
                         function (queryResp) {
                             logger.debug("queryResp=", queryResp);
                             if (queryResp["userCanceledCount"]) {
-                                ga.trackEvent("retry_popup_download", "retried", globals.getChromeVersion(), 1);
                                 ga.trackEventGA4("retry_popup_download");
                                 logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
                                 downloader.downloadJob(job, () => {
@@ -118,7 +117,6 @@ function updatePopupUI() {
         document.getElementById("react-root"),
         function () {
             addClickListenerForLinks(document.getElementById("supportRequest"), () => {
-                ga.trackEvent("support_link", "clicked");
                 ga.trackEventGA4("support_link_click");
             });
         }
@@ -291,7 +289,6 @@ function downloadHandler(resolve) {
     function _downloadHandler() {
         const jobs = prepareDownloadJobs();
         const totalImageCount = jobs.reduce((sum, job) => sum + job.images.length, 0);
-        ga.trackDownload(message.host, totalImageCount);
         ga.trackEventGA4("download", {
             "domain": message.host,
             "count": totalImageCount
@@ -313,7 +310,6 @@ function downloadHandler(resolve) {
                         });
                     break;
                 case "tab":
-                    ga.trackEvent("tab_download", "started", message.host, job.images.length);
                     ga.trackEventGA4("tab_dl_start", {
                         "domain": message.host,
                         "count": job.images.length
@@ -447,7 +443,6 @@ function updateMessage(result, tabId) {
             })
         }
     }
-    ga.trackSupport(message.host, message.supported);
     ga.trackEventGA4(message.supported ? "website_supported" : "website_not_supported", {
         "domain": message.host
     })

@@ -16,14 +16,12 @@ class RecentSitesComponent extends React.Component {
     }
 
     handleSiteClick(host, href) {
-        ga.trackEvent("recent_icon", "clicked", host);
         ga.trackEventGA4("recent_icon_click", {
             "domain": host
         });
     }
 
     clearRecentSites() {
-        ga.trackEvent("recent_icon", "removed");
         ga.trackEventGA4("recent_icon_clear");
         clearRecentSites();
         this.setState({
@@ -33,7 +31,6 @@ class RecentSitesComponent extends React.Component {
 
     handleRecentSitesToggle(checked) {
         config.setKeepRecentClicks(checked);
-        ga.trackEvent("config_change", config.KEEP_RECENT_CLICKS, checked + "");
         ga.trackEventGA4(`cfg_${config.KEEP_RECENT_CLICKS}_${String(checked)}`);
         // check side effects on config change
         if (!checked) {

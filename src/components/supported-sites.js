@@ -32,13 +32,13 @@ class SupportedSites extends React.Component {
     }
 
     handleSiteClick(host) {
-        ga.trackEvent("site_icon", "clicked", host);
         ga.trackEventGA4("site_icon_click", {
-            "domain": host,
-            "with_query": String(this.state.query !== "")
+            "domain": host
         });
-        if (this.state.query !== "") {
-            ga.trackEvent("site_query", "used", host);
+        if (this.state.query != null && this.state.query !== "") {
+            ga.trackEventGA4("site_icon_click_after_query", {
+                "domain": host
+            });
         }
     }
 
@@ -57,14 +57,12 @@ class SupportedSites extends React.Component {
             wait(50).then(() => document.querySelector("#siteQuery input").focus());
         }
         this.setState({showQuery: newVal})
-        ga.trackEvent("query_icon", "clicked");
         ga.trackEventGA4("query_icon_click");
     }
 
     handleConfigIconClick(e) {
         logger.debug("config button CLICKED", e)
         // const to = useLocation().pathname === "/config" ? "config": "/";
-        ga.trackEvent("config_icon", "clicked");
         ga.trackEventGA4("config_icon_click");
 
     }

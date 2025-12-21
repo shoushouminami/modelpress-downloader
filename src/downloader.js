@@ -72,7 +72,6 @@ function downloadWithMsg(chrome, context, images, done) {
         let count = 0;
         let startMs = new Date().getTime();
         logger.debug("downloadWithMsg images.length=", images.length);
-        ga.trackEvent("msg_download", "start", context.host, images.length);
         ga.trackEventGA4("msg_dl_start", {
             "domain": context.host,
             "count": images.length
@@ -88,14 +87,6 @@ function downloadWithMsg(chrome, context, images, done) {
                         downloadIds.push(downloadId);
                         if (completed) {
                             // logger.debug("downloadWithMsg done count=", count);
-                            ga.trackEvent("msg_download",
-                                "comp",
-                                context.host,
-                                images.length);
-                            ga.trackEvent("msg_download",
-                                "comp_latency_s",
-                                context.host,
-                                Math.round((new Date().getTime() - startMs) / 1000.0));
                             ga.trackEventGA4("msg_dl_comp", {
                                 "domain": context.host,
                                 "count": images.length,
@@ -111,7 +102,6 @@ function downloadWithMsg(chrome, context, images, done) {
                         }
                     });
                 } else {
-                    ga.trackEvent("msg_download", "null", context.host, 1);
                     ga.trackEventGA4("msg_dl_null", {
                         "domain": context.host
                     });
@@ -122,7 +112,6 @@ function downloadWithMsg(chrome, context, images, done) {
         wait(15000)
             .then(() => {
                 if (count < images.length) {
-                    ga.trackEvent("msg_download", "incomp_15s", context.host, images.length);
                     ga.trackEventGA4("msg_dl_incomp", {
                         "count": images.length,
                         "latency_s": 15
@@ -131,10 +120,6 @@ function downloadWithMsg(chrome, context, images, done) {
                         .then(() => {
                             const sec = Math.round((new Date().getTime() - startMs) / 1000.0);
                             if (count === images.length) {
-                                ga.trackEvent("msg_download",
-                                    "comp_" + sec + "s",
-                                    context.host,
-                                    images.length);
                                 ga.trackEventGA4("msg_dl_comp", {
                                     "domain": context.host,
                                     "count": images.length,
@@ -143,10 +128,6 @@ function downloadWithMsg(chrome, context, images, done) {
                                 return true;
                             } else {
                                 if (sec >= 40) {
-                                    ga.trackEvent("msg_download",
-                                        "incomp_40s",
-                                        context.host,
-                                        images.length);
                                     ga.trackEventGA4("msg_dl_incomp", {
                                         "count": images.length,
                                         "latency_s": sec
@@ -298,7 +279,6 @@ function downloadWithNewTab(chrome, image, context, tabId) {
                         context.finishCount++;
                         if (context.finishCount === context.totalCount) {
                             if (context.errorCount > 0) {
-                                ga.trackEvent("tab_download", "failure", context.host, context.errorCount);
                                 ga.trackEventGA4("tab_dl_failure", {
                                     "domain": context.host,
                                     "count": context.errorCount
@@ -306,7 +286,6 @@ function downloadWithNewTab(chrome, image, context, tabId) {
                             }
 
                             if (context.finishCount > context.errorCount) {
-                                ga.trackEvent("tab_download", "success", context.host, context.finishCount - context.errorCount);
                                 ga.trackEventGA4("tab_dl_success", {
                                     "domain": context.host,
                                     "count": context.finishCount - context.errorCount
