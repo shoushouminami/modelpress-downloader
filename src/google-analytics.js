@@ -92,11 +92,15 @@ function getCid() {
 }
 
 function bootstrapGA4() {
-    builder()
-        .event(runtime.isServiceWorker() ? "bg_bootstrap" : "bootstrap")
-        .param("ext_ver", getExtensionVersion())
-        .userId(getGA4UID())
-        .send();
+    const b = builder(runtime.isServiceWorker() ? "bg_bootstrap" : "bootstrap")
+        .param("ext_ver", getExtensionVersion());
+
+    const uid = getGA4UID();
+    if (uid) {
+        b.userId(uid);
+    }
+
+    b.send();
 }
 
 /**

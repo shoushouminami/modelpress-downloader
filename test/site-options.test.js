@@ -7,11 +7,20 @@ jest.mock("../src/storage", () => ({
     set: jest.fn()
 }));
 
+const mockedLogger = {
+    debug: jest.fn(),
+    error: jest.fn()
+};
+
 jest.mock("../src/logger2", () => {
     // logger2(moduleId) -> { debug: fn }
-    return () => ({
-        debug: jest.fn()
-    });
+    return () => mockedLogger;
+});
+
+jest.mock("../src/i18n", () => {
+    return {
+        getText: jest.fn()
+    };
 });
 
 let lastCreateConfigManagerArgs = null;
@@ -42,12 +51,18 @@ describe("site-options", () => {
     let COMMON_OPTIONS;
     let DOWNLOAD_PREPEND_JOBID;
     let isOptionValueChanged;
+    let forEachOptionValueChanged;
+    let logger;
+    let i18n;
 
     beforeEach(() => {
         jest.resetModules();
+        jest.clearAllMocks();
 
         storage = require("../src/storage");
         mod = require("../src/site-options");
+        i18n = require("../src/i18n");
+        logger = require("../src/logger2")(); // same mock instance shape
         createSiteOptions = mod.createSiteOptions;
         removeNonPersistentKeys = mod.removeNonPersistentKeys;
         patchObjectProperties = mod.patchObjectProperties;
@@ -55,6 +70,7 @@ describe("site-options", () => {
         COMMON_OPTIONS = mod.COMMON_OPTIONS;
         DOWNLOAD_PREPEND_JOBID = mod.DOWNLOAD_PREPEND_JOBID;
         isOptionValueChanged = mod.isOptionValueChanged;
+        forEachOptionValueChanged = mod.forEachOptionValueChanged;
     });
 
     test("PERSISTENT_FIELDS contains checked, value, userInteracted", () => {
@@ -159,6 +175,7 @@ describe("site-options", () => {
         // Should include common option
         expect(all[DOWNLOAD_PREPEND_JOBID]).toBeDefined();
         expect(all[DOWNLOAD_PREPEND_JOBID]).toStrictEqual({
+            i18nName: "configDownloadPrependJobId",
             index: 999,
             label: "Prepend sequence number to file name",
             type: "checkbox",
@@ -194,6 +211,7 @@ describe("site-options", () => {
         // Should include common option
         expect(all[DOWNLOAD_PREPEND_JOBID]).toBeDefined();
         expect(all[DOWNLOAD_PREPEND_JOBID]).toStrictEqual({
+            i18nName: "configDownloadPrependJobId",
             index: 999,
             label: "Prepend sequence number to file name",
             type: "checkbox",
@@ -356,6 +374,77 @@ describe("site-options", () => {
             const prev = { opt: { type: "text", value: "a", userInteracted: false } };
             const curr = { opt: { type: "text", value: "a", userInteracted: false } };
             expect(isOptionValueChanged(prev, curr, "opt", ["value", "userInteracted"])).toBe(false);
+        });
+    });
+
+    describe("Test forEachOptionValueChanged", () => {
+
+        test("logs error and returns if callback is not a function", () => {
+            forEachOptionValueChanged({}, {}, null);
+            expect(logger.error).toHaveBeenCalledTimes(1);
+        });
+
+        test("handles null/undefined options (prevOptions/currentOptions) without throwing", () => {
+            const cb = jest.fn();
+
+            expect(() => forEachOptionValueChanged(null, undefined, cb)).not.toThrow();
+
+            // With both nullish => union-of-keys empty => no calls
+            expect(cb).not.toHaveBeenCalled();
+        });
+
+        test("iterates the union of option names from both objects", () => {
+            const prevOptions = { a: { checked: true }, b: { checked: false } };
+            const currentOptions = { b: { checked: false }, c: { checked: true } };
+
+            const cb = jest.fn();
+
+            forEachOptionValueChanged(prevOptions, currentOptions, cb);
+
+            // Expect callback fired for c.checked only
+            expect(cb).toHaveBeenCalledTimes(2);
+            expect(cb).toHaveBeenCalledWith(
+                "a",
+                "checked",
+                true, // prevOptions.c doesn't exist
+                undefined       // currentOptions.c.checked
+            );
+            expect(cb).toHaveBeenCalledWith(
+                "c",
+                "checked",
+                undefined, // prevOptions.c doesn't exist
+                true       // currentOptions.c.checked
+            );
+        });
+
+        test("calls callback for each field that changed (per VALUE_FIELDS)", () => {
+            const prevOptions = {
+                x: { checked: false, value: "a" },
+            };
+            const currentOptions = {
+                x: { checked: true, value: "b" },
+            };
+
+            const cb = jest.fn();
+
+            forEachOptionValueChanged(prevOptions, currentOptions, cb);
+
+            // It should call twice: one for checked, one for value
+            expect(cb).toHaveBeenCalledTimes(2);
+
+            // Assert each call payload (order depends on VALUE_FIELDS order)
+            expect(cb).toHaveBeenCalledWith("x", "checked", false, true);
+            expect(cb).toHaveBeenCalledWith("x", "value", "a", "b");
+        });
+
+        test("does not call callback when nothing changed", () => {
+            const prevOptions = { x: { checked: true, value: "a" } };
+            const currentOptions = { x: { checked: true, value: "a" } };
+            const cb = jest.fn();
+
+            forEachOptionValueChanged(prevOptions, currentOptions, cb);
+
+            expect(cb).not.toHaveBeenCalled();
         });
     });
 });

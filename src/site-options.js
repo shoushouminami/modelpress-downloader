@@ -21,10 +21,21 @@ const USER_INTERACTED = "userInteracted";
 const VALUE = "value";
 const CHECKED = "checked";
 
+/** 
+ * Fields that are persistent into `storage`
+*/
 const PERSISTENT_FIELDS = new Set([
     CHECKED,
     VALUE,
     USER_INTERACTED
+]);
+
+/**
+ * Fields that contains value.
+ */
+const VALUE_FIELDS = new Set([
+    CHECKED,
+    VALUE
 ]);
 
 // V1 options
@@ -156,7 +167,7 @@ function onOptionsChanged(callback) {
 }
 
 /**
- * Helper function to test if the named option is changed across a prevous options map and a current options map.
+ * Helper function to test if the named option is changed between a prevous options map and a current options map.
  * If fields is given, the fields are checked. Otherwise, depending on the option type, a proper field is checked. ("checked" or "value") 
  * @param {*} prevOptions Previous options map
  * @param {*} currentOptions Current options map
@@ -168,6 +179,36 @@ function isOptionValueChanged(prevOptions, currentOptions, optionName, fields = 
         fields = (prevOptions[optionName] || {}).type === "checkbox" ? ["checked"] : ["value"];
     }
     return fields.some(f => (prevOptions[optionName] || {})[f] !== (currentOptions[optionName] || {})[f]);
+}
+
+/**
+ * Compare the two options map, and for each option that its value is changed, call the callback function with 
+ * `(optionName, field, prevValue, currentValue)`.
+ * 
+ * Only value fields are checked. IE. either "value" and "checked".
+ * @param {*} prevOptions 
+ * @param {*} currentOptions 
+ * @param {function(string, string, *, *)} callback 
+ * @returns 
+ */
+function forEachOptionValueChanged(prevOptions, currentOptions, callback) {
+    if (typeof callback !== "function") {
+        logger.error("func=forEachOptionValueChanged callback is not a function type=", typeof callback);
+        return;
+    }
+
+    prevOptions ??= {};
+    currentOptions ??= {};
+
+    // go through the union of all option names
+    new Set([...Object.keys(prevOptions), ...Object.keys(currentOptions)]).forEach(optionName => {
+        // loop through value fields
+        VALUE_FIELDS.forEach(f => {
+            if (isOptionValueChanged(prevOptions, currentOptions, optionName, [f])) {
+                callback(optionName, f, prevOptions[optionName]?.[f], currentOptions[optionName]?.[f]);
+            }
+        })
+    })
 }
 
 function createSiteOptions({
@@ -256,7 +297,7 @@ function createSiteOptions({
      * @param {String} optName 
      * @param {*} patch 
      */
-    function updateOption(optName, patch) {
+    function persistOption(optName, patch) {
         // no-op if this isn't an option given in the default list
         if (allOptions[optName] == null) {
             throw new Error(`Updating unknown option optName=${optName} patch=${patch}`)
@@ -274,15 +315,15 @@ function createSiteOptions({
         }
     }
 
-    function userInteracted(opt) {
+    function isUserInteracted(opt) {
         return opt != null && (opt[USER_INTERACTED] === true);
     }
 
     return {
         getOption,
         getAllOptions,
-        updateOption,
-        userInteracted
+        persistOption,
+        isUserInteracted
     };
 }
 
@@ -296,8 +337,9 @@ module.exports = {
     createSiteOptions,
     loadPerisistedSiteOptions,
     onOptionsChanged,
+    isOptionValueChanged,
+    forEachOptionValueChanged,
     // below are for tests
     removeNonPersistentKeys,
-    patchObjectProperties,
-    isOptionValueChanged
+    patchObjectProperties
 }

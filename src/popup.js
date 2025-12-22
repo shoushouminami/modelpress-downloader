@@ -10,7 +10,7 @@ const { wait } = require("./utils/async-utils");
 const config = require("./config");
 const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
-const { createSiteOptions, DOWNLOAD_PREPEND_JOBID } = require("./site-options.js");
+const { createSiteOptions, forEachOptionValueChanged, DOWNLOAD_PREPEND_JOBID } = require("./site-options.js");
 const { guessMediaType, thumbnail } = require("./utils/url-utils");
 const { getCallStack } = require("./utils/js-utils");
 
@@ -89,7 +89,7 @@ function addClickListenerForLinks(element, callback) {
 }
 
 let message = require("./inject/return-message").notSupported();
-let getAllOptions, getOption, updateOption, userInteracted = null;
+let getAllOptions, getOption, persistOption, isUserInteracted = null;
 
 const { PopupComponent, createThrottledEventEmitter } = require("./components/popup-component");
 let renderEventEmitter = createThrottledEventEmitter(); // used to notify the PopupComponent to re-render.
@@ -293,6 +293,13 @@ function downloadHandler(resolve) {
             "domain": message.host,
             "count": totalImageCount
         });
+        forEachOptionValueChanged({}, message.options, (optionName, field, prevValue, currentValue) => {
+            logger.debug("site option", optionName, field, prevValue, currentValue);
+            ga.trackEventGA4("opt_" + optionName, {
+                "domain": message.host,
+                "optValue": currentValue
+            });
+        });
         
         jobs.forEach((job, index) => {
             switch (job.type) {
@@ -365,12 +372,13 @@ function getConfigSetJobId() {
 }
 
 /** 
- * Call createSiteOptions() for the 1st time to initialize functions getAllOptions, updateOption, and userInteracted
+ * Call createSiteOptions() for the 1st time to initialize functions getAllOptions, persistOption, and userInteracted.
+ * If the functions are already initialized, calling this function is no-op.
 */
 function createSiteOptionsOnce(host, defaultOptions) {
     if (getAllOptions == null) {
         logger.debug("func=createSiteOptionsOnce with host=", host, "defaultOptions=", defaultOptions, "stack=", getCallStack());
-        ({ getAllOptions, getOption, updateOption, userInteracted } = createSiteOptions({
+        ({ getAllOptions, getOption, persistOption, isUserInteracted } = createSiteOptions({
             host: host,
             options: defaultOptions
         }));
@@ -379,12 +387,16 @@ function createSiteOptionsOnce(host, defaultOptions) {
     }
 }
 
-function optionHandler(updatedOptions) {
-    logger.debug("optionHandler updatedOptions=", updatedOptions);
+function optionHandler(optName, optNewValue, updatedOptionsMap) {
+    logger.debug("func=optionHandler updated optName=", optName, "optNewValue=", optNewValue,"updatedOptionsMap=", updatedOptionsMap);
+    ga.trackEventGA4("opt_change_" + optName, {
+        "domain": message.host,
+        "optValue": optNewValue 
+    });
     // persist options that is user interacted
-    Object.keys(updatedOptions).forEach((optName) => {
-        if (userInteracted(updatedOptions[optName])) {
-            updateOption(optName, updatedOptions[optName]);
+    Object.keys(updatedOptionsMap).forEach((optName) => {
+        if (isUserInteracted(updatedOptionsMap[optName])) {
+            persistOption(optName, updatedOptionsMap[optName]);
         }
     });
     message.options = getAllOptions();

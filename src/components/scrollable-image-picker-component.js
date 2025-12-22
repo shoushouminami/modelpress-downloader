@@ -1,6 +1,7 @@
 const React = require("react");
 const { useState } = React;
 const i18n = require("../i18n");
+const { insertSortedImmutable } = require("../utils/array-utils");
 
 
 // images: array of strings OR array of objects with at least { src }
@@ -31,7 +32,7 @@ function ScrollableImagePicker({ images = [], onChange }) {
         setSelectedIds(prev => {
             const next = prev.includes(index)
                 ? prev.filter(x => x !== index)   // remove
-                : [...prev, index];               // add
+                : insertSortedImmutable(prev, index); // add
             onChange?.(next);
             return next;
         });

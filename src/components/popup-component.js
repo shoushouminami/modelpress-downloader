@@ -192,7 +192,7 @@ class PopupComponent extends React.Component {
         this.handleOptionChange(name, newValue);
 
         if (this.optionHandler) {
-            this.optionHandler(this.state.options);
+            this.optionHandler(name, newValue, this.state.options);
         }
 
         this.reRenderThumbnails();
