@@ -8,11 +8,11 @@ const mdprApp = require("./remote/mdpr-app");
 const logger = require("./logger2")(module.id);
 const { wait } = require("./utils/async-utils");
 const config = require("./config");
-const globals = require("./globals");
 const {getGA4UID} = require("./ga/ga4-uid");
 const { createSiteOptions, forEachOptionValueChanged, DOWNLOAD_PREPEND_JOBID } = require("./site-options.js");
 const { guessMediaType, thumbnail } = require("./utils/url-utils");
 const { getCallStack } = require("./utils/js-utils");
+const { range } = require("./utils/array-utils");
 
 ga.bootstrapGA4();
 downloader.listenForDownloadFailureAndRetry();
@@ -151,22 +151,25 @@ function prepareDownloadJobs() {
     const imagesNeedTab = [];
     const downloadInBg = [];
     const downloadWithMsg = [];
-    const images = message.selectedIndexes ?
-        message.selectedIndexes.map(i => message.images[i]) :
-        message.images.slice(0, message.images.length);
+    const selected = new Set(message.selectedIndexes ?? range(message.images.length));
 
-    logger.debug("func=", prepareDownloadJobs.name, "images=", images, "selectedIndexes=", message.selectedIndexes);
+    logger.debug("func=", prepareDownloadJobs.name, "message.images=", message.images, "selectedIndexes=", message.selectedIndexes);
 
     const context = createDownloadContext();
-    let jobId = 1; // seq number on downloaded images
-    for (const image of images) {
-        const imageJob = typeof image === "string" ? {url: image} : image;
+    message.images.forEach((image, index) => {
+        // if not selected, skip
+        if (!selected.has(index)) {
+            return;
+        }
+
+        const jobId = index + 1; // seq number
+        const imageJob = typeof image === "string" ? { url: image } : image;
         imageJob.context = context;
         imageJob.jobId = getConfigSetJobId() ? jobId : null;
         imageJob.seqId = jobId;
         imageJob.host = message.host;
         imageJob.folderFilename = downloader.getFolderFilename(imageJob);
-        
+
         if (typeof image === "string") {
             // "reg"
             downloadInBg.push(imageJob);
@@ -174,6 +177,7 @@ function prepareDownloadJobs() {
             imagesNeedTab.push(imageJob);
         } else if (typeof image === "object" && (image.type === "msg" || image.type === "msg_seq")) {
             downloadWithMsg.push(imageJob);
+            // load image url as thumbnail for "msg" and "msg_seq"
             if (imageJob.loaded) {
                 imageJob.thumbnail = imageJob.url;
             } else if (!image.loading) {
@@ -189,16 +193,14 @@ function prepareDownloadJobs() {
                 } else {
                     downloader.getImageUrlFromContentScriptInSeq(imageJob, context, setThumbnail, 250);
                 }
-            } 
+            }
         } else if (typeof image === "object" && image.url != null) {
             // assume "reg"
             downloadInBg.push(imageJob);
         } else {
             logger.error("event=unknown_type image=" + JSON.stringify(image));
         }
-
-        jobId++;
-    }
+    })
 
     const jobs = [];
     // "msg" or "msg_seq"
@@ -276,9 +278,11 @@ function getImageThumbnails() {
         }
     });
 
+    // assign filename (from job.images) to thumbnail object.
+    // image not selected as job will not show filename
     jobs.forEach(job => {
-        job.images.forEach((img) => {
-            thumbnails[message.images.findIndex(item => ((typeof item === "string") ? item === img.url : item.url === img.url))].label = img.folderFilename;
+        job.images.forEach((jobImage) => {
+            thumbnails[jobImage.seqId - 1].label = jobImage.folderFilename;
         });
     });
 

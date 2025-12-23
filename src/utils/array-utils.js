@@ -19,6 +19,11 @@ function insertSortedImmutable(arr, value) {
     return [...arr.slice(0, i), value, ...arr.slice(i)];
 }
 
+function range(n) {
+    return Array.from({ length: n }, (_, i) => i);
+}
+
 module.exports = {
     insertSortedImmutable,
+    range
 }
