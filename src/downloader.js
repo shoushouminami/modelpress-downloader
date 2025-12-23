@@ -457,7 +457,6 @@ function getImageUrlFromContentScriptInSeq(image, context, callback, delayMs = 5
             // Wrap the callback-style API into a Promise so chaining works
             return new Promise((resolve) => {
                 getImageUrlFromContentScriptIfNotLoaded(image, context, (imageFromResp) => {
-                    image.loading = false;
                     callback?.(imageFromResp);
                     resolve();
                 });

@@ -177,23 +177,6 @@ function prepareDownloadJobs() {
             imagesNeedTab.push(imageJob);
         } else if (typeof image === "object" && (image.type === "msg" || image.type === "msg_seq")) {
             downloadWithMsg.push(imageJob);
-            // load image url as thumbnail for "msg" and "msg_seq"
-            if (imageJob.loaded) {
-                imageJob.thumbnail = imageJob.url;
-            } else if (!image.loading) {
-                // pre-fetch image.url as thumbnail
-                const setThumbnail = (imageFromResp) => {
-                    if (imageFromResp) {
-                        imageJob.thumbnail = imageFromResp.url;
-                        renderEventEmitter.emit();
-                    }
-                };
-                if (image.type === "msg") {
-                    downloader.getImageUrlFromContentScriptIfNotLoaded(imageJob, context, setThumbnail);
-                } else {
-                    downloader.getImageUrlFromContentScriptInSeq(imageJob, context, setThumbnail, 250);
-                }
-            }
         } else if (typeof image === "object" && image.url != null) {
             // assume "reg"
             downloadInBg.push(imageJob);
@@ -254,14 +237,31 @@ function getImageThumbnails() {
                 src: img.thumbnail
             };
         }
-
         
         const mediaType = guessMediaType(typeof img === "string" ? img : img.url, message.ext, img.filename);
         switch (mediaType) {
             case "image":
                 if (img.type == "msg" || img.type == "msg_seq") {
+                    if (img.loaded) {
+                        return {
+                            src: img.url
+                        };
+                    } else if (!img.loading) {
+                        // load image url as thumbnail for "msg" and "msg_seq"
+                        const triggerRerenderThumbnails = (imageFromResp) => {
+                            if (imageFromResp) {
+                                renderEventEmitter.emit();
+                            }
+                        };
+                        if (img.type === "msg") {
+                            downloader.getImageUrlFromContentScriptIfNotLoaded(img, img.context, triggerRerenderThumbnails);
+                        } else {
+                            downloader.getImageUrlFromContentScriptInSeq(img, img.context, triggerRerenderThumbnails, 250);
+                        }
+                    }
                     return {
-                        src: thumbnail("spinner")
+                        src: thumbnail("spinner"),
+                        className: "thumbnail_small"
                     };
                 }
                 return {

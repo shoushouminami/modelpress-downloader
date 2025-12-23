@@ -13,7 +13,8 @@ function ScrollableImagePicker({ images = [], onChange }) {
         return {
             index,
             src: img.src,
-            label: img.label
+            label: img.label,
+            className: img.className
         };
     });
     const all = normalizedImages.map(img => img.index);
@@ -97,6 +98,7 @@ function ScrollableImagePicker({ images = [], onChange }) {
                             </span>
                             <span className="image-picker-thumbnail">
                                 <img
+                                    className={(img.className ?? "")}
                                     src={img.src}
                                     alt={img.label}
                                 />

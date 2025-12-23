@@ -258,6 +258,9 @@ body::-webkit-scrollbar {
     padding: 4px;
     border-radius: 4px;
     flex-shrink: 0px;
+    display: inline-flex; /* important for <span> */
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
 }
 
@@ -266,6 +269,11 @@ body::-webkit-scrollbar {
     height: 100%;
     object-fit: contain;
     /* fill & crop */
+}
+
+img.thumbnail_small {
+    width: 25px;
+    height: 25px;
 }
 
 .image-picker-filename {
