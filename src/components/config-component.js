@@ -13,10 +13,10 @@ class ConfigComponent extends React.Component {
     inputChanged(e) {
         const newVal = !this.state[e.target.id];
         config.setConf(e.target.id, newVal);
-        // TODO remove once optValue custom dimension is ready
+        // TODO remove once opt_value custom dimension is ready
         ga.trackEventGA4(`cfg_${e.target.id}_${String(newVal)}`);
         ga.trackEventGA4(`cfg_${e.target.id}`, {
-            "optValue": String(newVal)
+            "opt_value": String(newVal)
         });
         this.setState(config.getConfigMap())
         // check side effects on config change

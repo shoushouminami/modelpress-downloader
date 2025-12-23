@@ -301,12 +301,12 @@ function downloadHandler(resolve) {
             logger.debug("site option", optionName, field, prevValue, currentValue);
             ga.trackEventGA4("opt_" + optionName, {
                 "domain": message.host,
-                "optValue": currentValue
+                "opt_value": currentValue
             });
         });
         ga.trackEventGA4("picker_select", {
             "domain": message.host,
-            "optValue": (message.selectedIndexes != null) && message.selectedIndexes.length > 0 && (message.selectedIndexes.length !== message.images.length)
+            "opt_value": (message.selectedIndexes != null) && message.selectedIndexes.length > 0 && (message.selectedIndexes.length !== message.images.length)
         });
         
         jobs.forEach((job, index) => {
@@ -399,7 +399,7 @@ function optionHandler(optName, optNewValue, updatedOptionsMap) {
     logger.debug("func=optionHandler updated optName=", optName, "optNewValue=", optNewValue,"updatedOptionsMap=", updatedOptionsMap);
     ga.trackEventGA4("opt_change_" + optName, {
         "domain": message.host,
-        "optValue": optNewValue 
+        "opt_value": optNewValue
     });
     // persist options that is user interacted
     Object.keys(updatedOptionsMap).forEach((optName) => {
