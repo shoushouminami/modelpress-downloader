@@ -300,6 +300,10 @@ function downloadHandler(resolve) {
                 "optValue": currentValue
             });
         });
+        ga.trackEventGA4("picker_select", {
+            "domain": message.host,
+            "optValue": (message.selectedIndexes != null) && message.selectedIndexes.length > 0 && (message.selectedIndexes.length !== message.images.length)
+        });
         
         jobs.forEach((job, index) => {
             switch (job.type) {
