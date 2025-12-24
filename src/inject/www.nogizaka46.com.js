@@ -15,7 +15,7 @@ function pushToOutput(imgDoms, o) {
             utils.getAwalkerImgUrl(imgDom.parentElement.href)) {
             o.images.push({
                 type: "tab",
-                imageUrl: utils.getAwalkerImgUrl(imgDom.parentElement.href),
+                url: utils.getAwalkerImgUrl(imgDom.parentElement.href),
                 websiteUrl: imgDom.parentElement.href
             });
         } else if (!imgDom.src.toLowerCase().endsWith(".gif") && !imgDom.src.toLowerCase().endsWith(".php")) {

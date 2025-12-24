@@ -1,6 +1,7 @@
 const messaging = require("./messaging");
 const {wait, every} = require("./utils/async-utils");
 const utils = require("./utils");
+const { getGA4UID } = require("./ga/ga4-uid");
 
 const retryMap = {}; // for keeping retry urls
 const errorMap = {}; // for keeping USER_CANCELED errors; downloadId => error
@@ -191,7 +192,7 @@ function listenForDownloadFailureAndRetry() {
     // listen for download failure and retry if possible
     chrome.downloads.onChanged.addListener(function (downloadDelta) {
         if (downloadDelta && downloadDelta.state) {
-            logger.debug("e=onchange downloadId=",downloadDelta.id, "state=", downloadDelta.state, "error=", downloadDelta.error);
+            logger.debug("event=onchange downloadId=",downloadDelta.id, "state=", downloadDelta.state, "error=", downloadDelta.error);
             if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
                 // retry if exists
                 if (downloadDelta.state.current === "interrupted" &&
@@ -258,54 +259,118 @@ function listenForOnDeterminingFilename() {
     });
 }
 
-function downloadWithNewTab(chrome, image, context, tabId) {
-    if (image.websiteUrl) {
+/**
+ * Sends jobs to service worker for download. When failed, fall back to download in popup.js.
+ * This is for job type "msg", "msg_seq", and "reg"
+ * @param chrome
+ * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg", context: {}}}
+ * @param resolve Invoked when all download jobs are started (not necessarily finished)
+ */
+function downloadInBackgroundOrPopup(job, resolve) {
+    // pass user id to background.js
+    const userId = getGA4UID();
+    if (userId) {
+        job["userId"] = userId;
+    }
+
+    messaging.sendToRuntime("download", job, function (downloadResp) {
+        logger.debug("Done: " + job.images.length + " images", "resp=", downloadResp);
+        // Due to Chrome bug 1345528 https://bugs.chromium.org/p/chromium/issues/detail?id=1345528
+        // check for USER_CANCELED error and retry download from popup
+        if (downloadResp["downloadIds"] && downloadResp["downloadIds"].length > 0) {
+            // if all download ids are null, retry with original folder path, in case the folder path is broken
+            if (downloadResp["downloadIds"].every(val => val == null)) {
+                job.context.folder = job.context.originalFolder;
+                messaging.sendToRuntime("download", job); // not listening to the response
+            } else {
+                wait(200).then(() => {
+                    messaging.sendToRuntime("queryUserCanceled", null,
+                        function (queryResp) {
+                            logger.debug("queryResp=", queryResp);
+                            if (queryResp["userCanceledCount"]) {
+                                ga.trackEventGA4("retry_popup_download");
+                                logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
+                                downloadJob(job, () => {
+                                    // do not close the popup, as chrome waits for user to select download folder
+                                    // closing popup will ignore the rest of the files
+                                    // resolve();
+                                });
+                            } else if (resolve instanceof Function) {
+                                resolve();
+                            }
+                        });
+                });
+            }
+        } else if (resolve instanceof Function) {
+            resolve();
+        }
+    });
+}
+
+function downloadWithNewTab(chrome, image, context) {
+    if (image.url) {
         context.p = context.p.then(function () {
             return new Promise(function (resolve) {
                 logger.debug("event=creating_new_tab totalCount=", context.totalCount,
                     "finishCount=",  context.finishCount);
-                displayInNewTab(tabId, image.websiteUrl, image.websiteCS, image.retries,function (result) {
+                displayInNewTab(image.websiteUrl, image.websiteCS, image.retries, function (result) {
                     logger.debug("event=created_new_tab totalCount=", context.totalCount,
                         "finishCount=",  context.finishCount,
-                        "websiteUrl=", image.websiteUrl);
-                    logger.debug("new tab result=", result);
-                    download(chrome, {
-                        url: result && result.images[0] && result.images[0].url || image.imageUrl,
-                        folder: context.folder,
-                        jobId: image.jobId,
-                        context: context,
-                        filename: image.filename
-                    } , () => {
-                        context.finishCount++;
-                        if (context.finishCount === context.totalCount) {
-                            if (context.errorCount > 0) {
-                                ga.trackEventGA4("tab_dl_failure", {
-                                    "domain": context.host,
-                                    "count": context.errorCount
-                                });
-                            }
+                        "websiteUrl=", image.websiteUrl,
+                        "result=", result
+                    );
+                    
+                    // download in background.js with single image job
+                    downloadInBackgroundOrPopup(
+                        {
+                            context,
+                            images: [{
+                                url: result && result.images[0] && result.images[0].url || image.url,
+                                folder: context.folder,
+                                jobId: image.jobId,
+                                context: context,
+                                filename: image.filename
+                            }],
+                            type: "reg"
+                        },
+                        // TODO error is not counted correctly
+                        () => {
+                            context.finishCount++;
+                            if (context.finishCount === context.totalCount) {
+                                if (context.errorCount > 0) {
+                                    ga.trackEventGA4("tab_dl_failure", {
+                                        "domain": context.host,
+                                        "count": context.errorCount
+                                    });
+                                }
 
-                            if (context.finishCount > context.errorCount) {
-                                ga.trackEventGA4("tab_dl_success", {
-                                    "domain": context.host,
-                                    "count": context.finishCount - context.errorCount
-                                });
+                                if (context.finishCount > context.errorCount) {
+                                    ga.trackEventGA4("tab_dl_success", {
+                                        "domain": context.host,
+                                        "count": context.finishCount - context.errorCount
+                                    });
+                                }
                             }
+                            resolve();
                         }
-                        resolve();
-                    }, function () {
-                        console.error("event=download_with_iframe_failed");
-                        context.errorCount++;
-                    });
-                }, function (msg) {
-                    console.error(msg);
+                    );
                 });
             });
         });
     }
 }
 
-function displayInNewTab(tabId, url, injectCS, retries, resolve) {
+/**
+ * 1) First load url in a new tab. 
+ * 2) Then inject the JS file named by `injectCS` as content script into the new tab if `injectCS` is given.
+ * 3) Pass the result from `injectCS` to `resolve` function. If `injectCS` is null, `resolve` is called with undefined.
+ * @param {*} tabId 
+ * @param {*} url 
+ * @param {*} injectCS 
+ * @param {*} retries 
+ * @param {*} resolve 
+ */
+function displayInNewTab(url, injectCS, retries, resolve) {
     logger.debug("Display in tab url=", url, "injectCS=", injectCS, "retries=", retries);
     chrome.tabs.create({
         url: url,
@@ -334,9 +399,9 @@ function displayInNewTab(tabId, url, injectCS, retries, resolve) {
                                     resolve(result);
                                 });
                             } else if (!result.supported && retries && retries.length > 0) {
-                                url = retries.shift().websiteUrl;
+                                const retryUrl = retries.shift().websiteUrl;
                                 closeTab(() => {
-                                    displayInNewTab(tabId, url, injectCS, retries, resolve)
+                                    displayInNewTab(retryUrl, injectCS, retries, resolve)
                                 });
                             }
                         } else {
@@ -476,12 +541,15 @@ function getImageUrlFromContentScriptInSeq(image, context, callback, delayMs = 5
     return next;
 }
 
-exports.listenForDownloadFailureAndRetry = listenForDownloadFailureAndRetry;
-exports.downloadWithNewTab = downloadWithNewTab;
-exports.downloadJob = downloadJob;
-exports.queryUserCanceledCount = queryUserCanceledCount;
-exports.getFolderFilename = getFolderFilename;
-exports.listenForOnDeterminingFilename = listenForOnDeterminingFilename;
-exports.CHROME_ERROR_USER_CANCELED = CHROME_ERROR_USER_CANCELED;
-exports.getImageUrlFromContentScriptIfNotLoaded = getImageUrlFromContentScriptIfNotLoaded;
-exports.getImageUrlFromContentScriptInSeq = getImageUrlFromContentScriptInSeq;
+module.exports = {
+    listenForDownloadFailureAndRetry,
+    downloadWithNewTab,
+    downloadJob,
+    queryUserCanceledCount,
+    getFolderFilename,
+    listenForOnDeterminingFilename,
+    getImageUrlFromContentScriptIfNotLoaded,
+    getImageUrlFromContentScriptInSeq,
+    downloadInBackgroundOrPopup,
+    CHROME_ERROR_USER_CANCELED
+}

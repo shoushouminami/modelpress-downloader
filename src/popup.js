@@ -8,7 +8,6 @@ const mdprApp = require("./remote/mdpr-app");
 const logger = require("./logger2")(module.id);
 const { wait } = require("./utils/async-utils");
 const config = require("./config");
-const {getGA4UID} = require("./ga/ga4-uid");
 const { createSiteOptions, forEachOptionValueChanged, DOWNLOAD_PREPEND_JOBID } = require("./site-options.js");
 const { guessMediaType, thumbnail } = require("./utils/url-utils");
 const { getCallStack } = require("./utils/js-utils");
@@ -16,54 +15,6 @@ const { range } = require("./utils/array-utils");
 
 ga.bootstrapGA4();
 downloader.listenForDownloadFailureAndRetry();
-
-/**
- * Sends jobs to service worker for download. When failed, fall back to download in popup.js.
- * This is for job type "msg", "msg_seq", and "reg"
- * @param chrome
- * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg", context: {}}}
- * @param resolve Invoked when all download jobs are started (not necessarily finished)
- */
-function downloadInBackgroundOrPopup(chrome, job, resolve) {
-    // pass user id to background.js
-    const userId = getGA4UID();
-    if (userId) {
-        job["userId"] = userId;
-    }
-
-    messaging.sendToRuntime("download", job, function (downloadResp) {
-        logger.debug("Done: " + job.images.length + " images", "resp=", downloadResp);
-        // Due to Chrome bug 1345528 https://bugs.chromium.org/p/chromium/issues/detail?id=1345528
-        // check for USER_CANCELED error and retry download from popup
-        if (downloadResp["downloadIds"] && downloadResp["downloadIds"].length > 0) {
-            // if all download ids are null, retry with original folder path, in case the folder path is broken
-            if (downloadResp["downloadIds"].every(val => val == null)) {
-                job.context.folder = job.context.originalFolder;
-                messaging.sendToRuntime("download", job); // not listening to the response
-            } else {
-                wait(200).then(() => {
-                    messaging.sendToRuntime("queryUserCanceled", null,
-                        function (queryResp) {
-                            logger.debug("queryResp=", queryResp);
-                            if (queryResp["userCanceledCount"]) {
-                                ga.trackEventGA4("retry_popup_download");
-                                logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
-                                downloader.downloadJob(job, () => {
-                                    // do not close the popup, as chrome waits for user to select download folder
-                                    // closing popup will ignore the rest of the files
-                                    // resolve();
-                                });
-                            } else if (resolve instanceof Function) {
-                                resolve();
-                            }
-                        });
-                });
-            }
-        } else if (resolve instanceof Function) {
-            resolve();
-        }
-    });
-}
 
 /**
  * Recursively enhance A element so a click on the element would update the active chrome tab.
@@ -264,6 +215,11 @@ function getImageThumbnails() {
                         className: "thumbnail_small"
                     };
                 }
+                if (img.type === "tab") {
+                    return {
+                        src: thumbnail("image")
+                    };
+                }
                 return {
                     src: typeof img === "string" ? img : img.url
                 };
@@ -314,8 +270,7 @@ function downloadHandler(resolve) {
                 case "reg": // fall through
                 case "msg": // fall through
                 case "msg_seq":
-                    downloadInBackgroundOrPopup(
-                        chrome,
+                    downloader.downloadInBackgroundOrPopup(
                         job,
                         function () {
                             // only the last job calls resolve, which closes the popup window

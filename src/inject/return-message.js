@@ -84,19 +84,22 @@ function tabDownload(o, permissionRequest, redirectPage) {
     }
 
     o.images = o.images.map(
-        i => ({
-            imageUrl: i.url,
-            websiteUrl: redirectPage + "#mid_" + btoa(i.url),
-            websiteCS: "inject-cs.js",
-            type: "tab",
-            filename: utils.getFileName(i.url),
-            retries: i.retries == null ? undefined : i.retries.map(
-                retry => ({
-                    websiteUrl: redirectPage + "#mid_" + btoa(retry),
-                    imageUrl: retry
-                })
-            )
-        })
+        img => {
+            const url = typeof img === "string" ? img : img.url;
+            return {
+                url,
+                websiteUrl: redirectPage + "#mid_" + btoa(url),
+                websiteCS: "inject-cs.js",
+                type: "tab",
+                filename: utils.getFileName(url),
+                retries: img.retries?.map(
+                    retry => ({
+                        websiteUrl: redirectPage + "#mid_" + btoa(retry),
+                        url: retry
+                    })
+                )
+            };
+        } 
     );
 
     return o;
