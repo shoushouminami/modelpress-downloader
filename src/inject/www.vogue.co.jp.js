@@ -1,4 +1,6 @@
 const utils = require("../utils.js");
+const { removeGIF } = require("../utils/url-utils.js");
+
 function getLargeImg(url) {
     if (!url.startsWith("https://")) {
         url = window.location.origin + url;
@@ -8,7 +10,7 @@ function getLargeImg(url) {
         url = url.replace(m[1], "");
     }
 
-    return utils.removeGIF(url);
+    return removeGIF(url);
 }
 const inject = function() {
     let o = require("./return-message.js").init();
@@ -24,8 +26,8 @@ const inject = function() {
             utils.findLazyImagesWithCssSelector(
                 document,
                 selector,
-            getLargeImg)
-    );
+                getLargeImg)
+        );
     }
 
 

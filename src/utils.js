@@ -310,14 +310,6 @@ function removeDataUrl(url) {
     return url;
 }
 
-function removeGIF(url) {
-    if (url && url.endsWith(".gif")) {
-        return null
-    }
-
-    return url;
-}
-
 /**
  * Returns the background image url from the DOM's style attribute.
  */
@@ -541,7 +533,6 @@ module.exports = {
     removeTrailingResolutionNumbers: removeTrailingResolutionNumbers,
     findMdprArticleId: findMdprArticleId,
     removeDataUrl: removeDataUrl,
-    removeGIF: removeGIF,
     getBackgroundImageFromDOM: getBackgroundImageFromDOM,
     getBackgroundImageFromString: getBackgroundImageFromString,
     printTestAssertion: printTestAssertion,

@@ -1,11 +1,12 @@
 const utils = require("../utils.js");
+const { removeGIF } = require("../utils/url-utils.js");
 
 function getLargeImg(url) {
     let m = url.match(/^https:\/\/bunshun.ismcdn.jp\/mwimgs\/.+\/.+(\/\d+[a-z]+\/).+\.(jpg|png|jpeg)$/)
     if (m && m[1]) {
         url = url.replace(m[1], "/-/")
     }
-    url = utils.removeDataUrl(utils.removeGIF(url));
+    url = utils.removeDataUrl(removeGIF(url));
     return url == null ? null : {
         url: url
     };

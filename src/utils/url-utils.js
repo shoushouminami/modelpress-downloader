@@ -65,6 +65,61 @@ function getYoutubeImgMaxRes(url) {
     return url;
 }
 
+function removeGIF(url) {
+    return removeExt(url, null, null, "gif");
+}
+
+function createFilterRemoveExt(prefix, suffix, ext) {
+    return url => removeExt(url, prefix, suffix, ext);
+}
+
+/**
+ * Filter out url with ext. Optionally by prefix and suffix of the filename.
+ * 
+ * `removeExt(url, null, null, "gif")` will filter out all GIFs.
+ * 
+ * `removeExt(url, "placeholder", null, "png")` will filter out all PNGs that filename starts with `"placeholder"`.
+ * 
+ * @param {*} url 
+ * @param {*} prefix 
+ * @param {*} suffix 
+ * @param {*} ext 
+ * @returns 
+ */
+function removeExt(url, prefix, suffix, ext) {
+    if (!url || !ext) return url;
+
+    const dotExt = ext.startsWith(".") ? ext: ("." + ext);
+    
+    const filename = require("../utils").getFileName(url);
+
+    if (!filename.endsWith(dotExt)) return url; // non-ext, return as is
+
+    if (prefix && !filename.startsWith(prefix)) {
+        return url;
+    }
+
+    suffix = suffix ? (suffix.endsWith(dotExt) ? suffix : (suffix + dotExt)) : null;
+    if (suffix && !filename.endsWith(suffix)) {
+        return url;
+    }
+
+    return null;
+}
+
+function combineFilters(...filterFuncArray) {
+    filterFuncArray.forEach(f => {
+        if (typeof f !== "function") {
+            throw new TypeError("combineFilters expects functions");
+        }
+    });
+    return obj =>
+        filterFuncArray.reduce(
+            (temp, f) => f(temp),
+            obj
+        );
+}
+
 /**
  * Syntax sugar to run a few filter functions on the target object.
  * Instead of write func1(func2(func3(targetOjb))),
@@ -192,13 +247,18 @@ function thumbnail(mediaType) {
     }
 }
 
-exports.toFull = toFull;
-exports.removeMwimgsSize = removeMwimgsSize;
-exports.getEpisodeId = getEpisodeId;
-exports.removeYoutubeImg = removeYoutubeImg;
-exports.getYoutubeImgMaxRes = getYoutubeImgMaxRes;
-exports.filters = filters;
-exports.basename = basename;
-exports.pathname = pathname;
-exports.guessMediaType = guessMediaType;
-exports.thumbnail = thumbnail;
+module.exports = {
+    toFull,
+    removeMwimgsSize,
+    getEpisodeId,
+    removeYoutubeImg,
+    getYoutubeImgMaxRes,
+    filters,
+    basename,
+    pathname,
+    guessMediaType,
+    thumbnail,
+    createFilterRemoveExt,
+    removeGIF,
+    combineFilters
+}

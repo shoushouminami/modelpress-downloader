@@ -1,7 +1,7 @@
 const utils = require("../utils.js");
 const { replaceIllegalChars, removeSpace } = require("../utils/str-utils.js");
 const { getDocument, getWindow } = require("../globals.js");
-const { basename, pathname, filters, toFull } = require("../utils/url-utils.js");
+const { basename, pathname, combineFilters, toFull, removeGIF } = require("../utils/url-utils.js");
 const { loadPerisistedSiteOptions, onOptionsChanged, DOWNLOAD_PREPEND_JOBID } = require("../site-options");
 const logger = require("../logger2.js")(module.id);
 
@@ -100,9 +100,7 @@ module.exports = {
                 utils.findLazyImagesWithCssSelector(
                     document,
                     selector,
-                    filters.chain(
-                        utils.removeGIF
-                    )
+                    removeGIF
                 )
             );
         }
@@ -114,10 +112,9 @@ module.exports = {
                 utils.findDOMsWithCssSelector(
                     document,
                     selector,
-                    filters.first(
-                        utils.getBackgroundImageFromDOM
-                    ).then(
-                        utils.removeGIF,
+                    combineFilters(
+                        utils.getBackgroundImageFromDOM,
+                        removeGIF,
                     )
                 )
             );
