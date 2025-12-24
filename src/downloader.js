@@ -354,7 +354,7 @@ function downloadJobWithTab(job) {
 }
 
 function downloadWithNewTab(chrome, image, context) {
-    if (image.url) {
+    if (image.websiteUrl) {
         context.p = context.p.then(function () {
             return new Promise(function (resolve) {
                 logger.debug("event=creating_new_tab totalCount=", context.totalCount,
@@ -365,8 +365,6 @@ function downloadWithNewTab(chrome, image, context) {
                         "websiteUrl=", image.websiteUrl,
                         "result=", result
                     );
-                    
-                    // download in background.js with single image job
                     download(
                         chrome,
                         {

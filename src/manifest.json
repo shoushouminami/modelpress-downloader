@@ -17,7 +17,8 @@
   "optional_host_permissions": [
     "https://storage.mainichikirei.jp/", "https://mainichikirei.jp/",
     "https://bunshun.ismcdn.jp/", "https://bunshun.jp/",
-    "https://storage.mantan-web.jp/", "https://mantan-web.jp/"
+    "https://storage.mantan-web.jp/", "https://mantan-web.jp/",
+    "https://glassgirl.info/"
   ],
   "background": {
     "service_worker":"background.js"
