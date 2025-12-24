@@ -61,6 +61,25 @@ function download(chrome, image, resolve) {
         });
 }
 
+function downloadRegJob(job) {
+    let count = 0;
+    const downloadIds = [];
+    return new Promise((resolve) => {
+        for (const image of job.images) {
+            image.context ??= job.context;
+            download(chrome, image, function (downloadId) {
+                logger.debug("Started job #" + count);
+                downloadIds.push(downloadId);
+                if (++count === job.images.length) {
+                    resolve({
+                        downloadIds
+                    });
+                }
+            });
+        }
+    });
+}
+
 /**
  * First send a message to get the url of the image. Once we have the url, call {@link download} to download the image.
  * @param chrome
@@ -68,7 +87,7 @@ function download(chrome, image, resolve) {
  * @param images {any[]}
  * @param done {function():void} is called when all downloads are initiated in Chrome.
  */
-function downloadWithMsg(chrome, context, images, done) {
+function downloadWithMsg(context, images, done) {
     if (images.length > 0) {
         let count = 0;
         let startMs = new Date().getTime();
@@ -150,39 +169,52 @@ function downloadWithMsg(chrome, context, images, done) {
  // * @param done {function():void} is called when all downloads are initiated in Chrome.
  * @return Promise
  */
-function downloadWithMsgSeq(chrome, job) {
+function downloadWithMsgSeq(job) {
     const context = job.context;
     const images = job.images;
-    if (images.length > 0) {
-        let count = 0;
-        let startMs = new Date().getTime();
-        logger.debug("downloadWithMsgSeq images.length=", images.length);
-        ga.trackEventGA4("msg_dl_start", {
-            "domain": context.host,
-            "count": images.length
-        });
+    return new Promise(function(resolve) {
+        if (images.length > 0) {
+            let count = 0;
+            let startMs = new Date().getTime();
+            logger.debug("downloadWithMsgSeq images.length=", images.length);
+            ga.trackEventGA4("msg_dl_start", {
+                "domain": context.host,
+                "count": images.length
+            });
 
-        for (const image of images) {
-            getImageUrlFromContentScriptInSeq(image, context, (imageFromResp) => {
-                const completed = ++count === images.length;
-                if (imageFromResp) {
-                    download(chrome, imageFromResp, () => {
+            for (const image of images) {
+                getImageUrlFromContentScriptInSeq(image, context, (imageFromResp) => {
+                    const completed = ++count === images.length;
+                    if (imageFromResp) {
+                        download(chrome, imageFromResp, () => {
+                            if (completed) {
+                                ga.trackEventGA4("msg_dl_comp", {
+                                    "domain": context.host,
+                                    "count": images.length,
+                                    "latency_s": Math.round((new Date().getTime() - startMs) / 1000.0)
+                                });
+                                resolve();
+                            }
+                        });
+                    } else {
+                        ga.trackEventGA4("msg_dl_null", {
+                            "domain": context.host
+                        });
                         if (completed) {
                             ga.trackEventGA4("msg_dl_comp", {
                                 "domain": context.host,
                                 "count": images.length,
                                 "latency_s": Math.round((new Date().getTime() - startMs) / 1000.0)
                             });
+                            resolve();
                         }
-                    });
-                } else {
-                    ga.trackEventGA4("msg_dl_null", {
-                        "domain": context.host
-                    });
-                }
-            }, 0);
+                    }
+                }, 0);
+            }
+        } else {
+            resolve();
         }
-    }
+    });
 }
 
 /**
@@ -266,7 +298,7 @@ function listenForOnDeterminingFilename() {
  * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg", context: {}}}
  * @param resolve Invoked when all download jobs are started (not necessarily finished)
  */
-function downloadInBackgroundOrPopup(job, resolve) {
+function downloadInBackgroundFallbackInPopup(job, resolve) {
     // pass user id to background.js
     const userId = getGA4UID();
     if (userId) {
@@ -307,6 +339,20 @@ function downloadInBackgroundOrPopup(job, resolve) {
     });
 }
 
+function downloadJobWithTab(job) {
+    ga.trackEventGA4("tab_dl_start", {
+        "domain": job.context.host,
+        "count": job.images.length
+    });
+
+    job.context.p = Promise.resolve();
+    for (const image of job.images) {
+        downloadWithNewTab(chrome, image, job.context);
+    }
+
+    return job.context.p;
+}
+
 function downloadWithNewTab(chrome, image, context) {
     if (image.url) {
         context.p = context.p.then(function () {
@@ -321,20 +367,17 @@ function downloadWithNewTab(chrome, image, context) {
                     );
                     
                     // download in background.js with single image job
-                    downloadInBackgroundOrPopup(
+                    download(
+                        chrome,
                         {
-                            context,
-                            images: [{
-                                url: result && result.images[0] && result.images[0].url || image.url,
-                                folder: context.folder,
-                                jobId: image.jobId,
-                                context: context,
-                                filename: image.filename
-                            }],
-                            type: "reg"
+                            url: result && result.images[0] && result.images[0].url || image.url,
+                            folder: context.folder,
+                            jobId: image.jobId,
+                            context: context,
+                            filename: image.filename
                         },
                         // TODO error is not counted correctly
-                        () => {
+                        (downloadId) => {
                             context.finishCount++;
                             if (context.finishCount === context.totalCount) {
                                 if (context.errorCount > 0) {
@@ -424,29 +467,27 @@ function displayInNewTab(url, injectCS, retries, resolve) {
  * Although popup.js calls this function directly if all downloads were cancelled by user error (bug in Chrome)
  */
 function downloadJob(job, sendResponse) {
-    logger.debug("Received " + job.images.length + " jobs");
+    logger.debug("Received " + job.images.length + " images job=", job);
     logger.debug("Clearing retryMap and errorMap");
     utils.clearObjectProperties(retryMap);
     utils.clearObjectProperties(errorMap);
-    if (job.type === "msg") {
-        downloadWithMsg(chrome, job.context, job.images, sendResponse);
-    } else if (job.type === "msg_seq") {
-        downloadWithMsgSeq(chrome, job).then(() => sendResponse());
-    } else {
-        let count = 0;
-        let downloadIds = [];
-        for (const image of job.images) {
-            image.context = image.context || job.context;
-            download(chrome, image, function (downloadId) {
-                logger.debug("Started job #" + count);
-                downloadIds.push(downloadId);
-                if (++count === job.images.length) {
-                    sendResponse({
-                        "downloadIds": downloadIds
-                    });
-                }
-            });
+
+    // reset image.loading flag if present
+    job.images.forEach(image => {
+        if (image.loading === true) {
+            image.loading = false;
         }
+    });
+
+    switch(job.type) {
+        case "msg":
+            return downloadWithMsg(job.context, job.images, sendResponse);
+        case "msg_seq":
+            return downloadWithMsgSeq(job).then(() => sendResponse());
+        case "tab":
+            return downloadJobWithTab(job).then(() => sendResponse());
+        default:
+            return downloadRegJob(job).then((resp) => sendResponse(resp));
     }
 }
 
@@ -550,6 +591,6 @@ module.exports = {
     listenForOnDeterminingFilename,
     getImageUrlFromContentScriptIfNotLoaded,
     getImageUrlFromContentScriptInSeq,
-    downloadInBackgroundOrPopup,
+    downloadInBackgroundFallbackInPopup,
     CHROME_ERROR_USER_CANCELED
 }

@@ -270,25 +270,15 @@ function downloadHandler(resolve) {
                 case "reg": // fall through
                 case "msg": // fall through
                 case "msg_seq":
-                    downloader.downloadInBackgroundOrPopup(
+                case "tab":
+                    downloader.downloadInBackgroundFallbackInPopup(
                         job,
-                        function () {
+                        () => {
                             // only the last job calls resolve, which closes the popup window
                             if (index === jobs.length - 1) {
                                 resolve();
                             }
                         });
-                    break;
-                case "tab":
-                    ga.trackEventGA4("tab_dl_start", {
-                        "domain": message.host,
-                        "count": job.images.length
-                    })
-                    for (const image of job.images) {
-                        downloader.downloadWithNewTab(chrome, image, job.context);
-                    }
-                    // close popup window after download finishes
-                    job.context.p = job.context.p.then(resolve);
                     break;
                 default:
                     logger.error("func=downloadHandler unknown job type=", job.type, "job=", job);
