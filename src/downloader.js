@@ -9,6 +9,7 @@ const tabIdOnUpdatedFunctionMap = {}; // tabId => function
 const downloadIdToFolderFilenameMap = {}; // downloadId => original folderFilename. used to fix download filename
 
 const ga = require("./google-analytics");
+const { resolve } = require("path");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 
@@ -247,11 +248,17 @@ function listenForDownloadFailureAndRetry() {
     });
 
     // listen for tab updates and inject content scripts
-    chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-        if (tabIdOnUpdatedFunctionMap[tabId] != null && changeInfo.status === "complete") {
-            logger.debug("Tab updated tabId=", tabId);
-            const f = tabIdOnUpdatedFunctionMap[tabId];
+    chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+        if (changeInfo.status !== "complete") return;
+
+        const f = tabIdOnUpdatedFunctionMap[tabId];
+        if (typeof f !== "function") return;
+
+        logger.debug("Tab finished update tabId=", tabId, "url=", tab?.url);
+        try {
             f();
+        } catch (e) {
+            logger.error("Tab onUpdated handler threw tabId=" + tabId, e);
         }
     });
 }
@@ -293,9 +300,9 @@ function listenForOnDeterminingFilename() {
 
 /**
  * Sends jobs to service worker for download. When failed, fall back to download in popup.js.
- * This is for job type "msg", "msg_seq", and "reg"
+ * This is for job type "msg", "msg_seq", "tab", and "reg"
  * @param chrome
- * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"reg", context: {}}}
+ * @param job {{images: [{url: "", folder: "abc/", ext: "jpg"}], type : "msg"|"msg_seq"|"tab"|"reg", context: {}}}
  * @param resolve Invoked when all download jobs are started (not necessarily finished)
  */
 function downloadInBackgroundFallbackInPopup(job, resolve) {
@@ -309,11 +316,11 @@ function downloadInBackgroundFallbackInPopup(job, resolve) {
         logger.debug("Done: " + job.images.length + " images", "resp=", downloadResp);
         // Due to Chrome bug 1345528 https://bugs.chromium.org/p/chromium/issues/detail?id=1345528
         // check for USER_CANCELED error and retry download from popup
-        if (downloadResp["downloadIds"] && downloadResp["downloadIds"].length > 0) {
+        if (downloadResp?.["downloadIds"]?.length > 0) {
             // if all download ids are null, retry with original folder path, in case the folder path is broken
             if (downloadResp["downloadIds"].every(val => val == null)) {
                 job.context.folder = job.context.originalFolder;
-                messaging.sendToRuntime("download", job); // not listening to the response
+                messaging.sendToRuntime("download", job); // not listening for the response
             } else {
                 wait(200).then(() => {
                     messaging.sendToRuntime("queryUserCanceled", null,
@@ -339,124 +346,143 @@ function downloadInBackgroundFallbackInPopup(job, resolve) {
     });
 }
 
+/**
+ * Creates a new tab with the url if given. Otherwise "about:blank" page is used.
+ * @returns {Promise} A Promise resolves to the tab id.
+ */
+function createTab(url) {
+    return new Promise((resolve, reject) => {
+        chrome.tabs.create({ url: url ?? "about:blank", active: false }, tab => {
+            if (chrome.runtime.lastError) {
+                logger.error("Failed to create new tab newTab=", newTab, "error=", chrome.runtime.lastError.message);
+                return reject(new Error(chrome.runtime.lastError.message));
+            }
+            resolve(tab.id);
+        });
+    });
+}
+
 function downloadJobWithTab(job) {
     ga.trackEventGA4("tab_dl_start", {
         "domain": job.context.host,
         "count": job.images.length
     });
 
-    job.context.p = Promise.resolve();
-    for (const image of job.images) {
-        downloadWithNewTab(chrome, image, job.context);
-    }
+    const context = job.context;
+    let tabId = null;
 
-    return job.context.p;
+    return createTab()
+        .then((id) => {
+            tabId = id;
+            // download image one by one
+            return job.images.reduce(
+                (p, img) => p.then(() => downloadWithNewTab(id, img, context)),
+                Promise.resolve()
+            );
+        })
+        .finally(() => {
+            if (context.errorCount > 0) {
+                ga.trackEventGA4("tab_dl_failure", {
+                    "domain": context.host,
+                    "count": context.errorCount
+                });
+            }
+
+            if (context.finishCount > context.errorCount) {
+                ga.trackEventGA4("tab_dl_success", {
+                    "domain": context.host,
+                    "count": context.finishCount - context.errorCount
+                });
+            }
+
+            if (tabId) {
+                delete tabIdOnUpdatedFunctionMap[tabId];
+                // close tab
+                return new Promise((resolve) => {
+                    chrome.tabs.remove(tabId, () => resolve());
+                });
+            }
+        });
 }
 
-function downloadWithNewTab(chrome, image, context) {
-    if (image.websiteUrl) {
-        context.p = context.p.then(function () {
-            return new Promise(function (resolve) {
-                logger.debug("event=creating_new_tab totalCount=", context.totalCount,
-                    "finishCount=",  context.finishCount);
-                displayInNewTab(image.websiteUrl, image.websiteCS, image.retries, function (result) {
-                    logger.debug("event=created_new_tab totalCount=", context.totalCount,
-                        "finishCount=",  context.finishCount,
-                        "websiteUrl=", image.websiteUrl,
-                        "result=", result
-                    );
-                    download(
-                        chrome,
-                        {
-                            url: result && result.images[0] && result.images[0].url || image.url,
-                            folder: context.folder,
-                            jobId: image.jobId,
-                            context: context,
-                            filename: image.filename
-                        },
-                        // TODO error is not counted correctly
-                        (downloadId) => {
-                            context.finishCount++;
-                            if (context.finishCount === context.totalCount) {
-                                if (context.errorCount > 0) {
-                                    ga.trackEventGA4("tab_dl_failure", {
-                                        "domain": context.host,
-                                        "count": context.errorCount
-                                    });
-                                }
+function downloadWithNewTab(tabId, image, context) {
+    return new Promise((resolve) => {
+        const { websiteCS, websiteUrl, retries } = image;
 
-                                if (context.finishCount > context.errorCount) {
-                                    ga.trackEventGA4("tab_dl_success", {
-                                        "domain": context.host,
-                                        "count": context.finishCount - context.errorCount
-                                    });
-                                }
-                            }
-                            resolve();
-                        }
-                    );
-                });
+        // if there is no websiteUrl to load, log and move on
+        if (!websiteUrl) {
+            logger.error("Missing websiteUrl in image=", image);
+            return resolve();
+        }
+
+        function cleanup() {
+            // cleanup
+            if (tabIdOnUpdatedFunctionMap[tabId] === callback) {
+                tabIdOnUpdatedFunctionMap[tabId] = null;
+            }
+        }
+
+        let done = false;
+        function finish(value) {
+            if (done) return;
+            done = true;
+            cleanup();
+            resolve(value);
+        }
+
+        function callback() {
+            if (!websiteCS) {
+                logger.debug("No script on tab", tabId, "moving on");
+                return finish();
+            }
+
+            logger.debug("Executing script", websiteCS, "on tab", tabId);
+            chrome.scripting.executeScript({ target: { tabId }, files: [websiteCS] }, results => {
+                if (results?.[0]?.result?.href === websiteUrl) {
+                    // this is the result of the redirectPage and is ignored
+                    logger.debug("Scripting results from redirect page results=", results);
+                    return;
+                }
+
+                const result = results?.[0]?.result;
+                logger.debug("Scripting results=", results);
+
+                if (result?.images?.length) {
+                    return finish({ o: result, image });
+                } else if (retries?.length) {
+                    // try again if retries is defined
+                    const next = retries.shift();
+                    return chrome.tabs.update(tabId, { url: next.websiteUrl });
+                }
+
+                return finish();
+            });
+        };
+        tabIdOnUpdatedFunctionMap[tabId] = callback;
+        // load website url
+        chrome.tabs.update(tabId, { url: websiteUrl });
+        // just in case if page does not load with in 10s
+        // cleanup and move on
+        wait(10 * 1000).then(() => {
+            finish();
+        });
+    }).then(({ o, image } = {}) => {
+        if (!o?.images?.[0]?.url) return;
+        return new Promise((resolve) => {
+            download(chrome, {
+                url: o.images[0].url,
+                folder: image.context.folder,
+                jobId: image.jobId,
+                context: image.context,
+                filename: image.filename
+            }, (downloadId) => {
+                if (!downloadId) {
+                    context.errorCount++;
+                }
+                context.finishCount++;
+                resolve(downloadId);
             });
         });
-    }
-}
-
-/**
- * 1) First load url in a new tab. 
- * 2) Then inject the JS file named by `injectCS` as content script into the new tab if `injectCS` is given.
- * 3) Pass the result from `injectCS` to `resolve` function. If `injectCS` is null, `resolve` is called with undefined.
- * @param {*} tabId 
- * @param {*} url 
- * @param {*} injectCS 
- * @param {*} retries 
- * @param {*} resolve 
- */
-function displayInNewTab(url, injectCS, retries, resolve) {
-    logger.debug("Display in tab url=", url, "injectCS=", injectCS, "retries=", retries);
-    chrome.tabs.create({
-        url: url,
-        active: false
-    }, (newTab) => {
-        logger.debug("Created newTab=", newTab);
-        tabIdOnUpdatedFunctionMap[newTab.id] = function () {
-            function closeTab(callback) {
-                delete tabIdOnUpdatedFunctionMap[newTab.id];
-                chrome.tabs.remove(newTab.id, callback);
-            }
-
-            if (injectCS) {
-                logger.debug("Executing script",  injectCS, "on tabId", newTab.id);
-                chrome.scripting.executeScript(
-                    {
-                        target: {"tabId": newTab.id},
-                        files: [injectCS]
-                    },
-                    function (results) {
-                        if (results && results.length > 0) {
-                            logger.debug("Script results[0]=",  results[0]);
-                            const result = results[0].result;
-                            if (result.images && result.images.length > 0) {
-                                closeTab(() => {
-                                    resolve(result);
-                                });
-                            } else if (!result.supported && retries && retries.length > 0) {
-                                const retryUrl = retries.shift().websiteUrl;
-                                closeTab(() => {
-                                    displayInNewTab(retryUrl, injectCS, retries, resolve)
-                                });
-                            }
-                        } else {
-                            closeTab(() => {
-                                resolve();
-                            });
-                        }
-                    });
-            } else {
-                closeTab(() => {
-                    resolve();
-                });
-            }
-        };
     });
 }
 
@@ -582,7 +608,6 @@ function getImageUrlFromContentScriptInSeq(image, context, callback, delayMs = 5
 
 module.exports = {
     listenForDownloadFailureAndRetry,
-    downloadWithNewTab,
     downloadJob,
     queryUserCanceledCount,
     getFolderFilename,

@@ -99,7 +99,7 @@ function createDownloadContext() {
  * Prepare download job from parsing {@link message}. The job is then sent to service worker for download in the background.
 */
 function prepareDownloadJobs() {
-    const imagesNeedTab = [];
+    const downloadWithTab = [];
     const downloadInBg = [];
     const downloadWithMsg = [];
     const selected = new Set(message.selectedIndexes ?? range(message.images.length));
@@ -125,7 +125,7 @@ function prepareDownloadJobs() {
             // "reg"
             downloadInBg.push(imageJob);
         } else if (typeof image === "object" && image.type === "tab") {
-            imagesNeedTab.push(imageJob);
+            downloadWithTab.push(imageJob);
         } else if (typeof image === "object" && (image.type === "msg" || image.type === "msg_seq")) {
             downloadWithMsg.push(imageJob);
         } else if (typeof image === "object" && image.url != null) {
@@ -160,18 +160,17 @@ function prepareDownloadJobs() {
     }
 
     // "tab"
-    if (imagesNeedTab.length) {
+    if (downloadWithTab.length) {
         // a few extra properties needed in context
         Object.assign(context, {
-            p: Promise.resolve(),
             finishCount: 0,
             errorCount: 0,
-            totalCount: imagesNeedTab.length,
+            totalCount: downloadWithTab.length,
         });
 
         jobs.push({
-            images: imagesNeedTab,
-            type: imagesNeedTab[0].type,
+            images: downloadWithTab,
+            type: downloadWithTab[0].type,
             context: context,
         });
     }
