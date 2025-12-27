@@ -19,6 +19,26 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 5.0 (2025/12/26)
+* Add image picker
+* Save HTML for sakamichi blogs
+* Add support for message.sakamichi groups
+* Move 'downloadPrependJobId' to each download page for each site
+* Persisted site options
+* Fix download folder path by listening to onDeterminingFilename
+* Add support to a few sites.
+    * www.music-culture.info
+    * news.ntv.co.jp
+    * www.tokyo-sports.co.jp
+    * barks.jp
+    * nbpress.online
+    * trendnewscaster.jp
+    * universal-press.jp* 
+    * www.moviecollection.jp
+* Remove 25jigen.jp (domain is gone)
+* Remove legacy Google UA analytics
+* Move type 'tab' download to bg service worker and in 1 tab
+
 ###### 4.27 (2025/07/12)
 * Add mainichi.jp, bokuao.com, bezzy.jp, and websunday.net
 * Update sakamichi sites to include news article & member profile
