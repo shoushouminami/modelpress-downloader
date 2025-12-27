@@ -17,7 +17,10 @@ function toFull(url, window) {
 }
 
 function basename(url) {
-    let arr = url.split("/");
+    if (url == null) {
+        return url;
+    }
+    const arr = url.split("/");
     return arr[arr.length - 1];
 }
 

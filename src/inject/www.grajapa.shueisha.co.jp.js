@@ -2,11 +2,11 @@ const utils = require("../utils.js");
 const { replaceIllegalChars } = require("../utils/str-utils.js");
 const messaging = require("../messaging");
 const logger = require("../logger2")(module.id);
+const helper = require("../helper/helper-utils");
 
 module.exports = {
     inject: function () {
         const o = require("./return-message.js").init();
-
         // Update result when we hear back from helper.
         messaging.listenOnPage("updateResultCS", function (msg) {
             logger.debug("Got updateResultCS", msg);
@@ -65,10 +65,10 @@ module.exports = {
             }
         }
 
-        // logger.debug("Return from inject getObjectId(o)=", getObjectId(o), "o=", o);
         // inject helper script
         require("../utils/func-utils")
             .injectScriptFileToDOM(chrome.runtime.getURL("helper/www.grajapa.shueisha.co.jp-helper.js"));
+       
         // show loading UI
         require("./return-message.js").loading(o);
         o.folder = window.location.host + "-" + replaceIllegalChars(window.document.title) + "/";

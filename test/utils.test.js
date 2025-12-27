@@ -134,4 +134,5 @@ test("test getFileName", function(){
     expect(utils.getFileName("https://domain.com/path/abc.jpg", null, "def.jpg")).toBe("def.jpg");
     expect(utils.getFileName("https://domain.com/path/abc.jpg", "jpg", "def")).toBe("def.jpg");
     expect(utils.getFileName("https://domain.com/path/abc", "jpg", "def.jpg")).toBe("def.jpg");
+    expect(utils.getFileName("https://domain.com/path/abc.xhtml", "jpg")).toBe("abc.xhtml.jpg");
 });
