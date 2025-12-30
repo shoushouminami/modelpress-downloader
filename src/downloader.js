@@ -1,5 +1,5 @@
 const messaging = require("./messaging");
-const {wait, every} = require("./utils/async-utils");
+const { wait, every, continueIfTimeout } = require("./utils/async-utils");
 const utils = require("./utils");
 const { getGA4UID } = require("./ga/ga4-uid");
 
@@ -9,7 +9,6 @@ const tabIdOnUpdatedFunctionMap = {}; // tabId => function
 const downloadIdToFolderFilenameMap = {}; // downloadId => original folderFilename. used to fix download filename
 
 const ga = require("./google-analytics");
-const { resolve } = require("path");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 
@@ -584,13 +583,14 @@ function getImageUrlFromContentScriptInSeq(image, context, callback, delayMs = 5
     const next = prev
         .then(() => (delayMs > 0 ? wait(delayMs) : null))
         .then(() => {
-            // Wrap the callback-style API into a Promise so chaining works
-            return new Promise((resolve) => {
+            return continueIfTimeout(
+                // Wrap the callback-style API into a Promise so chaining works
+                new Promise((resolve) => {
                 getImageUrlFromContentScriptIfNotLoaded(image, context, (imageFromResp) => {
                     callback?.(imageFromResp);
                     resolve();
                 });
-            });
+            }), 500); // TODO retry upon timeout
         })
         .finally(() => {
             // Only clear if no one else has appended after us

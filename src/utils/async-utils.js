@@ -1,21 +1,26 @@
 /**
  * Returns a Promise that is fulfilled after waitMs milliseconds.
- * A function `cancelWait` is attached to the Promise for cancelling the underlying setTimeout timer.
- * If `cancelWait` is called, the Promise is rejected with an error.
+ * A function `cancel` is attached to the Promise for cancelling the underlying setTimeout timer.
+ * If `cancel` is called, the Promise is cancelled sliently, ie will not resolve nor reject.
  * @return {Promise<void>}
  */
 function wait(waitMs) {
-    let timer;
-    let rejectFn;
+    let timer = null;
+    let settled = false;
 
-    const promise = new Promise(function (resolve, reject) {
-        timer = setTimeout(resolve, waitMs);
-        rejectFn = reject;
+    const promise = new Promise((resolve) => {
+        timer = setTimeout(() => {
+            settled = true;
+            timer = null;
+            resolve();
+        }, waitMs);
     });
 
     promise.cancel = () => {
+        if (settled) {
+           return;
+        }
         clearTimeout(timer);
-        rejectFn?.(new Error("wait event cancelled"));
     }
 
     return promise;
@@ -48,7 +53,38 @@ function every(waitMs) {
     }
 }
 
+/**
+ * Run promise `p`. Set a timeout on the given Promise, and continues (ie call `resolve()`) when the timeout is met.
+ * 
+ * If the optional fallback function is provided, the fallback function is called instead.
+ * 
+ * NOTE: Does NOT cancel `p`.
+ * 
+ * @param {Promise} p 
+ * @param {Number} timeoutMs 
+ * @param {Function(): any | Promise<any>} fallback 
+ * @returns 
+ */
+function continueIfTimeout(p, timeoutMs, fallback) {
+    const timeoutPromise = wait(timeoutMs).then(() => {
+        if (typeof fallback === "function") {
+            return fallback();
+        }
+        return undefined;
+    });
+    const wrapPromise = Promise.resolve(p).finally(() => {
+        // cancel timeout no matter resolve or reject
+        timeoutPromise.cancel?.();
+    });
+
+    return Promise.race([
+        wrapPromise, 
+        timeoutPromise
+    ]);
+}
+
 module.exports = {
     wait,
-    every
+    every,
+    continueIfTimeout
 }
