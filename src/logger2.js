@@ -1,15 +1,25 @@
 const dev = require("./is-dev");
-const window = require("./globals").getWindow();
-const START_TS = new Date().getTime();
+const { getWindow, getClockFunction } = require("./globals");
+const window = getWindow();
+const now = getClockFunction();
+const START_TS = now();
 function noop() {}
 
-function current_ts_offset() {
-    return (new Date().getTime() - START_TS) + "ms";
+function current_clock_offset() {
+    return {
+        toString() { return (Math.round((now() - START_TS) * 1000) / 1000) + "ms"; }
+    };
 }
+
+function bind(func, module) {
+    return func.bind(window.console, "[" + module + "]", "[" + current_clock_offset() +  "]")
+}
+
 module.exports = function (module) {
     return {
-        debug: dev ? window.console.debug.bind(window.console, "[" + module + "]", "[" + current_ts_offset() + "]") : noop,
-        error: dev ? window.console.error.bind(window.console, "[" + module + "]", "[" + current_ts_offset() + "]") : noop,
-        log: dev ? window.console.log.bind(window.console, "[" + module + "]", "[" + current_ts_offset() + "]") : noop,
+        debug: dev ? bind(window.console.debug, module) : noop,
+        error: dev ? bind(window.console.error, module) : noop,
+        log: dev ? bind(window.console.log, module) : noop,
+        warn: dev ? bind(window.console.warn, module) : noop,
     }
 }

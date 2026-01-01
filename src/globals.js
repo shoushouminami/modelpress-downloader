@@ -6,7 +6,8 @@ function getWindow() {
     if (typeof self !== "undefined") {
         return self;
     }
-    return global;
+
+    return globalThis;
 }
 
 function getChrome() {
@@ -45,6 +46,15 @@ function getChromeVersion() {
     return String(m && m[1]);
 }
 
+function getClockFunction() {
+    const w = getWindow()
+    if (typeof w?.performance?.now !== "undefined") {
+        return w.performance.now.bind(w.performance);
+    }
+
+    return Date.now;
+}
+
 exports.getWindow = getWindow;
 exports.getChrome = getChrome;
 exports.getDocument = getDocument;
@@ -52,3 +62,4 @@ exports.getSearchParamValue = getSearchParamValue;
 exports.getExtensionVersion = getExtensionVersion;
 exports.isChromeExtension = isChromeExtension;
 exports.getChromeVersion = getChromeVersion;
+exports.getClockFunction = getClockFunction;

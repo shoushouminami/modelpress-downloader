@@ -7,6 +7,8 @@ const isCS = runtime.isCS();
 const EXTENSION_ID = runtime.getExtensionID();
 const thisSender = (isServiceWorker ? "sw" : (isRuntime ? "popup" : (isCS ? "content_script" : "page"))) + Math.round(Math.random() * 1000000000); // random sender id
 const logger = require("./logger2")(module.id + " " + thisSender);
+const { getCallStack } = require("./utils/js-utils");
+
 logger.debug("isServiceWorker", isServiceWorker, "isRuntime", isRuntime, "isPage", isPage, "isCS", isCS);
 
 let msgCount = 0; // id of message == (sender + msgCount)
@@ -56,6 +58,7 @@ function tryAndListenOnKey(key) {
         return _listenerMap[key] = true;
     }
 
+    logger.error("Failed to listen on key=", key, " stacktrace=", getCallStack());
     return false;
 }
 
