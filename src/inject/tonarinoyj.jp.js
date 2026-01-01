@@ -88,7 +88,6 @@ function pushToMessage(o, images) {
 }
 
 function registerOrOverwriteListener() {
-    messaging.tearDownListenerByKey("getImageUrl");
     messaging.listenOnRuntime("getImageUrl", function (msg, sendResponse) {
         logger.debug("received getImageUrl message filename=", msg.filename);
         if (msg.filename) {

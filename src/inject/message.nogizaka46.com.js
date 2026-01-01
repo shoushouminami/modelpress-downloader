@@ -198,11 +198,14 @@ function inject() {
         return o;
     }
 
-
 }
 
 module.exports = {
     inject: inject,
+    tearDown: function () {
+        logger.debug("Tear down all message listeners");
+        messaging.tearDownAllListeners();
+    },
     host: "message.nogizaka46.com",
     altHosts: ["message.hinatazaka46.com", "message.sakurazaka46.com"],
     hidden: true
