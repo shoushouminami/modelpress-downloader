@@ -9,7 +9,7 @@ function replaceIllegalChars(path, replacement = '-') {
     //   | (vertical bar or pipe)
     //   ? (question mark)
     //   * (asterisk)
-    return path.replace(/[<>:"'\/\\|?*]/g, replacement);
+    return path.replace(/[~!@#$%^&*+?<>:"'/\\|]/g, replacement);
 }
 
 function removeSpace(s, replacement = '') {

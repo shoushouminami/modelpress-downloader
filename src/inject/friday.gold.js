@@ -2,7 +2,7 @@ const utils = require("../utils.js");
 const logger = require("../logger2")(module.id);
 const globals = require("../globals");
 const messaging = require("../messaging");
-const { replaceIllegalChars } = require("../utils/str-utils.js");
+const { getFolderNameFromTitle } = require("../utils/filename-utils.js");
 
 function getArticleId() {
     let re = /(gravure)?\/article\/(\d+)/;
@@ -30,7 +30,7 @@ function getFilename(url, assertId) {
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
-        o.folder = window.location.host + "-" + replaceIllegalChars(window.document.title) + "/";
+        o.folder = getFolderNameFromTitle();
 
         const fullUrl = getArticleId();
         if (fullUrl) {

@@ -1,5 +1,7 @@
 const logger = require("../logger2")(module.id);
+const { getWindow } = require("../globals");
 const { replaceSpecialChars, getFileName } = require("../utils");
+const { replaceIllegalChars, removeSpace } = require("./str-utils");
 
 /**
  * Resolvs a pattern string such as "{host}-{pathname}-{filename}" with a possible pattern list and pattern mapping context. All the individual patterns
@@ -53,8 +55,20 @@ function getFolderFilenameV2(imageJob, folderOpt, filenameOpt) {
     return folder + "/" + (imageJob.jobId != null ? imageJob.jobId + "-" : "") + filename;
 }
 
+/**
+ * Use <domain>-<title> as folder name.
+ */
+function getFolderNameFromTitle() {
+    const w = getWindow();
+    return w.location.host
+        + "-"
+        + replaceIllegalChars(removeSpace(w.document.title.split("|")?.[0]))
+        + "/";
+}
+
 module.exports = {
     resolvePattern,
     applyPattern,
-    getFolderFilenameV2
+    getFolderFilenameV2,
+    getFolderNameFromTitle
 }
