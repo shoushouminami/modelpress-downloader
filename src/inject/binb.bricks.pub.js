@@ -1,6 +1,7 @@
 const utils = require("../utils.js");
 const messaging = require("../messaging");
 const logger = require("../logger2")(module.id);
+const { replaceIllegalChars, removeSpace } = require("../utils/str-utils.js");
 const isYanmaga = require("../globals").getWindow().location.host.indexOf("yanmaga.jp") > -1
 const ImageLoader = require("./binb.bricks.pub/image-loader");
 const PtimgPreCombinedDelegator = require("./binb.bricks.pub/ptimg-pre-combined-delegator");
@@ -91,14 +92,10 @@ function registerEventListener() {
     });
 }
 
-function getFolderName() {
+function getYanmagaFolderName() {
     return window.location.host
         + "-"
-        + window.location.pathname
-            .split("/")
-            .slice(2, 5)
-            .join("-")
-        + "/";
+        + replaceIllegalChars(removeSpace(window.document.title.split("|")?.[0]));
 }
 
 module.exports = {
@@ -126,7 +123,7 @@ module.exports = {
                 );
                 o.folder = window.location.host + "-" + window.document.title.replace(/\//g, "-") +  "/";
                 if (isYanmaga) {
-                    o.folder = getFolderName();
+                    o.folder = getYanmagaFolderName();
                     o.pathname = window.location.pathname
                         .split("/")
                         .slice(2, 5)
