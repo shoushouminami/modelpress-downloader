@@ -14,7 +14,8 @@ function ScrollableImagePicker({ images = [], onChange }) {
             index,
             src: img.src,
             label: img.label,
-            className: img.className
+            className: img.className,
+            isVideo: img.isVideo
         };
     });
     const all = normalizedImages.map(img => img.index);
@@ -102,6 +103,9 @@ function ScrollableImagePicker({ images = [], onChange }) {
                                     src={img.src}
                                     alt={img.label}
                                 />
+                                {img.isVideo && (
+                                    <span className="video-overlay">▶</span>
+                                )}
                             </span>
                             <span className="image-picker-filename">
                                 {folder}<br/>

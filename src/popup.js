@@ -182,13 +182,16 @@ function prepareDownloadJobs() {
 function getImageThumbnails() {
     const jobs = prepareDownloadJobs();
     const thumbnails = message.images.map((img, index) => {
+        const mediaType = guessMediaType(typeof img === "string" ? img : img.url, message.ext, img.filename);
+        const isVideo = mediaType === "video";
+
         if (img.thumbnail) {
             return {
-                src: img.thumbnail
+                src: img.thumbnail,
+                isVideo
             };
         }
         
-        const mediaType = guessMediaType(typeof img === "string" ? img : img.url, message.ext, img.filename);
         switch (mediaType) {
             case "image":
                 if (img.type == "msg" || img.type == "msg_seq") {
@@ -228,7 +231,8 @@ function getImageThumbnails() {
             case "text":
             case "unknown":
                 return {
-                    src: thumbnail(mediaType)
+                    src: thumbnail(mediaType),
+                    isVideo
                 };
         }
     });
@@ -448,9 +452,9 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         },
         function (results) {
             if (results && results.length > 0) {
-                let result = results[0].result;
-                logger.debug("results[0].result=", result, "retry=", result.retry);
-                if (result.retry) {
+                const result = results[0].result;
+                logger.debug("results[0].result=", result, "retry=", result?.retry);
+                if (result?.retry) {
                     // retry in result.retryAfterMs or by default 100ms
                     const retryMs = result.retryAfterMs || 100;
                     wait(retryMs)

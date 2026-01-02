@@ -252,13 +252,15 @@ body::-webkit-scrollbar {
 }
 
 .image-picker-thumbnail {
+    position: relative;
     width: 80px;
     height: 60px;
     display: inline-block;
     padding: 4px;
     border-radius: 4px;
     flex-shrink: 0px;
-    display: inline-flex; /* important for <span> */
+    display: inline-flex;
+    /* important for <span> */
     align-items: center;
     justify-content: center;
     overflow: hidden;
@@ -269,6 +271,33 @@ body::-webkit-scrollbar {
     height: 100%;
     object-fit: contain;
     /* fill & crop */
+}
+
+.video-badge {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0;
+    /* top/right/bottom/left: 0 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 24px;
+    border-radius: 4px;
+    pointer-events: none;
+    /* click passes through */
 }
 
 img.thumbnail_small {
@@ -283,3 +312,4 @@ img.thumbnail_small {
     overflow: hidden;
     /* font-size: 12px; */
 }
+

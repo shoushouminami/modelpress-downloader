@@ -488,6 +488,11 @@ function getFileName(url, ext, preferredName) {
         filename = filename.split(":")[0];
     }
 
+    // if prefered name contains ext, honor the ext and return
+    if (preferredName != null && getFileExt(preferredName) != null) {
+        return replaceSpecialChars(decodeURI(filename));
+    }
+    
     if (ext && !filename.endsWith(ext)) {
         if (!filename.endsWith(".")) {
             filename += ".";
