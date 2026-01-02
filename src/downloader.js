@@ -4,6 +4,7 @@ const utils = require("./utils");
 const { getGA4UID } = require("./ga/ga4-uid");
 
 const retryMap = {}; // for keeping retry urls
+const onDownloadCompleteMap = {}; // downloadId => callback when download is completed
 const errorMap = {}; // for keeping USER_CANCELED errors; downloadId => error
 const tabIdOnUpdatedFunctionMap = {}; // tabId => function
 const downloadIdToFolderFilenameMap = {}; // downloadId => original folderFilename. used to fix download filename
@@ -47,16 +48,21 @@ function download(chrome, image, resolve) {
             headers: headers
         }, function (downloadId) {
             logger.debug("func=download downloadId=", downloadId, "folderFilename=", folderFilename);
-            if (downloadId) {
-                downloadIdToFolderFilenameMap[downloadId] = folderFilename;
-            }
             
             if (downloadId && image.retries && image.retries.length > 0) {
                 retryMap[downloadId] = image;
             }
 
-            if (resolve instanceof Function) {
-                resolve(downloadId);
+            if (downloadId) {
+                downloadIdToFolderFilenameMap[downloadId] = folderFilename;
+                onDownloadCompleteMap[downloadId] = (downloadDelta) => {
+                    logger.debug("Download completed. downloadId=", downloadId, "downloadDelta=", downloadDelta);
+                    if (resolve instanceof Function) {
+                        resolve(downloadId);
+                    }
+                }
+            } else {
+                resolve();
             }
         });
 }
@@ -224,7 +230,7 @@ function listenForDownloadFailureAndRetry() {
     // listen for download failure and retry if possible
     chrome.downloads.onChanged.addListener(function (downloadDelta) {
         if (downloadDelta && downloadDelta.state) {
-            logger.debug("event=onchange downloadId=",downloadDelta.id, "state=", downloadDelta.state, "error=", downloadDelta.error);
+            logger.debug("event=onchange downloadId=", downloadDelta.id, "state=", downloadDelta.state, "error=", downloadDelta.error);
             if (downloadDelta.state.previous === "in_progress" && (downloadDelta.state.current === "complete" || downloadDelta.state.current === "interrupted")) {
                 // retry if exists
                 if (downloadDelta.state.current === "interrupted" &&
@@ -241,6 +247,15 @@ function listenForDownloadFailureAndRetry() {
                 } else if (downloadDelta.state.current === "interrupted" && downloadDelta.error.current === CHROME_ERROR_USER_CANCELED) {
                     // no retry. check for USER_CANCELED error
                     errorMap[downloadDelta.id] = CHROME_ERROR_USER_CANCELED;
+                }
+
+                // run complete callback if any
+                if (downloadDelta.state.current === "complete") {
+                    if (typeof onDownloadCompleteMap[downloadDelta.id] === "function") {
+                        const callback = onDownloadCompleteMap[downloadDelta.id];
+                        delete onDownloadCompleteMap[downloadDelta.id];
+                        callback(downloadDelta);
+                    }
                 }
             }
         }
@@ -263,6 +278,38 @@ function listenForDownloadFailureAndRetry() {
 }
 
 /**
+ * Referece to the listener function. Used in add/remove listener.
+ * @param {*} downloadItem 
+ * @param {*} suggest 
+ * @returns 
+ */
+const onDeterminingFilenameListener = (downloadItem, suggest) => {
+    if (downloadItem.byExtensionId !== EXTENSION_ID) {
+        return; // be a good citizen don't change the names of downloads initiated by other Exts.
+        // however, this is still impacting other extensions because of Chromium bug.
+    }
+
+    if (downloadIdToFolderFilenameMap[downloadItem.id]) {
+        const folderFilename = downloadIdToFolderFilenameMap[downloadItem.id];
+        delete downloadIdToFolderFilenameMap[downloadItem.id]; // cleanup
+        logger.debug("func=listenForOnDeterminingFilename downloadItem.id=", downloadItem.id,
+            "downloadItem.mime=", downloadItem.mime,
+            "folderFilename=", folderFilename, "downloadItem.filename=", downloadItem.filename
+        );
+        // rename to m4a if Chrome had changed to mp4
+        if (utils.getFileExt(downloadItem.filename) === "mp4" && utils.getFileExt(folderFilename) === "m4a") {
+            logger.debug("func=listenForOnDeterminingFilename suggest=", folderFilename)
+            suggest({ filename: folderFilename });
+            return;
+        }
+
+        // fix folder path
+        logger.debug("func=listenForOnDeterminingFilename suggest=", folderFilename)
+        suggest({ filename: folderFilename });
+    }
+}
+
+/**
  * Register listener to fix download filename. For example, enforce .m4a if Chrome tries to rename to .mp4
  * Also to mitigate Chromium bug https://issues.chromium.org/issues/40146766. 
  * In this bug ANY extension which registered an `onDeterminingFilename` event listener 
@@ -270,32 +317,14 @@ function listenForDownloadFailureAndRetry() {
  */
 function listenForOnDeterminingFilename() {
     // track filename renames
-    chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
-        if (downloadItem.byExtensionId !== EXTENSION_ID) {
-            return; // be a good citizen don't change the names of downloads initiated by other Exts.
-            // however, this is still impacting other extensions because of Chromium bug.
-        }
-
-        if (downloadIdToFolderFilenameMap[downloadItem.id]) {
-            const folderFilename = downloadIdToFolderFilenameMap[downloadItem.id];
-            delete downloadIdToFolderFilenameMap[downloadItem.id]; // cleanup
-            logger.debug("func=listenForOnDeterminingFilename downloadItem.id=", downloadItem.id, 
-                "downloadItem.mime=", downloadItem.mime,
-                "folderFilename=", folderFilename, "downloadItem.filename=", downloadItem.filename
-            );
-            // rename to m4a if Chrome had changed to mp4
-            if (utils.getFileExt(downloadItem.filename) === "mp4" && utils.getFileExt(folderFilename) === "m4a") {
-                logger.debug("func=listenForOnDeterminingFilename suggest=", folderFilename)
-                suggest({ filename: folderFilename });
-                return;
-            }
-
-            // fix folder path
-            logger.debug("func=listenForOnDeterminingFilename suggest=", folderFilename)
-            suggest({ filename: folderFilename });
-        }
-    });
+    chrome.downloads.onDeterminingFilename.addListener(onDeterminingFilenameListener);
 }
+
+function tearDownListenerForOnDeterminingFilename() {
+    // track filename renames
+    chrome.downloads.onDeterminingFilename.addListener(onDeterminingFilenameListener);
+}
+
 
 /**
  * Sends jobs to service worker for download. When failed, fall back to download in popup.js.
