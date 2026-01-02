@@ -61,3 +61,61 @@ test("nogizaka46/status/1312710164730970117", async () => {
             }
         });
 });
+
+const { re, getStatusIdFromUrl } = require("../../src/inject/twitter.com");
+describe("re", () => {
+    test("re matches status url", async () => {
+        let m = "https://x.com/nogizaka46/status/2006392891153985683".match(re);
+        expect(m).toBeTruthy();
+        expect(m[2]).toBe("2006392891153985683");
+
+        m = "https://x.com/nogizaka46/status/2006392891153985683/".match(re);
+        expect(m).toBeTruthy();
+        expect(m[2]).toBe("2006392891153985683");
+        
+    });
+
+
+    test("re matches photo url", async () => {
+        let m = "https://x.com/nogizaka46/status/2006392891153985683/photo/1".match(re);
+        expect(m).toBeTruthy();
+        expect(m[1]).toBe("nogizaka46");
+        expect(m[2]).toBe("2006392891153985683");
+        expect(m[4]).toBe("1");
+
+        m = "https://x.com/nogizaka46/status/2006392891153985683/photo/1/".match(re);
+        expect(m).toBeTruthy();
+        expect(m[1]).toBe("nogizaka46");
+        expect(m[2]).toBe("2006392891153985683");
+        expect(m[4]).toBe("1");
+
+    });
+});
+
+describe("test getStatusIdFromUrl", () => {
+
+    test("getStatusIdFromUrl matches photo url", async () => {
+        expect(getStatusIdFromUrl("https://x.com/nogizaka46/status/2006392891153985683/photo/1")).toStrictEqual({
+            statusId: "2006392891153985683",
+            userId: "nogizaka46",
+            photoId: "1"
+        })
+    });
+
+
+    test("getStatusIdFromUrl returns all undefined", async () => {
+        expect(getStatusIdFromUrl("https://x.com/bla/status/bla/1")).toStrictEqual({
+            statusId: undefined,
+            userId: undefined,
+            photoId: undefined
+        })
+    });
+
+    test("getStatusIdFromUrl returns userId and statusId", async () => {
+        expect(getStatusIdFromUrl("https://x.com/nogizaka46/status/2006392891153985683")).toStrictEqual({
+            statusId: "2006392891153985683",
+            userId: "nogizaka46",
+            photoId: undefined
+        })
+    });
+});

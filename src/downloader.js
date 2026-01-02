@@ -545,7 +545,8 @@ function getImageUrlFromContentScriptIfNotLoaded(image, context, callback) {
         if (imageFromResp && imageFromResp.url) {
             image.loaded = true;
             image.loading = false;
-            image.url = imageFromResp.url;
+            // image.url = imageFromResp.url;
+            Object.assign(image, imageFromResp);
             logger.debug("func=getImageUrlFromContentScriptIfNotLoaded successfully loaded image=", image);
             callback?.(image);
         } else {

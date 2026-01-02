@@ -27,7 +27,8 @@
  * 
 */
 
-const window = require("./globals").getWindow();
+const { getGlobalObjectProperty, getWindow } = require("./globals");
+const window = getWindow();
 const runtime = require("./runtime");
 const isServiceWorker = runtime.isServiceWorker();
 const isRuntime = runtime.isRuntime();
@@ -41,35 +42,8 @@ logger.debug("isServiceWorker", isServiceWorker, "isRuntime", isRuntime, "isPage
 
 let msgCount = 0; // id of message == (sender + msgCount)
 
-/**
- * Returns the nested property from obj. For example
- *  {@linkcode getOrCreateProperties}(obj, "a", "b") returns obj.a.b
- *
- * If any of the property along the way does not exist, it will be created as an empty object ({}).
- *
- * This allows for not only reading but also quick assignment on a nested property:
- * <pre>
- *     getOrCreateProperties(obj, "a", "b").newProperty = "bla";
- * </pre>
- *
- * @param obj {object}
- * @param path {string}
- * @returns {*}
- */
-function getOrCreateProperties(obj, ...path) {
-    for (const p of path) {
-        if (obj[p] == null) {
-            obj[p] = {}
-        }
-
-        obj = obj[p];
-    }
-
-    return obj;
-}
-
 // bootstrap pageListenerMap and runtimeListenerMap by checking the path on window object
-const namespace = getOrCreateProperties(window, "_mid_", "messaging");
+const namespace = getGlobalObjectProperty("_mid_", "messaging");
 const pageListenerMap = namespace.pageListenerMap = namespace.pageListenerMap || {}; // key => callback
 const runtimeListenerMap = namespace.runtimeListenerMap = namespace.runtimeListenerMap || {};  // key => callback
 

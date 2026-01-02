@@ -12,7 +12,6 @@ module.exports = env => {
             popup: "./src/popup.js",
             "helper/instagram-react": "./src/helper/instagram-react.js",
             "helper/rbbtoday-check-size": "./src/helper/rbbtoday-check-size.js",
-            "helper/twitter-react": "./src/helper/twitter-react.js",
             "helper/my.ebook5.net-helper": "./src/helper/my.ebook5.net-helper.js",
             "helper/glassgirl-info-helper": "./src/helper/glassgirl-info-helper.js",
             "helper/www.grajapa.shueisha.co.jp-helper": "./src/helper/www.grajapa.shueisha.co.jp-helper.js",

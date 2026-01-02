@@ -127,14 +127,18 @@ function removeQuery(url) {
 }
 
 /**
- * Helper method to push all elements from newList into list.
+ * Helper method to push all elements from newList into list, if the element is not yet in the list.
  */
 function pushArray(list, newList) {
+    const dups = []; // for debug
     if (newList && newList.length) {
         for (const value of newList.values()) {
-            pushIfNew(list, value);
+            if (!pushIfNew(list, value)) {
+                dups.push(value)
+            }
         }
     }
+    // require("./logger2")(module.id).debug("Duplicate count=", dups.length);
 }
 
 /**
@@ -145,6 +149,7 @@ function pushArray(list, newList) {
  * if value is an object, value.url is searched and is added when no other object in the list has the same url property.
  * 
  * null/undefined is not permitted.
+ * @returns {Boolean} true if pushed to array
  */
 function pushIfNew(list, value) {
     if (value !== null && value !== undefined) {
@@ -153,11 +158,15 @@ function pushIfNew(list, value) {
                 return elem.url && (elem.url === value.url);
             }) === -1) {
                 list.push(value);
+                return true;
             }
         } else if (list.indexOf(value) === -1) {
             list.push(value);
+            return true;
         }
     }
+
+    return false;
 }
 
 function loadUrlInHiddenIframe(url) {

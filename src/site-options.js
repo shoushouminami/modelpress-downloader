@@ -167,6 +167,23 @@ function onOptionsChanged(callback) {
 }
 
 /**
+ * Combines `loadPerisistedSiteOptionsAndOnChange()` and `onOptionsChanged()`. Run the `callback` function when 
+ * options is initially load as well as when they are changed.
+ * 
+ * @param {*} host 
+ * @param {*} defaultOptions 
+ * @param {*} callback 
+ */
+function loadPerisistedSiteOptionsAndOnChange(host, defaultOptions, callback) {
+    if (typeof callback !== "function") {
+        throw new Error("Only supports callback function, not Promise");
+    }
+
+    loadPerisistedSiteOptions(host, defaultOptions, callback);
+    onOptionsChanged(callback);
+}
+
+/**
  * Helper function to test if the named option is changed between a prevous options map and a current options map.
  * If fields is given, the fields are checked. Otherwise, depending on the option type, a proper field is checked. ("checked" or "value") 
  * @param {*} prevOptions Previous options map
@@ -337,6 +354,7 @@ module.exports = {
     createSiteOptions,
     loadPerisistedSiteOptions,
     onOptionsChanged,
+    loadPerisistedSiteOptionsAndOnChange,
     isOptionValueChanged,
     forEachOptionValueChanged,
     // below are for tests

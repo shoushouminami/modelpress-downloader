@@ -2,7 +2,7 @@ const utils = require("../utils");
 const { replaceIllegalChars, removeSpace } = require("../utils/str-utils.js");
 const { getDocument, getSearchParamValue, getWindow } = require("../globals.js");
 const { toFull, basename, pathname } = require("../utils/url-utils.js");
-const { loadPerisistedSiteOptions, onOptionsChanged, DOWNLOAD_PREPEND_JOBID } = require("../site-options");
+const { loadPerisistedSiteOptionsAndOnChange, DOWNLOAD_PREPEND_JOBID } = require("../site-options");
 const logger = require("../logger2.js")(module.id);
 
 function filterIcon(url) {
@@ -188,15 +188,9 @@ module.exports = {
                 require("../messaging.js").sendToRuntime("updateResult", o);
             };
 
-            loadPerisistedSiteOptions(o.host, o.options)
-                .then(({ options }) => {
-                    o.options = options;
-                    sendBlogToUpdateResult(o.options);
-                });
-
-            onOptionsChanged(({ options }) => {
+            loadPerisistedSiteOptionsAndOnChange(o.host, o.options, ({ options }) => {
                 o.options = options;
-                sendBlogToUpdateResult(options);
+                sendBlogToUpdateResult(o.options);
             });
         }
 

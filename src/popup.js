@@ -181,7 +181,7 @@ function prepareDownloadJobs() {
 
 function getImageThumbnails() {
     const jobs = prepareDownloadJobs();
-    const thumbnails = message.images.map((img, index) => {
+    const thumbnails = message.images.map((img) => {
         const mediaType = guessMediaType(typeof img === "string" ? img : img.url, message.ext, img.filename);
         const isVideo = mediaType === "video";
 
@@ -191,40 +191,39 @@ function getImageThumbnails() {
                 isVideo
             };
         }
-        
+
+        // load image url for "msg" and "msg_seq"
+        // trigger loading of the image/video and return spinner (loading) as thumbnail
+        // continue to switch statement below if the image is already loaded
+        if ((img.type == "msg" || img.type == "msg_seq") && !img.loaded) {
+            if (!img.loading) { // no need to load again if it is in the middle of loading
+                const triggerRerenderThumbnails = (imageFromResp) => {
+                    if (imageFromResp) {
+                        renderEventEmitter.emit();
+                    }
+                };
+                if (img.type === "msg") {
+                    downloader.getImageUrlFromContentScriptIfNotLoaded(img, img.context, triggerRerenderThumbnails);
+                } else {
+                    downloader.getImageUrlFromContentScriptInSeq(img, img.context, triggerRerenderThumbnails, 250);
+                }
+            }
+            // returns spinner to show the image/video is loading
+            return {
+                src: thumbnail("spinner"),
+                className: "thumbnail_small"
+            };
+        }
+
+        // show thumbnail according to media type
         switch (mediaType) {
             case "image":
-                if (img.type == "msg" || img.type == "msg_seq") {
-                    if (img.loaded) {
-                        return {
-                            src: img.url
-                        };
-                    } else if (!img.loading) {
-                        // load image url as thumbnail for "msg" and "msg_seq"
-                        const triggerRerenderThumbnails = (imageFromResp) => {
-                            if (imageFromResp) {
-                                renderEventEmitter.emit();
-                            }
-                        };
-                        if (img.type === "msg") {
-                            downloader.getImageUrlFromContentScriptIfNotLoaded(img, img.context, triggerRerenderThumbnails);
-                        } else {
-                            downloader.getImageUrlFromContentScriptInSeq(img, img.context, triggerRerenderThumbnails, 250);
-                        }
-                    }
+                if (img.type !== "tab") {
+                    // return the image url itself as thumbnail
                     return {
-                        src: thumbnail("spinner"),
-                        className: "thumbnail_small"
+                        src: typeof img === "string" ? img : img.url
                     };
                 }
-                if (img.type === "tab") {
-                    return {
-                        src: thumbnail("image")
-                    };
-                }
-                return {
-                    src: typeof img === "string" ? img : img.url
-                };
             case "video":
             case "audio":
             case "html":
