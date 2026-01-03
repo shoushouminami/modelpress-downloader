@@ -14,7 +14,6 @@ const { getCallStack } = require("./utils/js-utils");
 const { range } = require("./utils/array-utils");
 
 ga.bootstrapGA4();
-downloader.listenForDownloadFailureAndRetry();
 
 /**
  * Recursively enhance A element so a click on the element would update the active chrome tab.
