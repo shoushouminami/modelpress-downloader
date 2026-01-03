@@ -19,12 +19,6 @@ messaging.listen("download", function (job, sendResponse) {
     return true;
 });
 
-messaging.listen("queryUserCanceled", function (msg, sendResponse) {
-    sendResponse({
-        "userCanceledCount": downloader.queryUserCanceledCount()
-    });
-});
-
 logger.debug("listening for onInstalled event.")
 // track installation
 chrome.runtime.onInstalled.addListener(function(details) {

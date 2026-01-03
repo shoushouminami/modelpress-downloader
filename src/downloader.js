@@ -6,14 +6,12 @@ const ga = require("./google-analytics");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
 
-const CHROME_ERROR_USER_CANCELED = "USER_CANCELED";
 const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
 const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
 const EXTENSION_ID = require("./runtime").getExtensionID();
 
 const retryMap = {}; // for keeping retry urls
 const onDownloadCompleteOrFailureMap = {}; // downloadId => [onComplete callback, onFailure callback] when download is completed
-const errorMap = {}; // TODO remove: for keeping USER_CANCELED errors; downloadId => error
 const tabIdOnUpdatedFunctionMap = {}; // tabId => function
 const downloadIdToFolderFilenameMap = {}; // downloadId => original folderFilename. used to fix download filename
 const ongoingDownloads = new Set();
@@ -366,7 +364,7 @@ const onChangedListener = (downloadDelta) => {
 const onUpdatedListener = (tabId, changeInfo, tab) => {
     if (changeInfo.status !== "complete") return;
 
-    const f = tabIdOnUpdatedFunctionMap[tabId];
+    const f = tabIdOnUpdatedFunctionMap[tabId]; // don't delete the callback yet. might need for retry
     if (typeof f !== "function") return;
 
     logger.debug("[tabs.onUpdated] Tab finished update tabId=", tabId, "url=", tab?.url);
@@ -469,35 +467,11 @@ function downloadInBackgroundFallbackInPopup(job, resolve) {
     }
 
     messaging.sendToRuntime("download", job, function (downloadResp) {
-        logger.debug("Done: " + job.images.length + " images", "resp=", downloadResp);
+        logger.debug("Done: " + (downloadResp?.length ?? 0) + "/" + job.images.length + " images", "resp=", downloadResp);
         // TODO remove. bug is now fixed
         // Due to Chrome bug 1345528 https://bugs.chromium.org/p/chromium/issues/detail?id=1345528
         // check for USER_CANCELED error and retry download from popup
-        if (downloadResp?.["downloadIds"]?.length > 0) {
-            // if all download ids are null, retry with original folder path, in case the folder path is broken
-            if (downloadResp["downloadIds"].every(val => val == null)) {
-                job.context.folder = job.context.originalFolder;
-                messaging.sendToRuntime("download", job); // not listening for the response
-            } else {
-                wait(200).then(() => {
-                    messaging.sendToRuntime("queryUserCanceled", null,
-                        function (queryResp) {
-                            logger.debug("queryResp=", queryResp);
-                            if (queryResp["userCanceledCount"]) {
-                                ga.trackEventGA4("retry_popup_download");
-                                logger.debug("userCanceledCount=", queryResp["userCanceledCount"], " restarting download in popup");
-                                downloadJob(job, () => {
-                                    // do not close the popup, as chrome waits for user to select download folder
-                                    // closing popup will ignore the rest of the files
-                                    // resolve();
-                                });
-                            } else if (resolve instanceof Function) {
-                                resolve();
-                            }
-                        });
-                });
-            }
-        } else if (resolve instanceof Function) {
+        if (typeof resolve === "function") {
             resolve();
         }
     });
@@ -569,7 +543,8 @@ function downloadJobWithTab(job) {
 
 function downloadWithNewTab(tabId, image, context) {
     return new Promise((resolve) => {
-        const { websiteCS, websiteUrl, retries } = image;
+        const { websiteCS, retries } = image;
+        let websiteUrl = image.websiteUrl; // can change for retry
 
         // if there is no websiteUrl to load, log and move on
         if (!websiteUrl) {
@@ -580,7 +555,7 @@ function downloadWithNewTab(tabId, image, context) {
         function cleanup() {
             // cleanup
             if (tabIdOnUpdatedFunctionMap[tabId] === callback) {
-                tabIdOnUpdatedFunctionMap[tabId] = null;
+                delete tabIdOnUpdatedFunctionMap[tabId];
             }
         }
 
@@ -598,28 +573,30 @@ function downloadWithNewTab(tabId, image, context) {
                 return finish();
             }
 
-            logger.debug("Executing script", websiteCS, "on tab", tabId);
+            logger.debug("Executing script", websiteCS, "on tabId=", tabId);
             chrome.scripting.executeScript({ target: { tabId }, files: [websiteCS] }, results => {
                 if (results?.[0]?.result?.href === websiteUrl) {
                     // this is the result of the redirectPage and is ignored
-                    logger.debug("Scripting results from redirect page results=", results);
+                    logger.debug("Scripting results from redirect page result=", results?.[0]?.result);
                     return;
                 }
 
                 const result = results?.[0]?.result;
-                logger.debug("Scripting results=", results);
+                logger.debug("Scripting image=", result?.images?.[0], "result=", result);
 
                 if (result?.images?.length) {
                     return finish({ o: result, image });
                 } else if (retries?.length) {
                     // try again if retries is defined
                     const next = retries.shift();
-                    return chrome.tabs.update(tabId, { url: next.websiteUrl });
+                    websiteUrl = next.websiteUrl;
+                    return chrome.tabs.update(tabId, { url: websiteUrl });
                 }
 
                 return finish();
             });
         };
+
         tabIdOnUpdatedFunctionMap[tabId] = callback;
         // load website url
         chrome.tabs.update(tabId, { url: websiteUrl });
@@ -672,17 +649,6 @@ function downloadJob(job, sendResponse) {
         default:
             return downloadRegJob(job).then(sendResponse);
     }
-}
-
-function queryUserCanceledCount() {
-    let c = 0;
-    for (let e of Object.entries(errorMap)) {
-        if (e[1] === CHROME_ERROR_USER_CANCELED) {
-            c++;
-        }
-    }
-
-    return c;
 }
 
 /**
@@ -769,10 +735,8 @@ function getImageUrlFromContentScriptInSeq(image, context, callback, delayMs = 5
 
 module.exports = {
     downloadJob,
-    queryUserCanceledCount,
     getFolderFilename,
     getImageUrlFromContentScriptIfNotLoaded,
     getImageUrlFromContentScriptInSeq,
-    downloadInBackgroundFallbackInPopup,
-    CHROME_ERROR_USER_CANCELED
+    downloadInBackgroundFallbackInPopup
 }
