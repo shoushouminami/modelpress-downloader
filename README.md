@@ -19,6 +19,9 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 5.1 (2025/12/26)
+* Add image picker
+
 ###### 5.0 (2025/12/26)
 * Add image picker
 * Save HTML for sakamichi blogs
@@ -89,86 +92,3 @@ entameclip.com and www.vogue.co.jp
 
 ###### 4.17 (2024/03/02)
 * Fix mdpr.jp
-
-###### 4.16 (2023/12/22)
-* Minor fixes on yanmaga.jp
-
-###### 4.15 (2023/12/18)
-* Fix yanmaga.jp
-* Remove exweb.jp
-
-###### 4.14 (2023/09/18)
-* Add qjweb.jp
-* Add www.cinema-life.net
-* Add www.koari.net
-* Add www.fashionsnap.com
-* Add trepo.jp
-* Bug fixes
-
-###### 4.13 (2023/08/06)
-* Add www.bubkaweb.com
-* Add gravure.mantan-web.jp
-* Remove news.dwango.jp
-* Bug fixes
-
-###### 4.12 (2023/06/07)
-* Add www.billboard-japan.com
-* Add korepo.com
-* Add news.kstyle.com
-
-###### 4.11 (2023/05/27)
-* Add classy-online.jp
-* Add www.tvguide.or.jp
-* Add numero.jp
-
-###### 4.10 (2023/04/28)
-* Bug fixes
-
-###### 4.9 (2023/04/02)
-* Add shueisha.online
-* Add nikkan-spa.jp
-* Add news.livedoor.com
-* Bug fixes
-
-###### 4.8 (2023/02/06)
-* nogizaka46.com: Minor fix on folder name
-
-###### 4.7 (2023/02/05)
-* Add www.lmaga.jp
-* nogizaka46.com: Use blog title as folder name
-
-###### 4.6 (2022/12/22)
-* Add articles under exweb.jp/list/premium/
-* Fix on friday.kodansha.co.jp
-* Add emomiu.jp
-
-###### 4.5 (2022/10/21)
-* Add m.tribe-m.jp, m.ex-m.jp, m.ldh-m.jp, m.ldhgirls-m.jp
-* Add FC content on sakurazaka46.com
-* Add tvbros.jp
-* Add plus.paravi.jp
-
-###### 4.4 (2022/09/11)
-* Add eiga.com
-* Fix on mainichikirei.jp
-
-###### 4.3 (2022/08/24)
-* Add www.ytjp.jp
-* Add wanibooks-newscrunch.com
-* Add sweetweb.jp
-* Other bug fixes
-
-###### 4.2 (2022/07/28)
-* Bug fixes
-* Add config option to turn seq number on/off
-
-###### 4.1 (2022/07/17)
-* Add oricon.co.jp
-
-###### 4.0 (2022/07/09)
-* Migrate to Chrome Extension Manifest v3
-* Add recent clicked icons
-* Add search query box to filter site icons
-* Add config page
-* Mdpr app permission: removed perm request page;
-* Fix on bisweb.jp
