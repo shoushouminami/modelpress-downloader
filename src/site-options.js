@@ -255,8 +255,9 @@ function createSiteOptions({
 
     // i18n - replace label if there is an i18n version
     Object.keys(allOptions).forEach(optName => {
-        const newLabel = i18n.getText(allOptions[optName].i18nName ?? optName);
-        allOptions[optName].label = newLabel != null ? newLabel : allOptions[optName].label; 
+        const messageName = allOptions[optName].i18nName ?? optName;
+        allOptions[optName].label = i18n.getText(messageName) ?? allOptions[optName].label; 
+        allOptions[optName].description = i18n.getMessageDescription(messageName);
     });
 
     // Create one manager instance for this config

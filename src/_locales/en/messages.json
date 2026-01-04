@@ -81,7 +81,7 @@
     },
     "configDownloadPrependJobId": {
         "message": "Prepend sequence number to file name",
-        "description": "Text label in config setting: Add sequence number to file name"
+        "description": "Add sequence number (starting from 1) at the begining of file name. Example: 1-<name>.jpg"
     },
     "selectAllButton": {
         "message": "Select All",
@@ -97,22 +97,26 @@
     },
     "downloadHTML": {
         "message": "Download Blog HTML",
-        "description": "Option to download HTML page on sakamichi group website"
+        "description": "Download the blog post as HTML file"
     },
     "daysAgo": {
         "message": "Days Ago",
-        "description": "Option to select how many days ago on message.sakamichi group"
+        "description": "Fetch messages from the number of days ago"
     },
     "downloadVideo": {
         "message": "Download Video",
-        "description": "Option whether to download video on message.sakamichi group"
+        "description": "Download video message/file"
     },
     "downloadVoice": {
         "message": "Download Voice", 
-        "description": "Option whether to download voice audio on message.sakamichi group"
+        "description": "Download voice audio message"
     },
     "downloadText": {
         "message": "Download Text",
-        "description": "Option whether to download text as HTML on message.sakamichi group"
+        "description": "Download text message as HTML"
+    },
+    "autoCollect": {
+        "message": "Auto Collect Mode",
+        "description": "Automatically watch the page and collect new images as they appear"
     }
 }

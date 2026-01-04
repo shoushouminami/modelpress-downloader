@@ -76,7 +76,7 @@
     },
     "configDownloadPrependJobId": {
         "message": "ファイル名の先頭に連番を付ける",
-        "description": "Text label in config setting: Add sequence number to file name"
+        "description": "ファイル名の先頭に 1 から始まる連番を追加します。例：1-<name>.jpg"
     },
     "selectAllButton": {
         "message": "すべて選択",
@@ -92,22 +92,26 @@
     },
     "downloadHTML": {
         "message": "ブログのHTMLをダウンロード",
-        "description": "Option to download HTML page on sakamichi group website"
+        "description": "ブログ記事をHTMLファイルとしてダウンロード"
     },
     "daysAgo": {
         "message": "何日前まで",
-        "description": "Option to select how many days ago on message.sakamichi group"
+        "description": "指定した日数前までのメッセージを取得"
     },
     "downloadVideo": {
         "message": "動画をダウンロード",
-        "description": "Option whether to download video on message.sakamichi group"
+        "description": "動画メッセージ／ファイルをダウンロード"
     },
     "downloadVoice": {
         "message": "音声をダウンロード",
-        "description": "Option whether to download voice audio on message.sakamichi group"
+        "description": "音声メッセージをダウンロード"
     },
     "downloadText": {
         "message": "テキストをダウンロード",
-        "description": "Option whether to download text as HTML on message.sakamichi group"
+        "description": "テキストメッセージをHTMLとしてダウンロード"
+    },
+    "autoCollect": {
+        "message": "自動収集モード",
+        "description": "ページに表示された新しい画像を自動で収集します"
     }
 }

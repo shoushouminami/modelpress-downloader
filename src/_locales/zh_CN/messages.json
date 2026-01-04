@@ -74,7 +74,7 @@
     },
     "configDownloadPrependJobId": {
         "message": "文件名添加序号前缀",
-        "description": "Text label in config setting: Add sequence number to file name"
+        "description": "在文件名开头添加从 1 开始的序号。例如：1-<name>.jpg"
     },
     "selectAllButton": {
         "message": "全选",
@@ -90,22 +90,26 @@
     },
     "downloadHTML": {
         "message": "下载博客 HTML",
-        "description": "Option to download HTML page on sakamichi group website"
+        "description": "将博客文章下载为 HTML 文件"
     },
     "daysAgo": {
         "message": "显示至几天前",
-        "description": "Option to select how many days ago on message.sakamichi group"
+        "description": "获取指定天数内的消息"
     },
     "downloadVideo": {
         "message": "下载视频",
-        "description": "Option whether to download video on message.sakamichi group"
+        "description": "下载视频消息或文件"
     },
     "downloadVoice": {
-        "message": "下载电话音频",
-        "description": "Option whether to download voice audio on message.sakamichi group"
+        "message": "下载语音",
+        "description": "下载语音音频消息"
     },
     "downloadText": {
         "message": "下载文本",
-        "description": "Option whether to download text as HTML on message.sakamichi group"
+        "description": "将文本消息下载为 HTML 文件"
+    },
+    "autoCollect": {
+        "message": "自动收集模式",
+        "description": "当页面中出现新图片时自动进行收集"
     }
 }

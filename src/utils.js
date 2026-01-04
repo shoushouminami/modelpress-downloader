@@ -152,21 +152,34 @@ function pushArray(list, newList) {
  * @returns {Boolean} true if pushed to array
  */
 function pushIfNew(list, value) {
-    if (value !== null && value !== undefined) {
-        if (typeof value === "object" && value.url) {
-            if (list.findIndex(function (elem) {
-                return elem.url && (elem.url === value.url);
-            }) === -1) {
-                list.push(value);
-                return true;
-            }
-        } else if (list.indexOf(value) === -1) {
-            list.push(value);
-            return true;
-        }
+    if (isNew(list, value)) {
+        list.push(value);
+        return true;
+
+    }
+    return false;
+}
+
+/**
+ * Helper method to check if the value is not yet in the list.
+ * 
+ * - If value is an object with a truthy `url`: checks uniqueness by `url`.
+ * - otherwise, checks direct membership in the list (===).
+ * 
+ * null/undefined is not permitted and always return false
+ * @returns {Boolean} true if value is new
+ */
+function isNew(list, value) {
+    if (value === null || value === undefined) {
+        return false;
     }
 
-    return false;
+    if (typeof value === "object" && value.url) {
+        return list.findIndex(function (elem) {
+            return elem.url && (elem.url === value.url);
+        }) === -1;
+    } 
+    return list.indexOf(value) === -1;
 }
 
 function loadUrlInHiddenIframe(url) {
@@ -537,6 +550,7 @@ module.exports = {
     removeQuery: removeQuery,
     pushArray: pushArray,
     pushIfNew: pushIfNew,
+    isNew,
     loadUrlInHiddenIframe: loadUrlInHiddenIframe,
     getAwalkerImgUrl: getAwalkerImgUrl,
     findImagesWithCssSelector: findImagesWithCssSelector,

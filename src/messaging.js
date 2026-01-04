@@ -292,6 +292,11 @@ function addOnceSingletonListenerOnRuntime() {
 
         logger.debug("Received on runtime key=", key, "data=", data, "extension sender=", sender);
 
+        if (!data.msg) {
+            data.msg = {};
+        }
+
+        data.msg._sender = sender; // attach sender info to msg
         // if callback returns true, async replying mode is enabled and calling sendResponse can reply
         return callback(data.msg, sendResponse);
     }

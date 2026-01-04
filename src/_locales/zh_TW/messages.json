@@ -73,7 +73,7 @@
     },
     "configDownloadPrependJobId": {
         "message": "檔名加上序號前綴",
-        "description": "Text label in config setting: Add sequence number to file name"
+        "description": "在檔名開頭加入從 1 開始的編號。例如：1-<name>.jpg"
     },
     "selectAllButton": {
         "message": "全部選取",
@@ -89,22 +89,26 @@
     },
     "downloadHTML": {
         "message": "下載部落格 HTML",
-        "description": "Option to download HTML page on sakamichi group website"
+        "description": "將部落格文章下載為 HTML 檔案"
     },
     "daysAgo": {
-        "message": "顯示至幾天前",
-        "description": "Option to select how many days ago on message.sakamichi group"
+        "message": "最近幾天",
+        "description": "擷取指定天數內的訊息"
     },
     "downloadVideo": {
         "message": "下載影片",
-        "description": "Option whether to download video on message.sakamichi group"
+        "description": "下載影片訊息或檔案"
     },
     "downloadVoice": {
         "message": "下載語音",
-        "description": "Option whether to download voice audio on message.sakamichi group"
+        "description": "下載語音音訊訊息"
     },
     "downloadText": {
         "message": "下載文字",
-        "description": "Option whether to download text as HTML on message.sakamichi group"
+        "description": "將文字訊息下載為 HTML 檔案"
+    },
+    "autoCollect": {
+        "message": "自動收集模式",
+        "description": "當頁面中出現新圖片時自動進行收集"
     }
 }

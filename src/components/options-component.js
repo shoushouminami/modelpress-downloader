@@ -25,7 +25,7 @@ function DownloadOptions({ stOptions, handleOptionChange, handleOptionCommit}) {
                     case "checkbox":
                         return (
                             <div key={id} className="site-option">
-                                <label htmlFor={id} className="site-option-label">{stOpt.label}</label>
+                                <label htmlFor={id} className="site-option-label" title={stOpt.description}>{stOpt.label}</label>
                                 <Toggle
                                     id={id}
                                     className="site-option-checkbox"
@@ -45,7 +45,7 @@ function DownloadOptions({ stOptions, handleOptionChange, handleOptionCommit}) {
                     case "range":
                         return (
                             <div key={id} className="site-option">
-                                <label htmlFor={id} className="site-option-label">{stOpt.label}</label>
+                                <label htmlFor={id} className="site-option-label" title={stOpt.description}>{stOpt.label}</label>
                                 <span className="site-option-range">
                                     <input
                                         id={id}
@@ -66,7 +66,7 @@ function DownloadOptions({ stOptions, handleOptionChange, handleOptionCommit}) {
                     case "text":
                         return (
                             <div key={id} className="site-option">
-                                <label htmlFor={id} className="site-option-label">{stOpt.label}</label>
+                                <label htmlFor={id} className="site-option-label" title={stOpt.description}>{stOpt.label}</label>
                                 {/* clickable pattern tags */}
                                 {Array.isArray(stOpt.possiblePatternList) && stOpt.possiblePatternList.length > 0 && (
                                     <div style={{ margin: "4px 0" }}>
