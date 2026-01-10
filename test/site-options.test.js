@@ -19,7 +19,8 @@ jest.mock("../src/logger2", () => {
 
 jest.mock("../src/i18n", () => {
     return {
-        getText: jest.fn()
+        getText: jest.fn(),
+        getMessageDescription: jest.fn(),
     };
 });
 
@@ -54,6 +55,7 @@ describe("site-options", () => {
     let forEachOptionValueChanged;
     let logger;
     let i18n;
+    let setOptionValueToMap;
 
     beforeEach(() => {
         jest.resetModules();
@@ -71,6 +73,7 @@ describe("site-options", () => {
         DOWNLOAD_PREPEND_JOBID = mod.DOWNLOAD_PREPEND_JOBID;
         isOptionValueChanged = mod.isOptionValueChanged;
         forEachOptionValueChanged = mod.forEachOptionValueChanged;
+        setOptionValueToMap = mod.setOptionValueToMap;
     });
 
     test("PERSISTENT_FIELDS contains checked, value, userInteracted", () => {
@@ -225,7 +228,7 @@ describe("site-options", () => {
         expect(all.siteOnly.label).toBe("Site only option");
     });
 
-    test("updateOption persists only whitelisted fields for site-specific option", () => {
+    test("persistOption persists only whitelisted fields for site-specific option", () => {
         const siteOpts = createSiteOptions({
             host: "host",
             options: {
@@ -240,7 +243,7 @@ describe("site-options", () => {
         });
 
         // Apply patch that includes persistent + non-persistent fields
-        siteOpts.updateOption("opt1", {
+        siteOpts.persistOption("opt1", {
             checked: true,
             value: 123,
             userInteracted: true,
@@ -258,7 +261,7 @@ describe("site-options", () => {
         expect(opt.label).toBe("Site option");
     });
 
-    test("updateOption persists only whitelisted fields for COMMON_OPTION", () => {
+    test("persistOption persists only whitelisted fields for COMMON_OPTION", () => {
         const siteOpts = createSiteOptions({
             host: "host",
             options: {
@@ -266,7 +269,7 @@ describe("site-options", () => {
             }
         });
 
-        siteOpts.updateOption(DOWNLOAD_PREPEND_JOBID, {
+        siteOpts.persistOption(DOWNLOAD_PREPEND_JOBID, {
             checked: false,
             userInteracted: true,
             value: "foo",
@@ -283,7 +286,7 @@ describe("site-options", () => {
         expect(opt.label).toBe(COMMON_OPTIONS[DOWNLOAD_PREPEND_JOBID].label);
     });
 
-    test("updateOption throws when updating unknown option", () => {
+    test("persistOption throws when updating unknown option", () => {
         const siteOpts = createSiteOptions({
             host: "host",
             options: {
@@ -298,7 +301,7 @@ describe("site-options", () => {
         });
 
         expect(() =>
-            siteOpts.updateOption("unknownOpt", { checked: true })
+            siteOpts.persistOption("unknownOpt", { checked: true })
         ).toThrow(/unknown option/i);
     });
 
@@ -445,6 +448,120 @@ describe("site-options", () => {
             forEachOptionValueChanged(prevOptions, currentOptions, cb);
 
             expect(cb).not.toHaveBeenCalled();
+        });
+    });
+    
+    describe("updateOptionValue", () => {
+        let options;
+        beforeEach(() => {
+            options = createSiteOptions({
+                host: "host",
+                options: {
+                    parent: { type: "checkbox" },
+                    "parent:childA": { type: "checkbox" },
+                    "parent:childB": { type: "checkbox" },
+                    textParent: { type: "text" },
+                    textChild: { type: "checkbox" },
+                }
+            });
+        });
+
+        test("throws if optName is unknown", () => {
+            expect(() => options.updateOptionValue("nope", true)).toThrow(/Updating unknown option/);
+        });
+
+        test("sets userInteracted=true for target option and persists it", () => {
+            const updated = options.updateOptionValue("parent", true);
+
+            expect(updated.parent.checked).toBe(true);
+            expect(updated.parent.userInteracted).toBe(true);
+
+            const opt = options.getOption("parent");
+            expect(opt.checked).toBe(true);
+            expect(opt.userInteracted).toBe(true);
+        });
+
+        test("when top-level checkbox is turned off, nested options are set to false", () => {
+            expect(options.getOption("parent:childA").checked).toBe(undefined);
+            expect(options.getOption("parent:childB").checked).toBe(undefined);
+
+            const updated = options.updateOptionValue("parent", false);
+            
+            // Nested were forced off in memory
+            expect(updated["parent:childA"].checked).toBe(false);
+            expect(updated["parent:childA"].hidden).toBe(true);
+            expect(updated["parent:childA"].userInteracted).toBe(undefined);
+            expect(updated["parent:childB"].checked).toBe(false);
+            expect(updated["parent:childB"].hidden).toBe(true);
+            expect(updated["parent:childB"].userInteracted).toBe(undefined);
+
+            // read again and they are NOT persisted (no userInteracted)
+            expect(options.getPersistedOptions()["parent:childA"]).toBe(undefined);
+            expect(options.getPersistedOptions()["parent:childB"]).toBe(undefined);
+        });
+
+        test("persists nested option only if nested was previously userInteracted", () => {
+            options = createSiteOptions({
+                host: "host",
+                options: {
+                    parent: { type: "checkbox" },
+                    "parent:childA": { type: "checkbox" },
+                    "parent:childB": { type: "checkbox", userInteracted: true},
+                    textParent: { type: "text" }
+                }
+            });
+
+            const updated = options.updateOptionValue("parent", false);
+
+            expect(updated.parent.checked).toBe(false);
+            expect(updated.parent.userInteracted).toBe(true);
+            // parent persisted always
+            let opt = options.getOption("parent");
+            expect(opt.checked).toBe(false);
+            expect(opt.userInteracted).toBe(true);
+
+            // childA userInteracted=false -> should NOT persist
+            // childB userInteracted=true -> SHOULD persist
+            // parent persisted always
+            const persisted = options.getPersistedOptions();
+            expect(persisted["parent:childA"]).toBe(undefined);
+
+            expect(persisted["parent:childB"].checked).toBe(false);
+            expect(persisted["parent:childB"].userInteracted).toBe(true);
+        });
+
+        test("does not apply nested-off logic when optName is already nested", () => {
+            const updated = options.updateOptionValue("parent:childA", false);
+
+            // turned off and set userInteracted
+            expect(updated["parent:childA"].checked).toBe(false);
+            expect(updated["parent:childA"].userInteracted).toBe(true);
+
+            // should NOT touch sibling nested keys
+            expect(updated["parent:childB"]).toStrictEqual({
+                 type: "checkbox",
+                 hidden: false
+            });
+        });
+
+        test("does not apply nested-off logic for non-checkbox parent even if newValue is falsy", () => {
+            const updated = options.updateOptionValue("textParent", "");
+
+            // no nested turn-off, only the target option updated
+            expect(updated["textParent"].value).toBe("");
+            // should not attempt nested for textParent
+            expect(updated["textChild"]).toStrictEqual({
+                type: "checkbox" 
+            });
+
+            const textParent = options.getOption("textParent");
+            expect(textParent.value).toBe("");
+            expect(textParent.userInteracted).toBe(true);
+
+            const textChild = options.getOption("textChild");
+            expect(textChild).toStrictEqual({
+                type: "checkbox"
+            });
         });
     });
 });

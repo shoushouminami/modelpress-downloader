@@ -118,5 +118,9 @@
     "autoCollect": {
         "message": "Auto Collect Mode",
         "description": "Automatically watch the page and collect new images as they appear"
+    },
+    "autoDownload": {
+        "message": "Auto Download",
+        "description": "Automatically download new images"
     }
 }

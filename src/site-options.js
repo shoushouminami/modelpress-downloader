@@ -20,6 +20,7 @@ const STORAGE_KEY = "options";
 const USER_INTERACTED = "userInteracted";
 const VALUE = "value";
 const CHECKED = "checked";
+const HIDDEN = "hidden";
 
 /** 
  * Fields that are persistent into `storage`
@@ -134,7 +135,7 @@ function loadPerisistedSiteOptions(host, defaultOptions, callback) {
             host: host,
             options: defaultOptions
         }, function (resp) {
-            logger.debug("Loaded options=", resp.options);
+            logger.debug("Initialized with for host=", resp?.host, "options=", resp?.options);
             resolve(resp);
         });
     }
@@ -169,6 +170,8 @@ function onOptionsChanged(callback) {
 /**
  * Combines `loadPerisistedSiteOptionsAndOnChange()` and `onOptionsChanged()`. Run the `callback` function when 
  * options is initially load as well as when they are changed.
+ * 
+ * Used by content scripts.
  * 
  * @param {*} host 
  * @param {*} defaultOptions 
@@ -228,6 +231,78 @@ function forEachOptionValueChanged(prevOptions, currentOptions, callback) {
     })
 }
 
+
+function getOptionValueFromMap(optMap, optName) {
+    const opt = optMap[optName];
+    if (!opt) {
+        return;
+    }
+
+    if (opt.type === "checkbox") {
+        return opt.checked;
+    }
+
+    return opt.value;
+}
+
+function setOptionValueToMap(optMap, optName, newValue) {
+    const opt = optMap[optName];
+    if (!optMap[optName]) {
+        return;
+    }
+
+    switch (opt.type) {
+        case "checkbox":
+            opt.checked = newValue;
+            return;
+        case "range":
+            // allow setting false to set to 0
+            opt.value = newValue === false ? 0 : newValue;
+            return;
+        case "text":
+            // allow setting false to set to ""
+            opt.value = newValue === false ? "" : newValue;
+            return;
+        default:
+            throw new Error(`Updating unknown option type=${opt.type} optName=${optName} newValue=${newValue}`)
+    }
+}
+
+
+/**
+ * Calls cb(nestedName, nestedOpt, parentName) for each nested option.
+ *
+ * @param {Object<string, Object>} optionsMap
+ * @param {(nestedName: string, nestedOpt: any, parentName: string) => void} cb
+ */
+function forEachNestOptions(optionsMap, cb) {
+    if (!optionsMap || typeof optionsMap !== "object") return;
+    if (typeof cb !== "function") return;
+
+    for (const [name, opt] of Object.entries(optionsMap)) {
+        const idx = name.indexOf(":");
+        if (idx === -1) continue;
+        cb(name, opt, name.slice(0, idx));
+    }
+}
+
+/**
+ * Add hidden = true to nested options if the top level option is falsy.
+ *
+ * Nested option names are like: "download:video", top-level is "download".
+ *
+ * @param {Object<string, Object>} optionsMapCopy - map of optionName -> option object (will be mutated)
+ * @returns {Object<string, Object>} the same map for convenience
+ */
+function hideNestedOptions(optionsMapCopy) {
+    forEachNestOptions(optionsMapCopy, (nestedName, nestedOpt, parentName) => {
+        const parentOpt = optionsMapCopy[parentName];
+        nestedOpt[HIDDEN] = parentOpt.type === "checkbox" && parentOpt.checked === false;
+    });
+
+    return optionsMapCopy;
+}
+
 function createSiteOptions({
     host, 
     version = 1,
@@ -250,14 +325,24 @@ function createSiteOptions({
         // for each option, allow default to present key level overwrite
         Object.assign(updatedCommonOptions[commonOptionName], options[commonOptionName]);
     });
+    
     // Merge common option and default into all
+    // Contains all common options, overrides and site specific options, but only intial values defined in code. 
+    // ie WITHOUT perisited values from storage.
     const allOptions = Object.assign({}, options, updatedCommonOptions);
 
     // i18n - replace label if there is an i18n version
     Object.keys(allOptions).forEach(optName => {
-        const messageName = allOptions[optName].i18nName ?? optName;
-        allOptions[optName].label = i18n.getText(messageName) ?? allOptions[optName].label; 
-        allOptions[optName].description = i18n.getMessageDescription(messageName);
+        // supports nested option names delimited by ':'
+        const messageName = allOptions[optName].i18nName ?? optName.split(":").pop();
+        const label = i18n.getText(messageName) ?? allOptions[optName].label;
+        if (label) {
+            allOptions[optName].label = label; 
+        }
+        const description = i18n.getMessageDescription(messageName);
+        if (description) {
+            allOptions[optName].description = i18n.getMessageDescription(messageName);
+        }
     });
 
     // Create one manager instance for this config
@@ -275,21 +360,26 @@ function createSiteOptions({
     });
 
     function getOption(optName) {
-        const defaultOpt = allOptions[optName];
-        if (defaultOpt == null) return undefined;
+        if (!(optName in allOptions)) {
+            return;
+        }
 
+        return getAllOptions()[optName];
+    }
+
+    /**
+     * for testing
+     */
+    function getPersistedOptions() {
         const config = manager.getConfigMap();
-        const persistedOptions = config.persistedOptions || {};
-
-        return Object.assign({}, defaultOpt, persistedOptions[optName] || {});
+        return config.persistedOptions || {};
     }
 
     /**
    * Get all options as a map { [optName]: mergedOption }.
    */
     function getAllOptions() {
-        const config = manager.getConfigMap();
-        const persistedOptions = config.persistedOptions || {};
+        const persistedOptions = getPersistedOptions();
         const result = {};
 
         for (const optName of Object.keys(allOptions)) {
@@ -298,14 +388,17 @@ function createSiteOptions({
             result[optName] = Object.assign({}, defaultOpt, persisted);
         }
 
+        // hide or show nested options
+        hideNestedOptions(result);
+
         return result;
     }
 
     /**
-     * Updates the named option with the given patch. The patch can be a subset of field-value pairs in 
-     * this option. Only the presented field(s) will be updated.
+     * Perisits the named option with the given patch. The patch can be a subset of field-value pairs in 
+     * this option. Only field(s) in the patch will be peristed.
      * 
-     * The option has to be in the default options. Otherwise no update (create) will be performed.
+     * The option has to be from the known options. Otherwise an error is raised.
      * 
      * The option will be persisted into local storage in addition to being updated in memory. ie write through.
      * Note that only a selected list of fields defined in {@link PERSISTENT_FIELDS} will be persisted to save
@@ -316,7 +409,7 @@ function createSiteOptions({
      * @param {*} patch 
      */
     function persistOption(optName, patch) {
-        // no-op if this isn't an option given in the default list
+        // error if this isn't an option known to us
         if (allOptions[optName] == null) {
             throw new Error(`Updating unknown option optName=${optName} patch=${patch}`)
         };
@@ -329,8 +422,59 @@ function createSiteOptions({
         const prev = persistedOptions[optName] || {};
         if (patchObjectProperties(prev, partialToSave[optName])) {
             persistedOptions[optName] = prev; // needed when prev was null
-            manager.setConf("persistedOptions", persistedOptions)
+            manager.setConf("persistedOptions", persistedOptions);
         }
+    }
+
+    /**
+     * Persist the named option with the given new value.
+     * 
+     * `userInteracted` flag will be set to true for this option.
+     * 
+     * The option has to be from the known options. Otherwise an error is raised.
+     * @param {String} optName 
+     * @param {String|Boolean|Number} newValue 
+     * @returns {*} the updated options map containing all options
+     */
+    function updateOptionValue(optName, newValue) {
+        // error if this isn't an option known to us
+        if (!(optName in allOptions)) {
+            throw new Error(`Updating unknown option optName=${optName} newValue=${newValue}`)
+        };
+
+        const optionsMapCopy = getAllOptions();
+        setOptionValueToMap(optionsMapCopy, optName, newValue);
+        // update userInteracted flag
+        optionsMapCopy[optName][USER_INTERACTED] = true;
+        // persist to storage
+        persistOption(optName, optionsMapCopy[optName]);
+
+        const isOff = optionsMapCopy[optName].type === "checkbox" && newValue === false;
+
+        // if the main option is off
+        // all nested options needs to be turned off as well
+        if (isOff) {
+            forEachNestOptions(optionsMapCopy, (nestedName, nestedOpt, parentName) => {
+                if (parentName !== optName) {
+                    return;
+                }
+
+                // set to falsy
+                setOptionValueToMap(optionsMapCopy, nestedName, false);
+                // persist to storage if userInteracted nested option before
+                if (isUserInteracted(optionsMapCopy[nestedName])) {
+                    persistOption(nestedName, optionsMapCopy[nestedName]);
+                }
+            });
+        }
+
+        // hide or show nested options
+        hideNestedOptions(optionsMapCopy);
+
+        // update in memory copy
+        Object.assign(allOptions, optionsMapCopy); 
+
+        return optionsMapCopy;
     }
 
     function isUserInteracted(opt) {
@@ -341,7 +485,10 @@ function createSiteOptions({
         getOption,
         getAllOptions,
         persistOption,
-        isUserInteracted
+        updateOptionValue,
+        isUserInteracted,
+        // testing
+        getPersistedOptions
     };
 }
 
@@ -358,6 +505,8 @@ module.exports = {
     loadPerisistedSiteOptionsAndOnChange,
     isOptionValueChanged,
     forEachOptionValueChanged,
+    setOptionValueToMap,
+    getOptionValueFromMap,
     // below are for tests
     removeNonPersistentKeys,
     patchObjectProperties

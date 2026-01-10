@@ -455,6 +455,12 @@ module.exports = {
                 label: "Collect Mode",
                 type: "checkbox",
                 checked: false
+            },
+            "autoCollect:autoDownload": {
+                index: 1,
+                label: "Auto Download",
+                type: "checkbox",
+                checked: false
             }
         };
 
@@ -462,7 +468,13 @@ module.exports = {
         cache.guestTokenLastRefresh = cache.guestTokenLastRefresh ?? 0;
         cache.queryId = cache.queryId ?? null;
 
-        loadPerisistedSiteOptionsAndOnChange(o.host, o.options, ({ options }) => {
+        loadPerisistedSiteOptionsAndOnChange(o.host, o.options, ({ host, options }) => {
+            if (host !== o.host) {
+                logger.warn("Received options update not for this domain host=", host, "options=", options);
+                return;
+            }
+            o.options = options;
+            o.loading = false;
             o.images.length = 0; // reset images
             checkDOMForImages(o, options);
 
@@ -592,48 +604,68 @@ module.exports = {
                 cache.o = o;
 
                 let lastCheckTime = Date.now();
-                if (!cache.observer) {
-                    cache.observer = new MutationObserver(() => {
-                        if ((Date.now() - lastCheckTime) < (500)) {
-                            return;
-                        }
 
-                        lastCheckTime = Date.now();
-                        const before = cache.o?.images?.length;
-                        logger.disableAll("./src/utils.js"); // temporarily disable debug log
-                        checkDOMForImages(cache.o, options); // keep adding to o.images
-                        logger.enableAll("./src/utils.js");
-                        // remove urls that is already in history
-                        if (cache.watchHistory) {
-                            cache.o.images = cache.o.images.filter(img => utils.isNew(cache.watchHistory, img));
-                        }
-                        if (cache.o?.images?.length !== before) {
-                            logger.debug("Sending to updateWatchResult images.length=", cache.o?.images?.length, "before=", before);
-                            messaging.sendToRuntime("updateWatchResult", cache.o);
-                        }
-                    });
-
-                    cache.observer.observe(document.querySelector("main"), {
-                        childList: true,
-                        subtree: true,
-                        attributes: true
-                    });
-
-                    messaging.listenOnRuntime("resetWatchResult", () => {
-                        if (!cache.o) {
-                            // collect mode disabled
-                            return;
-                        }
-
-                        logger.debug("Move ", cache.o.images?.length, "images to watch history");
-                        // save history
-                        cache.watchHistory ??= []
-                        utils.pushArray(cache.watchHistory, cache.o.images);
-                        // reset to 0
-                        cache.o.images.length = 0;
-                        messaging.sendToRuntime("updateWatchResult", cache.o);
-                    });
+                //  stop and create again if observer is already created
+                if (cache.observer) {
+                    cache.observer.disconnect();
                 }
+
+                cache.observer = new MutationObserver(() => {
+                    if ((Date.now() - lastCheckTime) < (500)) {
+                        return;
+                    }
+
+                    lastCheckTime = Date.now();
+                    const before = cache.o?.images?.length;
+                    logger.disableAll("./src/utils.js"); // temporarily disable debug log
+                    checkDOMForImages(cache.o, options); // keep adding to o.images
+                    logger.enableAll("./src/utils.js");
+                    // update options
+                    cache.o.options = options;
+                    // remove urls that is already in history
+                    if (cache.watchHistory) {
+                        cache.o.images = cache.o.images.filter(img => utils.isNew(cache.watchHistory, img));
+                    }
+                    if (cache.o?.images?.length !== before) {
+                        logger.debug("Sending to updateWatchResult images.length=", cache.o?.images?.length, "before=", before);
+                        messaging.sendToRuntime("updateWatchResult", cache.o);
+                        messaging.sendToRuntime("updateResult", cache.o); // send to popup anyway although it might not be there
+                    }
+                });
+
+                cache.observer.observe(document.querySelector("main"), {
+                    childList: true,
+                    subtree: true,
+                    attributes: true
+                });
+
+                messaging.listenOnRuntime("downloadHistory", (images) => {
+                    if (!cache.o) {
+                        // collect mode disabled
+                        return;
+                    }
+
+                    if (!images) {
+                        logger.debug("No images to add to watch history");
+                        return;
+                    }
+
+                    // save history
+                    cache.watchHistory ??= []
+                    logger.debug("Move", images.length, "images to watch history");
+                    // restore originalUrl as url for uniqueness comparison
+                    images.forEach(img => img.url = img.originalUrl);
+
+                    utils.pushArray(cache.watchHistory, images);
+                    // remove from cache.o
+                    cache.o.images = cache.o.images.filter(img => utils.isNew(cache.watchHistory, img));
+
+                    utils.pushArray(
+                        o.images,
+                        cache.o.images
+                    );
+                    messaging.sendToRuntime("updateWatchResult", cache.o);
+                });
                 
                 messaging.sendToRuntime("updateWatchResult", cache.o);
             } else {
@@ -647,6 +679,7 @@ module.exports = {
                 messaging.sendToRuntime("updateWatchResult", {});
             }
 
+            o.loading = false;
             messaging.sendToRuntime("updateResult", o);
         });
 

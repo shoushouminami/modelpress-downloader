@@ -4,45 +4,63 @@ const messaging = require("./messaging");
 const logger = require("./logger2")(module.id);
 const globals = require("./globals");
 const {setGA4UID} = require("./ga/ga4-uid");
+const { createOrGetTabBadge } = require("./utils/badge-utils");
 
-// inits
+logger.debug("Bootstrap GA4");
 ga.bootstrapGA4();
 
 logger.debug("listening for download messages.")
 // listen for download message from popup.js
 messaging.listen("download", function (job, sendResponse) {
-    if (job["userId"]) {
-        setGA4UID(job["userId"]);
-    }
-    downloader.downloadJob(job, sendResponse);
-
-    // clear badge and watch result
-    messaging.sendToCS(job.context.tabId, "resetWatchResult", job.images);
-
-    // async response
-    return true;
+    return bgDownloadJob(job, sendResponse);
 });
 
 logger.debug("listening for updateWatchResult messages.")
 messaging.listenOnRuntime("updateWatchResult", function (o, sendResponse) {
     logger.debug("updateWatchResult count=", o?.images?.length, "o=", o);
-    if (o._sender?.tab?.id) {
-        if (o.images) {
-            logger.debug("Updating badge text with count=", o.images?.length);
-            chrome.action.setBadgeText({
-                tabId: o._sender.tab.id,
-                text: ("" + (o?.images?.length ?? 0))
+    if (!o._sender?.tab?.id) {
+        logger.warn("updateWatchResult unknown tabId");
+        return;
+    }
+
+    const tabId = o._sender.tab.id;
+    const tabBadge = createOrGetTabBadge(tabId);
+
+    // if not in auto collect mode, clear badge and return
+    if (!o.options || o.options["autoCollect"]?.checked !== true) {
+        logger.debug("Stopping badge text as autoCollect is off options=", o.options);
+        tabBadge.clearText();
+        return;
+    }
+
+    if (!o.images) {
+        logger.debug("Stopping badge text as images is null o=", o);
+        tabBadge.clearText();
+        return ;
+    } 
+
+    // patch fromTabId on o
+    o.fromTabId = tabId;
+    
+    // check auto download
+    if (o.options["autoCollect:autoDownload"]?.checked) {
+        // TODO add job["userId"] = userId;
+        //TODO ga4 tracking
+        const jobs = downloader.prepareDownloadJobs(o);
+        jobs.forEach((job, index) => {
+            bgDownloadJob(job, () => {
+                if (index === jobs.length - 1) {
+                    sendResponse();
+                }
             });
-            chrome.action.setBadgeBackgroundColor({
-                color: "#3a1e43"
-            });
-        } else {
-            logger.debug("Stopping badge text");
-            chrome.action.setBadgeText({
-                tabId: o._sender.tab.id,
-                text:  ""
-            });
-        }
+        });
+
+        // animate badge
+        tabBadge.animate();
+    } else {
+        // show badge count
+        logger.debug("Updating badge text with count=", o.images?.length);
+        tabBadge.setText("" + (o.images.length || 0))
     }
 });
 
@@ -65,3 +83,16 @@ chrome.runtime.onInstalled.addListener(function(details) {
         });
     }
 });
+
+function bgDownloadJob(job, sendResponse) {
+    if (job["userId"]) {
+        setGA4UID(job["userId"]);
+    }
+    downloader.downloadJob(job, sendResponse);
+
+    // clear badge and watch result
+    messaging.sendToCS(job.context.tabId, "downloadHistory", job.images);
+
+    // async response
+    return true;
+}

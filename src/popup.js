@@ -11,9 +11,12 @@ const config = require("./config");
 const { createSiteOptions, forEachOptionValueChanged, DOWNLOAD_PREPEND_JOBID } = require("./site-options.js");
 const { guessMediaType, thumbnail } = require("./utils/url-utils");
 const { getCallStack } = require("./utils/js-utils");
-const { range } = require("./utils/array-utils");
+const { prepareDownloadJobs, getConfigSetJobId } = require("./downloader");
 
 ga.bootstrapGA4();
+
+//remember activeTabId so we only accept CS updateMessage from this tab
+let activeTabId = null; 
 
 /**
  * Recursively enhance A element so a click on the element would update the active chrome tab.
@@ -39,9 +42,11 @@ function addClickListenerForLinks(element, callback) {
 }
 
 let message = require("./inject/return-message").notSupported();
-let getAllOptions, getOption, persistOption, isUserInteracted = null;
+/** @type {ReturnType<typeof createSiteOptions>} */
+let siteOptions = null;
 
 const { PopupComponent, createThrottledEventEmitter } = require("./components/popup-component");
+
 let renderEventEmitter = createThrottledEventEmitter(); // used to notify the PopupComponent to re-render.
 let popupKey = 1;
 
@@ -58,8 +63,8 @@ function updatePopupUI() {
             appFetchStatus={mdprApp.getAppFetchStatus()}
             appImageCount={mdprApp.getAddedCount()}
             downloadHandler={downloadHandler}
+            siteOptions={siteOptions}
             optionHandler={optionHandler}
-            options={message.options}
             getImageThumbnails={getImageThumbnails}
             imagePickerHandler={imagePickerHandler}
             renderEvent={renderEventEmitter}
@@ -73,113 +78,10 @@ function updatePopupUI() {
     );
 }
 
-function createDownloadContext() {
-    const context = {
-        tabId: message.fromTabId,
-        folder: message.folder,
-        originalFolder: message.originalFolder,
-        host: message.host,
-        title: message.title,
-        pathname: message.pathname,
-        configMap: config.getConfigMap(),
-        ext: message.ext,
-        headers: message.headers,
-        ignoreJobId: message.ignoreJobId
-    };
 
-    // copies over customizable context keys
-    message.additionalContextKeys?.forEach(k => {
-        context[k] = message[k];
-    });
-
-    return context;
-}
-/** 
- * Prepare download job from parsing {@link message}. The job is then sent to service worker for download in the background.
-*/
-function prepareDownloadJobs() {
-    const downloadWithTab = [];
-    const downloadInBg = [];
-    const downloadWithMsg = [];
-    const selected = new Set(message.selectedIndexes ?? range(message.images.length));
-
-    logger.debug("func=", prepareDownloadJobs.name, "message.images=", message.images, "selectedIndexes=", message.selectedIndexes);
-
-    const context = createDownloadContext();
-    message.images.forEach((image, index) => {
-        // if not selected, skip
-        if (!selected.has(index)) {
-            return;
-        }
-
-        const jobId = index + 1; // seq number
-        const imageJob = typeof image === "string" ? { url: image } : image;
-        imageJob.context = context;
-        imageJob.jobId = getConfigSetJobId() ? jobId : null;
-        imageJob.seqId = jobId;
-        imageJob.host = message.host;
-        imageJob.folderFilename = downloader.getFolderFilename(imageJob);
-
-        if (typeof image === "string") {
-            // "reg"
-            downloadInBg.push(imageJob);
-        } else if (typeof image === "object" && image.type === "tab") {
-            downloadWithTab.push(imageJob);
-        } else if (typeof image === "object" && (image.type === "msg" || image.type === "msg_seq")) {
-            downloadWithMsg.push(imageJob);
-        } else if (typeof image === "object" && image.url != null) {
-            // assume "reg"
-            downloadInBg.push(imageJob);
-        } else {
-            logger.error("event=unknown_type image=" + JSON.stringify(image));
-        }
-    })
-
-    const jobs = [];
-    // "msg" or "msg_seq"
-    if (downloadWithMsg.length > 0) {
-        // split each image as 1 job
-        // in case the total size is over 64MB (messaging limit)
-        downloadWithMsg.forEach(imageJob => {
-            jobs.push({
-                images: [imageJob],
-                type: imageJob.type,
-                context: context
-            });
-        });
-    }
-
-    // "reg"
-    if (downloadInBg.length > 0) {
-        jobs.push({
-            images: downloadInBg,
-            type: "reg",
-            context: context
-        });
-    }
-
-    // "tab"
-    if (downloadWithTab.length) {
-        // a few extra properties needed in context
-        Object.assign(context, {
-            finishCount: 0,
-            errorCount: 0,
-            totalCount: downloadWithTab.length,
-        });
-
-        jobs.push({
-            images: downloadWithTab,
-            type: downloadWithTab[0].type,
-            context: context,
-        });
-    }
-
-    logger.debug("func=", prepareDownloadJobs.name, "jobs=", jobs);
-    return jobs;
-}
 
 function getImageThumbnails() {
-    const jobs = prepareDownloadJobs();
+    const jobs = prepareDownloadJobs(message);
     const thumbnails = message.images.map((img) => {
         const mediaType = guessMediaType(typeof img === "string" ? img : img.url, message.ext, img.filename);
         const isVideo = mediaType === "video";
@@ -248,7 +150,7 @@ function getImageThumbnails() {
 
 function downloadHandler(resolve) {
     function _downloadHandler() {
-        const jobs = prepareDownloadJobs();
+        const jobs = prepareDownloadJobs(message);
         const totalImageCount = jobs.reduce((sum, job) => sum + job.images.length, 0);
         ga.trackEventGA4("download", {
             "domain": message.host,
@@ -267,23 +169,14 @@ function downloadHandler(resolve) {
         });
         
         jobs.forEach((job, index) => {
-            switch (job.type) {
-                case "reg": // fall through
-                case "msg": // fall through
-                case "msg_seq":
-                case "tab":
-                    downloader.downloadInBackgroundFallbackInPopup(
-                        job,
-                        () => {
-                            // only the last job calls resolve, which closes the popup window
-                            if (index === jobs.length - 1) {
-                                resolve();
-                            }
-                        });
-                    break;
-                default:
-                    logger.error("func=downloadHandler unknown job type=", job.type, "job=", job);
-            }
+            downloader.downloadInBackgroundFallbackInPopup(
+                job,
+                () => {
+                    // only the last job calls resolve, which closes the popup window
+                    if (index === jobs.length - 1) {
+                        resolve();
+                    }
+                });
         });
     }
 
@@ -314,53 +207,38 @@ function downloadHandler(resolve) {
         });
 }
 
-function getConfigSetJobId() {
-    const siteOpt = message.options[DOWNLOAD_PREPEND_JOBID];
-    // prefer site level config
-    if (siteOpt && // when this option is hidden, we always use the site level default value, which likely is false
-        (siteOpt.userInteracted || siteOpt.hidden)) { 
-        return siteOpt.checked;
-    }
-    // then use the global extension persisted config
-    return config.getConf(config.DOWNLOAD_PREPEND_JOBID);
-}
+
 
 /** 
  * Call createSiteOptions() for the 1st time to initialize functions getAllOptions, persistOption, and userInteracted.
  * If the functions are already initialized, calling this function is no-op.
 */
 function createSiteOptionsOnce(host, defaultOptions) {
-    if (getAllOptions == null) {
+    if (siteOptions == null) {
         logger.debug("func=createSiteOptionsOnce with host=", host, "defaultOptions=", defaultOptions, "stack=", getCallStack());
-        ({ getAllOptions, getOption, persistOption, isUserInteracted } = createSiteOptions({
+        siteOptions = createSiteOptions({
             host: host,
             options: defaultOptions
-        }));
+        });
     } else {
         logger.debug("func=createSiteOptionsOnce site options already created stack=", getCallStack())
     }
 }
 
 function optionHandler(optName, optNewValue, updatedOptionsMap) {
-    logger.debug("func=optionHandler updated optName=", optName, "optNewValue=", optNewValue,"updatedOptionsMap=", updatedOptionsMap);
+    logger.debug("func=optionHandler updated name=", optName, "value=", optNewValue,"optionsMap=", updatedOptionsMap);
     ga.trackEventGA4("opt_change_" + optName, {
         "domain": message.host,
         "opt_value": optNewValue
     });
-    // persist options that is user interacted
-    Object.keys(updatedOptionsMap).forEach((optName) => {
-        if (isUserInteracted(updatedOptionsMap[optName])) {
-            persistOption(optName, updatedOptionsMap[optName]);
-        }
-    });
-    message.options = getAllOptions();
+    message.options = updatedOptionsMap;
     notifyCSOptionsChanged();
 }
 
 function notifyCSOptionsChanged() {
     messaging.sendToCS(message.fromTabId, "optionsChanged", {
         host: message.host,
-        options: getAllOptions()
+        options: siteOptions.getAllOptions()
     });
 }
 
@@ -390,13 +268,13 @@ function updateMessage(result, tabId) {
         // Fetch site options from local storage (if not yet done so)
         createSiteOptionsOnce(message.host, message.options);
         
-        message.options = getAllOptions();
+        message.options = siteOptions.getAllOptions();
 
         // Patch the config flag config.DOWNLOAD_PREPEND_JOBID
         // in messsage.options so the UI displays the correct checkbox.
         // Use the CS level flag if user clicked, otherwise use the extension level flag
         if (message.options && message.options[DOWNLOAD_PREPEND_JOBID]) {
-            message.options[DOWNLOAD_PREPEND_JOBID].checked = getConfigSetJobId();
+            message.options[DOWNLOAD_PREPEND_JOBID].checked = getConfigSetJobId(message);
         }
 
         message.fromTabId = tabId;
@@ -417,17 +295,24 @@ function updateMessage(result, tabId) {
 
 // listen for updateResult message from content script
 messaging.listen("updateResult", function (msg){
-    if (msg) {
-        logger.debug("updating message", msg);
+    if (activeTabId && msg?._sender?.tab?.id === activeTabId) {
+        logger.debug("updateResult message=", msg, "from tabId=", msg._sender?.tab?.id);
         updateMessage(msg, message.fromTabId);
+    } else {
+        logger.warn("Igoring updateResult message=", msg, "from tabId=", msg?._sender?.tab?.id);
     }
 });
 
 // listen for getSiteOptions message from content script
 messaging.listen("getSiteOptions", function (msg, sendResp) {
     if (msg && msg.host && msg.options) {
+        if (activeTabId && msg._sender?.tab?.id !== activeTabId) {
+            logger.warn("Ignoring getSiteOptions from different tab content script host=", msg.host, "options=", msg.options);
+            return;
+        }
+        
         createSiteOptionsOnce(msg.host, msg.options);
-        const allOptions = getAllOptions();
+        const allOptions = siteOptions.getAllOptions();
         logger.debug("host=", msg.host, "options=", allOptions);
         sendResp({
             host: msg.host,
@@ -439,6 +324,7 @@ messaging.listen("getSiteOptions", function (msg, sendResp) {
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     // inject script with 1 retry.
     const tabId = tabs[0].id;
+    activeTabId = tabId;
     // tear down the content script injected before. removing event listeners etc.
     messaging.sendToCS(tabId, "tearDown", {
         before: Date.now()

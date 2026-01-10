@@ -3,8 +3,11 @@ const { wait, every, continueIfTimeout } = require("./utils/async-utils");
 const utils = require("./utils");
 const { getGA4UID } = require("./ga/ga4-uid");
 const ga = require("./google-analytics");
+const config = require("./config");
 const chrome = require("./globals").getChrome();
 const logger = require("./logger2")(module.id);
+const { range } = require("./utils/array-utils");
+const { DOWNLOAD_PREPEND_JOBID } = require("./site-options.js");
 
 const CHROME_ERROR_SERVER_BAD_CONTENT = "SERVER_BAD_CONTENT";
 const CHROME_ERROR_SERVER_FORBIDDEN = "SERVER_FORBIDDEN";
@@ -627,7 +630,6 @@ function downloadWithNewTab(tabId, image, context) {
 
 /**
  * Entry function for background.js to download images.
- * Although popup.js calls this function directly if all downloads were cancelled by user error (bug in Chrome)
  */
 function downloadJob(job, sendResponse) {
     logger.debug("Received " + job.images.length + " images job=", job);
@@ -733,10 +735,141 @@ function getImageUrlFromContentScriptInSeq(image, context, callback, delayMs = 5
     return next;
 }
 
+function createDownloadContext(message) {
+    const context = {
+        tabId: message.fromTabId,
+        folder: message.folder,
+        originalFolder: message.originalFolder,
+        host: message.host,
+        title: message.title,
+        pathname: message.pathname,
+        configMap: getConfigMap(), 
+        ext: message.ext,
+        headers: message.headers,
+        ignoreJobId: message.ignoreJobId
+    };
+
+    // copies over customizable context keys
+    message.additionalContextKeys?.forEach(k => {
+        context[k] = message[k];
+    });
+
+    return context;
+}
+
+function getConfigMap() {
+    try {
+        // only works in popup.js
+        return config.getConfigMap();
+    } catch (e) {
+        logger.warn("no config access in SW", e)
+        return {};
+    }
+}
+
+/** 
+ * Prepare download job from parsing {@link message}. The job is then sent to service worker for download in the background.
+*/
+function prepareDownloadJobs(message) {
+    const downloadWithTab = [];
+    const downloadInBg = [];
+    const downloadWithMsg = [];
+    const selected = new Set(message.selectedIndexes ?? range(message.images.length));
+
+    logger.debug("func=", prepareDownloadJobs.name, "message.images=", message.images, "selectedIndexes=", message.selectedIndexes);
+
+    const context = createDownloadContext(message);
+    message.images.forEach((image, index) => {
+        // if not selected, skip
+        if (!selected.has(index)) {
+            return;
+        }
+
+        const jobId = index + 1; // seq number
+        const imageJob = typeof image === "string" ? { url: image } : image;
+        imageJob.context = context;
+        imageJob.jobId = getConfigSetJobId(message) ? jobId : null;
+        imageJob.seqId = jobId;
+        imageJob.host = message.host;
+        imageJob.folderFilename = getFolderFilename(imageJob);
+        imageJob.originalUrl ??= image.url; // used in watchHistory in collect mode
+
+        if (typeof image === "string") {
+            // "reg"
+            downloadInBg.push(imageJob);
+        } else if (typeof image === "object" && image.type === "tab") {
+            downloadWithTab.push(imageJob);
+        } else if (typeof image === "object" && (image.type === "msg" || image.type === "msg_seq")) {
+            downloadWithMsg.push(imageJob);
+        } else if (typeof image === "object" && image.url != null) {
+            // assume "reg"
+            downloadInBg.push(imageJob);
+        } else {
+            logger.error("event=unknown_type image=" + JSON.stringify(image));
+        }
+    })
+
+    const jobs = [];
+    // "msg" or "msg_seq"
+    if (downloadWithMsg.length > 0) {
+        // split each image as 1 job
+        // in case the total size is over 64MB (messaging limit)
+        downloadWithMsg.forEach(imageJob => {
+            jobs.push({
+                images: [imageJob],
+                type: imageJob.type,
+                context: context
+            });
+        });
+    }
+
+    // "reg"
+    if (downloadInBg.length > 0) {
+        jobs.push({
+            images: downloadInBg,
+            type: "reg",
+            context: context
+        });
+    }
+
+    // "tab"
+    if (downloadWithTab.length) {
+        // a few extra properties needed in context
+        Object.assign(context, {
+            finishCount: 0,
+            errorCount: 0,
+            totalCount: downloadWithTab.length,
+        });
+
+        jobs.push({
+            images: downloadWithTab,
+            type: downloadWithTab[0].type,
+            context: context,
+        });
+    }
+
+    logger.debug("func=", prepareDownloadJobs.name, "jobs=", jobs);
+    return jobs;
+}
+
+function getConfigSetJobId(message) {
+    const siteOpt = message.options[DOWNLOAD_PREPEND_JOBID];
+    // prefer site level config
+    if (siteOpt && // when this option is hidden, we always use the site level default value, which likely is false
+        (siteOpt.userInteracted || siteOpt.hidden)) {
+        return siteOpt.checked;
+    }
+    // then use the global extension persisted config
+    return config.getConf(config.DOWNLOAD_PREPEND_JOBID);
+}
+
 module.exports = {
     downloadJob,
     getFolderFilename,
     getImageUrlFromContentScriptIfNotLoaded,
     getImageUrlFromContentScriptInSeq,
-    downloadInBackgroundFallbackInPopup
+    downloadInBackgroundFallbackInPopup,
+    createDownloadContext,
+    prepareDownloadJobs,
+    getConfigSetJobId
 }

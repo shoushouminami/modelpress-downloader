@@ -111,5 +111,9 @@
     "autoCollect": {
         "message": "自动收集模式",
         "description": "当页面中出现新图片时自动进行收集"
+    },
+    "autoDownload": {
+        "message": "自动下载",
+        "description": "自动下载新出现的图片"
     }
 }

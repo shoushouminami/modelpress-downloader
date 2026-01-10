@@ -127,10 +127,14 @@ function createThrottledEventEmitter({interval = 1000} = {}) {
     };
 }
 
+/** @typedef {ReturnType< import("../site-options").createSiteOptions >} SiteOptions */
+
 class PopupComponent extends React.Component {
+    /**
+  * @param {{ siteOptions: SiteOptions }} props
+  */
     constructor(props) {
         super(props);
-        logger.debug("initializing with props", props);
         this.state = {
             supported: props.supported,
             loading: props.loading,
@@ -139,10 +143,11 @@ class PopupComponent extends React.Component {
             appFetchStatus: props.appFetchStatus, // null, "started", "200", "404", "error"
             appImageCount: props.appImageCount,
             downloadDisabled: false,
-            options: props.options,
+            options: props.siteOptions?.getAllOptions(),
             imageThumbnails: props.getImageThumbnails?.(),
             selectedIndexes: null
         };
+        this.siteOptions = props.siteOptions;
         this.downloadHandler = props.downloadHandler;
         this.optionHandler = props.optionHandler;
         this.imagePickerHandler = props.imagePickerHandler;
@@ -170,21 +175,10 @@ class PopupComponent extends React.Component {
     }
 
     handleOptionChange(name, newValue) {
-        const options = this.state.options;
-
         logger.debug("handleOptionChange", name, newValue);
-
-        if (options[name].type === "checkbox") {
-            options[name].checked = newValue;
-        } else {
-            options[name].value = newValue;
-        }
-
-        // update userInteracted flag
-        options[name].userInteracted = true;
-        
+        const updatedOptions = this.siteOptions.updateOptionValue(name, newValue);
         this.setState({
-            options: options,
+            options: updatedOptions
         });
     }
 

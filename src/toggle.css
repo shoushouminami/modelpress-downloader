@@ -34,7 +34,7 @@
 }
 
 .toggle-input:checked+.toggle-slider {
-    background: #4caf50;
+    background: #3a1e43;
 }
 
 .toggle-input:checked+.toggle-slider::before {
