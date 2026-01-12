@@ -141,7 +141,7 @@ function getImageThumbnails() {
     // image not selected as job will not show filename
     jobs.forEach(job => {
         job.images.forEach((jobImage) => {
-            thumbnails[jobImage.seqId - 1].label = jobImage.folderFilename;
+            thumbnails[jobImage.index].label = jobImage.folderFilename;
         });
     });
 

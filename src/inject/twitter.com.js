@@ -444,17 +444,17 @@ module.exports = {
         logger.debug("messaging.listenerMap=", window._mid_?.messaging?.listenerMap);
         const o = require("./return-message.js").init();
         o.options = {
-            "downloadVideo": {
-                index: 1,
-                label: "Download Video",
-                type: "checkbox",
-                checked: true
-            },
             "autoCollect": {
-                index: 2,
+                index: 1,
                 label: "Collect Mode",
                 type: "checkbox",
                 checked: false
+            },
+            "downloadVideo": {
+                index: 2,
+                label: "Download Video",
+                type: "checkbox",
+                checked: true
             },
             "autoCollect:autoDownload": {
                 index: 1,
@@ -476,7 +476,7 @@ module.exports = {
             o.options = options;
             o.loading = false;
             o.images.length = 0; // reset images
-            checkDOMForImages(o, options);
+            checkDOMForImages(o.images, options);
 
             // video
             if (options?.downloadVideo?.checked) {
@@ -582,6 +582,7 @@ module.exports = {
                 });
             }
 
+            // Auto collect mode
             if (options?.autoCollect?.checked) {
                 logger.debug("AUTO COLLECT mode");
                 // merge cached.o into o
@@ -594,39 +595,51 @@ module.exports = {
                     );
 
                     logger.debug("Updated o.images.length=", o.images.length);
-                } 
-                
-                // remove urls that is already in history
-                if (cache.watchHistory) {
-                    o.images = o.images.filter(img => utils.isNew(cache.watchHistory, img));
                 }
+
+                cache.watchHistory ??= [];
+                // remove urls that is already in history
+                o.images = o.images.filter(img => utils.isNew(cache.watchHistory, img));
+                // set seq id for continous counting
+                o.images.forEach((img, index) => img.seqId = cache.watchHistory.length + index + 1)
                 // update cache.o
                 cache.o = o;
-
-                let lastCheckTime = Date.now();
+                
 
                 //  stop and create again if observer is already created
                 if (cache.observer) {
                     cache.observer.disconnect();
                 }
 
+                let lastCheckTime = Date.now();
                 cache.observer = new MutationObserver(() => {
-                    if ((Date.now() - lastCheckTime) < (500)) {
+                    if ((Date.now() - lastCheckTime) < 500) {
                         return;
                     }
 
                     lastCheckTime = Date.now();
-                    const before = cache.o?.images?.length;
-                    logger.disableAll("./src/utils.js"); // temporarily disable debug log
-                    checkDOMForImages(cache.o, options); // keep adding to o.images
+                    let newImages = [];
+                    logger.disableAll("./src/utils.js"); // temporarily disable debug log to keep down noise
+                    checkDOMForImages(newImages, options);
                     logger.enableAll("./src/utils.js");
                     // update options
                     cache.o.options = options;
-                    // remove urls that is already in history
-                    if (cache.watchHistory) {
-                        cache.o.images = cache.o.images.filter(img => utils.isNew(cache.watchHistory, img));
+                    // remove duplicate urls that is already in history
+                    newImages = newImages.filter(img => utils.isNew(cache.watchHistory, img));
+
+                    const before = cache.o.images?.length;
+                    utils.pushArray(cache.o.images, newImages)
+                    // set seq id for continous counting
+                    cache.o.images.forEach((img, index) => img.seqId = cache.watchHistory.length + index + 1)
+
+                    // add to history if we are in auto download mode
+                    if (options["autoCollect:autoDownload"]?.checked) {
+                        // add to history
+                        utils.pushArray(cache.watchHistory, cache.o.images);
                     }
-                    if (cache.o?.images?.length !== before) {
+
+                    // if any new image is added to cache.o, notify bg
+                    if (cache.o.images?.length !== before) {
                         logger.debug("Sending to updateWatchResult images.length=", cache.o?.images?.length, "before=", before);
                         messaging.sendToRuntime("updateWatchResult", cache.o);
                         messaging.sendToRuntime("updateResult", cache.o); // send to popup anyway although it might not be there
@@ -651,7 +664,6 @@ module.exports = {
                     }
 
                     // save history
-                    cache.watchHistory ??= []
                     logger.debug("Move", images.length, "images to watch history");
                     // restore originalUrl as url for uniqueness comparison
                     images.forEach(img => img.url = img.originalUrl);
@@ -696,7 +708,7 @@ module.exports = {
     getStatusIdFromUrl
 };
 
-function checkDOMForImages(o, options) {
+function checkDOMForImages(images, options) {
     // single post page vs timeline page
     const articleDOMList = document.querySelectorAll("article[tabindex='-1']")?.[0] ?
         document.querySelectorAll("article[tabindex='-1']") : document.querySelectorAll("article[data-testid='tweet']");
@@ -704,7 +716,7 @@ function checkDOMForImages(o, options) {
     for (const articleDOM of articleDOMList) {
         // images
         utils.pushArray(
-            o.images,
+            images,
             utils.findDOMsWithCssSelector(
                 articleDOM,
                 "div[data-testid='tweetPhoto'] > img",
@@ -715,7 +727,7 @@ function checkDOMForImages(o, options) {
         // video
         if (options?.downloadVideo?.checked) {
             utils.pushArray(
-                o.images,
+                images,
                 utils.findDOMsWithCssSelector(
                     articleDOM,
                     "div[data-testid='videoComponent'] video",
@@ -728,6 +740,6 @@ function checkDOMForImages(o, options) {
         }
     }
 
-    return o;
+    return images;
 }
 

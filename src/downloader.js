@@ -762,7 +762,7 @@ function getConfigMap() {
         // only works in popup.js
         return config.getConfigMap();
     } catch (e) {
-        logger.warn("no config access in SW", e)
+        logger.warn("no config access in SW. Returning empty {}");
         return {};
     }
 }
@@ -788,8 +788,9 @@ function prepareDownloadJobs(message) {
         const jobId = index + 1; // seq number
         const imageJob = typeof image === "string" ? { url: image } : image;
         imageJob.context = context;
-        imageJob.jobId = getConfigSetJobId(message) ? jobId : null;
-        imageJob.seqId = jobId;
+        imageJob.index = index;
+        imageJob.seqId ??= jobId;
+        imageJob.jobId = getConfigSetJobId(message) ? imageJob.seqId : null;
         imageJob.host = message.host;
         imageJob.folderFilename = getFolderFilename(imageJob);
         imageJob.originalUrl ??= image.url; // used in watchHistory in collect mode
@@ -860,7 +861,12 @@ function getConfigSetJobId(message) {
         return siteOpt.checked;
     }
     // then use the global extension persisted config
-    return config.getConf(config.DOWNLOAD_PREPEND_JOBID);
+    try {
+        return config.getConf(config.DOWNLOAD_PREPEND_JOBID);
+    } catch (e) {
+        logger.warn("no config access in SW. Fallback to siteOpt?.checked=", siteOpt?.checked);
+        return siteOpt?.checked;
+    }
 }
 
 module.exports = {
