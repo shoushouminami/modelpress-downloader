@@ -145,6 +145,14 @@ function download(chrome, image, callbackFuncOrFuncMap) {
                     }
                     // done if there is no other download
                     tearDownListenersIfDone(image.url);
+
+                    //retry download on invalid filename
+                    if (chrome.runtime.lastError?.message?.includes("Invalid filename") && !image.retriedInvalidFilename) {
+                        logger.debug("Retrying download for invalid filename. url=", image.url, "folderFilename=", folderFilename);
+                        image.folderFilename = "mid_download." + utils.getFileExt(folderFilename); // set preferred filename to avoid invalid filename error
+                        image.retriedInvalidFilename = true; // set flag to indicate this is a retry for invalid filename, so that it won't cause infinite retry loop
+                        download(chrome, image, callbacks);
+                    }                     
                 }
 
                 if (typeof callbacks.onDownloadId === "function") {
