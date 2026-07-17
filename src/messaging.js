@@ -46,7 +46,7 @@ let msgCount = 0; // id of message == (sender + msgCount)
 const namespace = getGlobalObjectProperty("_mid_", "messaging");
 const pageListenerMap = namespace.pageListenerMap = namespace.pageListenerMap || {}; // key => callback
 const runtimeListenerMap = namespace.runtimeListenerMap = namespace.runtimeListenerMap || {};  // key => callback
-
+const portToCBMap = namespace.portToCBMap = namespace.portToCBMap || {};
 
 function nextMsgId(){
     return thisSender + "-" + (msgCount++);
@@ -313,6 +313,15 @@ function tearDownAllListenersOnRuntime() {
     Object.keys(runtimeListenerMap).forEach(k => delete runtimeListenerMap[k]);
 }
 
+function tearDownAllListenersOnConnect() {
+    if (namespace.singletonConnectListener) {
+        chrome.runtime.onConnect.removeListener(namespace.singletonConnectListener);
+        delete namespace.singletonConnectListener;
+    }
+
+    Object.keys(portToCBMap).forEach(k => delete portToCBMap[k]);
+}
+
 /**
  * unified send method.
  */
@@ -351,11 +360,61 @@ function listen(key, callback) {
 function tearDownAllListeners() {
     tearDownAllListenersOnPage();
     tearDownAllListenersOnRuntime();
+    tearDownAllListenersOnConnect();
+}
+
+function addOnceSingletonListenerOnConnect() {
+    if (typeof namespace.singletonConnectListener !== "undefined") {
+        return;
+    }
+
+    /**
+     * port.sender = {
+        tab: { id, url },
+        frameId,
+        origin,
+        documentId
+        }
+     */
+    const listener = namespace.singletonConnectListener = function (port) {
+        if (!(port.name in portToCBMap)) return;
+
+        const { onConnect, onMessage, onDisconnect } = portToCBMap[port.name];
+
+        if (typeof onConnect === "function") {
+            onConnect(port);
+        }
+
+        if (typeof onMessage === "function") {
+            port.onMessage.addListener(onMessage);
+        }
+
+        if (typeof onDisconnect === "function") {
+            port.onDisconnect.addListener(onDisconnect);
+        }
+    }
+
+    chrome.runtime.onConnect.addListener(listener);
+}
+
+function listenOnConnect(key, onMessage, {onConnect, onDisconnect} = {}) {
+    portToCBMap[key] = { onConnect, onMessage, onDisconnect };
+    addOnceSingletonListenerOnConnect();
+}
+
+function connect(key, callback) {
+    const port = chrome.runtime.connect({ name: key });
+    if (port && typeof callback === "function") {
+        callback(port);
+    } else {
+        logger.error("unable to connect key=", key, "callback=", callback);
+    }
 }
 
 module.exports = {
     listenOnRuntime,
     listen,
+    listenOnConnect,
     send,
     listenOnPage,
     relayAllMsgsToRuntime,
