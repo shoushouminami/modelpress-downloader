@@ -455,12 +455,6 @@ module.exports = {
                 label: "Download Video",
                 type: "checkbox",
                 checked: true
-            },
-            "autoCollect:autoDownload": {
-                index: 1,
-                label: "Auto Download",
-                type: "checkbox",
-                checked: false
             }
         };
 
