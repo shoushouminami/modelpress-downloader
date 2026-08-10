@@ -448,7 +448,8 @@ module.exports = {
                 index: 1,
                 label: "Collect Mode",
                 type: "checkbox",
-                checked: false
+                checked: false,
+                tabLocal: true
             },
             "downloadVideo": {
                 index: 2,

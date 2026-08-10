@@ -15,12 +15,17 @@ const logger = require("./logger2")(module.id);
 const { createConfigManager } = require("./config-manager");
 const runtime = require("./runtime");
 const i18n = require("./i18n");
+const { getGlobalObjectCache } = require("./globals");
 
 const STORAGE_KEY = "options";
 const USER_INTERACTED = "userInteracted";
 const VALUE = "value";
 const CHECKED = "checked";
 const HIDDEN = "hidden";
+// options marked tabLocal:true are remembered per browser tab (via the tab's window, see
+// getTabLocalOptionsCache() below) instead of the shared per-host storage, so they don't leak
+// across tabs of the same site but still survive the popup being closed and reopened.
+const TAB_LOCAL = "tabLocal";
 
 /** 
  * Fields that are persistent into `storage`
@@ -114,11 +119,82 @@ function patchObjectProperties(target, src) {
 }
 
 /**
+ * Cache of tabLocal option values, keyed by option name. Backed by {@link getGlobalObjectCache},
+ * ie stored on the tab's own `window`, so it naturally survives the popup being closed/reopened
+ * (which re-creates the popup's JS realm every time) but does NOT survive tab navigation/reload,
+ * and is never shared with other tabs.
+ *
+ * Not keyed by host: a given `window` only ever belongs to a single host at a time - navigating
+ * to a different host always re-creates it (and wipes this cache with it) - so there is no risk
+ * of values leaking between hosts here.
+ *
+ * Only meaningful when called from content script code - {@link loadPerisistedSiteOptions} and
+ * {@link onOptionsChanged} already guard against being called from the popup.
+ */
+function getTabLocalOptionsCache() {
+    const cache = getGlobalObjectCache(module.id);
+    cache.tabLocalOptions ??= {};
+    return cache.tabLocalOptions;
+}
+
+/**
+ * Overwrites the value fields of tabLocal options in `options` with whatever was last cached for
+ * this tab, if any. Mutates `options` in place.
+ * @param {*} options
+ */
+function applyTabLocalOptions(options) {
+    if (!options) {
+        return options;
+    }
+
+    const cache = getTabLocalOptionsCache();
+
+    for (const optName of Object.keys(options)) {
+        if (options[optName]?.[TAB_LOCAL] && cache[optName]) {
+            Object.assign(options[optName], cache[optName]);
+        }
+    }
+
+    return options;
+}
+
+/**
+ * Remembers the current value fields of tabLocal options in `options` for this tab.
+ * @param {*} options
+ */
+function saveTabLocalOptions(options) {
+    if (!options) {
+        return;
+    }
+
+    const cache = getTabLocalOptionsCache();
+
+    for (const optName of Object.keys(options)) {
+        const opt = options[optName];
+        if (!opt?.[TAB_LOCAL]) {
+            continue;
+        }
+
+        const cachedOpt = cache[optName] ??= {};
+        PERSISTENT_FIELDS.forEach(f => {
+            if (f in opt) {
+                cachedOpt[f] = opt[f];
+            }
+        });
+    }
+}
+
+/**
  * Helper method for site module code (ie content scripts) to load persisted site options through messaging.
  * 1) Because loading site options is async, whether this loads before or after the inject function returns is undeterministic.
  * Therefore the defaultOptions needs to be passed the same as the `o.options` to ensure both init site options with the same defaults.
- * 
+ *
  * 2) The content script needs to update result through messaging `{messaging.sendToRuntime("updateResult", o)}`.
+ *
+ * `tabLocal` options in `defaultOptions` are patched in-place with their last known value for this
+ * tab (see {@link getTabLocalOptionsCache}) before being sent to the popup. This way the popup's own
+ * {@link createSiteOptions} instance - which has no access to the tab's window and so cannot read
+ * the tab-local cache itself - is seeded with, and echoes back, the correct value.
  * @param {*} host The domain of site
  * @param {*} defaultOptions The default options in `o.options`
  * @returns {Promise} the function can either take a callback function or return a Promise
@@ -127,6 +203,8 @@ function loadPerisistedSiteOptions(host, defaultOptions, callback) {
     if (runtime.isRuntime() && !runtime.isServiceWorker()) {
         throw new Error(`Calling ${loadPerisistedSiteOptions.name} in popup.`);
     }
+
+    applyTabLocalOptions(defaultOptions);
 
     const messaging = require("./messaging");
 
@@ -163,6 +241,7 @@ function onOptionsChanged(callback) {
     // setup event listener to update options 
     messaging.listenOnRuntime("optionsChanged", function (msg) {
         logger.debug("Received event optionsChanged options=", msg.options);
+        saveTabLocalOptions(msg.options);
         callback(msg);
     });
 }
@@ -384,7 +463,10 @@ function createSiteOptions({
 
         for (const optName of Object.keys(allOptions)) {
             const defaultOpt = allOptions[optName];
-            const persisted = persistedOptions[optName] || {};
+            // tabLocal options are never read back from the shared per-host storage (which would
+            // otherwise leak across tabs of the same site) - see getTabLocalOptionsCache() for
+            // where their value actually comes from instead.
+            const persisted = defaultOpt[TAB_LOCAL] ? {} : (persistedOptions[optName] || {});
             result[optName] = Object.assign({}, defaultOpt, persisted);
         }
 
@@ -395,24 +477,31 @@ function createSiteOptions({
     }
 
     /**
-     * Perisits the named option with the given patch. The patch can be a subset of field-value pairs in 
+     * Perisits the named option with the given patch. The patch can be a subset of field-value pairs in
      * this option. Only field(s) in the patch will be peristed.
-     * 
+     *
      * The option has to be from the known options. Otherwise an error is raised.
-     * 
+     *
      * The option will be persisted into local storage in addition to being updated in memory. ie write through.
      * Note that only a selected list of fields defined in {@link PERSISTENT_FIELDS} will be persisted to save
      * storage as well as allow later refactoring on the option.
-     * 
+     *
      * By this definition, there is almost no reason to update an option with "userInteracted" set to false.
-     * @param {String} optName 
-     * @param {*} patch 
+     *
+     * Options marked `tabLocal: true` are skipped entirely (no write to the shared per-host storage);
+     * their value is instead remembered per-tab, see {@link saveTabLocalOptions}.
+     * @param {String} optName
+     * @param {*} patch
      */
     function persistOption(optName, patch) {
         // error if this isn't an option known to us
         if (allOptions[optName] == null) {
             throw new Error(`Updating unknown option optName=${optName} patch=${patch}`)
         };
+
+        if (allOptions[optName][TAB_LOCAL]) {
+            return;
+        }
 
         const persistedOptions = manager.getConfigMap().persistedOptions || {};
         const partialToSave = removeNonPersistentKeys({
@@ -509,5 +598,8 @@ module.exports = {
     getOptionValueFromMap,
     // below are for tests
     removeNonPersistentKeys,
-    patchObjectProperties
+    patchObjectProperties,
+    getTabLocalOptionsCache,
+    applyTabLocalOptions,
+    saveTabLocalOptions
 }

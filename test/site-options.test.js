@@ -564,4 +564,151 @@ describe("site-options", () => {
             });
         });
     });
+
+    describe("tabLocal options", () => {
+        function makeSiteOptions() {
+            return createSiteOptions({
+                host: "host",
+                options: {
+                    collectMode: {
+                        index: 1,
+                        label: "Collect Mode",
+                        type: "checkbox",
+                        checked: false,
+                        tabLocal: true
+                    },
+                    downloadVideo: {
+                        index: 2,
+                        label: "Download Video",
+                        type: "checkbox",
+                        checked: false
+                    }
+                }
+            });
+        }
+
+        test("persistOption is a no-op for tabLocal options", () => {
+            const siteOpts = makeSiteOptions();
+
+            siteOpts.persistOption("collectMode", { checked: true, userInteracted: true });
+
+            expect(siteOpts.getPersistedOptions().collectMode).toBeUndefined();
+        });
+
+        test("persistOption still writes through for non-tabLocal options (control case)", () => {
+            const siteOpts = makeSiteOptions();
+
+            siteOpts.persistOption("downloadVideo", { checked: true, userInteracted: true });
+
+            expect(siteOpts.getPersistedOptions().downloadVideo).toEqual({
+                checked: true,
+                userInteracted: true
+            });
+        });
+
+        test("updateOptionValue updates a tabLocal option in-memory but never persists it", () => {
+            const siteOpts = makeSiteOptions();
+
+            const updated = siteOpts.updateOptionValue("collectMode", true);
+
+            expect(updated.collectMode.checked).toBe(true);
+            expect(siteOpts.getOption("collectMode").checked).toBe(true);
+            expect(siteOpts.getPersistedOptions().collectMode).toBeUndefined();
+        });
+
+        test("getAllOptions ignores any persisted value for a tabLocal option", () => {
+            const siteOpts = makeSiteOptions();
+
+            // control: a normal option's persisted value is honored
+            siteOpts.persistOption("downloadVideo", { checked: true });
+            // attempted (no-op) persist of the tabLocal option
+            siteOpts.persistOption("collectMode", { checked: true });
+
+            const all = siteOpts.getAllOptions();
+            expect(all.downloadVideo.checked).toBe(true);
+            expect(all.collectMode.checked).toBe(false);
+        });
+    });
+
+    describe("tab-local option cache (applyTabLocalOptions / saveTabLocalOptions)", () => {
+        beforeEach(() => {
+            // tests run under plain Node (no `window`), so getGlobalObjectCache falls back to
+            // globalThis - reset it between tests the same way a fresh tab would start with
+            // nothing cached
+            delete globalThis._mid_;
+        });
+
+        test("getTabLocalOptionsCache returns the same object on repeated calls (persists for the tab)", () => {
+            const first = mod.getTabLocalOptionsCache();
+            first.collectMode = { checked: true };
+
+            expect(mod.getTabLocalOptionsCache()).toBe(first);
+            expect(mod.getTabLocalOptionsCache().collectMode).toEqual({ checked: true });
+        });
+
+        test("applyTabLocalOptions leaves options untouched when nothing has been cached yet", () => {
+            const options = {
+                collectMode: { checked: false, type: "checkbox", tabLocal: true }
+            };
+
+            mod.applyTabLocalOptions(options);
+
+            expect(options.collectMode.checked).toBe(false);
+        });
+
+        test("saveTabLocalOptions followed by applyTabLocalOptions round-trips the value", () => {
+            mod.saveTabLocalOptions({
+                collectMode: { checked: true, type: "checkbox", tabLocal: true }
+            });
+
+            // simulate a fresh set of coded defaults, as built by a content script's inject()
+            const freshDefaults = {
+                collectMode: { checked: false, type: "checkbox", tabLocal: true }
+            };
+            mod.applyTabLocalOptions(freshDefaults);
+
+            expect(freshDefaults.collectMode.checked).toBe(true);
+        });
+
+        test("saveTabLocalOptions ignores options not marked tabLocal", () => {
+            mod.saveTabLocalOptions({
+                downloadVideo: { checked: true, type: "checkbox" }
+            });
+
+            expect(mod.getTabLocalOptionsCache().downloadVideo).toBeUndefined();
+        });
+
+        test("applyTabLocalOptions ignores options not marked tabLocal, even if a same-named cache entry exists", () => {
+            // force an entry into the cache directly, bypassing the tabLocal guard in saveTabLocalOptions
+            mod.getTabLocalOptionsCache().downloadVideo = { checked: true };
+
+            const options = {
+                downloadVideo: { checked: false, type: "checkbox" } // not tabLocal
+            };
+            mod.applyTabLocalOptions(options);
+
+            expect(options.downloadVideo.checked).toBe(false);
+        });
+
+        test("saveTabLocalOptions only stores whitelisted PERSISTENT_FIELDS, not label/type/etc", () => {
+            mod.saveTabLocalOptions({
+                collectMode: {
+                    index: 1,
+                    label: "Collect Mode",
+                    type: "checkbox",
+                    checked: true,
+                    tabLocal: true
+                }
+            });
+
+            expect(mod.getTabLocalOptionsCache().collectMode).toEqual({ checked: true });
+        });
+
+        test("applyTabLocalOptions and saveTabLocalOptions handle null/undefined options without throwing", () => {
+            expect(() => mod.applyTabLocalOptions(null)).not.toThrow();
+            expect(() => mod.applyTabLocalOptions(undefined)).not.toThrow();
+            expect(() => mod.saveTabLocalOptions(null)).not.toThrow();
+            expect(() => mod.saveTabLocalOptions(undefined)).not.toThrow();
+        });
+    });
 });
