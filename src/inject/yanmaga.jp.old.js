@@ -24,22 +24,6 @@ function getFolderName() {
         + "/";
 }
 
-const DOMAINS = {
-    yanmaga: "api-yanmaga.comici.jp",
-    yanmaga2: "api2-yanmaga.comici.jp",
-    "api-yanmaga.comici.jp": "api-yanmaga.comici.jp",
-    "api2-yanmaga.comici.jp": "api2-yanmaga.comici.jp",
-    "younganimal.com": "younganimal.com",
-    "youngchampion.jp": "youngchampion.jp"
-};
-
-const COORD_PATH = {
-    "api-yanmaga.comici.jp": "/book/coordinateInfo",
-    "api2-yanmaga.comici.jp": "/book/coordinateInfo",
-    "younganimal.com": "/book/episodeInfo",
-    "youngchampion.jp": "/book/episodeInfo"
-}
-
 const DEFAULT_ORDER = [];
 for (let k = 0, i = 0; i < 4; i++) {
     for (let j = 0; j < 4; j++) {
@@ -89,18 +73,7 @@ function descramble(imageDom, scrambleString) {
 
 function getComiciViewerId() {
     const div = document.getElementById("comici-viewer");
-    return div != null ? div.getAttribute("comici-viewer-id") : null;
-}
-
-function getCoordInfoUrl() {
-    const div = document.getElementById("comici-viewer");
-    const viewerId = getComiciViewerId();
-    if (viewerId == null) return null;
-
-    let apiDomain = div.dataset["apiDomain"] || div.getAttribute("api-domain");
-    return "https://" +
-        (DOMAINS[apiDomain] || DOMAINS["yanmaga2"]) +
-        `${COORD_PATH[apiDomain]}?comici-viewer-id=${viewerId}`
+    return div?.dataset?.comiciViewerId || div?.getAttribute("comici-viewer-id");
 }
 
 function getContentInfoUrl(len) {
@@ -110,11 +83,9 @@ function getContentInfoUrl(len) {
         return null;
     }
 
-    const apiDomain = div.dataset["apiDomain"] || div.getAttribute("api-domain");
-    const jwt =  div.dataset["memberJwt"]
-    return `https://${(DOMAINS[apiDomain] || DOMAINS["yanmaga2"])}` +
-        `/book/contentsInfo?comici-viewer-id=${viewerId}` +
-        `&user-id=${jwt}&page-from=0&page-to=${len}`;
+    const domain = window.location.host;
+    return `https://${domain}/api/book/contentsInfo?comici-viewer-id=${viewerId}` +
+        `&user-id=&page-from=0&page-to=${len}`;
 }
 
 // array of { dom: dom, scramble: image.scramble, filename: image.title, promise: Promise, dataUrl: string }
@@ -137,8 +108,6 @@ function listenOnce() {
                 if (image.filename === msg.filename) {
                     logger.debug("found image filename=", msg.filename);
                     image.promise.then(function (dom) {
-                        // wait(6000)
-                        //     .then(() => {})
                         logger.debug("loaded image filename=", image.filename);
                         image.dataUrl = image.dataUrl || descramble(dom, image.scramble);
                         logger.debug("sending getImageUrl response image.filename=", image.filename,
@@ -160,72 +129,59 @@ function listenOnce() {
 
 const inject = function () {
     listenOnce();
-
     let o = require("./return-message.js").init();
     o.folder = getFolderName();
+    
+    // clear cache
+    images.splice(0, images.length);
 
-    if (images.length > 0) {
-        pushToMessage(o, images);
-    } else {
-        let coordUrl = getCoordInfoUrl();
-        logger.debug("coordUrl=", coordUrl)
-        if (coordUrl) {
-            utils.fetchUrl(coordUrl)
-                .then(respText => {
-                        try {
-                            const coord = JSON.parse(respText);
-                            logger.debug("coord=", coord);
-                            if (coord && coord.result && coord.result.length > 0) {
-                                let len = coord.result.length;
-                                if (window.location.host === "younganimal.com"
-                                    || window.location.host === "youngchampion.jp") {
-                                    const viewId = getComiciViewerId();
-                                    if (viewId != null) {
-                                        try {
-                                            len = coord.result.filter(c => c["id"] === viewId)["0"]["page_count"]
-                                        } catch (e) {
-                                            len = coord.result["0"]["page_count"];
-                                        }
+    const contentUrl1 = getContentInfoUrl(1);
+    logger.debug("contentUrl1=", contentUrl1)
+    if (contentUrl1) {
+        utils.fetchUrl(contentUrl1)
+            .then(respText => {
+                    try {
+                        const contentInfoResp1 = JSON.parse(respText);
+                        logger.debug("contentInfoResp1=", contentInfoResp1);
+                        if (contentInfoResp1 && contentInfoResp1.totalPages) {
+                            const len = contentInfoResp1.totalPages;
+                            const contentUrl2 = getContentInfoUrl(len);
+                            logger.debug("contentUrl2=", contentUrl2, "len=", len);
+                            utils.fetchUrl(contentUrl2).then(function (respText) {
+                                const contentInfoResp2 = JSON.parse(respText);
+                                logger.debug("contentInfoResp2=", contentInfoResp2);
+                                if (contentInfoResp2 && contentInfoResp2.result && contentInfoResp2.result.length > 0) {
+                                    for (const image of contentInfoResp2.result) {
+                                        const dom = document.createElement("img");
+                                        images.push({
+                                            dom: dom,
+                                            scramble: image.scramble,
+                                            filename: utils.getFileName(image.imageUrl),
+                                            promise: new Promise(function (resolve) {
+                                                dom.crossOrigin = "";
+                                                dom.onload = function () {
+                                                    resolve(dom);
+                                                };
+                                                dom.src = image.imageUrl;
+                                            })
+                                        });
                                     }
+                                    pushToMessage(o, images);
+                                    messaging.sendToRuntime("updateResult", o);
                                 }
-                                let contentUrl = getContentInfoUrl(len);
-                                logger.debug("contentUrl=", contentUrl, "len=", len);
-                                utils.fetchUrl(contentUrl).then(function (respText) {
-                                    const content = JSON.parse(respText);
-                                    logger.debug("content=", content);
-                                    if (content && content.result && content.result.length > 0) {
-                                        for (const image of content.result) {
-                                            let dom = document.createElement("img");
-                                            images.push({
-                                                dom: dom,
-                                                scramble: image.scramble,
-                                                filename: utils.getFileName(image.imageUrl),
-                                                promise: new Promise(function (resolve) {
-                                                    dom.crossOrigin = "";
-                                                    dom.onload = function () {
-                                                        resolve(dom);
-                                                    };
-                                                    dom.src = image.imageUrl;
-                                                })
-                                            });
-                                        }
-                                        pushToMessage(o, images);
-                                        messaging.sendToRuntime("updateResult", o);
-                                    }
-                                });
+                            });
 
-                            }
-                        } catch (e) {
-                            logger.error("failed to parse JSON", e, respText);
                         }
-                    },
-                    () => {
-                        messaging.sendToRuntime("updateResult", o);
+                    } catch (e) {
+                        logger.error("failed to parse JSON", e, respText);
                     }
-                );
-            o = require("./return-message.js").loading();
-            o.folder = getFolderName();
-        }
+                },
+                () => {
+                    messaging.sendToRuntime("updateResult", o);
+                }
+            );
+        o = require("./return-message.js").loading();
+        o.folder = getFolderName();
     }
 
     // article images

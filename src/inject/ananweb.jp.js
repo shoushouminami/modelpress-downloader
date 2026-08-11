@@ -3,6 +3,13 @@ const getLargeImg = function (url) {
     if (url.indexOf("static%2Fmedia") > -1 && url.indexOf("static%.png")) {
         return null;
     }
+
+    if (url.indexOf("/_next/image") -1) {
+        let search = utils.getSearchParam(url);
+        if (search.get("url")) {
+            url = search.get("url")
+        }
+    }
     
     return {
         url: utils.removeTrailingResolutionNumbers(url),
@@ -29,6 +36,7 @@ module.exports = {
             );
         }
 
+        o.ext = "jpg";
         return o;
     },
     host: "ananweb.jp",

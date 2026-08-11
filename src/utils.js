@@ -358,7 +358,7 @@ function getBackgroundImageFromString(backgroundImageString) {
 function printTestAssertion(message) {
     let name = message.href.split("/");
     name.splice(0, 3);
-    let s = `describe("Test suite ${message.host}", () => {}); \n\n\ntest(\"${name.join("/")}\", async () => {\n`;
+    let s = `describe("Test suite ${message.host}", () => {\n\n\ntest(\"${name.join("/")}\", async () => {\n`;
     s += "await testDirectDownload(\n";
     s += "getBrowser(),\n";
     try {
@@ -369,6 +369,7 @@ function printTestAssertion(message) {
     } // make sure dont fail
     s += ");\n";
     s += "});\n";
+    s += "\n\n\n})"; 
     return s;
 }
 
