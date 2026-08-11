@@ -1,12 +1,12 @@
 const utils = require("../utils.js");
 const { replaceIllegalChars, removeSpace } = require("../utils/str-utils.js");
 const { getDocument, getWindow } = require("../globals.js");
-const { basename, pathname } = require("../utils/url-utils.js");
+const { filters, basename, pathname } = require("../utils/url-utils.js");
 const { loadPerisistedSiteOptionsAndOnChange, DOWNLOAD_PREPEND_JOBID} = require("../site-options");
 const logger = require("../logger2.js")(module.id);
 
 function filterIcon(url) {
-    if (url.indexOf("twemoji.maxcdn.com") === -1) {
+    if (url && url.indexOf("twemoji.maxcdn.com") === -1) {
         return url;
     }
 
@@ -67,7 +67,7 @@ function getFolder(o) {
             return removeSpace(replaceIllegalChars(o.title)) + "-" + dom.querySelector("img").alt;
         }
     }
-    return removeSpace(replaceIllegalChars(o.title));
+    return removeSpace(replaceIllegalChars(o.title), '-');
 }
 
 module.exports = {
@@ -104,6 +104,18 @@ module.exports = {
                     document,
                     selector,
                     filterIcon
+                )
+            );
+        }
+
+        for (const selector of [
+            "main .contents .photolist li[class^=photo] a > div", // 17th single photo gallery
+        ]) {
+            utils.pushArray(o.images,
+                utils.findDOMsWithCssSelector(
+                    document,
+                    selector,
+                    filters.chain(utils.getBackgroundImageFromDOM, filterIcon)
                 )
             );
         }
