@@ -63,3 +63,34 @@ test("plus/special/archives/248/", async () => {
             "https://www.grajapa.shueisha.co.jp/plus/special/archives/248/contents/images/sample/003-sample-toyoshima_cocoro_sample_03.jpg"
         ]);
 });
+
+test("post/fujishima_kaho_1st/", async () => {
+    await testDirectDownload(
+        getBrowser(),
+        "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/",
+        "www.grajapa.shueisha.co.jp-日向坂46 藤嶌果歩 1st写真集「果実の歩幅」 - 週プレ/",
+        [
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-01.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-02.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-03.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-04.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-05.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-06.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-07.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-08.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-09.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-10.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-11.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-12.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-13.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-14.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-15.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-16.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-17.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-18.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-19.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-20.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-21.jpg",
+            "https://www.grajapa.shueisha.co.jp/post/fujishima_kaho_1st/assets/img/gallery-22.jpg"
+        ]);
+});

@@ -45,6 +45,7 @@ module.exports = {
             ".l-content__block .column-contents img",
             ".details-img img",
             ".l-content__block .special .top-sample img", // special
+            ".l-page .gallery .gallery__item img", // special
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
