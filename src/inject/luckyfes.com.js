@@ -3,7 +3,7 @@ const {toFull} = require("../utils/url-utils.js");
 const { getFolderNameFromTitle } = require("../utils/filename-utils.js");
 
 function inject() {
-    let o = require("./return-message.js").init();
+    let o = require("./return-message.js").init2();
     for (const selector of [
         "main .main img", // top image
     ]) {
@@ -17,9 +17,7 @@ function inject() {
         );
     }
 
-    o.folder = getFolderNameFromTitle({ keepSpace : true});
     o.ext = "jpg";
-
     return o;
 }
 

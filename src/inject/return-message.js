@@ -4,6 +4,7 @@
  * @type {{init: (function(): {ext: undefined, images: [], folder: string, host: string, remoteImages: {}, retry: boolean, supported: boolean})}}
  */
 const utils = require("../utils");
+const { getFolderNameFromTitle } = require("../utils/filename-utils.js");
 
 /**
  * Initialize and return a return message object.
@@ -57,6 +58,17 @@ function init(original = {}) {
     return o;
 }
 
+/**
+ * Same as init() but with these updates:
+ * 1. Use page title as folder name
+ */
+function init2(original = {}) {
+    const o = init(original);
+    o.folder = getFolderNameFromTitle({ keepSpace: true });
+    o.originalFolder = o.folder;
+    return o;
+}
+
 function notSupported(message) {
     let o = init(message);
     o.supported = false;
@@ -107,6 +119,7 @@ function tabDownload(o, permissionRequest, redirectPage) {
 
 module.exports = {
     init,
+    init2,
     notSupported,
     loading,
     tabDownload

@@ -1,5 +1,10 @@
+let mockWindow;
+jest.mock("../../src/globals", () => ({
+    getWindow: () => mockWindow
+}));
+
 // Now require the module under test (it will use the mocked logger)
-const { applyPattern, resolvePattern } = require("../../src/utils/filename-utils");
+const { applyPattern, resolvePattern, getFolderNameFromTitle } = require("../../src/utils/filename-utils");
 
 const errorMock = jest.fn();
 const loggerFactoryMock = jest.fn(() => ({
@@ -181,5 +186,103 @@ describe("resolvePattern", () => {
         const result = resolvePattern(pattern, possiblePatternList, downloadContext);
 
         expect(result).toBe("{abcd}-TWO");
+    });
+});
+
+describe("getFolderNameFromTitle", () => {
+    beforeEach(() => {
+        mockWindow = {
+            document: { title: "" },
+            location: { host: "example.com" }
+        };
+    });
+
+    test("defaults to removing all whitespace from the title", () => {
+        mockWindow.document.title = "My Article | SomeSite";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("example.com-MyArticle/");
+    });
+
+    test("keepSpace:true keeps internal spaces but trims leading/trailing ones", () => {
+        mockWindow.document.title = "My Article | SomeSite";
+
+        const result = getFolderNameFromTitle({ keepSpace: true });
+
+        expect(result).toBe("example.com-My Article/");
+    });
+
+    test("keepSpace:true normalizes full-width spaces to regular spaces", () => {
+        mockWindow.document.title = "My　Article | SomeSite";
+
+        const result = getFolderNameFromTitle({ keepSpace: true });
+
+        expect(result).toBe("example.com-My Article/");
+    });
+
+    test("uses the whole title when there is no '|' separator", () => {
+        mockWindow.document.title = "Just A Title";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("example.com-JustATitle/");
+    });
+
+    test("also splits on the full-width '｜' separator", () => {
+        mockWindow.document.title = "My Article｜SomeSite";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("example.com-MyArticle/");
+    });
+
+    test("splits on whichever of '|' / '｜' appears first", () => {
+        mockWindow.document.title = "My Article｜Middle|SomeSite";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("example.com-MyArticle/");
+    });
+
+    test("also splits on the broken bar '¦' separator", () => {
+        mockWindow.document.title = "My Article¦SomeSite";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("example.com-MyArticle/");
+    });
+
+    test("also splits on the CJK stroke '丨' separator", () => {
+        mockWindow.document.title = "My Article丨SomeSite";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("example.com-MyArticle/");
+    });
+
+    test("replaces illegal filesystem characters with '-'", () => {
+        mockWindow.document.title = "Report: Q1/Q2 Results?";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("example.com-Report-Q1-Q2Results-/");
+    });
+
+    test("uses window.location.host for the prefix", () => {
+        mockWindow.document.title = "Title";
+        mockWindow.location.host = "www.other-site.co.jp";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("www.other-site.co.jp-Title/");
+    });
+
+    test("empty title still returns a valid folder name", () => {
+        mockWindow.document.title = "";
+
+        const result = getFolderNameFromTitle();
+
+        expect(result).toBe("example.com-/");
     });
 });

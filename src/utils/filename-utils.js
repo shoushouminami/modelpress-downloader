@@ -60,7 +60,9 @@ function getFolderFilenameV2(imageJob, folderOpt, filenameOpt) {
  */
 function getFolderNameFromTitle({keepSpace=false} = {}) {
     const w = getWindow();
-    const title = keepSpace ? removeSpace(w.document.title.split("|")?.[0], ' ') : removeSpace(w.document.title.split("|")?.[0]);
+    // some sites use the full-width "｜" or other vertical-bar look-alikes instead of (or in addition to) the regular "|"
+    const firstSegment = w.document.title.split(/[|｜¦丨]/)?.[0];
+    const title = keepSpace ? removeSpace(firstSegment, ' ') : removeSpace(firstSegment);
     return w.location.host
         + "-"
         + replaceIllegalChars(title.trim())
