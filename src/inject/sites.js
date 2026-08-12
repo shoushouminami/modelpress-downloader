@@ -125,6 +125,7 @@ function register(siteModule) {
     require("./www.cinema-life.net"),
     require("./www.news-postseven.com"),
     require("./j7p.jp"),
+    require("./fashiontechnews.zozo.com"),
     require("./popwave.jp"),
     require("./popnroll.tv"),
     require("./spice.eplus.jp"),
