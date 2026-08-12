@@ -144,6 +144,7 @@ function register(siteModule) {
     require("./entamenext.com"),
     require("./entameclip.com"),
     require("./www.entax.news"),
+    require("./hochi.news"),
     require("./qjweb.jp"),
     require("./korepo.com"),
     require("./news.kstyle.com"),
