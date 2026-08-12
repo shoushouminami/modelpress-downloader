@@ -58,11 +58,12 @@ function getFolderFilenameV2(imageJob, folderOpt, filenameOpt) {
 /**
  * Use <domain>-<title> as folder name.
  */
-function getFolderNameFromTitle() {
+function getFolderNameFromTitle({keepSpace=false} = {}) {
     const w = getWindow();
+    const title = keepSpace ? removeSpace(w.document.title.split("|")?.[0], ' ') : removeSpace(w.document.title.split("|")?.[0]);
     return w.location.host
         + "-"
-        + replaceIllegalChars(removeSpace(w.document.title.split("|")?.[0]))
+        + replaceIllegalChars(title.trim())
         + "/";
 }
 

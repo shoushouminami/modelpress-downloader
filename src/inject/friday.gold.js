@@ -5,14 +5,16 @@ const messaging = require("../messaging");
 const { getFolderNameFromTitle } = require("../utils/filename-utils.js");
 
 function getArticleId() {
-    let re = /(gravure)?\/article\/(\d+)/;
+    let re = /(gravure)?\/(article|movie|movie-paid)\/(\d+)/;
     let m = globals.getWindow().location.pathname.match(re);
     if (m) {
         logger.debug("m=", m);
+        let path = m[2];
+        path = path === "movie-paid"? "movie" : path;
         if (m[1]) {
-            return "https://app.friday.gold/gravure/articles/" + m[2] + "/full";
+            return `https://app.friday.gold/gravure/${path}s/${m[3]}/full`;
         } else {
-            return "https://app.friday.gold/standard/articles/" + m[2] + "/full";
+            return "https://app.friday.gold/standard/articles/" + m[3] + "/full";
         }
     }
 }
@@ -50,6 +52,15 @@ module.exports = {
                                         }
                                     )
                                 )
+                        }
+
+                        // video page
+                        if (data.url) {
+                            utils.pushIfNew(o.images,
+                                {
+                                    url: data.url,
+                                    filename: "movie.mp4",
+                                });
                         }
                     } catch (e) {
                         logger.error("Failed to fetch assets", e);

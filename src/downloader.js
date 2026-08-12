@@ -173,9 +173,21 @@ function download(chrome, image, callbackFuncOrFuncMap) {
 function downloadRegJob(job) {
     let count = 0;
     const downloadIds = [];
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         for (const image of job.images) {
             image.context ??= job.context;
+            // quick hack to open m3u8 in new tab instead of downloading
+            if (utils.getFileExt(image.url) == "m3u8") {
+                chrome.tabs.create({ url: image.url, active: true }, tab => {
+                    if (chrome.runtime.lastError) {
+                        logger.error("Failed to create new tab newTab=", newTab, "error=", chrome.runtime.lastError.message);
+                        return reject(new Error(chrome.runtime.lastError.message));
+                    }
+                    resolve(tab.id);
+                });
+                return;
+            }
+
             download(chrome, image, function (downloadId) {
                 logger.debug("Started job #" + count);
                 downloadIds.push(downloadId);
