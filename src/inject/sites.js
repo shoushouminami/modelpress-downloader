@@ -81,6 +81,7 @@ function register(siteModule) {
     require("./www.fujitv-view.jp"),
     require("./news.ntv.co.jp"),
     require("./friday.kodansha.co.jp"),
+    require("./jmagazine.myjcom.jp"),
     require("./www.daily.co.jp"),
     require("./www.tokyoheadline.com"),
     require("./bunshun.jp"),
