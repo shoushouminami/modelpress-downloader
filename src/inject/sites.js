@@ -128,6 +128,7 @@ function register(siteModule) {
     require("./www.news-postseven.com"),
     require("./j7p.jp"),
     require("./fashiontechnews.zozo.com"),
+    require("./lotus-magic.jp"),
     require("./popwave.jp"),
     require("./popnroll.tv"),
     require("./spice.eplus.jp"),
