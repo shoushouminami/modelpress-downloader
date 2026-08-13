@@ -173,7 +173,6 @@ function register(siteModule) {
     require("./classy-online.jp"),
     require("./i-voce.jp"),
     require("./spur.hpplus.jp"),
-    require("./more.hpplus.jp"),
     require("./baila.hpplus.jp"),
     require("./maquia.hpplus.jp"),
     require("./trilltrill.jp"),
