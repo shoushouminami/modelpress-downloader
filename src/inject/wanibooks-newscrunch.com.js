@@ -13,6 +13,7 @@ const inject = function() {
         ".article-viewer-wrap .slick-slider .slick-list .slick-slide img", // slider (old template)
         "article figure.wp-block-image img", // article body images (2026 Astro redesign, still WordPress-authored content)
         "article section[class*='border-brand-cyan'] ul li img", // photo thumbnail strip (2026 redesign) — can include the article's hero/gallery photos not shown inline in the body
+        "article section ul li button img", // dedicated "/gallery" viewer template (2026 redesign) — swiper thumbnail nav, distinct from the plain article page
     ]) {
         utils.pushArray(o.images,
             utils.findLazyImagesWithCssSelector(
