@@ -15,6 +15,6 @@ function inject() {
 };
 
 module.exports = {
-    host: "www.talent-databank.co.jp",
+    host: "www.dolce-gravure.jp",
     inject: inject,
 };

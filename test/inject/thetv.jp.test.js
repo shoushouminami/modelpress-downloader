@@ -27,17 +27,17 @@ test("Test thetv.jp article page", async () => {
 });
 
 test("person/1000031439/", async () => {
+    // Note: div.newsimage .thumblist on a person page is a "関連画像" (related images)
+    // widget aggregating images from the person's recent news articles - it's an
+    // inherently-changing feed (not this person's fixed photo set), so it legitimately
+    // shows different picture IDs over time as new articles are published. Matched by
+    // prefix/count rather than exact URLs. The profile thumbnail is fixed.
     await testDirectDownload(
         getBrowser(),
         "https://thetv.jp/person/1000031439/",
         "thetv.jp-person-1000031439-/",
         [
-            "https://thetv.jp/i/nw/1259154/14416974.jpg",
-            "https://thetv.jp/i/nw/1259154/14416976.jpg",
-            "https://thetv.jp/i/nw/1259154/14416982.jpg",
-            "https://thetv.jp/i/nw/1259154/14416983.jpg",
-            "https://thetv.jp/i/nw/1259154/14416991.jpg",
-            "https://thetv.jp/i/nw/1259154/14417000.jpg",
+            {"prefix": "https://thetv.jp/i/nw/", "count": 6},
             "https://thetv.jp/i/tl/100/0031/1000031439_r.jpg"
         ]);
 });

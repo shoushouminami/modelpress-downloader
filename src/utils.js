@@ -291,7 +291,7 @@ function findDOMsWithCssSelector(rootDom, cssSelector, filterFunc = null) {
     return ret;
 }
 
-const  trailingResolutionPattern = /^https?:\/\/.*(-[0-9]+x[0-9]+(-[\d]+)?)(\.jpg|\.jpeg|\.png)$/;
+const  trailingResolutionPattern = /^https?:\/\/.*(-[0-9]+x[0-9]+(-[\d]+)?)(\.jpg|\.jpeg|\.png|\.webp)$/;
 function removeTrailingResolutionNumbers(src) {
     if (src == null) return src;
     let result = src.match(trailingResolutionPattern);

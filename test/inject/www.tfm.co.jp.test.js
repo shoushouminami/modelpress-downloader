@@ -28,10 +28,12 @@ test.skip("Test nogizaka46 page", async () => {
 });
 
 test("Test suzu page", async () => {
+        // site migrated from "?itemid=" query string urls to "@itemid=....html" urls;
+        // the old query-string url now 404s. Same article/content, new url scheme.
         await testDirectDownload(
             getBrowser(),
-            "https://www.tfm.co.jp/lock/girls/suzu/index.php?itemid=16566",
-            "www.tfm.co.jp-lock-girls-suzu-index.php/",
+            "https://www.tfm.co.jp/lock/girls/suzu/index.php@itemid=16566.html",
+            "www.tfm.co.jp-lock-girls-suzu-index.php@itemid=16566.html/",
             [
                     "https://www.tfm.co.jp/lock/cms/media/y2021/20210408_gfeha01.jpg",
                     "https://www.tfm.co.jp/lock/cms/media/y2021/20210408_gfeha02.jpg",

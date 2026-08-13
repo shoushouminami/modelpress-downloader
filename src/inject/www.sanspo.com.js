@@ -20,7 +20,11 @@ module.exports = {
         let o = require("./return-message.js").init();
         for (const selector of [
             ".article-body figure.article__image img", // article top image
-            ".gallery-image-wrapper .gallery-figure img", // gallery main image
+            ".gallery-image-wrapper .gallery-figure img", // gallery main image (older template)
+            ".gallery-image-wrapper .embla__slide__number img", // gallery main image (embla carousel template).
+            // Scoped to .embla__slide__number (not .embla-thumbs__slide__number) to avoid
+            // duplicate hits from the accompanying thumbnail-strip carousel, which mirrors
+            // the same images under .embla-thumbs within the same .gallery-image-wrapper.
             ".main-image-container img", // gallery main
             ".gallery-horizontal-scroll img", // gallery scroll
         ]) {

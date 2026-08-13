@@ -64,6 +64,10 @@ describe("Test utils.js", () => {
             .toBe("http://popwave.jp/wp-content/uploads/2020/03/25607.jpg");
         expect(utils.removeTrailingResolutionNumbers("https://img.hanako.tokyo/2021/09/30114511/20210702h0093-1-1536x1022.jpg"))
             .toBe("https://img.hanako.tokyo/2021/09/30114511/20210702h0093-1.jpg");
+        expect(utils.removeTrailingResolutionNumbers("https://cdn.entameclip.com/2026/08/pic20260811nogizaka461-500x333.webp"))
+            .toBe("https://cdn.entameclip.com/2026/08/pic20260811nogizaka461.webp");
+        expect(utils.removeTrailingResolutionNumbers("https://cdn.entameclip.com/2026/08/pic20260811nogizaka461.webp"))
+            .toBe("https://cdn.entameclip.com/2026/08/pic20260811nogizaka461.webp");
     });
 
 

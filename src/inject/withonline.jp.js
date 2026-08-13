@@ -20,6 +20,7 @@ module.exports = {
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(document, selector, function (url){
+                    if (!url) return null;
                     url = utils.removeQuery(url);
                     let m = url.match(re);
                     if (m) {
