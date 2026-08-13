@@ -27,6 +27,7 @@ module.exports = {
             // the same images under .embla-thumbs within the same .gallery-image-wrapper.
             ".main-image-container img", // gallery main
             ".gallery-horizontal-scroll img", // gallery scroll
+            ".article-body figure.tc.df.flex-col.ai-c.jc-c img", // single-photo "/photo/<id>/" viewer template
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
