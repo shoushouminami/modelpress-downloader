@@ -30,6 +30,7 @@ module.exports = {
         return o;
     },
     host: "girlsnews.tv",
+    altHosts: ["www.girlsnews.tv"],
     re: re,
     getLargeImg: getLargeImg
 };
