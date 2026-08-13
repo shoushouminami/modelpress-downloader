@@ -56,4 +56,18 @@ describe("Test suite www.sanspo.com", () => {
                 "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/GM63BWDSGFC4DG74U3GIUXSZ6E.jpg"
             ]);
     });
+
+    test("article/20260727-4GEXSRMZY5KKDPR5KQPNSV6FFY/", async () => {
+        // Gravure gallery using the embla-carousel template (.gallery-image-wrapper .embla__slide__number).
+        await testDirectDownload(
+            getBrowser(),
+            "https://www.sanspo.com/article/20260727-4GEXSRMZY5KKDPR5KQPNSV6FFY/",
+            "www.sanspo.com-article-20260727-4GEXSRMZY5KKDPR5KQPNSV6FFY-/",
+            [
+                "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/3XD4D6XICRM3TDUHY27F42HSTQ.jpg",
+                "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/A2Q6Y3SGZRN4DI2FQN2LEAIVGM.jpg",
+                "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/GRK5URKGNJOGDNWDGQI7AIAHHE.jpg",
+                "https://cloudfront-ap-northeast-1.images.arcpublishing.com/sankei/C64WGDKCHZJFVDRPXNKHLTH7R4.jpg"
+            ]);
+    });
 });

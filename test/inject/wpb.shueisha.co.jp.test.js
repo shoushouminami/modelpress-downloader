@@ -92,16 +92,17 @@ test("gravure/movie/20241013-124791/", async () => {
         ]);
 });
 
-test("comic/kinnikuman2/20251214-129409/", async () => {
+test("comic/kinnikuman2/20260809-132312/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://wpb.shueisha.co.jp/comic/kinnikuman2/20251214-129409/",
-        "wpb.shueisha.co.jp-comic-kinnikuman2-20251214-129409-/",
+        "https://wpb.shueisha.co.jp/comic/kinnikuman2/20260809-132312/",
+        "wpb.shueisha.co.jp-comic-kinnikuman2-20260809-132312-/",
         [
-            "https://wpb.shueisha.co.jp/news/entertainment/2025/images/15e3413e83d4b0336cc8722c3a6659bc55406b79.jpg",
+            "https://wpb.shueisha.co.jp/comic/assets_c/2026/06/kin93-thumb-autox519-291944.jpg",
+            "https://wpb.shueisha.co.jp/comic/assets_c/2026/06/kin3shosetsu-thumb-autox519-291960.jpg",
             "https://wpb.shueisha.co.jp/comic/assets_c/2025/08/Seaso3-thumb-autox467-261081.jpg",
             "https://wpb.shueisha.co.jp/news/entertainment/2024/images/7b0e2fbdf23622b6087ef405910e09780f372358.jpg",
-            "https://wpb.shueisha.co.jp/comic/images/kin515_02-3.jpg"
+            "https://wpb.shueisha.co.jp/comic/images/kin541_02-3.jpg"
         ]);
 });
 

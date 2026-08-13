@@ -91,42 +91,90 @@ test("article/20250410-tanakamiku/", async () => {
         ]);
 });
 
-test("article/20240523-2950574/", async () => {
+test("article/20260812-4810569/", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://news.mynavi.jp/article/20240523-2950574/",
-        "news.mynavi.jp-article-20240523-2950574-/",
+        "https://news.mynavi.jp/article/20260812-4810569/",
+        "news.mynavi.jp-article-20260812-4810569-/",
         [
-            "https://news.mynavi.jp/article/20240523-2950574/index_images/index.jpg",
+            "https://news.mynavi.jp/article/20260812-4810569/index_images/index.jpg",
             {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/001l.jpg",
                 "retries": [
-                    "https://news.mynavi.jp/article/20240523-2950574/images/001.jpg"
-                ],
-                "url": "https://news.mynavi.jp/article/20240523-2950574/images/001l.jpg"
+                    "https://news.mynavi.jp/article/20260812-4810569/images/001.jpg"
+                ]
             },
             {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/002l.jpg",
                 "retries": [
-                    "https://news.mynavi.jp/article/20240523-2950574/images/002.jpg"
-                ],
-                "url": "https://news.mynavi.jp/article/20240523-2950574/images/002l.jpg"
+                    "https://news.mynavi.jp/article/20260812-4810569/images/002.jpg"
+                ]
             },
             {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/003l.jpg",
                 "retries": [
-                    "https://news.mynavi.jp/article/20240523-2950574/images/003.jpg"
-                ],
-                "url": "https://news.mynavi.jp/article/20240523-2950574/images/003l.jpg"
+                    "https://news.mynavi.jp/article/20260812-4810569/images/003.jpg"
+                ]
             },
             {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/004l.jpg",
                 "retries": [
-                    "https://news.mynavi.jp/article/20240523-2950574/images/004.jpg"
-                ],
-                "url": "https://news.mynavi.jp/article/20240523-2950574/images/004l.jpg"
+                    "https://news.mynavi.jp/article/20260812-4810569/images/004.jpg"
+                ]
             },
             {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/005l.jpg",
                 "retries": [
-                    "https://news.mynavi.jp/article/20240523-2950574/images/005.jpg"
-                ],
-                "url": "https://news.mynavi.jp/article/20240523-2950574/images/005l.jpg"
+                    "https://news.mynavi.jp/article/20260812-4810569/images/005.jpg"
+                ]
+            },
+            {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/006l.jpg",
+                "retries": [
+                    "https://news.mynavi.jp/article/20260812-4810569/images/006.jpg"
+                ]
+            },
+            {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/007l.jpg",
+                "retries": [
+                    "https://news.mynavi.jp/article/20260812-4810569/images/007.jpg"
+                ]
+            },
+            {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/008l.jpg",
+                "retries": [
+                    "https://news.mynavi.jp/article/20260812-4810569/images/008.jpg"
+                ]
+            },
+            {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/009l.jpg",
+                "retries": [
+                    "https://news.mynavi.jp/article/20260812-4810569/images/009.jpg"
+                ]
+            },
+            {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/010l.jpg",
+                "retries": [
+                    "https://news.mynavi.jp/article/20260812-4810569/images/010.jpg"
+                ]
+            },
+            {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/011l.jpg",
+                "retries": [
+                    "https://news.mynavi.jp/article/20260812-4810569/images/011.jpg"
+                ]
+            },
+            {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/012l.jpg",
+                "retries": [
+                    "https://news.mynavi.jp/article/20260812-4810569/images/012.jpg"
+                ]
+            },
+            {
+                "url": "https://news.mynavi.jp/article/20260812-4810569/images/013l.jpg",
+                "retries": [
+                    "https://news.mynavi.jp/article/20260812-4810569/images/013.jpg"
+                ]
             }
         ]);
 });
@@ -302,14 +350,14 @@ test("photo/article/20250409-3177906/images/001l.jpg", async () => {
         ]);
 });
 
-test("photo/article/20250407-3176543/images/001l.jpg", async () => {
+test("photo/article/20260812-4810716/images/001l.jpg", async () => {
     await testDirectDownload(
         getBrowser(),
-        "https://news.mynavi.jp/photo/article/20250407-3176543/images/001l.jpg",
-        "news.mynavi.jp-photo-article-20250407-3176543-images-001l.jpg/",
+        "https://news.mynavi.jp/photo/article/20260812-4810716/images/001l.jpg",
+        "news.mynavi.jp-photo-article-20260812-4810716-images-001l.jpg/",
         [
             {
-                "url": "https://news.mynavi.jp/article/20250407-3176543/images/001l.jpg"
+                "url": "https://news.mynavi.jp/article/20260812-4810716/images/001l.jpg"
             }
         ]);
 });

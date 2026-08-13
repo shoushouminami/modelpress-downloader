@@ -2,20 +2,20 @@ const { testDirectDownload, getBrowserFactory, dummyItems } = require("./testbas
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 describe("Test suite bokuao.com", () => { 
-
-    test("blog/detail/20248", async () => {
+    test("blog/detail/20297", async () => {
         await testDirectDownload(
             getBrowser(),
-            "https://bokuao.com/blog/detail/20248",
-            "岩本理瑚-2026.08.10-森脇さんすごくいい方です💚/",
+            "https://bokuao.com/blog/detail/20297",
+            "八木仁愛-2026.08.13-ゆったりまったり/",
             [
-                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/2dcfe5c294a932723ef1c78128bb496a.jpeg",
-                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/4628a4d4cb11d6e7c62af663df6717cf.jpeg",
-                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/655c07a0e874c25f15868831d2420b53.jpeg",
-                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/9404c0b3099126f565a2d667ae2399fc.jpeg"
+                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/d3e0528d633aba479cb4a1f538b1c505.jpeg",
+                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/94705e0e91178c1bf00cc30fbc5b4377.jpeg",
+                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/15e7105094db569bdea4f238ce0573e1.jpeg",
+                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/8e82b73fefb5dfe94a96cfa5f0dc38f3.jpeg",
+                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/ddd0a376f892a21a97d6f10d3d2d84a2.jpeg",
+                "https://aop-emtg-jp.s3.amazonaws.com/prod/blog/397/1/product/95c87625aac92a19025fefb8aeda08d7.jpeg"
             ]);
     });
-
 
     test("news/detail/3489", async () => {
         await testDirectDownload(

@@ -26,26 +26,16 @@ test("Test news page", async () => {
 test("Test image page", async () => {
     await testDirectDownload(
         browser(),
-        "https://www.animatetimes.com/news/img.php?id=1545783577&p=1&n=1#title",
-        "www.animatetimes.com-news-img.php-1545783577/",
+        "https://www.animatetimes.com/news/img.php?id=1782351080&p=1&n=1#title",
+        "www.animatetimes.com-news-img.php-1782351080/",
         [
-            "https://img2.animatetimes.com/2021/08/61bbe77e9b384_daaf25166fca7b7c6df3b5444e717109.png",
-            "https://img2.animatetimes.com/2021/12/61aeccfd04bd8_05e264f0bcefb3ddfd0f3d75988ee3a6.jpg",
-            "https://img2.animatetimes.com/2021/12/621c30856c42b_6175e090a01eb9f1273e4849024b8d3b.jpeg",
-            "https://img2.animatetimes.com/2021/12/621f364fdecaa_24ba3d19d58f53d5ef7e531761e50da8.jpeg",
-            "https://img2.animatetimes.com/2021/12/61ee09eb705f6_1b92f92707ade621714009203f51aad3.jpeg",
-            "https://img2.animatetimes.com/2021/11/623a71d81646a_a4f527d71ef6555df6e1ed4b89d17b73.jpeg",
-            "https://img2.animatetimes.com/2022/01/61e4d9e85c5e9_3162a8f5af3ecb3c9b5fe143a92f9a2a.png",
-            "https://img2.animatetimes.com/2021/11/62256b24c2260_a2e9b4f0f7ed32092421905e61ec49d9.jpeg",
-            "https://img2.animatetimes.com/2021/12/62413b5777da1_d7cc84e4c876ab9f33332ff5434df5ad.jpg",
-            "https://img2.animatetimes.com/2021/10/61710d25d9510_a89845e1fae4d3b1b5efe3428870a43f.jpg",
-            "https://img2.animatetimes.com/2021/08/622579eb92ed8_e7abd5d0c39a1a038c290929156a7f38.jpeg",
-            "https://img2.animatetimes.com/2022/03/62207cbce0095_90926fd266a4bff42435be04c54d90d9.jpg",
-            "https://img2.animatetimes.com/2022/02/62136244ea18b_5bbd8cfd20ece9fcc9a9bab986293980.jpg",
-            "https://img2.animatetimes.com/2022/03/62302f81c18b8_775030e78bc313ce006b3962043b987a.jpg",
-            "https://img2.animatetimes.com/2022/02/620dee655f476_010305e224b0f40f28f69a443256ea57.jpg",
-            "https://img2.animatetimes.com/2021/11/618a1dc588acf_9d4bd0ac2ceb87421ce2d44e3ac4283f.png",
-            "https://img2.animatetimes.com/2022/02/620ca3cda5678_7bd2d82f90677fd8d38ee48e50da336d.jpg"
+            "https://img2.animatetimes.com/2026/06/d527d3f856bf9d1c909d5326a2d2c1ed6a3c87524aa365_55412134_50ec0f484e08c14b0fd0e2c0277769b9204ec0d1.jpg",
+            "https://img2.animatetimes.com/2026/06/0b298ddcb24617db29492607382f08ea6a3c882e25dd80_27785402_70a166e4d06c1a37ea0c8c5743148bcfa328a5fa.png",
+            "https://img2.animatetimes.com/2026/06/3c9b9025a90fc265e2a774477fe6886a6a3c883c075767_35577533_615d934820ee8dad9820e91d8c181314b7b61f02.png",
+            "https://img2.animatetimes.com/2026/06/b1419121c31ac46512fdb4056aa78eed6a3c8848b39651_60234615_acaa4598cc3ce1b65795986052488fc92a3cae54.png",
+            "https://img2.animatetimes.com/2026/06/9d1f68d2e21827dbbad2eaca202209c66a3c88557ab981_40277964_ffccd91bbc72c042e337d41469441f8ec058f7cd.png",
+            "https://img2.animatetimes.com/2026/06/a512650bd71ade691ad2ecb2514580fb6a3c886167b024_59950386_f9f3b1c7d8ca6cb344d399edfa390675d9ee9a03.png",
+            "https://img2.animatetimes.com/2026/06/f3fda96ab15c97a6e37ab73d66c2eb8f6a3c8870405247_28923468_09a1e137cbdcbdcacdd996a2cdce5970249e2677.png"
         ]
     );
 });
