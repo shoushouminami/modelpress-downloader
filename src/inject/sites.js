@@ -184,6 +184,7 @@ function register(siteModule) {
     require("./withonline.jp"),
     require("./cmnow.jp"),
     require("./dot.asahi.com"),
+    require("./www.wwdjapan.com"),
     require("./news.ameba.jp"),
     require("./www.nogizaka46.com"),
     require("./www.keyakizaka46.com"),
