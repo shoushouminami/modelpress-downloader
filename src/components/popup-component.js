@@ -180,13 +180,17 @@ class PopupComponent extends React.Component {
         this.setState({
             options: updatedOptions
         });
+        return updatedOptions;
     }
 
     handleOptionCommit(name, newValue) {
-        this.handleOptionChange(name, newValue);
+        // use the freshly returned map, not this.state.options - setState() above doesn't apply
+        // synchronously, so this.state.options would still reflect the value from before this
+        // commit (effectively one click behind) if read here instead.
+        const updatedOptions = this.handleOptionChange(name, newValue);
 
         if (this.optionHandler) {
-            this.optionHandler(name, newValue, this.state.options);
+            this.optionHandler(name, newValue, updatedOptions);
         }
 
         this.reRenderThumbnails();
