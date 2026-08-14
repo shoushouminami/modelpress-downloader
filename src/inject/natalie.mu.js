@@ -18,7 +18,7 @@ const inject = function () {
 
     // new layout 2020-05-15
     for (const selector of [
-        "main .NA_article_body .NA_article_img a .NA_article_img_thumb img",
+        "main .NA_article_body .NA_article_fig_img img", // site renamed NA_article_img/NA_article_img_thumb to NA_article_fig/NA_article_fig_img
         "main .NA_article_body .NA_article_gallery .NA_imglist li img",
         "main .PP_main .PP_embed-img img"
     ]) {

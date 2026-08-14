@@ -69,6 +69,7 @@ function register(siteModule) {
     require("./times.abema.tv"),
     require("./shueisha.online"),
     require("./wpb.shueisha.co.jp"),
+    require("./www.dolce-gravure.jp"),
     require("./www.rbbtoday.com"),
     require("./www.nikkansports.com"),
     require("./moment.nikkan-gendai.com"),
@@ -200,7 +201,6 @@ function register(siteModule) {
     require("./storage.mainichikirei.jp"),
     require("./www.nhk.or.jp"),
     require("./www.bubkaweb.com"),
-    require("./www.dolce-gravure.jp"),
     require("./message.nogizaka46.com"),
 ]);
 

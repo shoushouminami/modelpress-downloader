@@ -38,6 +38,48 @@ function getLargeImg(url) {
     return original;
 }
 
+// i-voce.jp's Nuxt frontend intermittently fails to hydrate the article body (NUXT_E1005),
+// leaving no <img> elements in the DOM at all. As a fallback, read the images straight out of
+// the page's own __NUXT_DATA__ hydration payload instead of the DOM. utils.pushArray dedupes
+// by url, so calling this alongside the DOM-based selectors is safe even when both find results.
+function extractFromNuxtPayload() {
+    const results = [];
+    try {
+        const script = document.querySelector("#__NUXT_DATA__");
+        if (!script) return results;
+        const data = JSON.parse(script.textContent);
+        const root = data[1];
+        const dataWrapper = data[root.data]; // ["ShallowReactive", idx]
+        const routeMap = data[dataWrapper[1]]; // {"/feed/12345/": idx, ...}
+        const pageDataIdx = routeMap[window.location.pathname];
+        if (pageDataIdx == null) return results;
+        const pageData = data[pageDataIdx];
+        if (pageData.post == null) return results;
+        const post = data[pageData.post];
+
+        if (post.mainImage != null) {
+            const mainImageUrl = data[data[post.mainImage].url];
+            if (typeof mainImageUrl === "string") {
+                // use the original file directly rather than the w_750 cloudinary variant the
+                // site renders in the DOM -- it's a better resolution source
+                results.push(getLargeImg(mainImageUrl));
+            }
+        }
+
+        const pagesArr = data[post.pages] || [];
+        const imgSrcRe = /src="(https:\/\/[^"]+?\.(?:jpg|jpeg|png))"/g;
+        for (const pageIdx of pagesArr) {
+            const content = data[data[pageIdx].content];
+            if (typeof content !== "string") continue;
+            let m;
+            while ((m = imgSrcRe.exec(content)) != null) {
+                results.push(getLargeImg(m[1]));
+            }
+        }
+    } catch (ignored) {}
+    return results;
+}
+
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
@@ -55,6 +97,9 @@ module.exports = {
                 )
             );
         }
+
+        utils.pushArray(o.images, extractFromNuxtPayload());
+
         return o;
     },
     host: "i-voce.jp",

@@ -28,7 +28,7 @@ function getBrowserFactory(beforeAll, afterAll) {
 
 async function launchBrowser() {
     return await puppeteer.launch({
-        headless: false, // extension are allowed only in head-full mode
+        headless: true, // extension are allowed headless mode now.
         args: [
             "--disable-extensions-except=" + resolvePath("../../build"),
             "--load-extension=" + resolvePath("../../build"),

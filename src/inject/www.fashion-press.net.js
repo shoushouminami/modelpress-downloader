@@ -9,6 +9,9 @@ const getLargeImg = function (url) {
     }
 
     url = toFull(url);
+    // fashion-press.net's own ld+json sometimes emits a double slash after the host, e.g.
+    // "https://www.fashion-press.net//img/snaps/...". Collapse it so URLs match.
+    url = url.replace(/^(https?:\/\/[^/]+)\/{2,}/, "$1/");
 
     if (url.indexOf("/w300_") > -1) {
         return {
