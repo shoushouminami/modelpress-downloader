@@ -19,6 +19,12 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 5.2 (2026/08/15)
+* Add audo collect mode on x.com
+* Add beeeem.com, luckyfes.com, fashiontechnews.zozo.com, jmagazine.myjcom.jp, hochi.news, www.dolce-gravure.jp, news.ameba.jp, www.wwdjapan.com, www.nylon.jp, and voisjp.me
+* Remove more.hpplus.jp and www.musicvoice.jp - domain retired
+* Varies fixes
+
 ###### 5.1 (2025/12/26)
 * Minimize filename conflict
 * x.com: Add video download
@@ -43,53 +49,3 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 * Remove legacy Google UA analytics
 * Move type 'tab' download to bg service worker and in 1 tab
 
-###### 4.27 (2025/07/12)
-* Add mainichi.jp, bokuao.com, bezzy.jp, and websunday.net
-* Update sakamichi sites to include news article & member profile
-* Varies fixes
-
-###### 4.26 (2025/04/11)
-* Varies fixes
-
-###### 4.25 (2024/12/02)
-* Fix on ananweb.jp, seventeen-web.jp and kstyle.com
-* Remove taishu.jp (retired)
-
-###### 4.24 (2024/10/17)
-* Add wpb.shueisha.co.jp
-* Add dot.asahi.com
-* Other fixes
-
-###### 4.23 (2024/10/06)
-* Add www.entax.news and maquia.hpplus.jp
-* Move 8760.news-postseven.com -> j7p.jp
-* Move www.bubkaweb.com -> www.idol-culture.jp
-* Remove plus.tver.jp
-* Fixes on sweetweb.jp, ray-web.jp, and eiga.com
-
-###### 4.22 (2024/07/23)
-* Add www.sponichi.co.jp
-* Add glassgirl.info
-* Fixes on lp.p.pia.jp and nonno.hpplus.jp
-
-###### 4.21 (2024/05/23)
-* Add add www.sanspo.com and prtimes.jp
-* Fixes on classy-online.jp, plus.tver.jp, nonno.hpplus.jp and mezamashi.media
-* Remove okmusic.jp (site discontinued)
-
-###### 4.20 (2024/03/29)
-* Fixes on mainichikirei.jp, i-voce.jp and mezamashi.media
-* Remove www.fujitv-view.jp
-* Remove tabs from optional permission
-
-###### 4.19 (2024/03/27)
-* Fix on younganimal.com
-* Remove old GA code
-
-###### 4.18 (2024/03/18)
-* Add mezamashi.media and bunshun.jp
-* Fixes on mantan-web.jp, entameclip.com, hanako.tokyo, sweetweb.jp, www.oricon.com, mainichikirei.jp, 
-entameclip.com and www.vogue.co.jp
-
-###### 4.17 (2024/03/02)
-* Fix mdpr.jp
