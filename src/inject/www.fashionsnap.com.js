@@ -15,6 +15,7 @@ const inject = function() {
         "main > div > div > div > img ", // article top image
         "main div img[data-image-gallery-include]", // article slide image
         "main figure img", // article image
+        "main img[fetchpriority='high']", // hero image; DOM nesting depth varies by article so the fixed-depth selector above can miss it
     ]) {
         utils.pushArray(o.images,
             utils.findLazyImagesWithCssSelector(

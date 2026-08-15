@@ -8,11 +8,11 @@ const retries = require("../utils/retries");
  * Returns a function which will return a browser instance for unit tests.
  * @returns {Function}
  */
-function getBrowserFactory(beforeAll, afterAll) {
+function getBrowserFactory(beforeAll, afterAll, { headless = true } = {}) {
     let browser;
 
     beforeAll(async () => {
-        browser = await launchBrowser();
+        browser = await launchBrowser({ headless: headless });
     });
 
     afterAll(async () => {
@@ -21,14 +21,14 @@ function getBrowserFactory(beforeAll, afterAll) {
         }
     });
 
-    return function (){
+    return function () {
         return browser;
     };
 }
 
-async function launchBrowser() {
+async function launchBrowser({headless=true}={}) {
     return await puppeteer.launch({
-        headless: true, // extension are allowed headless mode now.
+        headless: headless, // extension are allowed in headless mode now.
         args: [
             "--disable-extensions-except=" + resolvePath("../../build"),
             "--load-extension=" + resolvePath("../../build"),

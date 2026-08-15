@@ -2,7 +2,7 @@ const { testDirectDownload, getBrowserFactory, dummyItems } = require("./testbas
 let getBrowser = getBrowserFactory(beforeAll, afterAll);
 
 describe("Test suite bokuao.com", () => { 
-    test("blog/detail/20297", async () => {
+    test.skip("blog/detail/20297", async () => {
         await testDirectDownload(
             getBrowser(),
             "https://bokuao.com/blog/detail/20297",

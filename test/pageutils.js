@@ -1,14 +1,14 @@
-exports.wait = function(time) {
+function wait(time) {
     return new Promise(function(resolve) {
         setTimeout(resolve, time)
     })
 }
 
-exports.scrollToBottom = async function (page, waitTimeMs = 300) {
-    return this.scrollTo(page, 100, waitTimeMs);
+async function scrollToBottom(page, waitTimeMs = 300) {
+    return scrollTo(page, 100, waitTimeMs);
 }
 
-const getPageScrollHeight = async function (page) {
+async function getPageScrollHeight(page) {
     let bodyHandle = await page.$('body');
     let height = await page.evaluate(body => body.scrollHeight, bodyHandle);
     await bodyHandle.dispose();
@@ -23,8 +23,8 @@ const getPageScrollHeight = async function (page) {
  * @param waitTimeMs
  * @returns {Promise<void>}
  */
-exports.scrollTo = async function (page, percentage = 100, waitTimeMs = 300) {
-    this.scrollToTop(page);
+async function scrollTo(page, percentage = 100, waitTimeMs = 300) {
+    scrollToTop(page);
     // Get the height of the rendered page
     let height = await getPageScrollHeight(page);
 
@@ -36,7 +36,7 @@ exports.scrollTo = async function (page, percentage = 100, waitTimeMs = 300) {
             window.scrollBy(0, _viewportHeight);
 
         }, viewportHeight);
-        await this.wait(waitTimeMs);
+        await wait(waitTimeMs);
         scrolled += viewportHeight;
         height = await getPageScrollHeight(page);
         if ((scrolled + viewportHeight) * 1.0 / height >= (percentage / 100.0)) {
@@ -46,7 +46,7 @@ exports.scrollTo = async function (page, percentage = 100, waitTimeMs = 300) {
 
 }
 
-exports.scrollToTop = async function (page) {
+async function scrollToTop(page) {
     // Scroll back to top
     await page.evaluate(_ => {
         window.scrollTo({
@@ -54,4 +54,12 @@ exports.scrollToTop = async function (page) {
             top: 0
         });
     });
+}
+
+module.exports = {
+    wait,
+    scrollToBottom,
+    getPageScrollHeight,
+    scrollTo,
+    scrollToTop
 }

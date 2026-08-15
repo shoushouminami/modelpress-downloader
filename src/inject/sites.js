@@ -118,7 +118,7 @@ function register(siteModule) {
     require("./www.crank-in.net"),
     require("./www.billboard-japan.com"),
     require("./realsound.jp"),
-    require("./www.musicvoice.jp"),
+    require("./voisjp.me"),
     require("./www.music-culture.info"),
     require("./seigura.com"),
     require("./beeeem.com"),

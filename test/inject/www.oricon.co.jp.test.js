@@ -1,5 +1,5 @@
 const {testDirectDownload, getBrowserFactory} = require("./testbase");
-let getBrowser = getBrowserFactory(beforeAll, afterAll);
+let getBrowser = getBrowserFactory(beforeAll, afterAll, {headless: false});
 
 describe("Test suite www.oricon.co.jp", () => {
     test("news/2473842/", async () => {
