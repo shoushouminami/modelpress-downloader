@@ -1,3 +1,5 @@
+const { getFileExt } = require("./utils/url-utils");
+
 /**
  * First get a list of DOMs belonging to the given CSS class.
  * Then for each of the DOM element, find 1 image recursively.
@@ -526,16 +528,6 @@ function getFileName(url, ext, preferredName) {
     return replaceSpecialChars(decodeURI(filename));
 }
 
-function getFileExt(filename) {
-    filename = filename.split(/[#?]/)[0].toLowerCase();
-    let dot = filename.lastIndexOf(".");
-    if (dot > -1) {
-        return filename.substring(dot + 1);
-    } else {
-        return null;
-    }
-}
-
 function clearObjectProperties(obj) {
     for (let member in obj) delete obj[member];
     return obj;
@@ -572,6 +564,5 @@ module.exports = {
     fetchUrl: fetchUrl,
     replaceSpecialChars: replaceSpecialChars,
     getFileName: getFileName,
-    getFileExt: getFileExt,
     clearObjectProperties: clearObjectProperties,
 };

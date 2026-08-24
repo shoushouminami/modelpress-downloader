@@ -1,6 +1,7 @@
 const messaging = require("./messaging");
 const { wait, every, continueIfTimeout } = require("./utils/async-utils");
 const utils = require("./utils");
+const urlUtils = require("./utils/url-utils");
 const { getGA4UID } = require("./ga/ga4-uid");
 const ga = require("./google-analytics");
 const config = require("./config");
@@ -149,7 +150,7 @@ function download(chrome, image, callbackFuncOrFuncMap) {
                     //retry download on invalid filename
                     if (chrome.runtime.lastError?.message?.includes("Invalid filename") && !image.retriedInvalidFilename) {
                         logger.debug("Retrying download for invalid filename. url=", image.url, "folderFilename=", folderFilename);
-                        image.folderFilename = "mid_download." + utils.getFileExt(folderFilename); // set preferred filename to avoid invalid filename error
+                        image.folderFilename = "mid_download." + urlUtils.getFileExt(folderFilename); // set preferred filename to avoid invalid filename error
                         image.retriedInvalidFilename = true; // set flag to indicate this is a retry for invalid filename, so that it won't cause infinite retry loop
                         download(chrome, image, callbacks);
                     }                     
@@ -177,7 +178,7 @@ function downloadRegJob(job) {
         for (const image of job.images) {
             image.context ??= job.context;
             // quick hack to open m3u8 in new tab instead of downloading
-            if (utils.getFileExt(image.url) == "m3u8") {
+            if (urlUtils.getFileExt(image.url) == "m3u8") {
                 chrome.tabs.create({ url: image.url, active: true }, tab => {
                     if (chrome.runtime.lastError) {
                         logger.error("Failed to create new tab newTab=", newTab, "error=", chrome.runtime.lastError.message);

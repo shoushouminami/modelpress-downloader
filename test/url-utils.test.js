@@ -1,4 +1,4 @@
-const { removeMwimgsSize, guessMediaType } = require("./../src/utils/url-utils");
+const { removeMwimgsSize, guessMediaType, getFileExt, replaceFileExt } = require("./../src/utils/url-utils");
 
 describe("Test url-utils", () => {
     test("Test removeMwimgsSize", () => {
@@ -140,4 +140,29 @@ describe("Test url-utils", () => {
             ).toBe("unknown");
         });
     });
+
+    test("test getFileExt", function () {
+        expect(getFileExt("abc.png")).toBe("png");
+        expect(getFileExt("abc")).toBeNull();
+        expect(getFileExt("abc.png?blal.good")).toBe("png");
+        expect(getFileExt("http://www.domain.com/abc.png?blal.good")).toBe("png");
+        expect(getFileExt("http://www.domain.com/abc.png#blal.good")).toBe("png");
+        expect(getFileExt("http://www.domain.com/abc.jpeg?what#blal.good")).toBe("jpeg");
+    });
+
+    test("test replaceFileExt", function () {
+        expect(replaceFileExt("abc.png", "jpg")).toBe("abc.jpg");
+        expect(replaceFileExt("abc.png", ".jpg")).toBe("abc.jpg");
+        expect(replaceFileExt("abc.PNG", "jpg", "png")).toBe("abc.jpg");
+        expect(replaceFileExt("abc.png", "jpg", "gif")).toBe("abc.png");
+        expect(replaceFileExt("abc", "jpg")).toBe("abc.jpg");
+        expect(replaceFileExt("abc", "jpg", "")).toBe("abc.jpg");
+        expect(replaceFileExt("abc.png", "jpg", "")).toBe("abc.png");
+        expect(replaceFileExt(null, "jpg")).toBeNull();
+        expect(replaceFileExt("http://www.domain.com/abc.png?blal.good#h", "webp"))
+            .toBe("http://www.domain.com/abc.webp?blal.good#h");
+        expect(replaceFileExt("http://www.domain.com/abc.webp?blal.good#h", "jpg", "webp"))
+            .toBe("http://www.domain.com/abc.jpg?blal.good#h");
+    });
+
 });

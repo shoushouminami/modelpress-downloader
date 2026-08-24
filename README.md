@@ -20,7 +20,7 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 ### Change Logs
 
 ###### 5.2 (2026/08/15)
-* Add audo collect mode on x.com
+* Add auto collect mode on x.com
 * Add beeeem.com, luckyfes.com, fashiontechnews.zozo.com, jmagazine.myjcom.jp, hochi.news, www.dolce-gravure.jp, news.ameba.jp, www.wwdjapan.com, www.nylon.jp, and voisjp.me
 * Remove more.hpplus.jp and www.musicvoice.jp - domain retired
 * Varies fixes

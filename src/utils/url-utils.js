@@ -69,19 +69,19 @@ function getYoutubeImgMaxRes(url) {
 }
 
 function removeGIF(url) {
-    return removeExt(url, null, null, "gif");
+    return removeWithExt(url, null, null, "gif");
 }
 
 function createFilterRemoveExt(prefix, suffix, ext) {
-    return url => removeExt(url, prefix, suffix, ext);
+    return url => removeWithExt(url, prefix, suffix, ext);
 }
 
 /**
  * Filter out url with ext. Optionally by prefix and suffix of the filename.
  * 
- * `removeExt(url, null, null, "gif")` will filter out all GIFs.
+ * `removeWithExt(url, null, null, "gif")` will filter out all GIFs.
  * 
- * `removeExt(url, "placeholder", null, "png")` will filter out all PNGs that filename starts with `"placeholder"`.
+ * `removeWithExt(url, "placeholder", null, "png")` will filter out all PNGs that filename starts with `"placeholder"`.
  * 
  * @param {*} url 
  * @param {*} prefix 
@@ -89,7 +89,7 @@ function createFilterRemoveExt(prefix, suffix, ext) {
  * @param {*} ext 
  * @returns 
  */
-function removeExt(url, prefix, suffix, ext) {
+function removeWithExt(url, prefix, suffix, ext) {
     if (!url || !ext) return url;
 
     const dotExt = ext.startsWith(".") ? ext: ("." + ext);
@@ -209,7 +209,7 @@ function guessMediaType(url, ext, filename) {
     }
 
     const utils = require("../utils");
-    const fileExt = utils.getFileExt(utils.getFileName(url, ext, filename));
+    const fileExt = getFileExt(utils.getFileName(url, ext, filename));
     // Image extensions
     const imageExt = new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "svg", "tiff", "ico"]);
 
@@ -250,6 +250,52 @@ function thumbnail(mediaType) {
     }
 }
 
+function getFileExt(filename) {
+    filename = filename.split(/[#?]/)[0].toLowerCase();
+    let dot = filename.lastIndexOf(".");
+    if (dot > -1) {
+        return filename.substring(dot + 1);
+    } else {
+        return null;
+    }
+}
+
+/**
+ * Replace filename match the given old ext to a new ext.
+ * A filename without an ext is treated as having ext "".
+ * If `oldExt` is omitted, the match is unconditional (any current ext, including "", gets replaced).
+ * If `oldExt` is given (case-insensitive, "" included), the replacement only happens when it equals
+ * the current ext; e.g. `replaceFileExt("bla", "jpg", "")` matches (no ext) and appends ".jpg", while
+ * `replaceFileExt("bla.png", "jpg", "")` does not match and is returned unchanged.
+ * Query string / hash and the rest of the filename's original casing are preserved.
+ * @param {string} filename
+ * @param {string} newExt
+ * @param {string} [oldExt]
+ * @returns filename with new ext
+ */
+function replaceFileExt(filename, newExt, oldExt) {
+    if (filename == null || !newExt) return filename;
+
+    const m = filename.match(/^([^#?]*)([#?].*)?$/);
+    const base = m[1];
+    const rest = m[2] || "";
+
+    const currentExt = getFileExt(base) || "";
+
+    if (oldExt != null) {
+        const normalizedOldExt = (oldExt.startsWith(".") ? oldExt.slice(1) : oldExt).toLowerCase();
+        if (currentExt !== normalizedOldExt) return filename;
+    }
+
+    const dotNewExt = newExt.startsWith(".") ? newExt : ("." + newExt);
+    if (currentExt === "") {
+        return base + dotNewExt + rest;
+    }
+
+    const dot = base.lastIndexOf(".");
+    return base.substring(0, dot) + dotNewExt + rest;
+}
+
 module.exports = {
     toFull,
     removeMwimgsSize,
@@ -263,5 +309,7 @@ module.exports = {
     thumbnail,
     createFilterRemoveExt,
     removeGIF,
-    combineFilters
-}
+    combineFilters,
+    getFileExt,
+    replaceFileExt
+};

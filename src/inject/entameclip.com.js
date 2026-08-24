@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+const { replaceFileExt } = require("../utils/url-utils.js");
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
@@ -14,7 +15,12 @@ module.exports = {
                         || url.indexOf("img.youtube.com") > -1) {
                         return null;
                     }
-                    return utils.removeTrailingResolutionNumbers(url);
+
+                    url = utils.removeTrailingResolutionNumbers(url);
+                    return {
+                        url: replaceFileExt(url, "jpg"),
+                        retries: [url]
+                    }
                 })
             );
         }

@@ -116,15 +116,6 @@ describe("Test utils.js", () => {
         expect(utils.replaceSpecialChars("e66b04_f13c1935704043c8b12098e40a8cc2ed~mv2.jpg")).toBe("e66b04_f13c1935704043c8b12098e40a8cc2ed-mv2.jpg");
     });
 
-    test("test getFileExt", function () {
-        expect(utils.getFileExt("abc.png")).toBe("png");
-        expect(utils.getFileExt("abc")).toBeNull();
-        expect(utils.getFileExt("abc.png?blal.good")).toBe("png");
-        expect(utils.getFileExt("http://www.domain.com/abc.png?blal.good")).toBe("png");
-        expect(utils.getFileExt("http://www.domain.com/abc.png#blal.good")).toBe("png");
-        expect(utils.getFileExt("http://www.domain.com/abc.jpeg?what#blal.good")).toBe("jpeg");
-    });
-
     test("test clearObjectProperties", function () {
         expect(utils.clearObjectProperties({ "a": "b" })).toEqual({});
     });

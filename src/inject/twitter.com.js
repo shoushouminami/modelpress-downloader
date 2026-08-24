@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+const urlUtils = require("../utils/url-utils");
 const logger = require("../logger2.js")(module.id);
 const messaging = require("../messaging.js");
 const WEB_BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA";
@@ -557,7 +558,7 @@ module.exports = {
                                         const v = extractXVideoAndThumbnail(json);
                                         logger.debug("Extract video links v=", v);
                                         if (v?.mp4?.length > 0) {
-                                            const filename = getVideoFilenameFromStatusUrl(msg.url, utils.getFileExt(v.best));
+                                            const filename = getVideoFilenameFromStatusUrl(msg.url, urlUtils.getFileExt(v.best));
                                             return {
                                                 url: v.best,
                                                 thumbnail: v.bestThumbnail,
