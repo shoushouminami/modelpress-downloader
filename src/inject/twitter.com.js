@@ -554,6 +554,7 @@ module.exports = {
                                 })
                                 .then(resp => resp.json())
                                 .then(json => {
+                                    logger.debug("Video JSON=", json);
                                     if (json?.data?.tweetResult?.result?.rest_id === statusId) {
                                         const v = extractXVideoAndThumbnail(json);
                                         logger.debug("Extract video links v=", v);
@@ -721,17 +722,17 @@ function checkDOMForImages(images, options) {
         );
 
         // video
-        if (options?.downloadVideo?.checked) {
+        if (options?.downloadVideo?.checked && articleDOM.querySelector("div[data-testid='videoComponent'] video")) {
+            // A quoted/embedded tweet's <time> sits in a card with no wrapping <a>, so its closest("a")
+            // is normally undefined - only this tweet's own <time> resolves to a link. If more than one
+            // <time> resolves (a structure we haven't observed), push all as candidates rather than
+            // guessing which one is ours; pushArray dedups by url.
             utils.pushArray(
                 images,
-                utils.findDOMsWithCssSelector(
-                    articleDOM,
-                    "div[data-testid='videoComponent'] video",
-                    (dom) => {
-                        const url = dom?.closest("article[data-testid='tweet']")?.querySelector("time")?.closest("a")?.href;
-                        return url ? { url: url, type: "msg", filename: getVideoFilenameFromStatusUrl(url, "mp4") } : null;
-                    }
-                )
+                Array.from(articleDOM?.querySelectorAll("time") ?? [])
+                    .map(t => t.closest("a")?.href)
+                    .filter(url => url)
+                    .map(url => ({ url: url, type: "msg", filename: getVideoFilenameFromStatusUrl(url, "mp4") }))
             );
         }
     }
