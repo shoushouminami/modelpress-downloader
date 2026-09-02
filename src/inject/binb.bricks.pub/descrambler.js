@@ -151,7 +151,7 @@ Descrambler.prototype.init = function (ptbinb, cid) {
         const salt = Descrambler.generateSalt(cid);
         const u0 = utils.getSearchParam(ptbinb).get("u0") || null;
         descrambler.cid = cid;
-        utils.fetchUrl(`${ptbinb}&cid=${cid}&k=${salt}`, 2, 1, {timeout: 8000})
+        utils.fetchUrl(`${ptbinb}&cid=${cid}&k=${salt}`, 2, {timeout: 8000})
             .then(function (respText) {
                 try {
                     let resp = JSON.parse(respText);
@@ -177,7 +177,7 @@ Descrambler.prototype.init = function (ptbinb, cid) {
                     if (u0) {
                         contentUrl += contentUrl.indexOf("?") > -1 ? `&u0=${u0}` : `?u0=${u0}`;
                     }
-                    utils.fetchUrl(contentUrl, 1, 1, {
+                    utils.fetchUrl(contentUrl, 1, {
                         withCredentials:isYanmaga,
                         timeout: 8000
                     })

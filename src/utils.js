@@ -437,34 +437,35 @@ function getSearchParam(url) {
     return (new URL(url)).searchParams;
 }
 
-let _concurrency_count = 0;
 /***
  * config: {
  *      'withCredentials': true|false
- *      
+ *
  * }
  */
-function fetchUrl(url, retry = 1, concurrency_limit = 8, config = {}) {
+function fetchUrl(url, retry = 1, config = {}) {
     const logger = require("./logger2")(module.id);
-    logger.debug("fetchUrl retry=", retry, "concurrency_limit=", concurrency_limit, "config=", config, "url=", url);
+    logger.debug("fetchUrl retry=", retry, "config=", config, "url=", url);
     const timeout = config['timeout'] || 2000; // ms
     const withCredentials = config['withCredentials'] === true || false;
-    _concurrency_count = _concurrency_count || 0;
     return new Promise(function (resolve, reject) {
         function retryFunc(local_retry) {
             logger.error("Retrying ... local_retry=", local_retry);
             const {wait} = require("./utils/async-utils")
-            return wait(500).then(() => {
-                return fetchUrl(url, local_retry, concurrency_limit, config);
+            return wait(1000).then(() => {
+                return fetchUrl(url, local_retry, config);
             }).then(resolve, reject);
         }
 
         let xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
+        // Timeouts and aborts also surface here as readyState===4 with status===0 (per the XHR
+        // spec, "readystatechange" fires as part of the abort/timeout sequence), so this single
+        // handler covers success, HTTP failure, timeout, and abort. Do not add separate
+        // xhr.ontimeout/xhr.onabort handlers - they would double-fire retryFunc() for the same event.
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
-                _concurrency_count = Math.max(0, _concurrency_count - 1);
-                if (xhr.status / 100 === 2) {
+                if (xhr.status >= 200 && xhr.status < 300) {
                     logger.debug("GET", url, "OK");
                     resolve(xhr.responseText);
                 } else if (retry > 0) {
@@ -472,27 +473,15 @@ function fetchUrl(url, retry = 1, concurrency_limit = 8, config = {}) {
                     retryFunc(retry - 1);
                 } else {
                     logger.error("GET", url, "failed after retries");
-                    reject(xhr.status, xhr.statusText);
+                    reject({status: xhr.status, statusText: xhr.statusText});
                 }
             }
         };
         xhr.timeout = timeout;
-        xhr.ontimeout = xhr.onabort = (e) => {
-            logger.error("GET", url, `timed out after ${timeout}ms`, e);
-            _concurrency_count = Math.max(0, _concurrency_count - 1);
-            retryFunc(retry - 1);
-        };
         if (withCredentials) {
             xhr.withCredentials = true;
         }
-        if (_concurrency_count < concurrency_limit) {
-            _concurrency_count += 1;
-            logger.debug("fetchUrl GET", url, "_concurrent_count=", _concurrency_count,
-                "concurrency=", concurrency_limit);
-            xhr.send();
-        } else {
-            return retryFunc(retry);
-        }
+        xhr.send();
     });
 }
 

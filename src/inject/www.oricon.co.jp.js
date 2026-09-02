@@ -1,6 +1,31 @@
 const utils = require("../utils.js");
 const messaging = require("../messaging");
 const logger = require("../logger2")(module.id);
+const { wait } = require("../utils/async-utils");
+
+// delay between sequential page fetches, to avoid hammering the server
+const FETCH_DELAY_MS = 5000;
+
+/**
+ * Fetch `pageUrls` one at a time (not in parallel), waiting `delayMs` between requests.
+ * @returns {Promise<string[]>} resolves to the large image url found on each page, in the same order as `pageUrls`.
+ */
+function fetchPagesSequentially(pageUrls, delayMs) {
+    let urls = [];
+    return pageUrls.reduce(function (promise, pageUrl, index) {
+        return promise
+            .then(() => (index > 0 && delayMs > 0 ? wait(delayMs) : null))
+            .then(() => utils.fetchUrl(pageUrl, 0))
+            .then(function (pageHtml) {
+                let template = document.createElement("template");
+                template.innerHTML = pageHtml;
+                urls.push(getLargeImgFromPage(template.content));
+            }, function (error) {
+                logger.error("utils.fetchUrl failed with", error && error.status, error && error.statusText);
+            });
+    }, Promise.resolve()).then(() => urls);
+}
+
 function getLargeImgFromPage(document) {
     let urls = utils.findDOMsWithCssSelector(document, "meta[property='og:image'", function (dom) {
         let content = dom.getAttribute("content");
@@ -33,31 +58,19 @@ function inject() {
         );
     }
     if (links.length > 0) {
-        Promise.all(
-            links.map((pageUrl) => {
-                return utils.fetchUrl(pageUrl, retry=3).then(function (pageHtml) {
-                    let template = document.createElement('template');
-                    template.innerHTML = pageHtml;
-                    return getLargeImgFromPage(template.content);
-                }, function (status, statusText) {
-                    logger.error("utils.fetchUrl failed with", status, statusText);
-                })
-            })
-        ).then(function (urls) {
-            logger.debug("All promises resolved urls=", urls);
-            urls.sort();
+        logger.debug("links=", links);
+
+        fetchPagesSequentially(links, FETCH_DELAY_MS).then(function (urls) {
+            logger.debug("All fetches resolved urls=", urls);
             utils.pushArray(o.images, urls);
             messaging.sendToRuntime("updateResult", o);
-        }, function(error){
-            logger.error("Promise.all() failed", error);
+        }, function (error) {
+            logger.error("fetchPagesSequentially() failed", error);
             messaging.sendToRuntime("updateResult", o);
-        })
+        });
 
         return require("./return-message.js").loading();
     } else {
-        // utils.pushArray(o.images, [
-        //     getLargeImgFromPage(document)
-        // ]);
         for (const selector of [
             ".content-main .special-content .image-main img",
             ".content-main .special-content .image img",
