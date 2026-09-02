@@ -83,6 +83,10 @@
         "message": "全部取消",
         "description": "Text label for button in image picker that deselects all images"
     },
+    "retryImageTitle": {
+        "message": "載入失敗，請重新整理目前頁面後再試一次。",
+        "description": "Tooltip shown on a thumbnail that failed to load, prompting the user to click it to retry"
+    },
     "selected": {
         "message": "已選取",
         "description": "Text label in image picker that shows selected count"

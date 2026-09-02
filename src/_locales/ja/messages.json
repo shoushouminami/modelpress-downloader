@@ -86,6 +86,10 @@
         "message": "すべて解除",
         "description": "Text label for button in image picker that deselects all images"
     },
+    "retryImageTitle": {
+        "message": "読み込みに失敗しました。ページを更新してから再試行してください。",
+        "description": "Tooltip shown on a thumbnail that failed to load, prompting the user to click it to retry"
+    },
     "selected": {
         "message": "選択中",
         "description": "Text label in image picker that shows selected count"

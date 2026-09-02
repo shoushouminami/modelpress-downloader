@@ -67,6 +67,7 @@ function updatePopupUI() {
             optionHandler={optionHandler}
             getImageThumbnails={getImageThumbnails}
             imagePickerHandler={imagePickerHandler}
+            retryImageHandler={retryImageHandler}
             renderEvent={renderEventEmitter}
         />,
         document.getElementById("react-root"),
@@ -97,11 +98,20 @@ function getImageThumbnails() {
         // trigger loading of the image/video and return spinner (loading) as thumbnail
         // continue to switch statement below if the image is already loaded
         if ((img.type == "msg" || img.type == "msg_seq") && !img.loaded) {
+            // failed on a previous attempt: show a retry cue instead of auto-retrying,
+            // so a bad url doesn't get hammered on every re-render. User must click it to retry.
+            if (img.failed) {
+                return {
+                    src: thumbnail("error"),
+                    className: "thumbnail_error",
+                    failed: true,
+                    disabled: true
+                };
+            }
             if (!img.loading) { // no need to load again if it is in the middle of loading
-                const triggerRerenderThumbnails = (imageFromResp) => {
-                    if (imageFromResp) {
-                        renderEventEmitter.emit();
-                    }
+                // re-render on both success and failure, so a failed load swaps the spinner for the retry cue
+                const triggerRerenderThumbnails = () => {
+                    renderEventEmitter.emit();
                 };
                 if (img.type === "msg") {
                     downloader.getImageUrlFromContentScriptIfNotLoaded(img, img.context, triggerRerenderThumbnails);
@@ -112,7 +122,9 @@ function getImageThumbnails() {
             // returns spinner to show the image/video is loading
             return {
                 src: thumbnail("spinner"),
-                className: "thumbnail_small"
+                className: "thumbnail_small",
+                disabled: true,
+                loading: img.loading
             };
         }
 
@@ -150,7 +162,15 @@ function getImageThumbnails() {
 
 function downloadHandler(resolve) {
     function _downloadHandler() {
-        const jobs = prepareDownloadJobs(message);
+        // A msg/msg_seq image that hasn't finished loading yet (still loading, or failed) isn't ready
+        // to download - drop those jobs so Download only ever includes images that actually loaded.
+        // Each msg/msg_seq job holds exactly 1 image (see prepareDownloadJobs()).
+        const jobs = prepareDownloadJobs(message).filter(job => {
+            if (job.type === "msg" || job.type === "msg_seq") {
+                return job.images[0]?.loaded === true;
+            }
+            return true;
+        });
         const totalImageCount = jobs.reduce((sum, job) => sum + job.images.length, 0);
         ga.trackEventGA4("download", {
             "domain": message.host,
@@ -243,12 +263,36 @@ function notifyCSOptionsChanged() {
 }
 
 /**
- * Called when image picker is used to select images to download. 
- * @param {int[]} selectedIndexes 
+ * Called when image picker is used to select images to download.
+ * @param {int[]} selectedIndexes
  */
 function imagePickerHandler(selectedIndexes = []) {
     message.selectedIndexes = selectedIndexes;
     // no need to update UI as this event is propogated from UI
+}
+
+/**
+ * Called when the user clicks a failed "msg"/"msg_seq" thumbnail to retry loading it.
+ *
+ * Asks the content script first (via "retryImage"), so a site module can implement custom retry
+ * behavior (e.g. reloading the page) instead of just re-requesting the same image. If no site module
+ * responds with retried:true, falls back to clearing `failed` so getImageThumbnails() re-triggers the
+ * load itself on the next thumbnail refresh.
+ * @param {int} index index into message.images
+ */
+function retryImageHandler(index) {
+    const img = message.images && message.images[index];
+    if (!(img && typeof img === "object" && img.failed)) {
+        return;
+    }
+
+    messaging.sendToCS(message.fromTabId, "retryImage", { index, filename: img.filename }, function (resp) {
+        if (resp && resp.retried) {
+            return;
+        }
+        img.failed = false;
+        renderEventEmitter.emit();
+    });
 }
 
 function startFetchMdprMobileImages(articleId) {
@@ -321,14 +365,7 @@ messaging.listen("getSiteOptions", function (msg, sendResp) {
     }
 });
 
-chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-    // inject script with 1 retry.
-    const tabId = tabs[0].id;
-    activeTabId = tabId;
-    // tear down the content script injected before. removing event listeners etc.
-    messaging.sendToCS(tabId, "tearDown", {
-        before: Date.now()
-    });
+function injectAndHandle(tabId, retriesLeft) {
     chrome.scripting.executeScript(
         {
             target: {"tabId": tabId},
@@ -338,6 +375,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             if (results && results.length > 0) {
                 const result = results[0].result;
                 logger.debug("results[0].result=", result, "retry=", result?.retry);
+                // inject script with 1 retry, if the site module asked for one via result.retry
                 if (result?.retry) {
                     // retry in result.retryAfterMs or by default 100ms
                     const retryMs = result.retryAfterMs || 100;
@@ -352,11 +390,29 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                                     updateMessage(results && results[0].result, tabId);
                                 });
                         });
-                } 
+                }
 
-                updateMessage(results[0].result, tabId);
+                updateMessage(result, tabId);
+            } else if (retriesLeft > 0) {
+                // executeScript itself failed - e.g. activeTab's grant not yet recognized right
+                // after the tab navigated (see chrome.runtime.lastError). Retry briefly before
+                // falling back to "not supported".
+                logger.debug("executeScript failed, lastError=", chrome.runtime.lastError,
+                    "retriesLeft=", retriesLeft);
+                wait(300).then(() => injectAndHandle(tabId, retriesLeft - 1));
             } else {
-                updateMessage(null, tabs[0].id);
+                logger.error("executeScript failed after retries, lastError=", chrome.runtime.lastError);
+                updateMessage(null, tabId);
             }
         });
+}
+
+chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+    const tabId = tabs[0].id;
+    activeTabId = tabId;
+    // tear down the content script injected before. removing event listeners etc.
+    messaging.sendToCS(tabId, "tearDown", {
+        before: Date.now()
+    });
+    injectAndHandle(tabId, 0);
 });

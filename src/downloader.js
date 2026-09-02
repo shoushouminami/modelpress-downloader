@@ -690,16 +690,18 @@ function getImageUrlFromContentScriptIfNotLoaded(image, context, callback) {
     }
 
     image.loading = true;
+    image.failed = false;
     messaging.sendToCS(context.tabId, "getImageUrl", image, function (imageFromResp) {
+        image.loading = false;
         if (imageFromResp && imageFromResp.url) {
             image.loaded = true;
-            image.loading = false;
             // image.url = imageFromResp.url;
             Object.assign(image, imageFromResp);
             logger.debug("func=getImageUrlFromContentScriptIfNotLoaded successfully loaded image=", image);
             callback?.(image);
         } else {
             logger.error("func=getImageUrlFromContentScriptIfNotLoaded error getting image url imageFromResp=", imageFromResp);
+            image.failed = true;
             // call callback with undefined to indicate failure
             callback?.();
         }

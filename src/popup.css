@@ -283,6 +283,14 @@ body::-webkit-scrollbar {
     gap: 4px;
 }
 
+.image-picker-row-disabled {
+    opacity: 0.6;
+}
+
+.image-picker-row-disabled .image-picker-filename {
+    cursor: default;
+}
+
 .image-picker-thumbnail {
     position: relative;
     width: 80px;
@@ -335,6 +343,38 @@ body::-webkit-scrollbar {
 img.thumbnail_small {
     width: 25px;
     height: 25px;
+}
+
+img.thumbnail_error {
+    /* 50% bigger than thumbnail_small, so the failure icon reads clearly at a glance */
+    width: 40px;
+    height: 40px;
+}
+
+.retry-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    background: #f3e9f5;
+    color: #ff0202;
+    text-align: center;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.retry-overlay .retry-icon {
+    font-size: 25px;
+    line-height: 1;
+}
+
+.retry-overlay .retry-label {
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1.1;
 }
 
 .image-picker-filename {

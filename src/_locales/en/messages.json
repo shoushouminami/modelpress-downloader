@@ -91,6 +91,10 @@
         "message": "Deselect All",
         "description": "Text label for button in image picker that deselects all images"
     },
+    "retryImageTitle": {
+        "message": "Failed to load. Refresh the current page and retry.",
+        "description": "Tooltip shown on a thumbnail that failed to load, prompting the user to click it to retry"
+    },
     "selected": {
         "message": "Selected",
         "description": "Text label in image picker that shows selected count"

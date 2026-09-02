@@ -151,6 +151,7 @@ class PopupComponent extends React.Component {
         this.downloadHandler = props.downloadHandler;
         this.optionHandler = props.optionHandler;
         this.imagePickerHandler = props.imagePickerHandler;
+        this.retryImageHandler = props.retryImageHandler;
         this.getImageThumbnails = props.getImageThumbnails;
         this.downloadClicked = this.downloadClicked.bind(this);
 
@@ -229,19 +230,30 @@ class PopupComponent extends React.Component {
                 }
             }
 
+            // whether the picker has anything to show at all (including still-loading placeholders)
             const hasImage = this.state.imageThumbnails.length > 0;
+            // whether any image is still actively loading - image.loading is set/cleared directly by
+            // getImageUrlFromContentScriptIfNotLoaded()/InSeq() in downloader.js, on both success and failure
+            const imagesStillLoading = this.state.imageThumbnails.some(img => img.loading === true);
+            // count only images that have actually finished loading (not disabled) - download() only
+            // downloads those, so the button should reflect what will actually happen, not the raw total
+            const selectedOrAll = this.state.selectedIndexes
+                ?? this.state.imageThumbnails.map((_, i) => i);
+            const loadedSelectedCount = selectedOrAll
+                .filter(i => !this.state.imageThumbnails[i]?.disabled)
+                .length;
             return (
                 <div className="popup-download-container">
                     <DownloadButton
-                        count={this.state.selectedIndexes ? this.state.selectedIndexes.length : this.state.imageThumbnails.length}
-                        hasImage={hasImage}
-                        loading={st.loading}
+                        count={loadedSelectedCount}
+                        hasImage={hasImage && !imagesStillLoading}
+                        loading={st.loading || imagesStillLoading}
                         onClick={() => this.downloadClicked()}
                         disabled={this.state.downloadDisabled}
                     />
                     {permOrStatus}
                     {<DownloadOptions stOptions={st.options} handleOptionChange={(n,v) => this.handleOptionChange(n,v)} handleOptionCommit={(n,v) => this.handleOptionCommit(n,v)} /> }
-                    {hasImage && <ScrollableImagePicker images={this.state.imageThumbnails} onChange={(e) => this.handleImagePicker(e)}/> }
+                    {hasImage && <ScrollableImagePicker images={this.state.imageThumbnails} onChange={(e) => this.handleImagePicker(e)} onRetry={(index) => this.retryImageHandler?.(index)}/> }
                 </div>
             );
         } else {

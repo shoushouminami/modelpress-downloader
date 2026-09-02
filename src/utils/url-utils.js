@@ -244,6 +244,7 @@ function thumbnail(mediaType) {
         case "unknown":
             return "../images/thumbnail-" + mediaType + ".png";
         case "spinner":
+        case "error":
             return "../images/thumbnail-" + mediaType + ".svg";
         default:
             require("../logger2")(module.id).error("func=thumbnail unknown media type");
