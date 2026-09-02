@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 5.3 (2026/09/01)
+* oricon.co.jp: fetch multi-page photo galleries sequentially with caching, and add retry on failed images
+* Fix video download on x.com when an embedded card is present
+* Prefer .jpg on entameclip.com
+
 ###### 5.2 (2026/08/15)
 * Add auto collect mode on x.com
 * Add beeeem.com, luckyfes.com, fashiontechnews.zozo.com, jmagazine.myjcom.jp, hochi.news, www.dolce-gravure.jp, news.ameba.jp, www.wwdjapan.com, www.nylon.jp, and voisjp.me
