@@ -154,6 +154,7 @@ function register(siteModule) {
     require("./qjweb.jp"),
     require("./korepo.com"),
     require("./news.kstyle.com"),
+    require("./atc-twn.com"),
     require("./www.koari.net"),
     require("./bltweb.jp"),
     require("./websunday.net"),
