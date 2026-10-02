@@ -5,8 +5,14 @@ function getLargeImg(url) {
         url = "https:" + parts[2];
     }
 
-    return utils.removeTrailingResolutionNumbers(url);
+    if (url.endsWith("-scaled.jpg")) {
+        url = url.replace("-scaled.jpg", ".jpg");
+    }
+
+    url = utils.removeTrailingResolutionNumbers(url);
+    return utils.removeQuery(url);
 }
+
 module.exports = {
     inject: function () {
         let o = require("./return-message.js").init();
