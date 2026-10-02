@@ -77,6 +77,7 @@ function register(siteModule) {
     require("./www.sanspo.com"),
     require("./emogram.sankei.com"),
     require("./www.sponichi.co.jp"),
+    require("./www.asahi.com"),
     require("./prtimes.jp"),
     require("./www.talent-databank.co.jp"),
     require("./www.tokyo-sports.co.jp"),
