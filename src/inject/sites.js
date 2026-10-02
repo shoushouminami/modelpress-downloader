@@ -90,6 +90,7 @@ function register(siteModule) {
     require("./www.ytjp.jp"),
     require("./www.thefirsttimes.jp"),
     require("./hanako.tokyo"),
+    require("./tokyo-calendar.jp"),
     require("./yorozoonews.jp"),
     require("./mantan-web.jp"),
     require("./mainichikirei.jp"),

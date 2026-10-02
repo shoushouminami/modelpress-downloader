@@ -1,7 +1,7 @@
 const sites = require("../../src/inject/sites");
 
 test("Test sites.all", () => {
-    expect(sites.all().length).toBe(141);
+    expect(sites.all().length).toBe(142);
     let hosts = [];
     let urls = [];
     sites.all().forEach((module) => {
@@ -143,7 +143,8 @@ test("Test sites.all", () => {
         "www.wwdjapan.com",
         "www.nylon.jp",
         "strmweb.jp",
-        "theatergirl.jp"
+        "theatergirl.jp",
+        "tokyo-calendar.jp"
     ].forEach(
         h => expect(hosts).toContain(h)
     )
