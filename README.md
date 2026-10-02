@@ -19,6 +19,11 @@ You can report bugs and issues by [posting on issues page](https://github.com/sh
 
 ### Change Logs
 
+###### 5.4 (2026/10/02)
+* Add strmweb.jp, theatergirl.jp, tokyo-calendar.jp, atc-twn.com, emogram.sankei.com, www.asahi.com, and deview.co.jp
+* nogizaka46.com: support Nogizaka Colors gallery pages and images in news article bodies
+* Fixes on bltweb.jp and www.cinema-life.net
+
 ###### 5.3 (2026/09/01)
 * oricon.co.jp: fetch multi-page photo galleries sequentially with caching, and add retry on failed images
 * Fix video download on x.com when an embedded card is present
