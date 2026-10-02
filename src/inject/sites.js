@@ -124,6 +124,7 @@ function register(siteModule) {
     require("./seigura.com"),
     require("./beeeem.com"),
     require("./www.astage-ent.com"),
+    require("./theatergirl.jp"),
     require("./www.cinematoday.jp"),
     require("./www.cinemacafe.net"),
     require("./www.cinema-life.net"),
