@@ -120,6 +120,7 @@ function register(siteModule) {
     require("./realsound.jp"),
     require("./voisjp.me"),
     require("./www.music-culture.info"),
+    require("./strmweb.jp"),
     require("./seigura.com"),
     require("./beeeem.com"),
     require("./www.astage-ent.com"),
