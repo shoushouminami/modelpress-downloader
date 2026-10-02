@@ -50,7 +50,12 @@ function getFolderFromBlogTitle(original) {
         return removeSpace(replaceIllegalChars(member.innerText + "-" + getDocument().title));
     }
 
-    return removeSpace(replaceIllegalChars(getDocument().title));
+    // Nogizaka Color
+    if (window.location.pathname.startsWith("/s/n46/gallery/ngColors")) {
+        return replaceIllegalChars(getDocument().title + " " + document.querySelector(".page_title")?.innerText);
+    }
+
+    return replaceIllegalChars(getDocument().title);
 }
 
 function getPageHTML(o) {
@@ -182,6 +187,7 @@ module.exports = {
 
         for (const selector of [
             "main section > img", // news article
+            "main .post_body .post_body_in img", // news article
         ]) {
             utils.pushArray(o.images,
                 utils.findLazyImagesWithCssSelector(
@@ -193,6 +199,8 @@ module.exports = {
 
         for (const selector of [
             "main .md--hd .md--hd__fig .m--bg", // member profile
+            "main .page_header .photo span", // 6th - Nogizaka colors - header
+            "main .contents .photolist li div span", // 6th - Nogizaka colors - list
         ]) {
             utils.pushArray(o.images,
                 utils.findDOMsWithCssSelector(

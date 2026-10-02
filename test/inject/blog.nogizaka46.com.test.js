@@ -27,6 +27,8 @@ test("test replaceIllegalChars", () => {
     expect(replaceIllegalChars('*')).toBe('-')
     expect(replaceIllegalChars('>>>')).toBe('---')
     expect(replaceIllegalChars('abc>>>bla')).toBe('abc---bla')
+    expect(replaceIllegalChars('abc>>>bla\n\nc')).toBe('abc---bla--c')
+    expect(replaceIllegalChars('abc>>>bla\n\nc', '')).toBe('abcblac')
 });
 
 test("s/n46/news/detail/101184?ima=1622&pri1=20250", async () => {
