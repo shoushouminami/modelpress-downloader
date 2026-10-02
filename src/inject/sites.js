@@ -75,6 +75,7 @@ function register(siteModule) {
     require("./moment.nikkan-gendai.com"),
     require("./nikkan-spa.jp"),
     require("./www.sanspo.com"),
+    require("./emogram.sankei.com"),
     require("./www.sponichi.co.jp"),
     require("./prtimes.jp"),
     require("./www.talent-databank.co.jp"),
